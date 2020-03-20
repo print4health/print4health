@@ -11,12 +11,14 @@ DEVELOPMENT
 ### Startup
 
 ```bash
-git clone git@github.com:bartrail/print4health.git
+git clone git@github.com:bartrail/print4health
 cd print4health
 vagrant up
 vagrant ssh
 make init
 ``` 
+
+Bei Verwendung des Vagrant Plugin "vagrant-hostupdater" ist die Test - Installation unter [http://dev.print4health.org](http://dev.print4health.org) erreichbar.
 
 ### Build JavaScript & CSS
 - ```yarn encore dev```
