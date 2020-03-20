@@ -1,0 +1,12 @@
+---
+xdebug_php_ini:
+  'xdebug.idekey':              "PHPSTORM"
+  'xdebug.max_nesting_level':   "1024"
+  'xdebug.remote_connect_back': "0"
+  'xdebug.remote_enable':       "1"
+  'xdebug.remote_autostart':    "1"
+  'xdebug.remote_port':         "9000"
+  'xdebug.scream':              "0"
+  'xdebug.show_local_vars':     "1"
+  'xdebug.remote_addr_header':  "HTTP_XDEBUG_HOST"
+  'xdebug.remote_host':         "192.168.222.1"

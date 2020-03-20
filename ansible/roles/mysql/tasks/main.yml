@@ -1,0 +1,10 @@
+---
+- name: spawn mysql container
+  docker_container:
+    name: mysql
+    image: mysql:5.7
+    restart_policy: 'unless-stopped'
+    ports:
+      - "3306:3306"
+    env:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"

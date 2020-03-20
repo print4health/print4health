@@ -1,0 +1,22 @@
+---
+fpm_user: www-data
+fpm_group: www-data
+fpm_listen: 127.0.0.1:9000
+fpm_log_path: /var/log/php
+
+php_ini:
+  'date.timezone': "Europe/Berlin"
+  'memory_limit': 1024M
+  'max_execution_time': 300
+  'request_terminate_timeout': 300
+  'upload_max_filesize': 512M
+  'post_max_size': 512M
+
+  'xdebug.remote_host' : "192.168.222.1"
+  'xdebug.remote_autostart' : 1
+  'xdebug.max_nesting_level' : 1200
+  'xdebug.remote_addr_header' : "HTTP_XDEBUG_HOST"
+
+#  'zend_extension' : "/usr/lib/php/20180731/xdebug.so"
+#  'xdebug.remote_enable' : 1
+#  'xdebug.idekey' : "PHPSTORM"

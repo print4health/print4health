@@ -1,0 +1,25 @@
+---
+- name: Install pip package
+  apt:
+    name: "python-pip"
+    state: latest
+
+- name: Install docker-py package
+  pip:
+    name: docker-py
+
+- name: add docker repo key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: add docker repo key
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+    state: present
+
+- name: Install docker package
+  apt:
+    name: "docker-ce"
+    state: latest
+    update_cache: true

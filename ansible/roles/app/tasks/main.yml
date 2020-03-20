@@ -1,0 +1,37 @@
+---
+- name: ensure cache and logs directory
+  file:
+    dest: '{{ item }}'
+    state: directory
+  with_items:
+    - '{{ app_cache_path }}'
+    - '{{ app_log_path }}'
+
+- name: ensure cache and log is writable by console user
+  become: true
+  acl:
+    path: '{{ item[0] }}'
+    entity: '{{ item[1] }}'
+    etype: user
+    permissions: 'rwx'
+    state: present
+    recursive: true
+    default: '{{ item[2] }}'
+  with_nested:
+      # item[0] directories
+    -
+      - '{{ app_cache_path }}'
+      - '{{ app_log_path }}'
+      - '/var/lib/php/sessions'
+      # item[1] users
+    - ['{{ ansible_user_id }}', '{{ fpm_user }}']
+      # item[2] acl default setting
+    - [false, true]
+
+- name: ensure nginx configuration file.
+  template:
+    src: nginx.vhost.j2
+    dest: /etc/nginx/vhosts.d/api.conf
+  notify:
+    - restart nginx
+    - restart php-fpm

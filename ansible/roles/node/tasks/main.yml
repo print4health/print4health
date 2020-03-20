@@ -1,0 +1,26 @@
+---
+- name: install nvm
+  become: false
+  shell: >
+    curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"
+    creates: "{{ ansible_env.HOME }}/.nvm/nvm.sh"
+    warn: false
+
+- name: install node
+  become: false
+  shell: >
+    . {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install v8
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"
+
+- name: install yarn
+  become: false
+  shell: >
+    . {{ ansible_env.HOME }}/.nvm/nvm.sh && npm -g install yarn
+  args:
+    executable: /bin/bash
+    chdir: "{{ ansible_env.HOME }}"

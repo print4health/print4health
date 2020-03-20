@@ -1,0 +1,19 @@
+---
+- hosts: devbox
+  pre_tasks:
+    - apt:
+        update_cache: true
+      become: true
+    - apt:
+        name:
+        - apt-transport-https
+        - zip
+        - git
+      become: true
+    - lineinfile:
+        dest: '~/.bashrc'
+        line: "cd /srv/share"
+        regexp: "^cd /srv/share$"
+  roles:
+    - role: app
+      become: true

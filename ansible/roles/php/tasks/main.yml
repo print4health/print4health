@@ -1,0 +1,66 @@
+---
+- name: add php7.4 repository
+  apt_repository:
+    repo: 'ppa:ondrej/php'
+    state: present
+
+- name: Install php packages.
+  apt:
+    name:
+      - acl
+      - php7.4
+      - php7.4-cli
+      - php7.4-fpm
+      - php7.4-intl
+      - php7.4-pdo
+      - php7.4-zip
+      - php7.4-xdebug
+      - php7.4-xml
+      - php7.4-gd
+      - php7.4-json
+      - php7.4-mysqlnd
+      - php7.4-mbstring
+      - php7.4-apcu
+      - php7.4-curl
+    state: latest
+    update_cache: true
+  notify:
+    - restart php-fpm
+
+- name: ensure php.ini cli settings.
+  lineinfile: 
+    dest: '/etc/php/7.4/cli/php.ini'
+    line: "{{ item.key }}='{{ item.value }}'"
+    regexp: "^{{ item.key }}.*$"
+  with_dict: "{{ php_ini }}"
+  notify:
+    - restart php-fpm
+
+- name: ensure php.ini fpm settings.
+  lineinfile:
+    dest: '/etc/php/7.4/fpm/php.ini'
+    line: "{{ item.key }}='{{ item.value }}'"
+    regexp: "^{{ item.key }}.*$"
+  with_dict: "{{ php_ini }}"
+  notify:
+    - restart php-fpm
+
+- name: ensure php log dir exists
+  file:
+    path: "{{ fpm_log_path }}"
+    state: directory
+    owner: "{{ fpm_user }}"
+    group: "{{ fpm_group }}"
+    recurse: true
+
+- name: place php-fpm configuration file.
+  template:
+    src: fpm-www.conf.j2
+    dest: /etc/php/7.4/fpm/pool.d/www.conf
+  notify:
+    - restart php-fpm
+
+- name: start and enable php-fpm service.
+  service:
+    name: php7.4-fpm
+    enabled: true

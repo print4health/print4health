@@ -1,0 +1,30 @@
+server {
+    listen {{ app_nginx_port }};
+    server_name {{ app_hostname }};
+    root {{ app_project_path }}/{{ app_relative_webroot }};
+
+    client_max_body_size {{ app_max_body_size }};
+
+    location / {
+        # try to serve file directly, fallback to default front controller ({{ app_front_controller }})
+        try_files $uri /{{ app_front_controller }}$is_args$args;
+    }
+
+    # PROD
+    location ~ ^/index\.php(/|$) {
+        fastcgi_pass {{ fpm_listen }};
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+        fastcgi_param DOCUMENT_ROOT $realpath_root;
+        fastcgi_read_timeout {{ app_fpm_timeout }};
+        internal;
+    }
+
+    location ~ \.php$ {
+      return 404;
+    }
+
+    error_log /var/log/nginx/app_error.log;
+    access_log /var/log/nginx/app_access.log;
+}

@@ -1,0 +1,9 @@
+---
+- name: spawn maildev container
+  docker_container:
+    name: maildev
+    image: djfarrelly/maildev
+    restart_policy: 'unless-stopped'
+    ports:
+      - "1080:80"
+      - "1025:25"

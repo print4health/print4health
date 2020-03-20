@@ -1,0 +1,5 @@
+[vagrant]
+devbox
+
+[vagrant:vars]
+ansible_connection=local

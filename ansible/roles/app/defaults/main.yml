@@ -1,0 +1,10 @@
+---
+app_hostname: devbox
+app_nginx_port: 80
+app_project_path: /srv/share
+app_relative_webroot: public
+app_cache_path: /dev/shm/symfony/cache
+app_log_path: /var/log/symfony
+app_front_controller: index.php
+app_max_body_size: 512M
+app_fpm_timeout: 300

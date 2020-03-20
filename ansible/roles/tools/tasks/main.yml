@@ -1,0 +1,68 @@
+---
+- name: check if composer is installed
+  stat:
+    path: /usr/local/bin/composer
+  register: composer_state
+
+- block:
+    - name: get composer signature
+      uri:
+        url: https://composer.github.io/installer.sig
+        return_content: true
+      register: composer_sig
+
+    - name: download installer
+      become: true
+      get_url:
+        url: https://getcomposer.org/installer
+        dest: /tmp/composer-setup.php
+        checksum: "sha384:{{ composer_sig.content }}"
+
+    - name: install composer
+      become: true
+      command: php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+  when: composer_state.stat.exists == false
+
+- name: install php phar qa tools
+  become: true
+  get_url:
+    url: "{{ item.value }}"
+    dest: "/usr/local/bin/{{ item.key }}"
+    mode: 0755
+    force: true
+  with_dict:
+    security-checker: http://get.sensiolabs.org/security-checker.phar
+    phpstan: https://github.com/phpstan/phpstan/releases/download/0.11.6/phpstan.phar
+    deptrac: http://get.sensiolabs.de/deptrac.phar
+    php-cs-fixer: http://cs.sensiolabs.org/download/php-cs-fixer-v2.phar
+    psalm: https://github.com/vimeo/psalm/releases/download/3.2.8/psalm.phar
+
+- name: copy xdebug script
+  become: true
+  copy:
+    src: xdebug.sh
+    dest: /usr/local/bin/xdebug
+    mode: 0755
+
+- name: ensure php.ini settings for xdebug in cli.
+  lineinfile:
+    dest: '/etc/php/7.4/cli/php.ini'
+    line: "{{ item.key }}='{{ item.value }}'"
+    regexp: "^{{ item.key }}.*$"
+  with_dict: "{{ xdebug_php_ini }}"
+  notify:
+    - restart php-fpm
+
+- name: deactivate xdebug in cli for default
+  file:
+    path: '/etc/php/7.4/cli/conf.d/20-xdebug.ini'
+    state: 'absent'
+
+- name: ensure php.ini settings for xdebug in fpm.
+  lineinfile:
+    dest: '/etc/php/7.4/fpm/php.ini'
+    line: "{{ item.key }}='{{ item.value }}'"
+    regexp: "^{{ item.key }}.*$"
+  with_dict: "{{ xdebug_php_ini }}"
+  notify:
+    - restart php-fpm
