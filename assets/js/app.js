@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Index from './container/index/index';
 import Login from './container/login/login';
+import UserNav from './component/user/user-nav';
 
 export default function App() {
   return (
@@ -24,8 +25,11 @@ export default function App() {
               <li className="nav-item">
                 <Link className="nav-link" to="/users">Users</Link>
               </li>
+            </ul>
+
+            <ul className="float-right navbar-nav mr-auto">
               <li className="nav-item">
-                <Link className="nav-link" to="/login">Login</Link>
+                <UserNav/>
               </li>
             </ul>
           </div>
