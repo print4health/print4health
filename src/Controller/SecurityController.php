@@ -9,7 +9,6 @@ use App\Dto\ResetPasswordTokenRequest;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -56,7 +55,7 @@ class SecurityController
      * @Route(
      *     "/login",
      *     name="security_login",
-     *      methods={"POST"},
+     *     methods={"POST"},
      *     format="json",
      * )
      */

@@ -1,8 +1,23 @@
 <?php
 
+declare(strict_types=1);
+
 $finder = PhpCsFixer\Finder::create()
-    ->in([__DIR__ . '/src', __DIR__ . '/tests'])
-    ->exclude(['__snapshots__', 'Migrations'])
+    ->in([
+        __DIR__ . '/src',
+        __DIR__ . '/tests',
+    ])
+    ->exclude([
+        '__snapshots__',
+        'Migrations',
+    ])
+    ->append([
+        __FILE__,
+        __DIR__ . '/bin/console',
+        __DIR__ . '/config/bootstrap.php',
+        __DIR__ . '/config/bundles.php',
+        __DIR__ . '/public/index.php',
+    ])
 ;
 
 return PhpCsFixer\Config::create()
@@ -31,7 +46,7 @@ return PhpCsFixer\Config::create()
         'no_useless_return' => true,
         'no_superfluous_phpdoc_tags' => true,
         'ordered_imports' => [
-            'imports_order' => ["const", "class", "function"],
+            'imports_order' => ['const', 'class', 'function'],
         ],
         'phpdoc_order' => true,
         'single_blank_line_before_namespace' => true,
