@@ -8,6 +8,7 @@ import {
 import Index from './container/index/index';
 import Login from './container/login/login';
 import UserNav from './component/user/user-nav';
+import ThingList from './container/thing-list/thing-list'
 
 export default function App() {
   return (
@@ -20,7 +21,7 @@ export default function App() {
                 <Link className="nav-link" to="/">Start</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/about">Search</Link>
+                <Link className="nav-link" to="/thing/list">Ersatzteile</Link>
               </li>
               <li className="nav-item">
                 <Link className="nav-link" to="/users">Users</Link>
@@ -55,7 +56,7 @@ export default function App() {
                   <Index />
                 </Route>
                 <Route path="/thing/list">
-                  <Index />
+                  <ThingList />
                 </Route>
                 <Route path="/thing/{id}">
                   <Index />
