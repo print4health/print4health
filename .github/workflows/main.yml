@@ -14,3 +14,15 @@ jobs:
 
       - name: Psalm
         uses: docker://vimeo/psalm-github-actions
+
+  phpstan:
+    name: PHPStan
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: PHPStan
+        uses: docker://oskarstark/phpstan-ga
+        with:
+          args: analyse src/ --level=max
