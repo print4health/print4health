@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\String_;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -53,7 +54,12 @@ class User implements UserInterface
 
     public function getEmail(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
+    }
+
+    public function getUsername(): string
+    {
+        return $this->email;
     }
 
     public function setEmail(string $email): self
@@ -81,7 +87,7 @@ class User implements UserInterface
 
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
