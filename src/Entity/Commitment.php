@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -38,7 +40,7 @@ class Commitment
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function getId(): ?string 
+    public function getId(): ?string
     {
         return $this->id;
     }
