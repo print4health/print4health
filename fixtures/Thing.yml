@@ -1,0 +1,4 @@
+App\Entity\Thing:
+    thing_{1..20}:
+        __construct:
+            - '<word()>'
