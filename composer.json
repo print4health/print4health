@@ -20,8 +20,11 @@
         "symfony/property-info": "^5.0.5",
         "symfony/security-bundle": "^5.0.5",
         "symfony/serializer": "^5.0.5",
+        "symfony/twig-bundle": "^5.0.5",
         "symfony/webpack-encore-bundle": "^1.7.3",
-        "symfony/yaml": "^5.0.5"
+        "symfony/yaml": "^5.0.5",
+        "twig/extra-bundle": "^3.0.3",
+        "twig/twig": "^3.0.3"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16.1",
