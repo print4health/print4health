@@ -27,7 +27,7 @@ class OrderController
      *     methods={"GET"}
      * )
      */
-    public function get(): JsonResponse
+    public function list(): JsonResponse
     {
         $orders = $this->orderRepository->findAll();
 
