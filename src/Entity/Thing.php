@@ -56,11 +56,11 @@ class Thing
     }
 
     /**
-     * @return Collection|Order[]
+     * @return Order[]
      */
-    public function getOrders(): Collection
+    public function getOrders(): array
     {
-        return $this->orders;
+        return $this->orders->toArray();
     }
 
     public function addOrder(Order $order): self
