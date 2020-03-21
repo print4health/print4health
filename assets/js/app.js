@@ -30,9 +30,6 @@ export default function App() {
             </ul>
           </div>
         </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
             <div className="container">
               <Switch>
                 <Route path="/login">
