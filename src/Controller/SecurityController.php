@@ -38,6 +38,7 @@ class SecurityController extends AbstractController
     public function logout()
     {
         $this->security->getToken()->setAuthenticated(false);
+
         return $this->redirect('/');
     }
 }
