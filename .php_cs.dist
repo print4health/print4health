@@ -39,4 +39,5 @@ return PhpCsFixer\Config::create()
         'visibility_required' => ['elements' => ['property', 'method', 'const']],
     ])
     ->setFinder($finder)
+    ->setRiskyAllowed(true)
 ;

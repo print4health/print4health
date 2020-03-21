@@ -11,7 +11,6 @@ use App\Repository\OrderRepository;
 use App\Repository\ThingRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -77,7 +76,7 @@ class OrderController
     {
         $jsonRequest = json_decode($request->getContent(), true);
 
-        if ($jsonRequest === null) {
+        if (null === $jsonRequest) {
             throw new BadRequestHttpException();
         }
 
@@ -89,7 +88,7 @@ class OrderController
         }
 
         $thing = $this->thingRepository->find($orderIn->thingId);
-        if ($thing === null) {
+        if (null === $thing) {
             throw new NotFoundHttpException('No thing was found');
         }
 
