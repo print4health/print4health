@@ -11,6 +11,7 @@ use App\Repository\OrderRepository;
 use App\Repository\ThingRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class OrderController extends AbstractController
+class OrderController
 {
     private NormalizerInterface $normalizer;
     private DenormalizerInterface $denormalizer;
@@ -50,10 +51,11 @@ class OrderController extends AbstractController
     /**
      * @Route(
      *     "/orders",
-     *     methods={"GET"}
+     *     methods={"GET"},
+     *     format="json"
      * )
      */
-    public function all(): JsonResponse
+    public function listAction(): JsonResponse
     {
         $orders = $this->orderRepository->findAll();
 
@@ -72,12 +74,12 @@ class OrderController extends AbstractController
      *     methods={"POST"},
      *     format="json"
      * )
+     *
+     * @IsGranted("ROLE_USER")
      */
-    public function create(Request $request): JsonResponse
+    public function createAction(Request $request): JsonResponse
     {
-        $this->denyAccessUnlessGranted('ROLE_USER');
-        
-        $jsonRequest = json_decode((string) $request->getContent(), true);
+        $jsonRequest = json_decode($request->getContent(), true);
 
         if (null === $jsonRequest) {
             throw new BadRequestHttpException();
@@ -111,10 +113,11 @@ class OrderController extends AbstractController
     /**
      * @Route(
      *     "/orders/{uuid}",
-     *     methods={"GET"}
+     *     methods={"GET"},
+     *     format="json"
      * )
      */
-    public function get(string $uuid): JsonResponse
+    public function showAction(string $uuid): JsonResponse
     {
         $order = $this->orderRepository->find($uuid);
 

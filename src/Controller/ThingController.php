@@ -26,10 +26,11 @@ class ThingController
     /**
      * @Route(
      *     "/things",
-     *     methods={"GET"}
+     *     methods={"GET"},
+     *     format="json"
      * )
      */
-    public function all(): JsonResponse
+    public function listAction(): JsonResponse
     {
         $things = $this->thingRepository->findAll();
 

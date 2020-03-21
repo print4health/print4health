@@ -6,19 +6,33 @@ namespace App\Controller;
 
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
-class UserController extends AbstractController
+class UserController
 {
+    private Security $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
+
     /**
-     * @Route("/user/profile", name="user_profile", methods={"GET"})
+     * @Route(
+     *     "/user/profile",
+     *     name="user_profile",
+     *     methods={"GET"},
+     *     format="json"
+     * )
      */
-    public function login()
+    public function profileAction(): JsonResponse
     {
         /** @var User $user */
-        $user = $this->getUser();
+        $user = $this->security->getUser();
 
-        return $this->json([
+        return new JsonResponse([
             'email' => $user->getEmail(),
             'roles' => $user->getRoles(),
         ]);

@@ -20,10 +20,11 @@ use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validation;
 use Twig\Environment;
 
-class SecurityController extends AbstractController
+class SecurityController
 {
     private UserRepository $userRepository;
     private EntityManagerInterface $entityManager;
@@ -52,7 +53,12 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/login", name="security_login", methods={"POST"})
+     * @Route(
+     *     "/login",
+     *     name="security_login",
+     *      methods={"POST"},
+     *     format="json",
+     * )
      */
     public function login(Request $request): JsonResponse
     {
@@ -61,9 +67,9 @@ class SecurityController extends AbstractController
         }
 
         /** @var User $user */
-        $user = $this->getUser();
+        $user = $this->security->getUser();
 
-        return $this->json([
+        return new JsonResponse([
             'email' => $user->getEmail(),
             'roles' => $user->getRoles(),
         ]);
@@ -72,11 +78,11 @@ class SecurityController extends AbstractController
     /**
      * @Route("/logout", name="security_logout", methods={"GET"})
      */
-    public function logout()
+    public function logout(): JsonResponse
     {
         $this->security->getToken()->setAuthenticated(false);
 
-        return $this->redirect('/');
+        return new JsonResponse(['status' => 'ok']);
     }
 
     /**
@@ -111,13 +117,13 @@ class SecurityController extends AbstractController
                 }
             }
 
-            return $this->json(['errors' => $errors], 400);
+            return new JsonResponse(['errors' => $errors], 400);
         }
 
         /** @var User $user */
         $user = $this->userRepository->findOneByEmail($resetPasswordTokenRequest->email);
         if (null === $user) {
-            return $this->json(['errors' => ['User not found']], 400);
+            return new JsonResponse(['errors' => ['User not found']], 400);
         }
 
         $user->createPasswordResetToken();
@@ -135,7 +141,7 @@ class SecurityController extends AbstractController
 
         $this->mailer->send($email);
 
-        return $this->json(['OK']);
+        return new JsonResponse(['status' => 'ok']);
     }
 
     /**
@@ -171,13 +177,13 @@ class SecurityController extends AbstractController
                 }
             }
 
-            return $this->json(['errors' => $errors], 400);
+            return new JsonResponse(['errors' => $errors], 400);
         }
 
         /** @var User $user */
         $user = $this->userRepository->findOneByPasswordResetToken($resetPassword->token);
         if (null === $user) {
-            return $this->json(['errors' => ['Invalid Token']], 400);
+            return new JsonResponse(['errors' => ['Invalid Token']], 400);
         }
 
         $user->setPassword($this->passwordEncoder->encodePassword($user, $resetPassword->password));
@@ -185,6 +191,6 @@ class SecurityController extends AbstractController
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        return $this->json(['OK']);
+        return new JsonResponse(['status' => 'ok']);
     }
 }
