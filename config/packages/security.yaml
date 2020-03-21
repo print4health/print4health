@@ -6,11 +6,9 @@ security:
             entity:
                 class: 'App\Entity\User'
                 property: 'username'
-
     encoders:
         Symfony\Component\Security\Core\User\UserInterface:
             algorithm: bcrypt
-
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
