@@ -8,7 +8,7 @@ class OrderOut
 {
     public string $id;
     public User $user;
-    public Thing $thing;
+    public ThingOut $thing;
     public int $quantity;
     public int $remaining;
 
@@ -18,7 +18,7 @@ class OrderOut
 
         $self->id = $order->getId();
         $self->user = User::createFromUser($order->getUser());
-        $self->thing = Thing::createFromThing($order->getThing());
+        $self->thing = ThingOut::createFromThing($order->getThing());
         $self->quantity = $order->getQuantity();
 
         $self->remaining = $order->getQuantity();

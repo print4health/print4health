@@ -6,7 +6,7 @@ namespace App\Dto;
 
 use Doctrine\ORM\EntityNotFoundException;
 
-class Thing
+class ThingOut
 {
     public string $id;
     public string $name;

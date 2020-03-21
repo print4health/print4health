@@ -79,9 +79,8 @@ class OrderController
     public function createAction(Request $request): JsonResponse
     {
         $jsonRequest = json_decode($request->getContent(), true);
-
         if (null === $jsonRequest) {
-            throw new BadRequestHttpException();
+            throw new BadRequestHttpException('No valid json');
         }
 
         /** @var OrderIn $orderIn */
