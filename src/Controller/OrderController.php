@@ -11,6 +11,7 @@ use App\Repository\OrderRepository;
 use App\Repository\ThingRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -20,7 +21,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-class OrderController
+class OrderController extends AbstractController
 {
     private NormalizerInterface $normalizer;
     private DenormalizerInterface $denormalizer;
@@ -74,6 +75,8 @@ class OrderController
      */
     public function create(Request $request): JsonResponse
     {
+        $this->denyAccessUnlessGranted('ROLE_USER');
+        
         $jsonRequest = json_decode((string) $request->getContent(), true);
 
         if (null === $jsonRequest) {
