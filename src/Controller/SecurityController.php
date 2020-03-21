@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Mailer\MailerInterface;
@@ -77,11 +78,11 @@ class SecurityController
     /**
      * @Route("/logout", name="security_logout", methods={"GET"})
      */
-    public function logout(): JsonResponse
+    public function logout(): RedirectResponse
     {
         $this->security->getToken()->setAuthenticated(false);
 
-        return new JsonResponse(['status' => 'ok']);
+        return new RedirectResponse($this->router->generate('home'));
     }
 
     /**
