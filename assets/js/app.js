@@ -1,14 +1,90 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
+import React from "react";
+import {
+  HashRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import Index from './container/index/index';
 
-// any CSS you import will output into a single css file (app.css in this case)
-import '../css/app.css';
+export default function App() {
+  return (
+    <Router>
+      <div>
+        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+          <div className="container">
+            <ul className="navbar-nav mr-auto">
+              <li className="nav-item">
+                <Link className="nav-link" to="/">Start</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/about">Search</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/users">Users</Link>
+              </li>
+            </ul>
+          </div>
+        </nav>
 
-// Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-// import $ from 'jquery';
+        {/* A <Switch> looks through its children <Route>s and
+            renders the first one that matches the current URL. */}
+            <div className="container">
+              <Switch>
+                <Route path="/">
+                  <Index />
+                </Route>
+                <Route path="/login">
+                  <Index />
+                </Route>
+                <Route path="/request-reset-password">
+                  <Index />
+                </Route>
+                <Route path="/reset-password">
+                  <Index />
+                </Route>
+                <Route path="/order/list">
+                  <Index />
+                </Route>
+                <Route path="/order/map">
+                  <Index />
+                </Route>
+                <Route path="/order/{id}">
+                  <Index />
+                </Route>
+                <Route path="/thing/list">
+                  <Index />
+                </Route>
+                <Route path="/thing/{id}">
+                  <Index />
+                </Route>
+                <Route path="/thing/{id}/create-order">
+                  <Index />
+                </Route>
+                <Route path="/faq">
+                  <Faq />
+                </Route>
+                <Route path="/about">
+                  <About />
+                </Route>
+                <Route path="/legal">
+                  <Legal />
+                </Route>
+              </Switch>
+            </div>
+      </div>
+    </Router>
+  );
+}
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+function About() {
+  return <h2>About</h2>;
+}
+
+function Faq() {
+  return <h2>Faq</h2>;
+}
+
+function Legal() {
+  return <h2>Legal</h2>;
+}
