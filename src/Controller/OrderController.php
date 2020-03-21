@@ -23,11 +23,11 @@ class OrderController
 
     /**
      * @Route(
-     *     "/order",
+     *     "/orders",
      *     methods={"GET"}
      * )
      */
-    public function list(): JsonResponse
+    public function all(): JsonResponse
     {
         $orders = $this->orderRepository->findAll();
 
