@@ -1,4 +1,8 @@
 App\Entity\User:
+    user_default:
+        email: 'user@print4health.org'
+        password: 'test'
+
     user_{1..5}:
         email: '<safeEmail()>'
         password: 'test'
