@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
-class Order
+class OrderOut
 {
     public string $id;
     public User $user;
     public Thing $thing;
     public int $quantity;
-//    public array $commitments;
+    public int $remaining;
 
     public static function createFromOrder(\App\Entity\Order $order): self
     {
@@ -20,6 +20,13 @@ class Order
         $self->user = User::createFromUser($order->getUser());
         $self->thing = Thing::createFromThing($order->getThing());
         $self->quantity = $order->getQuantity();
+
+        $self->remaining = $order->getQuantity();
+
+        $commitments = $order->getCommitments();
+        foreach ($commitments as $commitment) {
+            $self->remaining -= $commitment->getQuantity();
+        }
 
         return $self;
     }

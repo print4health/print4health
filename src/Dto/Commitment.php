@@ -7,6 +7,6 @@ namespace App\Dto;
 class Commitment
 {
     private string $id;
-    private Order $order;
+    private OrderOut $order;
     private int $quantity;
 }
