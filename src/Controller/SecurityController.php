@@ -76,7 +76,11 @@ class SecurityController
     }
 
     /**
-     * @Route("/logout", name="security_logout", methods={"GET"})
+     * @Route(
+     *     "/logout",
+     *     name="security_logout",
+     *     methods={"GET"}
+     * )
      */
     public function logout(): RedirectResponse
     {
@@ -86,7 +90,12 @@ class SecurityController
     }
 
     /**
-     * @Route("/request-password-reset", name="security_request_password_reset", methods={"POST"})
+     * @Route(
+     *     "/request-password-reset",
+     *     name="security_request_password_reset",
+     *     methods={"POST"},
+     *     format="json"
+     * )
      */
     public function requestPasswordReset(Request $request): JsonResponse
     {
@@ -145,7 +154,12 @@ class SecurityController
     }
 
     /**
-     * @Route("/reset-password", name="security_reset_password", methods={"POST"})
+     * @Route(
+     *     "/reset-password",
+     *     name="security_reset_password",
+     *     methods={"POST"},
+     *     format="json"
+     *  )
      */
     public function resetPassword(Request $request): JsonResponse
     {

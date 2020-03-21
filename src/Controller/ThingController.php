@@ -38,6 +38,7 @@ class ThingController
     /**
      * @Route(
      *     "/things",
+     *     name="thing_list",
      *     methods={"GET"},
      *     format="json"
      * )
@@ -58,6 +59,7 @@ class ThingController
     /**
      * @Route(
      *     "/things",
+     *     name="thing_create",
      *     methods={"POST"},
      *     format="json"
      * )
@@ -88,6 +90,7 @@ class ThingController
     /**
      * @Route(
      *     "/things/{uuid}",
+     *     name="thing_show",
      *     methods={"GET"},
      *     format="json"
      * )
