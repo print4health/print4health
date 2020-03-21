@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Alice\Processor;
 
@@ -18,7 +20,7 @@ class PasswordProcessor implements ProcessorInterface
     /**
      * Processes an object before it is persisted to DB.
      *
-     * @param string $id Fixture ID
+     * @param string $id     Fixture ID
      * @param object $object
      */
     public function preProcess(string $id, $object): void
@@ -34,7 +36,7 @@ class PasswordProcessor implements ProcessorInterface
     /**
      * Processes an object after it is persisted to DB.
      *
-     * @param string $id Fixture ID
+     * @param string $id     Fixture ID
      * @param object $object
      */
     public function postProcess(string $id, $object): void
