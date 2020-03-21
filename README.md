@@ -21,11 +21,9 @@ make init
 Bei Verwendung des Vagrant Plugin "vagrant-hostupdater" ist die Test - Installation unter [http://dev.print4health.org](http://dev.print4health.org) erreichbar.
 
 
-
 ### Build JavaScript & CSS
-- ```yarn run dev```
-- ```yarn run prod```
-- ```yarn run watch```
+- ```yarn encore dev```
+- ```yarn encore dev --watch```
 
 ### Services
 
