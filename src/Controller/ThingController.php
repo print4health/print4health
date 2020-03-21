@@ -82,7 +82,7 @@ class ThingController
 
         $thingOut = ThingOut::createFromThing($thing);
 
-        return new JsonResponse(['thing' => $thingOut]);
+        return new JsonResponse(['thing' => $thingOut], 201);
     }
 
     /**

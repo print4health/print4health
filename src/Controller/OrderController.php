@@ -101,7 +101,7 @@ class OrderController
 
         $orderOut = OrderOut::createFromOrder($order);
 
-        return new JsonResponse(['order' => $orderOut]);
+        return new JsonResponse(['order' => $orderOut], 201);
     }
 
     /**
