@@ -31,14 +31,44 @@ export default function App() {
             renders the first one that matches the current URL. */}
             <div className="container">
               <Switch>
+                <Route path="/">
+                  <Index />
+                </Route>
+                <Route path="/login">
+                  <Index />
+                </Route>
+                <Route path="/request-reset-password">
+                  <Index />
+                </Route>
+                <Route path="/reset-password">
+                  <Index />
+                </Route>
+                <Route path="/order/list">
+                  <Index />
+                </Route>
+                <Route path="/order/map">
+                  <Index />
+                </Route>
+                <Route path="/order/{id}">
+                  <Index />
+                </Route>
+                <Route path="/thing/list">
+                  <Index />
+                </Route>
+                <Route path="/thing/{id}">
+                  <Index />
+                </Route>
+                <Route path="/thing/{id}/create-order">
+                  <Index />
+                </Route>
+                <Route path="/faq">
+                  <Faq />
+                </Route>
                 <Route path="/about">
                   <About />
                 </Route>
-                <Route path="/users">
-                  <Users />
-                </Route>
-                <Route path="/">
-                  <Index />
+                <Route path="/legal">
+                  <Legal />
                 </Route>
               </Switch>
             </div>
@@ -51,6 +81,10 @@ function About() {
   return <h2>About</h2>;
 }
 
-function Users() {
-  return <h2>Users</h2>;
+function Faq() {
+  return <h2>Faq</h2>;
+}
+
+function Legal() {
+  return <h2>Legal</h2>;
 }
