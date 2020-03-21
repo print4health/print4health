@@ -9,6 +9,7 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
+.vagrant 
 ubuntu-*.log
 
 ###> symfony/webpack-encore-bundle ###
