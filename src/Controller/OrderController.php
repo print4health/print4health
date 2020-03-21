@@ -74,7 +74,7 @@ class OrderController
      */
     public function create(Request $request): JsonResponse
     {
-        $jsonRequest = json_decode($request->getContent(), true);
+        $jsonRequest = json_decode((string) $request->getContent(), true);
 
         if (null === $jsonRequest) {
             throw new BadRequestHttpException();
