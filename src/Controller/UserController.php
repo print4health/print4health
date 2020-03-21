@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
@@ -25,15 +26,16 @@ class UserController
      *     methods={"GET"},
      *     format="json"
      * )
+     *
+     * @IsGranted("IS_AUTHENTICATED_FULLY")
      */
     public function profileAction(): JsonResponse
     {
         /** @var User $user */
         $user = $this->security->getUser();
 
-        return new JsonResponse([
-            'email' => $user->getEmail(),
-            'roles' => $user->getRoles(),
-        ]);
+        $userDto = \App\Dto\User::createFromUser($user);
+
+        return new JsonResponse($userDto);
     }
 }
