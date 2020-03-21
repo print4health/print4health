@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Dto\Order;
 use App\Repository\OrderRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
@@ -38,5 +39,24 @@ class OrderController
         }
 
         return new JsonResponse($response);
+    }
+
+    /**
+     * @Route(
+     *     "/order/{uuid}",
+     *     methods={"GET"}
+     * )
+     */
+    public function get(string $uuid): JsonResponse
+    {
+        $order = $this->orderRepository->find($uuid);
+
+        if (null === $order) {
+            throw new NotFoundHttpException('Order not found');
+        }
+
+        $orderDto = Order::createFromOrder($order);
+
+        return new JsonResponse(['order' => $orderDto]);
     }
 }
