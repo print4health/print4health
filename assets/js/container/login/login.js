@@ -8,6 +8,7 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
+      error: '',
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -15,9 +16,18 @@ class Login extends React.Component {
   }
 
   handleSubmit(e) {
+    const self = this;
+    this.setState({ error: '' });
     e.preventDefault();
-    console.log(this.state);
-    console.log(Config.apiBasePath);
+    axios.post(Config.apiBasePath + '/login', this.state)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        self.setState({
+          error: error.response.data.error,
+        });
+      });
   }
 
   handleInputChange(event) {
@@ -31,6 +41,9 @@ class Login extends React.Component {
       <div className="Login">
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
+
+          {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
+
           <div className="form-group">
             <input name="email"
                    type="email"
