@@ -35,7 +35,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: PHPStan
+      - name: PHP-CS-Fixer
         uses: docker://oskarstark/php-cs-fixer-ga
         with:
           args: --diff --dry-run
