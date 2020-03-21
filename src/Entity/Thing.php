@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Id\UuidGenerator;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Generator\CombGenerator;
@@ -23,11 +25,17 @@ class Thing
      */
     private string $name;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="thing")
+     */
+    private $orders;
+
     public function __construct(
         string $name
     ) {
         $this->name = $name;
         $this->id = Uuid::uuid4()->toString();
+        $this->orders = new ArrayCollection();
     }
 
     public function getId(): ?string
@@ -43,6 +51,37 @@ class Thing
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Order[]
+     */
+    public function getOrders(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function addOrder(Order $order): self
+    {
+        if (!$this->orders->contains($order)) {
+            $this->orders[] = $order;
+            $order->setThing($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrder(Order $order): self
+    {
+        if ($this->orders->contains($order)) {
+            $this->orders->removeElement($order);
+            // set the owning side to null (unless already changed)
+            if ($order->getThing() === $this) {
+                $order->setThing(null);
+            }
+        }
 
         return $this;
     }
