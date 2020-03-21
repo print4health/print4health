@@ -4,7 +4,7 @@ security:
         users:
             entity:
                 class: 'App\Entity\User'
-                property: 'username'
+                property: 'email'
     encoders:
         Symfony\Component\Security\Core\User\UserInterface:
             algorithm: auto
@@ -18,6 +18,8 @@ security:
             # https://symfony.com/doc/current/security/json_login_setup.html
             json_login:
                 check_path: security_login
+                username_path: email
+                password_path: password
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
