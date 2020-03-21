@@ -9,5 +9,8 @@ jobs:
     name: Psalm
     runs-on: ubuntu-18.04
     steps:
-      - name: psalm
-        uses: psalm/psalm-github-actions@1.0.0
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Psalm
+        uses: docker://vimeo/psalm-github-actions
