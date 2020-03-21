@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
-class Order
+class OrderOut
 {
     public string $id;
     public User $user;
