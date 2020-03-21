@@ -309,9 +309,6 @@
     "symfony/options-resolver": {
         "version": "v5.0.5"
     },
-    "symfony/orm-pack": {
-        "version": "v1.0.8"
-    },
     "symfony/polyfill-intl-idn": {
         "version": "v1.14.0"
     },
@@ -370,9 +367,6 @@
     },
     "symfony/serializer": {
         "version": "v5.0.5"
-    },
-    "symfony/serializer-pack": {
-        "version": "v1.0.2"
     },
     "symfony/service-contracts": {
         "version": "v2.0.1"
