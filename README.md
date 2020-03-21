@@ -1,12 +1,12 @@
-print4Health
+print4health.org
 ====================
 
 DEVELOPMENT
 -----------
 
-### Install
-- Virtualbox
-- Vagrant
+### Requirements
+- Virtualbox https://www.virtualbox.org/
+- Vagrant https://www.vagrantup.com/
 
 ### Startup
 
@@ -18,14 +18,15 @@ vagrant ssh
 make init
 ``` 
 
-Bei Verwendung des Vagrant Plugin "vagrant-hostupdater" ist die Test - Installation unter [http://dev.print4health.org](http://dev.print4health.org) erreichbar.
-
-
-
 ### Build JavaScript & CSS
 - ```yarn run dev```
 - ```yarn run prod```
 - ```yarn run watch```
+
+### Lokaler Aufruf
+
+http://192.168.222.12  
+Bei Verwendung des Vagrant Plugin "vagrant-hostupdater" ist die lokale Installation unter [http://dev.print4health.org](http://dev.print4health.org) erreichbar.
 
 ### Services
 
@@ -33,5 +34,4 @@ MailDev/MailCatcher: http://localhost:1080
 
 PRODUCTION
 ----------
-
 ... 
