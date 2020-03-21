@@ -92,9 +92,8 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getSalt(): void
+    public function getSalt()
     {
-        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
     public function eraseCredentials(): void
