@@ -13,6 +13,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -80,6 +81,26 @@ class ThingController
 
         $this->entityManager->persist($thing);
         $this->entityManager->flush();
+
+        $thingOut = ThingOut::createFromThing($thing);
+
+        return new JsonResponse(['thing' => $thingOut]);
+    }
+
+    /**
+     * @Route(
+     *     "/things/{uuid}",
+     *     methods={"GET"},
+     *     format="json"
+     * )
+     */
+    public function showAction(string $uuid): JsonResponse
+    {
+        $thing = $this->thingRepository->find($uuid);
+
+        if (null === $thing) {
+            throw new NotFoundHttpException('Thing not found');
+        }
 
         $thingOut = ThingOut::createFromThing($thing);
 
