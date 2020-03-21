@@ -2,4 +2,4 @@ App\Entity\User:
 
     user_{1..5}:
         username: '<username()>'
-        password: '$2y$13$Wi9T.3iTMbw67y0wwRiLoO8Ra3./TpLPSYbm92ezfIwA7AY5i7/Zy' # hashed password "test"
+        password: 'test'
