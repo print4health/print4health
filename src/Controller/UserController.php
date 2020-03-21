@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Dto\User as UserDto;
 use App\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -34,7 +35,7 @@ class UserController
         /** @var User $user */
         $user = $this->security->getUser();
 
-        $userDto = \App\Dto\User::createFromUser($user);
+        $userDto = UserDto::createFromUser($user);
 
         return new JsonResponse($userDto);
     }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
+use App\Entity\Order;
+
 class OrderOut
 {
     public string $id;
@@ -12,7 +14,7 @@ class OrderOut
     public int $quantity;
     public int $remaining;
 
-    public static function createFromOrder(\App\Entity\Order $order): self
+    public static function createFromOrder(Order $order): self
     {
         $self = new self();
 
