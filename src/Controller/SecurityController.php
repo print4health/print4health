@@ -13,24 +13,38 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Validator\Validation;
+use Twig\Environment;
 
 class SecurityController extends AbstractController
 {
     private UserRepository $userRepository;
     private EntityManagerInterface $entityManager;
     private UserPasswordEncoderInterface $passwordEncoder;
+    private MailerInterface $mailer;
+    private Environment $twig;
+    private RouterInterface $router;
 
     public function __construct(
         UserRepository $userRepository,
         EntityManagerInterface $entityManager,
-        UserPasswordEncoderInterface $passwordEncoder
+        UserPasswordEncoderInterface $passwordEncoder,
+        MailerInterface $mailer,
+        Environment $twig,
+        RouterInterface $router
     ) {
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->passwordEncoder = $passwordEncoder;
+        $this->mailer = $mailer;
+        $this->twig = $twig;
+        $this->router = $router;
     }
 
     /**
@@ -96,7 +110,15 @@ class SecurityController extends AbstractController
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        // TODO: mail token
+        $url = $this->router->generate('home', ['token' => $user->getPasswordResetToken()], Router::ABSOLUTE_URL);
+        $body = $this->twig->render('email/password_reset.txt.twig', ['url' => $url]);
+        $email = (new Email())
+            ->from('noreply@print4health.org')
+            ->to($resetPasswordTokenRequest->email)
+            ->subject('Print4Health Passwort zurücksetzen')
+            ->html($body);
+
+        $this->mailer->send($email);
 
         return $this->json(['OK']);
     }

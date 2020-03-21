@@ -130,6 +130,11 @@ class User implements UserInterface
         $this->passwordResetTokenCreatedAt = null;
     }
 
+    public function getPasswordResetToken(): ?string
+    {
+        return $this->passwordResetToken;
+    }
+
     /**
      * @return Order[]
      */
