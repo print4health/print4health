@@ -4,9 +4,10 @@ help:                                                                           
 init:                                                                           ## initialize or update project
 	composer install
 	yarn install
-	yarn run dev
+	yarn encore dev
 	bin/console do:da:cr --if-not-exists
 	bin/console do:mi:mi --no-interaction
+	bin/console hautelook:fixtures:load -n
 
 logs:                                                                           ## display logs
 	tail -f var/log/dev.logs

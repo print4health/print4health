@@ -1,0 +1,4 @@
+App\Entity\Commitment:
+    commitment_{1..200}:
+        order: '@order_*'
+        quantity: '<numberBetween(5, 500)>'

@@ -19,9 +19,8 @@ make init
 ``` 
 
 ### Build JavaScript & CSS
-- ```yarn run dev```
-- ```yarn run prod```
-- ```yarn run watch```
+- ```yarn encore dev```
+- ```yarn encore dev --watch```
 
 ### Lokaler Aufruf
 
