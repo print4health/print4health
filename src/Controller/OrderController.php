@@ -68,7 +68,7 @@ class OrderController
 
     /**
      * @Route(
-     *     "/order",
+     *     "/orders",
      *     methods={"POST"},
      *     format="json"
      * )
@@ -108,7 +108,7 @@ class OrderController
 
     /**
      * @Route(
-     *     "/order/{uuid}",
+     *     "/orders/{uuid}",
      *     methods={"GET"}
      * )
      */
