@@ -23,23 +23,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class OrderController
 {
-    private NormalizerInterface $normalizer;
     private DenormalizerInterface $denormalizer;
     private EntityManagerInterface $entityManager;
     private Security $security;
     private OrderRepository $orderRepository;
     private ThingRepository $thingRepository;
-    private UserRepository $userRepository;
 
     public function __construct(
-        NormalizerInterface $normalizer,
         DenormalizerInterface $denormalizer,
         EntityManagerInterface $entityManager,
         Security $security,
         OrderRepository $orderRepository,
         ThingRepository $thingRepository
     ) {
-        $this->normalizer = $normalizer;
         $this->denormalizer = $denormalizer;
         $this->entityManager = $entityManager;
         $this->security = $security;
@@ -61,7 +57,7 @@ class OrderController
         $response = ['orders' => []];
 
         foreach ($orders as $order) {
-            $response['orders'][] = $this->normalizer->normalize(OrderOut::createFromOrder($order));
+            $response['orders'][] = OrderOut::createFromOrder($order);
         }
 
         return new JsonResponse($response);

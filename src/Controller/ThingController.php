@@ -20,7 +20,6 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ThingController
 {
-    private NormalizerInterface $normalizer;
     private DenormalizerInterface $denormalizer;
     private EntityManagerInterface $entityManager;
     private ThingRepository $thingRepository;
@@ -31,7 +30,6 @@ class ThingController
         EntityManagerInterface $entityManager,
         ThingRepository $thingRepository
     ) {
-        $this->normalizer = $normalizer;
         $this->denormalizer = $denormalizer;
         $this->entityManager = $entityManager;
         $this->thingRepository = $thingRepository;
@@ -51,7 +49,7 @@ class ThingController
         $response = ['things' => []];
 
         foreach ($things as $thing) {
-            $response['things'][] = $this->normalizer->normalize(ThingOut::createFromThing($thing));
+            $response['things'][] = ThingOut::createFromThing($thing);
         }
 
         return new JsonResponse($response);
