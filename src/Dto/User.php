@@ -9,7 +9,7 @@ use Doctrine\ORM\EntityNotFoundException;
 class User
 {
     public string $id;
-    public string $username;
+    public string $email;
 
     public static function createFromUser(?\App\Entity\User $user): self
     {
@@ -20,7 +20,7 @@ class User
         $self = new self();
 
         $self->id = $user->getId();
-        $self->username = $user->getUsername();
+        $self->email = $user->getEmail();
 
         return $self;
     }
