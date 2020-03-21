@@ -43,7 +43,7 @@ class Order
 
     public function __construct()
     {
-        $this->id = Uuid::uuid4();
+        $this->id = Uuid::uuid4()->toString();
         $this->createdAt = new \DateTimeImmutable();
     }
 
