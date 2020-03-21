@@ -11,7 +11,7 @@ class ResetPassword
     /**
      * @Assert\NotBlank(message="Invalid Token")
      */
-    public $token;
+    public string $token;
 
     /**
      * @Assert\NotBlank(message="Invalid Password")
@@ -22,5 +22,5 @@ class ResetPassword
      *     maxMessage="The password must not be longer than {{ limit }} characters"
      * )
      */
-    public $password;
+    public string $password;
 }

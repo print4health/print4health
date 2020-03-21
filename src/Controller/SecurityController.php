@@ -116,7 +116,8 @@ class SecurityController extends AbstractController
             ->from('noreply@print4health.org')
             ->to($resetPasswordTokenRequest->email)
             ->subject('Print4Health Passwort zurücksetzen')
-            ->html($body);
+            ->html($body)
+        ;
 
         $this->mailer->send($email);
 

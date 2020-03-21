@@ -12,5 +12,5 @@ class ResetPasswordTokenRequest
      * @Assert\NotBlank(message="Invalid Email Address")
      * @Assert\Email(message="Invalid Email Address")
      */
-    public $email;
+    public string $email;
 }
