@@ -22,7 +22,7 @@ class UserNav extends React.Component {
             email: result.email,
           });
         },
-        (error) => {
+        () => {
           this.setState({
             loggedIn: false,
             email: '',
