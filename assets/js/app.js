@@ -62,13 +62,13 @@ export default function App() {
                   <Index />
                 </Route>
                 <Route path="/faq">
-                  <Faq />
+                  <Index />
                 </Route>
                 <Route path="/about">
-                  <About />
+                  <Index />
                 </Route>
                 <Route path="/legal">
-                  <Legal />
+                  <Index />
                 </Route>
                 <Route path="/">
                   <Index />
