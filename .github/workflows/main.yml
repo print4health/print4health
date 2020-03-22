@@ -29,7 +29,7 @@ jobs:
       - name: PHPStan
         uses: docker://oskarstark/phpstan-ga
         with:
-          args: analyse -l max -c phpstan.neon /src
+          args: analyse -l max -c phpstan.neon ./src
           secrets: "GITHUB_TOKEN"
 
   php-cs-fixer:
