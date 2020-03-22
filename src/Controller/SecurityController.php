@@ -103,7 +103,8 @@ class SecurityController
             throw new BadRequestHttpException();
         }
 
-        $data = json_decode($request->getContent(), true);
+        $content = (string) $request->getContent();
+        $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         if (null === $data) {
             throw new BadRequestHttpException();
         }
@@ -129,7 +130,7 @@ class SecurityController
             return new JsonResponse(['errors' => $errors], 400);
         }
 
-        /** @var User $user */
+        /** @var User|null $user */
         $user = $this->userRepository->findOneByEmail($resetPasswordTokenRequest->email);
         if (null === $user) {
             return new JsonResponse(['errors' => ['User not found']], 400);
@@ -159,7 +160,7 @@ class SecurityController
      *     name="security_reset_password",
      *     methods={"POST"},
      *     format="json"
-     *  )
+     * )
      */
     public function resetPassword(Request $request): JsonResponse
     {
@@ -167,7 +168,8 @@ class SecurityController
             throw new BadRequestHttpException();
         }
 
-        $data = json_decode($request->getContent(), true);
+        $content = (string) $request->getContent();
+        $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         if (null === $data) {
             throw new BadRequestHttpException();
         }
@@ -194,7 +196,7 @@ class SecurityController
             return new JsonResponse(['errors' => $errors], 400);
         }
 
-        /** @var User $user */
+        /** @var User|null $user */
         $user = $this->userRepository->findOneByPasswordResetToken($resetPassword->token);
         if (null === $user) {
             return new JsonResponse(['errors' => ['Invalid Token']], 400);

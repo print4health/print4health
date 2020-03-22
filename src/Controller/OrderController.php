@@ -9,7 +9,6 @@ use App\Dto\OrderOut;
 use App\Entity\Order;
 use App\Repository\OrderRepository;
 use App\Repository\ThingRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,7 +18,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class OrderController
 {
@@ -76,7 +74,8 @@ class OrderController
      */
     public function createAction(Request $request): JsonResponse
     {
-        $jsonRequest = json_decode($request->getContent(), true);
+        $content = (string) $request->getContent();
+        $jsonRequest = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         if (null === $jsonRequest) {
             throw new BadRequestHttpException('No valid json');
         }
