@@ -1,6 +1,4 @@
 .vagrant
-.idea
-.DS_Store
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -11,7 +9,6 @@
 /vendor/
 ###< symfony/framework-bundle ###
 
-.vagrant 
 ubuntu-*.log
 
 ###> symfony/webpack-encore-bundle ###
