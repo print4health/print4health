@@ -42,14 +42,14 @@ class UserNav extends React.Component {
     if (loggedIn === true) {
       return <span>
         <a href="#" className="nav-link" onClick={this.handleLogout}>
-          logout {email}
+          Logout {email}
         </a>
       </span>;
     }
     return (
       <span>
         <a href="#" className="nav-link" data-toggle="modal" data-target="#modal-login">
-          login
+          Login
         </a>
        </span>
     );
