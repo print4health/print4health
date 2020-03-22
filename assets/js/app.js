@@ -29,10 +29,7 @@ export default function App() {
             <li className="nav-item mx-5">
               <Link className="nav-link" to="/thing/list">Ersatzteile</Link>
             </li>
-          </ul>
-
-          <ul className="float-right navbar-nav mr-auto">
-            <li className="nav-item">
+            <li className="nav-item mx-5">
               <UserNav />
             </li>
           </ul>
