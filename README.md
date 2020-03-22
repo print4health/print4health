@@ -22,6 +22,15 @@ make init
 - ```yarn encore dev```
 - ```yarn encore dev --watch```
 
+### check Javascript
+
+- ```yarn eslint```
+- ```yarn eslint --fix```
+
+### check PHP
+
+ -   ```make dev```
+
 ### Lokaler Aufruf
 
 http://192.168.222.12  
