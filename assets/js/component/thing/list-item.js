@@ -18,7 +18,6 @@ class ThingListItem extends React.Component {
       return (<div className="alert alert-danger">Thing Error</div>);
     }
 
-    console.log(this.props.thing);
     return (
       <div className="card">
         <div className="card-block">
