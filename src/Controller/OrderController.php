@@ -19,30 +19,27 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class OrderController
 {
-    private DenormalizerInterface $denormalizer;
-
+    private SerializerInterface $serializer;
     private EntityManagerInterface $entityManager;
-
     private Security $security;
-
     private OrderRepository $orderRepository;
-
     private ThingRepository $thingRepository;
 
     public function __construct(
-        DenormalizerInterface $denormalizer,
+        SerializerInterface $serializer,
         EntityManagerInterface $entityManager,
         Security $security,
         OrderRepository $orderRepository,
         ThingRepository $thingRepository
     ) {
-        $this->denormalizer = $denormalizer;
+        $this->serializer = $serializer;
         $this->entityManager = $entityManager;
         $this->security = $security;
         $this->orderRepository = $orderRepository;
@@ -109,20 +106,15 @@ class OrderController
      */
     public function createAction(Request $request): JsonResponse
     {
-        $content = (string) $request->getContent();
-        $jsonRequest = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-        if (null === $jsonRequest) {
-            throw new BadRequestHttpException('No valid json');
-        }
-
-        /** @var Requester|null $requester */
+        /** @var Requester $requester */
         $requester = $this->security->getUser();
-        if (null === $requester) {
-            throw new AccessDeniedException(sprintf('Access Denied'));
-        }
 
-        /** @var OrderIn $orderIn */
-        $orderIn = $this->denormalizer->denormalize($jsonRequest, OrderIn::class);
+        try {
+            /** @var OrderIn $orderIn */
+            $orderIn = $this->serializer->deserialize($request->getContent(), OrderIn::class, JsonEncoder::FORMAT);
+        } catch (NotEncodableValueException $notEncodableValueException) {
+            throw new BadRequestHttpException('No valid json', $notEncodableValueException);
+        }
 
         if ($orderIn->quantity < 1) {
             throw new BadRequestHttpException('Quantity must be greater than zero');

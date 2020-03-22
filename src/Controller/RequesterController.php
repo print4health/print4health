@@ -12,10 +12,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 
 class RequesterController
@@ -70,8 +72,12 @@ class RequesterController
      */
     public function createAction(Request $request): JsonResponse
     {
-        /** @var RequesterIn $requesterIn */
-        $requesterIn = $this->serializer->deserialize($request->getContent(), RequesterIn::class, JsonEncoder::FORMAT);
+        try {
+            /** @var RequesterIn $requesterIn */
+            $requesterIn = $this->serializer->deserialize($request->getContent(), RequesterIn::class, JsonEncoder::FORMAT);
+        } catch (NotEncodableValueException $notEncodableValueException) {
+            throw new BadRequestHttpException('No valid json', $notEncodableValueException);
+        }
 
         $requester = new Requester($requesterIn->email, $requesterIn->name);
         $requester->setPassword($this->userPasswordEncoder->encodePassword($requester, $requesterIn->password));
