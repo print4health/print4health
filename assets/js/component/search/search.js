@@ -1,6 +1,6 @@
 import React from 'react';
 
-var searchPlaceholder = "Hier könnte eine Suchfunktion sein";
+var searchPlaceholder = "Suchen...";
 
 class Search extends React.Component {
   constructor(props) {

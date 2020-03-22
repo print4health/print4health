@@ -1,6 +1,7 @@
 import React from 'react';
 import { Config } from '../../config';
 import ThingList from './../../component/thing/list.js';
+import Search from './../../component/search/search';
 import axios from 'axios';
 
 class ThingListContainer extends React.Component {
@@ -40,6 +41,13 @@ class ThingListContainer extends React.Component {
     }
     return (
       <div>
+        <div className="row">
+          <div className="col-sm"></div>
+          <div className="col-xl-6">
+            <Search />
+          </div>
+          <div className="col-sm"></div>
+        </div>
         <div className="row">
           <div className="col">
             <h2>Verfügbare 3D-Modelle / Ersatzteile</h2>
