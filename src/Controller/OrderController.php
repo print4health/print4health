@@ -11,7 +11,9 @@ use App\Entity\User\Requester;
 use App\Repository\OrderRepository;
 use App\Repository\ThingRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -54,6 +56,14 @@ class OrderController
      *     methods={"GET"},
      *     format="json"
      * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Orders",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=OrderOut::class))
+     *     )
+     * )
      */
     public function listAction(): JsonResponse
     {
@@ -74,6 +84,25 @@ class OrderController
      *     name="order_create",
      *     methods={"POST"},
      *     format="json"
+     * )
+     * @SWG\Parameter(
+     *     name="order",
+     *     in="body",
+     *     type="json",
+     *     @Model(type=OrderIn::class)
+     * )
+     * @SWG\Response(
+     *     response=201,
+     *     description="Order successfully created",
+     *     @Model(type=OrderOut::class)
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed request"
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="Requested thing could not be found"
      * )
      *
      * @IsGranted("ROLE_REQUESTER")
@@ -120,6 +149,11 @@ class OrderController
      *     name="order_show",
      *     methods={"GET"},
      *     format="json"
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Order",
+     *     @Model(type=OrderOut::class)
      * )
      */
     public function showAction(string $uuid): JsonResponse

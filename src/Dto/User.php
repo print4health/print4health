@@ -6,10 +6,13 @@ namespace App\Dto;
 
 use App\Entity\User\UserInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Swagger\Annotations as SWG;
 
 class User
 {
+    /** @SWG\Property(type="string") */
     public string $id;
+    /** @SWG\Property(type="string") */
     public string $email;
 
     public static function createFromUser(?UserInterface $user): self

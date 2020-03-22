@@ -43,6 +43,10 @@ http://dev.print4health.org/#/login
     user@print4health.org
     test
 
+### API Doc
+
+http://dev.print4health.org/api/doc
+
 ### Services
 
 MailDev/MailCatcher: http://localhost:1080
