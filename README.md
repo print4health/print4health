@@ -11,7 +11,7 @@ DEVELOPMENT
 ### Startup
 
 ```bash
-git clone git@github.com:bartrail/print4health
+git clone git@github.com:print4health/print4health
 cd print4health
 vagrant up
 vagrant ssh
