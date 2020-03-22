@@ -382,7 +382,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"{{$randomExampleEmail}}\",\n    \"password\": \"12345\",\n    \"name\": \"{{$randomCompanyName}}\",\n    \"streetAddress\": \"{{$randomStreetAddress}}\",\n    \"postalCode\": \"12345\",\n    \"addressCity\": \"{{$randomCity}}\"\n}",
+							"raw": "{\n    \"email\": \"{{$randomExampleEmail}}\",\n    \"password\": \"12345\",\n    \"name\": \"{{$randomCompanyName}}\",\n    \"streetAddress\": \"{{$randomStreetAddress}}\",\n    \"postalCode\": \"12345\",\n    \"addressCity\": \"{{$randomCity}}\",\n    \"addressState\": \"Berlin\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -396,6 +396,55 @@
 							],
 							"path": [
 								"requester"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "/commitments",
+			"item": [
+				{
+					"name": "/commitments",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "73037070-b2ca-40ef-942e-1abaf79654d0",
+								"exec": [
+									"let orderUrl = pm.variables.get(\"url\") + \"/orders\";",
+									"",
+									"pm.sendRequest(orderUrl, function (err, response) {",
+									"    pm.environment.set(\"orderUuid\", response.json()['orders'][0].id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"orderId\": \"{{orderUuid}}\",\n\t\"quantity\": {{$randomInt}}\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/commitments",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"commitments"
 							]
 						}
 					},

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Dto\Commitment;
+use App\Dto\CommitmentIn;
+use App\Dto\CommitmentOut;
+use App\Entity\Commitment;
 use App\Entity\Order;
 use App\Repository\OrderRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,12 +21,13 @@ class CommitmentController
 {
     private OrderRepository $orderRepository;
     private DenormalizerInterface $denormalizer;
-    private EntityManager $entityManager;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(OrderRepository $orderRepository,
-                                DenormalizerInterface $denormalizer,
-                                EntityManagerInterface $entityManager)
-    {
+    public function __construct(
+        OrderRepository $orderRepository,
+        DenormalizerInterface $denormalizer,
+        EntityManagerInterface $entityManager
+    ) {
         $this->orderRepository = $orderRepository;
         $this->denormalizer = $denormalizer;
         $this->entityManager = $entityManager;
@@ -46,21 +48,22 @@ class CommitmentController
             throw new BadRequestHttpException();
         }
 
-        /** @var Commitment $commitmentDto */
-        $commitmentDto = $this->denormalizer->denormalize($jsonRequest, Commitment::class);
+        /** @var CommitmentIn $commitmentIn */
+        $commitmentIn = $this->denormalizer->denormalize($jsonRequest, CommitmentIn::class);
 
-        /** @var Order $order */
-        $order = $this->orderRepository->find($commitmentDto->order);
+        $order = $this->orderRepository->find($commitmentIn->orderId);
 
-        if (!$order instanceof $order) {
+        if (!$order instanceof Order) {
             throw new EntityNotFoundException('Order not found');
         }
 
-        $commitment = new \App\Entity\Commitment($order, $commitmentDto->quantity);
+        $commitment = new Commitment($order, $commitmentIn->quantity);
 
         $this->entityManager->persist($commitment);
         $this->entityManager->flush();
 
-        return new JsonResponse(['commitment' => $commitment]);
+        $commitmentOut = CommitmentOut::createFromCommitment($commitment);
+
+        return new JsonResponse(['commitment' => $commitmentOut], 201);
     }
 }

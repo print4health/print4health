@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
-class Commitment
+class CommitmentIn
 {
-    public string $id;
-    public OrderOut $order;
+    public string $orderId;
     public int $quantity;
 }
