@@ -8,7 +8,8 @@ import {
 import Index from './container/index/index';
 import Login from './container/login/login';
 import UserNav from './component/user/user-nav';
-import ThingList from './container/thing-list/thing-list'
+import ThingListContainer from './container/thing/list'
+import ThingDetailContainer from './container/thing/detail'
 
 export default function App() {
   return (
@@ -34,45 +35,19 @@ export default function App() {
         </nav>
             <div className="container">
               <Switch>
-                <Route path="/login">
-                  <Login />
-                </Route>
-                <Route path="/request-reset-password">
-                  <Index />
-                </Route>
-                <Route path="/reset-password">
-                  <Index />
-                </Route>
-                <Route path="/order/list">
-                  <Index />
-                </Route>
-                <Route path="/order/map">
-                  <Index />
-                </Route>
-                <Route path="/order/{id}">
-                  <Index />
-                </Route>
-                <Route path="/thing/list">
-                  <ThingList />
-                </Route>
-                <Route path="/thing/{id}">
-                  <Index />
-                </Route>
-                <Route path="/thing/{id}/create-order">
-                  <Index />
-                </Route>
-                <Route path="/faq">
-                  <Index />
-                </Route>
-                <Route path="/about">
-                  <Index />
-                </Route>
-                <Route path="/legal">
-                  <Index />
-                </Route>
-                <Route path="/">
-                  <Index />
-                </Route>
+                <Route path="/login" component={Login}/>
+                <Route path="/request-reset-password" component={Index}/>
+                <Route path="/reset-password" component={Index}/>
+                <Route path="/order/list" component={Index}/>
+                <Route path="/order/map" component={Index}/>
+                <Route path="/order/{id}" component={Index}/>
+                <Route path="/thing/list" component={ThingListContainer}/>
+                <Route path="/thing/:id" component={ThingDetailContainer}/>
+                <Route path="/thing/:id/create-order" component={Index}/>
+                <Route path="/faq" component={Index}/>
+                <Route path="/about" component={Index}/>
+                <Route path="/legal" component={Index}/>
+                <Route path="/" component={Index}/>
               </Switch>
             </div>
       </div>

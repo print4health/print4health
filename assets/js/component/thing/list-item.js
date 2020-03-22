@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class ThingListItem extends React.Component {
   constructor(props) {
@@ -16,10 +17,14 @@ class ThingListItem extends React.Component {
     if (this.props.thing === undefined) {
       return (<div className="alert alert-danger">Thing Error</div>);
     }
+
+    console.log(this.props.thing);
     return (
       <div className="card">
         <div className="card-block">
-          <img src={this.props.thing.src} alt={this.props.thing.name} />
+          <Link to={'/thing/' + this.props.thing.id}>
+            <img src={this.props.thing.imageUrl} alt={this.props.thing.name} className="img-fluid" />
+          </Link>
           <div className="card-body">
             <h5 className="cardTitle">{this.props.thing.name}</h5>
             <p className="card-text">

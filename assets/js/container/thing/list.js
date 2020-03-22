@@ -1,9 +1,9 @@
 import React from 'react';
 import { Config } from '../../config';
-import ThingListItem from './../../component/thing/list-item.js';
+import ThingList from './../../component/thing/list.js';
 import axios from 'axios';
 
-class ThingList extends React.Component {
+class ThingListContainer extends React.Component {
 
   constructor(props) {
     super(props);
@@ -46,17 +46,11 @@ class ThingList extends React.Component {
           Lorem Ipsum Dolor sid
         </p>
         <div className="container">
-          <div className="row">
-              {things.map((thing, idx) => (
-              <div className="col-md-4" key={idx} >
-                <ThingListItem thing={thing} />
-              </div>
-              ))}
-          </div>
+          <ThingList things={things} />
         </div>
       </div>
     );
   }
 }
 
-export default ThingList;
+export default ThingListContainer;
