@@ -26,10 +26,13 @@ class Index extends React.Component {
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
             </div>
           </div>
-          <div className="row"></div>
+          <div className="row mt-4"></div>
           <div className="row">
-            <div className="col-sm card m-3">
-              Bist du Krankenhaus?<br/>
+            <div className="col-sm">
+            <div className="card shadow-sm">
+            <div classname="card-body">
+              <h5 className="card-title">Bist du Krankenhaus?</h5>
+              <p class="card-text">
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
@@ -39,9 +42,15 @@ class Index extends React.Component {
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
+              </p>
+              </div>
+              </div>
             </div>
-            <div className="col-sm card m-3">
-              Hast du Drucker?<br/>
+            <div className="col-sm">
+            <div className="card shadow-sm">
+              <div classname="card-body">
+              <h5 className="card-title">Hast du Drucker?</h5>
+              <p class="card-text">
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
@@ -51,9 +60,15 @@ class Index extends React.Component {
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
+              </p>
+              </div>
+              </div>
             </div>
-            <div className="col-sm card m-3">
-              Kannst du designen?<br/>
+            <div className="col-sm">
+            <div className="card shadow-sm">
+            <div classname="card-body">
+              <h5 className="card-title">Kannst du designen?</h5>
+              <p class="card-text">
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
@@ -63,9 +78,15 @@ class Index extends React.Component {
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
+              </p>
+              </div>
+              </div>
             </div>
-            <div className="col-sm card m-3">
-              Bist du Medi?<br/>
+            <div className="col-sm">
+            <div className="card shadow-sm">
+            <div classname="card-body">
+              <h5 className="card-title">Bist du Medi?</h5>
+              <p class="card-text">
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
@@ -75,6 +96,9 @@ class Index extends React.Component {
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
+              </p>
+              </div>
+              </div>
             </div>
           </div>
           </div>

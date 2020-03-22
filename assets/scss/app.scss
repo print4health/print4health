@@ -1,5 +1,11 @@
+@import "partials/variables";
+
 html{
     height: 100%;
+}
+
+* {
+  border-radius: 0 !important;
 }
 
 .logo{
@@ -39,5 +45,4 @@ html{
   transform: translatex(-50%);
 }
 
-@import "partials/variables";
 @import '~bootstrap';
