@@ -39,7 +39,7 @@ Bei Verwendung des Vagrant Plugin "vagrant-hostsupdater" ist die lokale Installa
 
 ### Login für Bestellung als Einrichtung
 
-    user@print4health.org
+    requester@print4health.org
     test
 
 ### Services
