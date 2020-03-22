@@ -1,9 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class ThingListItem extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  static get propTypes() {
+    return {
+      thing: PropTypes.object,
+    };
+  }
+
 
   render() {
     if (this.props.thing === undefined) {
