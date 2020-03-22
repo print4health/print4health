@@ -6,9 +6,12 @@ namespace App\Controller;
 
 use App\Dto\ResetPassword;
 use App\Dto\ResetPasswordTokenRequest;
+use App\Dto\User as UserDto;
 use App\Entity\User\UserInterface;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,6 +62,32 @@ class SecurityController
      *     methods={"POST"},
      *     format="json",
      * )
+     * @SWG\Parameter(
+     *     name="credentials",
+     *     in="body",
+     *     type="json",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="email", type="string"),
+     *         @SWG\Property(property="password", type="string")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Login successfull",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Items(ref=@Model(type=UserDto::class))
+     *     )
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed request or wrong content type"
+     * )
+     * @SWG\Response(
+     *     response=401,
+     *     description="Invalid credentials"
+     * )
      */
     public function login(Request $request): JsonResponse
     {
@@ -69,10 +98,9 @@ class SecurityController
         /** @var UserInterface $user */
         $user = $this->security->getUser();
 
-        return new JsonResponse([
-            'email' => $user->getEmail(),
-            'roles' => $user->getRoles(),
-        ]);
+        $userDto = UserDto::createFromUser($user);
+
+        return new JsonResponse($userDto);
     }
 
     /**
@@ -99,6 +127,23 @@ class SecurityController
      *     name="security_request_password_reset",
      *     methods={"POST"},
      *     format="json"
+     * )
+     * @SWG\Parameter(
+     *     name="email",
+     *     in="body",
+     *     type="json",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="email", type="string")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Reset token successfully sent via email"
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed request, wrong content type or email not found"
      * )
      */
     public function requestPasswordReset(Request $request): JsonResponse
@@ -164,6 +209,24 @@ class SecurityController
      *     name="security_reset_password",
      *     methods={"POST"},
      *     format="json"
+     * )
+     * @SWG\Parameter(
+     *     name="password",
+     *     in="body",
+     *     type="json",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="token", type="string"),
+     *         @SWG\Property(property="password", type="string")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Password successfully"
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed request, wrong content type or token expired"
      * )
      */
     public function resetPassword(Request $request): JsonResponse
