@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -27,6 +28,7 @@ class User implements UserInterface
     private string $email;
 
     /**
+     * @var string[]
      * @ORM\Column(type="json")
      */
     private array $roles = [];
@@ -47,6 +49,7 @@ class User implements UserInterface
     private ?DateTimeImmutable $passwordResetTokenCreatedAt;
 
     /**
+     * @var Collection<int, Order>
      * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="user", orphanRemoval=true)
      */
     private $orders;
@@ -57,7 +60,7 @@ class User implements UserInterface
         $this->orders = new ArrayCollection();
     }
 
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->id;
     }
@@ -88,6 +91,11 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param string[] $roles
+     *
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
@@ -148,19 +156,6 @@ class User implements UserInterface
         if (!$this->orders->contains($order)) {
             $this->orders[] = $order;
             $order->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): self
-    {
-        if ($this->orders->contains($order)) {
-            $this->orders->removeElement($order);
-            // set the owning side to null (unless already changed)
-            if ($order->getUser() === $this) {
-                $order->setUser(null);
-            }
         }
 
         return $this;

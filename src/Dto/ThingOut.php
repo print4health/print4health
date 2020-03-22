@@ -11,6 +11,9 @@ class ThingOut
 {
     public string $id;
     public string $name;
+    public string $description;
+    public string $url;
+    public string $imageUrl;
 
     public static function createFromThing(?Thing $thing): self
     {
@@ -22,6 +25,9 @@ class ThingOut
 
         $self->id = $thing->getId();
         $self->name = $thing->getName();
+        $self->imageUrl = $thing->getImageUrl();
+        $self->url = $thing->getUrl();
+        $self->description = $thing->getDescription();
 
         return $self;
     }

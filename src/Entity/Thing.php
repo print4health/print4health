@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
@@ -25,24 +26,46 @@ class Thing
     private string $name;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private string $description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $url;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $imageUrl;
+
+    /**
+     * @var Collection<int, Order>
      * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="thing")
      */
     private $orders;
 
     public function __construct(
-        string $name
+        string $name,
+        string $imageUrl,
+        string $url,
+        string $description
     ) {
         $this->name = $name;
         $this->id = Uuid::uuid4()->toString();
         $this->orders = new ArrayCollection();
+        $this->imageUrl = $imageUrl;
+        $this->url = $url;
+        $this->description = $description;
     }
 
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -72,16 +95,18 @@ class Thing
         return $this;
     }
 
-    public function removeOrder(Order $order): self
+    public function getDescription(): string
     {
-        if ($this->orders->contains($order)) {
-            $this->orders->removeElement($order);
-            // set the owning side to null (unless already changed)
-            if ($order->getThing() === $this) {
-                $order->setThing(null);
-            }
-        }
+        return $this->description;
+    }
 
-        return $this;
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    public function getImageUrl(): string
+    {
+        return $this->imageUrl;
     }
 }

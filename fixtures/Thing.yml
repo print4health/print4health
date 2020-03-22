@@ -1,4 +1,186 @@
 App\Entity\Thing:
-    thing_{1..20}:
+    thing_manual_1:
         __construct:
-            - '<word()>'
+            - 'Hands-Free Door Openers - Cylindrical, Narrow'
+            - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Cylindrical_Narrow_Final.jpg'
+            - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
+            - 'Optimal for doors of an average weight, like household doors
+                Suitable for both curved and non-curved handles
+                Fits cylindrical handles between 16 and 22 mm
+                Requires one M4 x 12 screw and one M4 x 16 screw'
+
+    thing_manual_2:
+        __construct:
+            - 'Hands-Free Door Openers - Cylindrical, Wide'
+            - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Cylindrical_wide_Final.jpg'
+            - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
+            - 'Optimal for doors of an above-average weight, including fireproof doors with hydraulic pumps
+               Suitable for non-curved handles
+               Fits cylindrical handles between 16 and 22 mm
+               Requires two M4 x 12 screws and two M4 x 16 screws'
+
+    thing_manual_3:
+        __construct:
+            - 'Hands-Free Door Openers - Rectangular, Narrow, Horizontal'
+            - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Rectangular_Narrow_Horizontal_Final.jpg'
+            - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
+            - 'Optimal for doors of an average weight, for example household doors
+               Suitable for both curved and non-curved handles
+               Fits rectangular, horizontal handles with a height between 11 mm to 18 mm and a depth of at most 25 mm
+               Requires one M4 x 12 screw and one M4 x 16 screw'
+
+    thing_manual_4:
+        __construct:
+            - 'Hands-Free Door Openers - Rectangular, Wide, Horizontal'
+            - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Rectangular_Wide_Horizontal_Final.jpg'
+            - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
+            - 'Optimal for doors of an above-average weight, including fireproof doors with hydraulic pumps
+               Suitable for non-curved handles
+               Fits rectangular, horizontal handles with a height between 11 mm to 18 mm and a depth of at most 25 mm
+               Requires two M4 x 12 screws and two M4 x 16 screws'
+
+    thing_manual_5:
+        __construct:
+            - 'Hands-Free Door Openers - Rectangular, Narrow, Vertical'
+            - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Rectangular_Narrow_Vertical_Final.jpg'
+            - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
+            - 'Optimal for doors of an average weight, for example household doors
+               Suitable for both curved and non-curved handles
+               Fits rectangular, vertical handles with a height of 31 mm and a depth between 4 mm and 11 mm
+               Requires one M4 x 12 screw and one M4 x 16 screw'
+
+    thing_manual_6:
+        __construct:
+            - 'Hands-Free Door Openers - Rectangular, Wide, Vertical'
+            - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Rectangular_Wide_Vertical_Final.jpg'
+            - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
+            - 'Optimal for doors of an above-average weight, including fireproof doors with hydraulic pumps
+               Suitable for non-curved handles
+               Fits rectangular, vertical handles with a height of 31 mm and a depth between 4 mm and 11 mm
+               Requires two M4 x 12 screws and two M4 x 16 screws'
+
+    thing_manual_7:
+        __construct:
+            - 'Hands-Free Door Openers - Circular, Stationary, Small'
+            - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Circular_Stationary_Small_Final.jpg'
+            - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
+            - 'Optimal for doors of a lighter or average weight, for example household doors
+               Suitable for circular door handles that don’t twist
+               Fits circular handles with a diameter between 47 mm and 50 mm
+               Requires two M4 x 16 screws and two M4 nuts'
+
+    thing_manual_8:
+        __construct:
+            - 'Hands-Free Door Openers - Circular, Stationary, Small'
+            - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Circular_Stationary_Small_Final.jpg'
+            - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
+            - 'Optimal for doors of a lighter or average weight, for example household doors
+               Suitable for circular door handles that don’t twist
+               Fits circular handles with a diameter between 47 mm and 50 mm
+               Requires two M4 x 16 screws and two M4 nuts'
+
+    thing_manual_9:
+        __construct:
+            - 'Hands-Free Door Openers - Circular, Stationary, Large'
+            - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Circular_stat_large.jpg'
+            - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
+            - 'Optimal for doors of a lighter or average weight, for example household doors
+               Suitable for circular door handles that don’t twist
+               Fits circular handles with a diameter between 51 mm and 54 mm
+               Requires two M4 x 16 screws and two M4 nuts'
+
+    thing_manual_10:
+        __construct:
+            - 'Sicherheitstüröffner'
+            - 'https://cdn.shopify.com/s/files/1/0063/9608/4308/products/Tueroeffner_neu_2020-Mar-19_02-47-16PM-000_CustomizedView21533654971_jpg_1024x1024.jpg?v=1584629676'
+            - 'https://www.may-b.com/products/sicherheitsturoffner'
+            - 'Im Zuge der Ausbreitung des Coronavirus hilft dieses Handstück beim Öffnen von Türen.
+               Es ist kein unmittelbarer Kontakt zum Türgriff mehr nötig.
+               Bitte trotzdem regelmäßig mit Seife reinigen oder desinfizieren.
+
+               Zu drucken am besten in PLA oder PETG mit einer Layerhöhe 0,2mm oder 0,3mm und mindestens 20% Infill, besser 30%.'
+
+    thing_manual_11:
+        __construct:
+            - 'The Handler'
+            - 'https://files.cults3d.com/uploaders/13133858/illustration-file/3dd60cb0-fa78-4cf3-a91e-eb2d6181810f/Projet%20sans%20titre_large.gif'
+            - 'https://cults3d.com/en/3d-model/gadget/the-handler'
+            - 'Don`t ever touch a handle again. Leave it to the Handler!
+
+                  With the recent pandemic outbreak I realized we had to find a way to stop touching dirty stuff. Especially doors handles, push buttons and so on...
+
+                  I designed this little guys to help with that! Use the Handler to open doors and push button (use the front that is not touching your index finger).
+
+                  I use a retractable lanyard to keep at my belt so I can grap it each time I need it.
+
+                  I hope you`ll enjoy this little gadget :)'
+
+    thing_manual_12:
+        __construct:
+            - 'Respirator-free reanimation Venturis valve'
+            - 'https://d2t1xqejof9utc.cloudfront.net/screenshots/pics/aebe250e265d32698b0a6a689de0e8a0/large.jpg'
+            - 'https://grabcad.com/library/respirator-free-reanimation-venturi-s-valve-1?fbclid=IwAR1deiw0Ud4STkWHQPTXHzAr_euZVuE_fXBBaOkXR4-DHrr61GhKktqtaHM'
+            - 'Ready-to-print Venturi`s valve for respirator-free mask!
+                  Non-profit project for SARS-cov-2 pandemy.
+
+                  Revision 2 (CFD-calculated) available:
+                  * FiO2 = ~33%
+                  * O2 sup. = 10LPM
+                  * Air out. = ~63LPM
+
+                  2x 25mm O.D. (air suction, patient)
+                  1x 5mm O.D. (oxygen)
+
+                  Volume of 3D model - 15133 mm3
+
+                  Revision 1 contains 3 Venturi Valves with:
+                  B = 0,12 ; 0,3 ; 0,5'
+
+    thing_manual_13:
+        __construct:
+            - 'Prusa Protective Face Shield'
+            - 'https://media.prusaprinters.org/thumbs/inside/1280x960/media/prints/25857/images/261613_7194822b-d479-4c81-b71a-1308a86ca866/stit_bij.jpg'
+            - 'https://www.prusaprinters.org/prints/25857-protective-face-shield-rc1/files'
+            - 'A prototype face shield that we developed. In three days, we went through dozens of prototypes and two verifications with the Czech Ministry of Health.
+
+               Version RC2
+               Changes from RC1:
+
+               Increased wall thickness (slightly stiffer and more durable)
+               Inner wall from 1.5 mm to 2 mm
+               Outer wall from 2 mm to 2.5 mm
+               The headband is no longer printed compressed - Lower pressure on the temple
+               The visor was moved further away from the forehead - This allows a better fit over bigger respirators and protective goggles
+               The printed part now has an extension for the visor (the visor curves less than the headband).
+               For now, both RC1 and RC2 versions are relevant. RC1 lets you fit more printed parts on a single print bed. However, if maximum yield isn’t the priority, RC2 provides slightly better protection and is more comfortable to wear.'
+
+    thing_manual_14:
+        __construct:
+            - 'NANOHACK'
+            - 'https://copper3d.com/wp-content/uploads/2020/03/despiece-e1584500024307.png'
+            - 'https://copper3d.com/hackthepandemic'
+            - 'ABOUT NANOHACK
+               Our innovation is inspired by the scarcest product these days, the famous and scarce N95 masks.
+
+               Basically, there is a breakdown in the global stock of this product, and it is a basic necessity, especially for Healthcare personnel who are at the forefront of fighting this disease. In many countries the authorities have also recommended the use of these masks (or similar) on public transport. These masks, despite being effective, also have some problems such as a short lifecycle (about 8 hours), and have another even more serious problem. Respiratory viruses, specifically SARS-Cov-2 (COVID-19) can live up to 72 hours on different surfaces. This is a problem since using a conventional mask, at the end of the day we would have a high viral/bacterial load trapped within millimeters of our nose and mouth, further exposing ourselves to these dangerous microbes.'
+
+    thing_manual_15:
+        __construct:
+            - 'COVID-19 MASK'
+            - 'https://cdn.thingiverse.com/assets/6f/37/5f/4b/bd/large_display_mockup.jpg'
+            - 'https://www.thingiverse.com/thing:4225667'
+            - 'This model has not been approved by any regulatory agency. Use it at your own risk, and only as a last resort, if you do not have any other homologated protection. The recommended measures to protect yourself from infection with the coronavirus COVID-19 are the following:
+
+               • Stay home and avoid contact with other people
+               • Avoid touching your face with your hands
+               • Wash your hands very often
+
+               Note: This model only includes the mask structure (3 pieces) but does not include the required filter to effectively block the spread of the virus. Also, additional isolation measures could be required to properly fit the face without air gaps. Please check the comments for more information shared by other users about the types of filters that could apply to a mask with these characteristics. The effectiveness of P3 particle filters has been mentioned, and probably also HEPA 12/13, but unfortunately we do not have the means of analysis necessary to confirm this with guarantees. Again we remind you to use this model at your own risk.'
+
+    thing_manual_16:
+        __construct:
+            - 'Cane by Me'
+            - 'https://thisables.com/wp-content/uploads/818X487_0002_CANE_BY_ME.jpg'
+            - 'https://thisables.com/en/patent/cane-by-me/'
+            - 'A rack used to place the walking cane next to the bed so that it is always available and easy to use.'
+

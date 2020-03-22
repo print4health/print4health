@@ -7,9 +7,9 @@ namespace App\Controller;
 use App\Dto\OrderIn;
 use App\Dto\OrderOut;
 use App\Entity\Order;
+use App\Entity\User;
 use App\Repository\OrderRepository;
 use App\Repository\ThingRepository;
-use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -17,16 +17,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class OrderController
 {
     private DenormalizerInterface $denormalizer;
+
     private EntityManagerInterface $entityManager;
+
     private Security $security;
+
     private OrderRepository $orderRepository;
+
     private ThingRepository $thingRepository;
 
     public function __construct(
@@ -76,9 +80,16 @@ class OrderController
      */
     public function createAction(Request $request): JsonResponse
     {
-        $jsonRequest = json_decode($request->getContent(), true);
+        $content = (string) $request->getContent();
+        $jsonRequest = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         if (null === $jsonRequest) {
             throw new BadRequestHttpException('No valid json');
+        }
+
+        /** @var User|null $user */
+        $user = $this->security->getUser();
+        if (null === $user) {
+            throw new AccessDeniedException(sprintf('Access Denied'));
         }
 
         /** @var OrderIn $orderIn */
@@ -93,10 +104,7 @@ class OrderController
             throw new NotFoundHttpException('No thing was found');
         }
 
-        $order = new Order();
-        $order->setQuantity($orderIn->quantity);
-        $order->setThing($thing);
-        $order->setUser($this->security->getUser());
+        $order = new Order($user, $thing, $orderIn->quantity);
 
         $this->entityManager->persist($order);
         $this->entityManager->flush();

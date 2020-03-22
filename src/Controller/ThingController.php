@@ -16,7 +16,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class ThingController
 {
@@ -25,7 +24,6 @@ class ThingController
     private ThingRepository $thingRepository;
 
     public function __construct(
-        NormalizerInterface $normalizer,
         DenormalizerInterface $denormalizer,
         EntityManagerInterface $entityManager,
         ThingRepository $thingRepository
@@ -68,7 +66,8 @@ class ThingController
      */
     public function createAction(Request $request): JsonResponse
     {
-        $jsonRequest = json_decode($request->getContent(), true);
+        $content = (string) $request->getContent();
+        $jsonRequest = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
 
         if (null === $jsonRequest) {
             throw new BadRequestHttpException();
@@ -77,7 +76,7 @@ class ThingController
         /** @var ThingIn $thingIn */
         $thingIn = $this->denormalizer->denormalize($jsonRequest, ThingIn::class);
 
-        $thing = new Thing($thingIn->name);
+        $thing = new Thing($thingIn->name, $thingIn->imageUrl, $thingIn->url, $thingIn->description);
 
         $this->entityManager->persist($thing);
         $this->entityManager->flush();
