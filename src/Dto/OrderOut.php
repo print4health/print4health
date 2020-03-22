@@ -5,13 +5,20 @@ declare(strict_types=1);
 namespace App\Dto;
 
 use App\Entity\Order;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 
 class OrderOut
 {
+    /** @SWG\Property(type="string") */
     public string $id;
+    /** @SWG\Property(type=@SWG\Schema(@Model(type=RequesterOut::class))) */
     public RequesterOut $requester;
+    /** @SWG\Property(type=@SWG\Schema(@Model(type=ThingOut::class))) */
     public ThingOut $thing;
+    /** @SWG\Property(type="integer") */
     public int $quantity;
+    /** @SWG\Property(type="integer") */
     public int $remaining;
 
     public static function createFromOrder(Order $order): self

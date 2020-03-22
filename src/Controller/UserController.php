@@ -31,9 +31,8 @@ class UserController
      * )
      * @SWG\Response(
      *     response=200,
-     *     description="Login successfull",
+     *     description="Current authenticated user",
      *     @SWG\Schema(
-     *         type="object",
      *         @SWG\Items(ref=@Model(type=UserDto::class))
      *     )
      * )

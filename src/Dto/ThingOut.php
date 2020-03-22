@@ -6,10 +6,13 @@ namespace App\Dto;
 
 use App\Entity\Thing;
 use Doctrine\ORM\EntityNotFoundException;
+use Swagger\Annotations as SWG;
 
 class ThingOut
 {
+    /** @SWG\Property(type="string") */
     public string $id;
+    /** @SWG\Property(type="string") */
     public string $name;
     public string $description;
     public string $url;

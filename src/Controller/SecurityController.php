@@ -76,7 +76,6 @@ class SecurityController
      *     response=200,
      *     description="Login successfull",
      *     @SWG\Schema(
-     *         type="object",
      *         @SWG\Items(ref=@Model(type=UserDto::class))
      *     )
      * )

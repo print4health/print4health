@@ -11,7 +11,9 @@ use App\Entity\User\Requester;
 use App\Repository\OrderRepository;
 use App\Repository\ThingRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -53,6 +55,14 @@ class OrderController
      *     name="order_list",
      *     methods={"GET"},
      *     format="json"
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Orders",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=OrderOut::class))
+     *     )
      * )
      */
     public function listAction(): JsonResponse
@@ -120,6 +130,13 @@ class OrderController
      *     name="order_show",
      *     methods={"GET"},
      *     format="json"
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Order",
+     *     @SWG\Schema(
+     *         @SWG\Items(ref=@Model(type=OrderOut::class))
+     *     )
      * )
      */
     public function showAction(string $uuid): JsonResponse
