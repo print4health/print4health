@@ -49,10 +49,7 @@ jobs:
     name: eslint
     runs-on: ubuntu-18.04
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: ESLint Action
-        uses: hallee/eslint-action@1.0.1
-        with:
-          secrets: "GITHUB_TOKEN"
+      -   uses: actions/checkout@v1
+      -   uses: stefanoeb/eslint-action@1.0.2
+          with:
+            files: assets/js
