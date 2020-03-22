@@ -31,6 +31,9 @@ export default function App() {
               <Link className="nav-link" to="/thing/list">Ersatzteile</Link>
             </li>
             <li className="nav-item mx-5">
+              <Link className="nav-link" to="/faq">FAQ</Link>
+            </li>
+            <li className="nav-item mx-5">
               <UserNav />
             </li>
           </ul>
