@@ -109,6 +109,10 @@ class SecurityController
      *     name="security_logout",
      *     methods={"GET"}
      * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Logout successfull",
+     * )
      */
     public function logout(): RedirectResponse
     {

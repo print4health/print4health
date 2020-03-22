@@ -5,5 +5,9 @@ nelmio_api_doc:
             description: ~
             version: 1.0.0
     areas:
-        path_patterns:
-            - ^/(login|request-password-reset|reset-password|user)
+        default:
+            path_patterns:
+                - ^/(login|logout|request-password-reset|reset-password)
+                - ^/(user)
+                - ^/(orders)
+                - ^/(things)
