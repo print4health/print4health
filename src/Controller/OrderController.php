@@ -93,7 +93,8 @@ class OrderController
      * )
      * @SWG\Response(
      *     response=201,
-     *     description="Order successfully created"
+     *     description="Order successfully created",
+     *     @Model(type=OrderOut::class)
      * )
      * @SWG\Response(
      *     response=400,
