@@ -23,9 +23,6 @@ export default function App() {
               <li className="nav-item">
                 <Link className="nav-link" to="/thing/list">Ersatzteile</Link>
               </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/users">Users</Link>
-              </li>
             </ul>
 
             <ul className="float-right navbar-nav mr-auto">
@@ -81,16 +78,4 @@ export default function App() {
       </div>
     </Router>
   );
-}
-
-function About() {
-  return <h2>About</h2>;
-}
-
-function Faq() {
-  return <h2>Faq</h2>;
-}
-
-function Legal() {
-  return <h2>Legal</h2>;
 }
