@@ -1,7 +1,6 @@
 import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
@@ -22,7 +21,7 @@ class Login extends React.Component {
     this.setState({ error: '' });
     e.preventDefault();
     axios.post(Config.apiBasePath + '/login', this.state)
-      .then(function (response) {
+      .then(function () {
         self.setState({
           redirectHome: true,
         });
