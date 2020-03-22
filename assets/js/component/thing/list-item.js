@@ -12,7 +12,6 @@ class ThingListItem extends React.Component {
     };
   }
 
-
   render() {
     if (this.props.thing === undefined) {
       return (<div className="alert alert-danger">Thing Error</div>);
