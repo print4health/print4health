@@ -14,7 +14,6 @@ import ThingListContainer from './container/thing/list';
 import ThingDetailContainer from './container/thing/detail';
 import LoginModal from './component/modal/login';
 import logo from '../logo-print4health-org.svg';
-import Search from './component/search/search';
 import Faq from './container/faq/faq';
 
 export default function App() {
@@ -40,14 +39,7 @@ export default function App() {
         </div>
       </nav>
 
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-sm"></div>
-          <div className="col-xl-6">
-            <Search />
-          </div>
-          <div className="col-sm"></div>
-        </div>
+      <div className="container-fluid pt-3">
         <div className="row">
           <div className="col-sm"></div>
           <div className="col-xl-12">
