@@ -52,8 +52,8 @@ class ThingList extends React.Component {
         <div className="container">
           <div className="row">
               {things.map((thing, idx) => (
-              <div className="col-md-4">
-                <ThingListItem key={idx} thing={thing} />
+              <div className="col-md-4" key={idx} >
+                <ThingListItem thing={thing} />
               </div>
               ))}
           </div>
