@@ -89,7 +89,7 @@ class SecurityController
     public function login(Request $request): JsonResponse
     {
         if ('json' !== $request->getContentType()) {
-            throw new BadRequestHttpException();
+            throw new BadRequestHttpException('Content-Type is\'nt "application/json".');
         }
 
         /** @var UserInterface $user */
