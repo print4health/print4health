@@ -6,7 +6,7 @@ namespace App\Controller;
 
 use App\Dto\ResetPassword;
 use App\Dto\ResetPasswordTokenRequest;
-use App\Entity\User;
+use App\Entity\User\UserInterface;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -66,7 +66,7 @@ class SecurityController
             throw new BadRequestHttpException();
         }
 
-        /** @var User $user */
+        /** @var UserInterface $user */
         $user = $this->security->getUser();
 
         return new JsonResponse([
@@ -134,7 +134,7 @@ class SecurityController
             return new JsonResponse(['errors' => $errors], 400);
         }
 
-        /** @var User|null $user */
+        /** @var UserInterface|null $user */
         $user = $this->userRepository->findOneByEmail($resetPasswordTokenRequest->email);
         if (null === $user) {
             return new JsonResponse(['errors' => ['User not found']], 400);
@@ -200,7 +200,7 @@ class SecurityController
             return new JsonResponse(['errors' => $errors], 400);
         }
 
-        /** @var User|null $user */
+        /** @var UserInterface|null $user */
         $user = $this->userRepository->findOneByPasswordResetToken($resetPassword->token);
         if (null === $user) {
             return new JsonResponse(['errors' => ['Invalid Token']], 400);

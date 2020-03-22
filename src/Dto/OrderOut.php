@@ -9,7 +9,7 @@ use App\Entity\Order;
 class OrderOut
 {
     public string $id;
-    public User $user;
+    public RequesterOut $requester;
     public ThingOut $thing;
     public int $quantity;
     public int $remaining;
@@ -19,7 +19,7 @@ class OrderOut
         $self = new self();
 
         $self->id = $order->getId();
-        $self->user = User::createFromUser($order->getUser());
+        $self->requester = RequesterOut::createFromRequester($order->getRequester());
         $self->thing = ThingOut::createFromThing($order->getThing());
 
         $self->quantity = $order->getQuantity();

@@ -1,4 +1,4 @@
-App\Entity\User:
+App\Entity\User\User:
     user_default:
         email: 'user@print4health.org'
         password: 'test'

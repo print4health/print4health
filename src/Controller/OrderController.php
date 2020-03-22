@@ -7,7 +7,7 @@ namespace App\Controller;
 use App\Dto\OrderIn;
 use App\Dto\OrderOut;
 use App\Entity\Order;
-use App\Entity\User;
+use App\Entity\User\Requester;
 use App\Repository\OrderRepository;
 use App\Repository\ThingRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -76,7 +76,7 @@ class OrderController
      *     format="json"
      * )
      *
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_REQUESTER")
      */
     public function createAction(Request $request): JsonResponse
     {
@@ -86,9 +86,9 @@ class OrderController
             throw new BadRequestHttpException('No valid json');
         }
 
-        /** @var User|null $user */
-        $user = $this->security->getUser();
-        if (null === $user) {
+        /** @var Requester|null $requester */
+        $requester = $this->security->getUser();
+        if (null === $requester) {
             throw new AccessDeniedException(sprintf('Access Denied'));
         }
 
@@ -104,7 +104,7 @@ class OrderController
             throw new NotFoundHttpException('No thing was found');
         }
 
-        $order = new Order($user, $thing, $orderIn->quantity);
+        $order = new Order($requester, $thing, $orderIn->quantity);
 
         $this->entityManager->persist($order);
         $this->entityManager->flush();

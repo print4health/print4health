@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\User\Requester;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,10 +23,10 @@ class Order
     private string $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="orders")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User\Requester", inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
      */
-    private User $user;
+    private Requester $requester;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Thing", inversedBy="orders")
@@ -49,11 +50,11 @@ class Order
      */
     private \DateTimeImmutable $createdAt;
 
-    public function __construct(User $user, Thing $thing, int $quantity)
+    public function __construct(Requester $requester, Thing $thing, int $quantity)
     {
         $this->id = Uuid::uuid4()->toString();
         $this->commitments = new ArrayCollection();
-        $this->user = $user;
+        $this->requester = $requester;
         $this->thing = $thing;
         $this->quantity = $quantity;
         $this->createdAt = new \DateTimeImmutable();
@@ -64,14 +65,14 @@ class Order
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getRequester(): ?Requester
     {
-        return $this->user;
+        return $this->requester;
     }
 
-    public function setUser(User $user): self
+    public function setRequester(Requester $requester): self
     {
-        $this->user = $user;
+        $this->requester = $requester;
 
         return $this;
     }
