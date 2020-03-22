@@ -177,5 +177,5 @@ class Faq extends React.Component {
       </div>
     );
   }
-};
+}
 export default Faq;
