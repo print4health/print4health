@@ -1,6 +1,7 @@
 import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
+import $ from 'jquery';
 
 class UserNav extends React.Component {
   constructor(props) {
@@ -27,13 +28,25 @@ class UserNav extends React.Component {
       });
   }
 
+  handleLogout(event) {
+    axios.get(Config.apiBasePath + '/logout')
+      .then(function () {
+        window.location.reload(true);
+      });
+  }
+
   render() {
     const { loggedIn, email } = this.state;
     if (loggedIn === null) {
       return <span></span>;
     }
     if (loggedIn === true) {
-      return <span>{email} <a href="/logout">logout</a></span>;
+      return <span>
+        {email}
+        <a className="btn btn-primary" onClick={this.handleLogout}>
+          logout
+        </a>
+      </span>;
     }
     return (
       <span>

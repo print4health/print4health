@@ -1,6 +1,7 @@
 import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
+import $ from 'jquery';
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -22,6 +23,8 @@ class LoginModal extends React.Component {
     e.preventDefault();
     axios.post(Config.apiBasePath + '/login', this.state)
       .then(function () {
+        $('#modal-login').modal('hide');
+        window.location.reload(true);
         self.setState({
           redirectHome: true,
         });
@@ -40,11 +43,6 @@ class LoginModal extends React.Component {
   }
 
   render() {
-
-    if (this.state.redirectHome) {
-      return window.location.href = '/';
-    }
-
     return (
       <div className="modal fade" id="modal-login" tabIndex="-1" role="dialog">
         <form onSubmit={this.handleSubmit}>
