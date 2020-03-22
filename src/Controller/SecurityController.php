@@ -149,7 +149,7 @@ class SecurityController
         $email = (new Email())
             ->from('noreply@print4health.org')
             ->to($resetPasswordTokenRequest->email)
-            ->subject('Print4Health Passwort zurücksetzen')
+            ->subject('print4health Passwort zurücksetzen')
             ->html($body)
         ;
 

@@ -1,4 +1,4 @@
-print4health.org
+print4health
 ====================
 
 DEVELOPMENT
@@ -11,7 +11,7 @@ DEVELOPMENT
 ### Startup
 
 ```bash
-git clone git@github.com:bartrail/print4health
+git clone git@github.com:print4health/print4health
 cd print4health
 vagrant up
 vagrant ssh
@@ -38,6 +38,8 @@ http://dev.print4health.org/#/login
 
 MailDev/MailCatcher: http://localhost:1080
 
+
 PRODUCTION
 ----------
-... 
+
+http://print4health.org/ 
