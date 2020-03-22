@@ -1,4 +1,4 @@
-print4health.org
+print4health
 ====================
 
 DEVELOPMENT
@@ -38,6 +38,8 @@ http://dev.print4health.org/#/login
 
 MailDev/MailCatcher: http://localhost:1080
 
+
 PRODUCTION
 ----------
-... 
+
+http://print4health.org/ 
