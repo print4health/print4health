@@ -30,9 +30,9 @@ class Index extends React.Component {
           <div className="row">
             <div className="col-sm">
             <div className="card shadow-sm">
-            <div classname="card-body">
+            <div className="card-body">
               <h5 className="card-title">Bist du Krankenhaus?</h5>
-              <p class="card-text">
+              <p className="card-text">
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
@@ -48,9 +48,9 @@ class Index extends React.Component {
             </div>
             <div className="col-sm">
             <div className="card shadow-sm">
-              <div classname="card-body">
+              <div className="card-body">
               <h5 className="card-title">Hast du Drucker?</h5>
-              <p class="card-text">
+              <p className="card-text">
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
@@ -66,9 +66,9 @@ class Index extends React.Component {
             </div>
             <div className="col-sm">
             <div className="card shadow-sm">
-            <div classname="card-body">
+            <div className="card-body">
               <h5 className="card-title">Kannst du designen?</h5>
-              <p class="card-text">
+              <p className="card-text">
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
@@ -84,9 +84,9 @@ class Index extends React.Component {
             </div>
             <div className="col-sm">
             <div className="card shadow-sm">
-            <div classname="card-body">
+            <div className="card-body">
               <h5 className="card-title">Bist du Medi?</h5>
-              <p class="card-text">
+              <p className="card-text">
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum
               lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum lorem Ipsum

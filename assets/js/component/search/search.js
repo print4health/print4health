@@ -8,9 +8,6 @@ class Search extends React.Component {
   }
 
   render() {
-  /*  if (this.props.thing === undefined) {
-      return (<div className="alert alert-danger">Thing Error</div>);
-    }*/
     return (
       <div className="input-group searchbar">
         <input type="text" className="form-control" placeholder={searchPlaceholder} aria-describedby="lupe"/>

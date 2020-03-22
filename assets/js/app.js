@@ -13,7 +13,6 @@ import UserNav from './component/user/user-nav';
 import ThingListContainer from './container/thing/list';
 import ThingDetailContainer from './container/thing/detail';
 import LoginModal from './component/modal/login';
-import ThingList from './container/thing-list/thing-list';
 import logo from '../logo-print4health-org.svg';
 import Search from './component/search/search';
 
@@ -36,7 +35,6 @@ export default function App() {
             <li className="nav-item">
               <UserNav />
             </li>
-            l
           </ul>
         </div>
       </nav>
@@ -69,6 +67,9 @@ export default function App() {
           </div>
         </div>
         <LoginModal />
+      </div>
+      <div className="footer">
+        <Link className="nav-link" to="/legal">Impressum</Link>
       </div>
     </Router>
   );
