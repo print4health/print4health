@@ -152,9 +152,7 @@ class OrderController
      * @SWG\Response(
      *     response=200,
      *     description="Order",
-     *     @SWG\Schema(
-     *         @SWG\Items(ref=@Model(type=OrderOut::class))
-     *     )
+     *     @Model(type=OrderOut::class)
      * )
      */
     public function showAction(string $uuid): JsonResponse

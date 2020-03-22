@@ -32,9 +32,7 @@ class UserController
      * @SWG\Response(
      *     response=200,
      *     description="Current authenticated user",
-     *     @SWG\Schema(
-     *         @SWG\Items(ref=@Model(type=UserDto::class))
-     *     )
+     *     @Model(type=UserDto::class)
      * )
      * @SWG\Response(
      *     response=401,

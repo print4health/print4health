@@ -14,8 +14,11 @@ class ThingOut
     public string $id;
     /** @SWG\Property(type="string") */
     public string $name;
+    /** @SWG\Property(type="string") */
     public string $description;
+    /** @SWG\Property(type="string") */
     public string $url;
+    /** @SWG\Property(type="string") */
     public string $imageUrl;
     public int $needed = 0;
     public int $printed = 0;
