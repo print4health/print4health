@@ -11,6 +11,7 @@ use App\Repository\OrderRepository;
 use App\Repository\ThingRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -22,23 +23,19 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 class OrderController
 {
-    private NormalizerInterface $normalizer;
     private DenormalizerInterface $denormalizer;
     private EntityManagerInterface $entityManager;
     private Security $security;
     private OrderRepository $orderRepository;
     private ThingRepository $thingRepository;
-    private UserRepository $userRepository;
 
     public function __construct(
-        NormalizerInterface $normalizer,
         DenormalizerInterface $denormalizer,
         EntityManagerInterface $entityManager,
         Security $security,
         OrderRepository $orderRepository,
         ThingRepository $thingRepository
     ) {
-        $this->normalizer = $normalizer;
         $this->denormalizer = $denormalizer;
         $this->entityManager = $entityManager;
         $this->security = $security;
@@ -49,17 +46,19 @@ class OrderController
     /**
      * @Route(
      *     "/orders",
-     *     methods={"GET"}
+     *     name="order_list",
+     *     methods={"GET"},
+     *     format="json"
      * )
      */
-    public function all(): JsonResponse
+    public function listAction(): JsonResponse
     {
         $orders = $this->orderRepository->findAll();
 
         $response = ['orders' => []];
 
         foreach ($orders as $order) {
-            $response['orders'][] = $this->normalizer->normalize(OrderOut::createFromOrder($order));
+            $response['orders'][] = OrderOut::createFromOrder($order);
         }
 
         return new JsonResponse($response);
@@ -68,16 +67,18 @@ class OrderController
     /**
      * @Route(
      *     "/orders",
+     *     name="order_create",
      *     methods={"POST"},
      *     format="json"
      * )
+     *
+     * @IsGranted("ROLE_USER")
      */
-    public function create(Request $request): JsonResponse
+    public function createAction(Request $request): JsonResponse
     {
-        $jsonRequest = json_decode((string) $request->getContent(), true);
-
+        $jsonRequest = json_decode($request->getContent(), true);
         if (null === $jsonRequest) {
-            throw new BadRequestHttpException();
+            throw new BadRequestHttpException('No valid json');
         }
 
         /** @var OrderIn $orderIn */
@@ -102,16 +103,18 @@ class OrderController
 
         $orderOut = OrderOut::createFromOrder($order);
 
-        return new JsonResponse(['order' => $orderOut]);
+        return new JsonResponse(['order' => $orderOut], 201);
     }
 
     /**
      * @Route(
      *     "/orders/{uuid}",
-     *     methods={"GET"}
+     *     name="order_show",
+     *     methods={"GET"},
+     *     format="json"
      * )
      */
-    public function get(string $uuid): JsonResponse
+    public function showAction(string $uuid): JsonResponse
     {
         $order = $this->orderRepository->find($uuid);
 

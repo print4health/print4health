@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
+use App\Entity\Thing;
 use Doctrine\ORM\EntityNotFoundException;
 
-class Thing
+class ThingOut
 {
     public string $id;
     public string $name;
 
-    public static function createFromThing(?\App\Entity\Thing $thing): self
+    public static function createFromThing(?Thing $thing): self
     {
-        if (!$thing instanceof \App\Entity\Thing) {
+        if (!$thing instanceof Thing) {
             throw new EntityNotFoundException('Thing is empty');
         }
 

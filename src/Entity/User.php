@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
@@ -34,6 +35,16 @@ class User implements UserInterface
      * @ORM\Column
      */
     private string $password;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $passwordResetToken;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private ?DateTimeImmutable $passwordResetTokenCreatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="user", orphanRemoval=true)
@@ -105,6 +116,23 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function createPasswordResetToken(): void
+    {
+        $this->passwordResetToken = Uuid::uuid4()->toString();
+        $this->passwordResetTokenCreatedAt = new DateTimeImmutable();
+    }
+
+    public function erasePasswordResetToken(): void
+    {
+        $this->passwordResetToken = null;
+        $this->passwordResetTokenCreatedAt = null;
+    }
+
+    public function getPasswordResetToken(): ?string
+    {
+        return $this->passwordResetToken;
     }
 
     /**

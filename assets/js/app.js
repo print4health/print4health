@@ -6,6 +6,8 @@ import {
   Link
 } from "react-router-dom";
 import Index from './container/index/index';
+import Login from './container/login/login';
+import UserNav from './component/user/user-nav';
 
 export default function App() {
   return (
@@ -24,18 +26,18 @@ export default function App() {
                 <Link className="nav-link" to="/users">Users</Link>
               </li>
             </ul>
+
+            <ul className="float-right navbar-nav mr-auto">
+              <li className="nav-item">
+                <UserNav/>
+              </li>
+            </ul>
           </div>
         </nav>
-
-        {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
             <div className="container">
               <Switch>
-                <Route path="/">
-                  <Index />
-                </Route>
                 <Route path="/login">
-                  <Index />
+                  <Login />
                 </Route>
                 <Route path="/request-reset-password">
                   <Index />
@@ -69,6 +71,9 @@ export default function App() {
                 </Route>
                 <Route path="/legal">
                   <Legal />
+                </Route>
+                <Route path="/">
+                  <Index />
                 </Route>
               </Switch>
             </div>
