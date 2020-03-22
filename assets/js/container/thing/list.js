@@ -46,13 +46,32 @@ class ThingListContainer extends React.Component {
             <Search />
           </div>
         </div>
-        <div className="row">
+        <div className="row mt-5">
           <div className="col">
-            <h2>Verfügbare 3D-Modelle / Ersatzteile</h2>
+            <h2>Bedarf</h2>
             <p>
-              Diese 3D Modelle wurden bisher von unserem Team ausgewählt und stehen für...
-              Lorem Ipsum Dolor sid
+              Du benötigst dringend Infektionsschutz oder Ersatzteile für Geräte?
             </p>
+            <p>
+              Hier findest Du eine Übersicht der druckbaren Produkte.<br />
+              Für diese Produkte existieren bereits Vorlagen, um eine direkte Fertigung zu realisieren.
+            </p>
+            <p>
+              Die schon gedruckten Teile sind in grün gekennzeichnet!
+            </p>
+            <h3>Für dein gewünschtes Produkt existiert noch keine Druckvorlage?</h3>
+            <p>
+              Wende dich mit den Anforderungen an unsere Community und entwickle gemeinsam die Druckvorlage für deinen konkreten Anwendungsfall.
+            </p>
+
+            <p>
+              Dein Drucker steht noch still? Dann schaue hier, ob Du Deine Kapazität einsetzten kannst!
+            </p>
+            <p>
+              Besteht bei bestimmten Produkten noch Druckbedarf, so ist dies in rot gekennzeichnet. Hilf mit die
+              bestehende Nachfrage nach den benötigten Produkten zu decken!
+            </p>
+
           </div>
         </div>
         <div className="row">
@@ -61,8 +80,8 @@ class ThingListContainer extends React.Component {
           </div>
         </div>
       </div>
-    );
+  );
   }
-}
+  }
 
-export default ThingListContainer;
+  export default ThingListContainer;

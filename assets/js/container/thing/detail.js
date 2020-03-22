@@ -51,13 +51,21 @@ class ThingDetailContainer extends React.Component {
 
     return (
       <div>
-        <h2>
-          {thing.name}
-        </h2>
-        <img src={thing.imageUrl} alt={thing.name} className="img-fluid" />
-        <p>
-          {thing.description}
-        </p>
+        <div className="row">
+          <div className="col-md-3">
+            <h2>{thing.name}</h2>
+            <div className="description">
+              <p>{thing.description}</p>
+            </div>
+            <img src={thing.imageURL} alt={thing.name} />
+          </div>
+          <div className="col-md-6">
+            deutschland karte
+          </div>
+          <div className="col-md-3">
+
+          </div>
+        </div>
       </div>
     );
   }
