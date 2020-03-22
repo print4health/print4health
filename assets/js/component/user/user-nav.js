@@ -1,6 +1,5 @@
 import React from 'react';
 import { Config } from '../../config';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 class UserNav extends React.Component {
@@ -28,17 +27,31 @@ class UserNav extends React.Component {
       });
   }
 
+  handleLogout() {
+    axios.get(Config.apiBasePath + '/logout')
+      .then(function () {
+        window.location.reload(true);
+      });
+  }
+
   render() {
     const { loggedIn, email } = this.state;
     if (loggedIn === null) {
       return <span></span>;
     }
     if (loggedIn === true) {
-      return <span>{email} <a href="/logout">logout</a></span>;
+      return <span>
+        {email}
+        <a className="btn btn-primary" onClick={this.handleLogout}>
+          logout
+        </a>
+      </span>;
     }
     return (
       <span>
-          <Link className="nav-link" to="/login">Login</Link>
+        <a className="btn btn-primary" data-toggle="modal" data-target="#modal-login">
+          login
+        </a>
        </span>
     );
   }

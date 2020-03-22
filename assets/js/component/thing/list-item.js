@@ -1,55 +1,38 @@
 import React from 'react';
-import {Config} from '../../config';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class ThingListItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      error: null,
-      isLoaded: false,
-      items: []
+  }
+
+  static get propTypes() {
+    return {
+      thing: PropTypes.object,
     };
   }
 
-  componentDidMount() {
-    fetch(Config.apiBasePath + '/things.json')
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            items: result.items
-          });
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-  }
-
   render() {
-    const { error, isLoaded, items } = this.state;
-    if (error) {
-      return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
-      return <div>Loading...</div>;
-    } else {
-      return (
-        <ul>
-          {items.map(item => (
-            <li key={item.name}>
-              {item.name} {item.price}
-            </li>
-          ))}
-        </ul>
-      );
+    if (this.props.thing === undefined) {
+      return (<div className="alert alert-danger">Thing Error</div>);
     }
+
+    return (
+      <div className="card">
+        <div className="card-block">
+          <Link to={'/thing/' + this.props.thing.id}>
+            <img src={this.props.thing.imageUrl} alt={this.props.thing.name} className="img-fluid" />
+          </Link>
+          <div className="card-body">
+            <h5 className="cardTitle">{this.props.thing.name}</h5>
+            <p className="card-text">
+              {this.props.thing.description}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
