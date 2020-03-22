@@ -1,6 +1,5 @@
 import React from 'react';
 import { Config } from '../../config';
-import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 class UserNav extends React.Component {
@@ -38,7 +37,9 @@ class UserNav extends React.Component {
     }
     return (
       <span>
-          <Link className="nav-link" to="/login">Login</Link>
+        <a className="btn btn-primary" data-toggle="modal" data-target="#modal-login">
+          login
+        </a>
        </span>
     );
   }
