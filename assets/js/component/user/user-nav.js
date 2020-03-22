@@ -1,43 +1,40 @@
 import React from 'react';
 import { Config } from '../../config';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class UserNav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loggedIn: false,
+      loggedIn: null,
       email: '',
     };
   }
 
   componentDidMount() {
-    console.log('asd');
-    fetch(Config.apiBasePath + '/user/profile')
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            loggedIn: true,
-            email: result.email,
-          });
-        },
-        () => {
-          this.setState({
-            loggedIn: false,
-            email: '',
-          });
-        },
-      );
+    axios.get(Config.apiBasePath + '/user/profile')
+      .then((res) => {
+        this.setState({
+          loggedIn: true,
+          email: res.data.email,
+        });
+      })
+      .catch(() => {
+        this.setState({
+          loggedIn: false,
+          email: '',
+        });
+      });
   }
 
   render() {
     const { loggedIn, email } = this.state;
-    if (loggedIn) {
-      return <span>hello {email}, <a href="/logout">logout</a></span>;
-    }  else {
+    if (loggedIn === true) {
+      return <span>{email} <a href="/logout">logout</a></span>;
+    } else {
       return (
-       <span>
+        <span>
           <Link className="nav-link" to="/login">Login</Link>
        </span>
       );
