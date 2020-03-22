@@ -25,16 +25,37 @@ class Thing
     private string $name;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private string $description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $url;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $imageUrl;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="thing")
      */
     private $orders;
 
     public function __construct(
-        string $name
+        string $name,
+        string $imageUrl,
+        string $url,
+        string $description
     ) {
         $this->name = $name;
         $this->id = Uuid::uuid4()->toString();
         $this->orders = new ArrayCollection();
+        $this->imageUrl = $imageUrl;
+        $this->url = $url;
+        $this->description = $description;
     }
 
     public function getId(): ?string
