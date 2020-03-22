@@ -15,6 +15,7 @@ import ThingDetailContainer from './container/thing/detail';
 import LoginModal from './component/modal/login';
 import logo from '../logo-print4health-org.svg';
 import Search from './component/search/search';
+import Faq from './container/faq/faq';
 
 export default function App() {
   return (
@@ -56,7 +57,7 @@ export default function App() {
               <Route path="/thing/list" component={ThingListContainer} />
               <Route path="/thing/:id" component={ThingDetailContainer} />
               <Route path="/thing/:id/create-order" component={Index} />
-              <Route path="/faq" component={Index} />
+              <Route path="/faq" component={Faq} />
               <Route path="/about" component={Index} />
               <Route path="/legal" component={Index} />
               <Route path="/" component={Index} />
