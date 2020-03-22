@@ -40,14 +40,16 @@ class ThingListContainer extends React.Component {
     }
     return (
       <div>
-        <h2>Verfügbare 3D-Modelle / Ersatzteile</h2>
-        <p>
-          Diese 3D Modelle wurden bisher von unserem Team ausgewählt und stehen für...
-          Lorem Ipsum Dolor sid
-        </p>
-        <div className="container">
-          <ThingList things={things} />
+        <div className="row">
+          <div className="col">
+            <h2>Verfügbare 3D-Modelle / Ersatzteile</h2>
+            <p>
+              Diese 3D Modelle wurden bisher von unserem Team ausgewählt und stehen für...
+              Lorem Ipsum Dolor sid
+            </p>
+          </div>
         </div>
+        <ThingList things={things} />
       </div>
     );
   }
