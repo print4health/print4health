@@ -15,21 +15,23 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class CommitmentController
 {
     private OrderRepository $orderRepository;
-    private DenormalizerInterface $denormalizer;
+    private SerializerInterface $serializer;
     private EntityManagerInterface $entityManager;
 
     public function __construct(
         OrderRepository $orderRepository,
-        DenormalizerInterface $denormalizer,
+        SerializerInterface $serializer,
         EntityManagerInterface $entityManager
     ) {
         $this->orderRepository = $orderRepository;
-        $this->denormalizer = $denormalizer;
+        $this->serializer = $serializer;
         $this->entityManager = $entityManager;
     }
 
@@ -42,14 +44,12 @@ class CommitmentController
      */
     public function create(Request $request): JsonResponse
     {
-        $jsonRequest = json_decode((string) $request->getContent(), true);
-
-        if (null === $jsonRequest) {
-            throw new BadRequestHttpException();
+        try {
+            /** @var CommitmentIn $commitmentIn */
+            $commitmentIn = $this->serializer->deserialize($request->getContent(), CommitmentIn::class, JsonEncoder::FORMAT);
+        } catch (NotEncodableValueException $notEncodableValueException) {
+            throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
-
-        /** @var CommitmentIn $commitmentIn */
-        $commitmentIn = $this->denormalizer->denormalize($jsonRequest, CommitmentIn::class);
 
         $order = $this->orderRepository->find($commitmentIn->orderId);
 

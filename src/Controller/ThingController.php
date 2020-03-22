@@ -15,20 +15,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class ThingController
 {
-    private DenormalizerInterface $denormalizer;
+    private SerializerInterface $serializer;
     private EntityManagerInterface $entityManager;
     private ThingRepository $thingRepository;
 
     public function __construct(
-        DenormalizerInterface $denormalizer,
+        SerializerInterface $serializer,
         EntityManagerInterface $entityManager,
         ThingRepository $thingRepository
     ) {
-        $this->denormalizer = $denormalizer;
+        $this->serializer = $serializer;
         $this->entityManager = $entityManager;
         $this->thingRepository = $thingRepository;
     }
@@ -66,15 +68,12 @@ class ThingController
      */
     public function createAction(Request $request): JsonResponse
     {
-        $content = (string) $request->getContent();
-        $jsonRequest = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-
-        if (null === $jsonRequest) {
-            throw new BadRequestHttpException();
+        try {
+            /** @var ThingIn $thingIn */
+            $thingIn = $this->serializer->deserialize($request->getContent(), ThingIn::class, JsonEncoder::FORMAT);
+        } catch (NotEncodableValueException $notEncodableValueException) {
+            throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
-
-        /** @var ThingIn $thingIn */
-        $thingIn = $this->denormalizer->denormalize($jsonRequest, ThingIn::class);
 
         $thing = new Thing($thingIn->name, $thingIn->imageUrl, $thingIn->url, $thingIn->description);
 
