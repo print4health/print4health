@@ -43,7 +43,7 @@ class ThingList extends React.Component {
       return <div>Loading...</div>;
     }
     return (
-      <div>
+      <div className="container">
         <h2>Verfügbare 3D-Modelle / Ersatzteile</h2>
         <p>
           Diese 3D Modelle wurden bisher von unserem Team ausgewählt und stehen für...

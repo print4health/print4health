@@ -1,5 +1,43 @@
-@import '~bootstrap';
-
 html{
     height: 100%;
 }
+
+.logo{
+    width: 175px;
+    height: 175px;
+}
+
+.navbar-nav.navbar-center {
+    position: absolute;
+    left: 50%;
+    transform: translatex(-50%);
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+}
+
+.navbar-nav li {
+  display: inline-block;
+  float: none;
+}
+
+.navbar-light {
+    background-color: #ffffff;
+    height: 75px;
+}
+
+.mainarea {
+    align-self: center;
+}
+
+.searchbar {
+  background-color: #f8f8f8;
+  position: absolute;
+  left: 50%;
+  transform: translatex(-50%);
+}
+
+@import "partials/variables";
+@import '~bootstrap';
