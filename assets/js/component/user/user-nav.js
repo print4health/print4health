@@ -1,7 +1,6 @@
 import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
-import $ from 'jquery';
 
 class UserNav extends React.Component {
   constructor(props) {
@@ -28,7 +27,7 @@ class UserNav extends React.Component {
       });
   }
 
-  handleLogout(event) {
+  handleLogout() {
     axios.get(Config.apiBasePath + '/logout')
       .then(function () {
         window.location.reload(true);
