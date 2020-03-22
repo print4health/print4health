@@ -21,9 +21,9 @@ class OrderOut
         $self->id = $order->getId();
         $self->user = User::createFromUser($order->getUser());
         $self->thing = ThingOut::createFromThing($order->getThing());
-        $self->quantity = $order->getQuantity();
 
-        $self->remaining = $order->getQuantity();
+        $self->quantity = $order->getQuantity();
+        $self->remaining = $order->getRemaining();
 
         $commitments = $order->getCommitments();
         foreach ($commitments as $commitment) {

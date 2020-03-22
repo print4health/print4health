@@ -58,12 +58,12 @@ class Thing
         $this->description = $description;
     }
 
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -88,19 +88,6 @@ class Thing
         if (!$this->orders->contains($order)) {
             $this->orders[] = $order;
             $order->setThing($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrder(Order $order): self
-    {
-        if ($this->orders->contains($order)) {
-            $this->orders->removeElement($order);
-            // set the owning side to null (unless already changed)
-            if ($order->getThing() === $this) {
-                $order->setThing(null);
-            }
         }
 
         return $this;

@@ -34,39 +34,27 @@ class Commitment
      */
     private \DateTimeImmutable $createdAt;
 
-    public function __construct()
+    public function __construct(Order $order, int $quantity)
     {
         $this->id = Uuid::uuid4()->toString();
+        $this->order = $order;
+        $this->quantity = $quantity;
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->id;
     }
 
-    public function getOrder(): ?Order
+    public function getOrder(): Order
     {
         return $this->order;
     }
 
-    public function setOrder(?Order $order): self
-    {
-        $this->order = $order;
-
-        return $this;
-    }
-
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
     }
 
     public function getCreatedAt(): \DateTimeImmutable

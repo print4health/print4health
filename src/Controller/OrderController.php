@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Dto\OrderIn;
 use App\Dto\OrderOut;
 use App\Entity\Order;
+use App\Entity\User;
 use App\Repository\OrderRepository;
 use App\Repository\ThingRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,15 +17,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 
 class OrderController
 {
     private DenormalizerInterface $denormalizer;
+
     private EntityManagerInterface $entityManager;
+
     private Security $security;
+
     private OrderRepository $orderRepository;
+
     private ThingRepository $thingRepository;
 
     public function __construct(
@@ -80,6 +86,12 @@ class OrderController
             throw new BadRequestHttpException('No valid json');
         }
 
+        /** @var User|null $user */
+        $user = $this->security->getUser();
+        if (null === $user) {
+            throw new AccessDeniedException(sprintf('Access Denied'));
+        }
+
         /** @var OrderIn $orderIn */
         $orderIn = $this->denormalizer->denormalize($jsonRequest, OrderIn::class);
 
@@ -92,10 +104,7 @@ class OrderController
             throw new NotFoundHttpException('No thing was found');
         }
 
-        $order = new Order();
-        $order->setQuantity($orderIn->quantity);
-        $order->setThing($thing);
-        $order->setUser($this->security->getUser());
+        $order = new Order($user, $thing, $orderIn->quantity);
 
         $this->entityManager->persist($order);
         $this->entityManager->flush();

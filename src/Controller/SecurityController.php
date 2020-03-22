@@ -84,7 +84,11 @@ class SecurityController
      */
     public function logout(): RedirectResponse
     {
-        $this->security->getToken()->setAuthenticated(false);
+        $token = $this->security->getToken();
+        if (null === $token) {
+            return new RedirectResponse($this->router->generate('home'));
+        }
+        $token->setAuthenticated(false);
 
         return new RedirectResponse($this->router->generate('home'));
     }

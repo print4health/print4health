@@ -47,14 +47,17 @@ class Order
      */
     private \DateTimeImmutable $createdAt;
 
-    public function __construct()
+    public function __construct(User $user, Thing $thing, int $quantity)
     {
         $this->id = Uuid::uuid4()->toString();
         $this->commitments = new ArrayCollection();
+        $this->user = $user;
+        $this->thing = $thing;
+        $this->quantity = $quantity;
         $this->createdAt = new \DateTimeImmutable();
     }
 
-    public function getId(): ?string
+    public function getId(): string
     {
         return $this->id;
     }
@@ -64,35 +67,28 @@ class Order
         return $this->user;
     }
 
-    public function setUser(?User $user): self
+    public function setUser(User $user): self
     {
         $this->user = $user;
 
         return $this;
     }
 
-    public function getThing(): ?Thing
+    public function getThing(): Thing
     {
         return $this->thing;
     }
 
-    public function setThing(?Thing $thing): self
+    public function setThing(Thing $thing): self
     {
         $this->thing = $thing;
 
         return $this;
     }
 
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->quantity;
-    }
-
-    public function setQuantity(int $quantity): self
-    {
-        $this->quantity = $quantity;
-
-        return $this;
     }
 
     /**
@@ -101,6 +97,16 @@ class Order
     public function getCommitments(): array
     {
         return $this->commitments->toArray();
+    }
+
+    public function getRemaining(): int
+    {
+        $commitmentCounts = 0;
+        foreach ($this->getCommitments() as $commitment) {
+            $commitmentCounts += $commitment->getQuantity();
+        }
+
+        return $this->quantity - $commitmentCounts;
     }
 
     public function getCreatedAt(): \DateTimeImmutable
