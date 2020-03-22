@@ -30,15 +30,17 @@ class UserNav extends React.Component {
 
   render() {
     const { loggedIn, email } = this.state;
+    if (loggedIn === null) {
+      return <span></span>;
+    }
     if (loggedIn === true) {
       return <span>{email} <a href="/logout">logout</a></span>;
-    } else {
-      return (
-        <span>
+    }
+    return (
+      <span>
           <Link className="nav-link" to="/login">Login</Link>
        </span>
-      );
-    }
+    );
   }
 }
 
