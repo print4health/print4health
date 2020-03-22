@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Entity\User;
 
+use App\Entity\Order;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\RequesterRepository")
  */
-class User implements UserInterface
+class Requester implements UserInterface
 {
     /**
      * @ORM\Column(type="guid")
@@ -41,7 +41,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private ?string $passwordResetToken;
+    private ?string $passwordResetToken = null;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
@@ -54,8 +54,35 @@ class User implements UserInterface
      */
     private $orders;
 
-    public function __construct()
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private string $name;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $streetAddress = null;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $postalCode = null;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $addressCity = null;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $addressState = null;
+
+    public function __construct(string $email, string $name)
     {
+        $this->email = $email;
+        $this->name = $name;
         $this->id = Uuid::uuid4()->toString();
         $this->orders = new ArrayCollection();
     }
@@ -87,6 +114,7 @@ class User implements UserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
+        $roles[] = 'ROLE_REQUESTER';
 
         return array_unique($roles);
     }
@@ -155,9 +183,67 @@ class User implements UserInterface
     {
         if (!$this->orders->contains($order)) {
             $this->orders[] = $order;
-            $order->setUser($this);
+            $order->setRequester($this);
         }
 
         return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getStreetAddress(): ?string
+    {
+        return $this->streetAddress;
+    }
+
+    public function setStreetAddress(?string $streetAddress): self
+    {
+        $this->streetAddress = $streetAddress;
+
+        return $this;
+    }
+
+    public function getPostalCode(): ?string
+    {
+        return $this->postalCode;
+    }
+
+    public function setPostalCode(?string $postalCode): self
+    {
+        $this->postalCode = $postalCode;
+
+        return $this;
+    }
+
+    public function getAddressCity(): ?string
+    {
+        return $this->addressCity;
+    }
+
+    public function setAddressCity(?string $addressCity): self
+    {
+        $this->addressCity = $addressCity;
+
+        return $this;
+    }
+
+    public function getAddressState(): ?string
+    {
+        return $this->addressState;
+    }
+
+    public function setAddressState(?string $addressState): void
+    {
+        $this->addressState = $addressState;
     }
 }

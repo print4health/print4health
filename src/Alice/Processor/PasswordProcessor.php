@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Alice\Processor;
 
-use App\Entity\User;
+use App\Entity\User\UserInterface;
 use Fidry\AliceDataFixtures\ProcessorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -25,7 +25,7 @@ class PasswordProcessor implements ProcessorInterface
      */
     public function preProcess(string $id, $object): void
     {
-        if (!$object instanceof User) {
+        if (!$object instanceof UserInterface) {
             return;
         }
 

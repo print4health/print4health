@@ -1,10 +1,17 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
+        requester:
+            entity:
+                class: 'App\Entity\User\Requester'
+                property: 'email'
         users:
             entity:
-                class: 'App\Entity\User'
+                class: 'App\Entity\User\User'
                 property: 'email'
+        all_users:
+            chain:
+                providers: ['requester', 'users']
     encoders:
         Symfony\Component\Security\Core\User\UserInterface:
             algorithm: auto
@@ -14,7 +21,7 @@ security:
             security: false
         main:
             anonymous: lazy
-            provider: users
+            provider: all_users
             # https://symfony.com/doc/current/security/json_login_setup.html
             json_login:
                 check_path: security_login
