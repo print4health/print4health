@@ -22,10 +22,14 @@ class ThingListItem extends React.Component {
       <div className="card">
         <div className="card-block">
           <Link to={'/thing/' + this.props.thing.id}>
-            <img src={this.props.thing.imageUrl} alt={this.props.thing.name} className="img-fluid" />
+            <img src={this.props.thing.imageUrl} alt={this.props.thing.name} className="img-fluid card-img-top" />
           </Link>
           <div className="card-body">
-            <h5 className="cardTitle">{this.props.thing.name}</h5>
+            <h5 className="cardTitle">
+              <Link to={'/thing/' + this.props.thing.id}>
+                {this.props.thing.name}
+              </Link>
+            </h5>
             <p className="card-text">
               {this.props.thing.description}
             </p>

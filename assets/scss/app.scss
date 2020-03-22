@@ -1,62 +1,6 @@
 @import "partials/variables";
-
-html{
-    height: 100%;
-}
-
-* {
-  border-radius: 0 !important;
-}
-
-.logo{
-    width: 175px;
-    height: 175px;
-}
-
-.navbar-nav.navbar-center {
-    position: absolute;
-    left: 50%;
-    transform: translatex(-50%);
-    padding: 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-}
-
-.navbar-nav li {
-    display: inline-block;
-    float: none;
-
-    a {
-        text-transform: uppercase;
-    }
-}
-
-.navbar-light {
-    background-color: #ffffff;
-    height: 75px;
-}
-
-.mainarea {
-    align-self: center;
-}
-
-.searchbar {
-  background-color: $gray-bg;
-  position: absolute;
-  left: 50%;
-  transform: translatex(-50%);
-}
-
-.footer {
-  width: 100%;
-  background-color: $gray-bg;
-  color: $primary;
-  text-align: center;
-  bottom: 0;
-  left: 0;
-  position: fixed;
-}
-
 @import '~bootstrap';
+@import "partials/global";
+@import "partials/navbar";
+
+@import "partials/component-thing-list";

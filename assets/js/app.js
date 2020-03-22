@@ -41,7 +41,6 @@ export default function App() {
 
       <div className="container-fluid pt-3">
         <div className="row">
-          <div className="col-sm"></div>
           <div className="col-xl-12">
             <Switch>
               <Route path="/request-reset-password" component={Index} />

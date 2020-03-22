@@ -42,11 +42,9 @@ class ThingListContainer extends React.Component {
     return (
       <div>
         <div className="row">
-          <div className="col-sm"></div>
-          <div className="col-xl-6">
+          <div className="col-xl-6 offset-xl-3">
             <Search />
           </div>
-          <div className="col-sm"></div>
         </div>
         <div className="row">
           <div className="col">
@@ -57,7 +55,11 @@ class ThingListContainer extends React.Component {
             </p>
           </div>
         </div>
-        <ThingList things={things} />
+        <div className="row">
+          <div className="col">
+            <ThingList things={things} />
+          </div>
+        </div>
       </div>
     );
   }
