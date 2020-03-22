@@ -85,6 +85,24 @@ class OrderController
      *     methods={"POST"},
      *     format="json"
      * )
+     * @SWG\Parameter(
+     *     name="order",
+     *     in="body",
+     *     type="json",
+     *     @Model(type=OrderIn::class)
+     * )
+     * @SWG\Response(
+     *     response=201,
+     *     description="Order successfully created"
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed request"
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="Requested thing could not be found"
+     * )
      *
      * @IsGranted("ROLE_REQUESTER")
      */
