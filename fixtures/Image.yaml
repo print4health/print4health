@@ -1,0 +1,4 @@
+App\Entity\Image:
+    image_default:
+        __construct:
+            - 'example-image.png'

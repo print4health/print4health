@@ -25,9 +25,19 @@ class Thing
     private string $name;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private string $fileUrl;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="thing")
      */
     private $orders;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Image", inversedBy="things")
+     */
+    private $image;
 
     public function __construct(
         string $name
@@ -50,6 +60,18 @@ class Thing
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getFileUrl(): ?string
+    {
+        return $this->fileUrl;
+    }
+
+    public function setFileUrl(string $fileUrl): self
+    {
+        $this->fileUrl = $fileUrl;
 
         return $this;
     }
@@ -81,6 +103,18 @@ class Thing
                 $order->setThing(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getImage(): ?Image
+    {
+        return $this->image;
+    }
+
+    public function setImage(Image $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

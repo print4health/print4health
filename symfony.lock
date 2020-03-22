@@ -324,7 +324,13 @@
     "symfony/options-resolver": {
         "version": "v5.0.5"
     },
+    "symfony/polyfill-intl-grapheme": {
+        "version": "v1.14.0"
+    },
     "symfony/polyfill-intl-idn": {
+        "version": "v1.14.0"
+    },
+    "symfony/polyfill-intl-normalizer": {
         "version": "v1.14.0"
     },
     "symfony/polyfill-mbstring": {
@@ -387,6 +393,9 @@
         "version": "v2.0.1"
     },
     "symfony/stopwatch": {
+        "version": "v5.0.5"
+    },
+    "symfony/string": {
         "version": "v5.0.5"
     },
     "symfony/translation-contracts": {

@@ -159,7 +159,7 @@ class SecurityController
      *     name="security_reset_password",
      *     methods={"POST"},
      *     format="json"
-     *  )
+     * )
      */
     public function resetPassword(Request $request): JsonResponse
     {

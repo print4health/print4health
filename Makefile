@@ -7,6 +7,8 @@ init:                                                                           
 	yarn encore dev
 	bin/console do:da:cr --if-not-exists
 	bin/console do:mi:mi --no-interaction
+	mkdir -p public/uploads/images
+	cp -f assets/fixture-example.png public/uploads/images/fixture-example.png
 	bin/console hautelook:fixtures:load -n
 
 logs:                                                                           ## display logs

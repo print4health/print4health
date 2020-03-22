@@ -1,4 +1,7 @@
 .vagrant
+ubuntu-*.log
+/public/uploads/
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -8,8 +11,6 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-
-ubuntu-*.log
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
