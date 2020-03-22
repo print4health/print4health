@@ -10,7 +10,6 @@
         "doctrine/doctrine-bundle": "^2.0.7",
         "doctrine/doctrine-migrations-bundle": "^2.1.2",
         "doctrine/orm": "^2.7.1",
-        "nelmio/api-doc-bundle": "^3.6",
         "phpdocumentor/reflection-docblock": "^4.3.4",
         "ramsey/uuid": "^3.9.3",
         "sensio/framework-extra-bundle": "^5.5.3",
@@ -34,6 +33,7 @@
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.16.1",
         "hautelook/alice-bundle": "^2.7.2",
+        "nelmio/api-doc-bundle": "^3.6",
         "symfony/maker-bundle": "^1.14.6"
     },
     "config": {
