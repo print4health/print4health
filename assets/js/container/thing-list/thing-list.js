@@ -1,6 +1,7 @@
 import React from 'react';
 import { Config } from '../../config';
 import ThingListItem from './../../component/thing/list-item.js';
+import axios from 'axios';
 
 class ThingList extends React.Component {
 
@@ -14,25 +15,20 @@ class ThingList extends React.Component {
   }
 
   componentDidMount() {
-    fetch(Config.apiBasePath + '/things.json')
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            things: result.things,
-          });
-        },
-        // Note: it's important to handle errors here
-        // instead of a catch() block so that we don't swallow
-        // exceptions from actual bugs in components.
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error,
-          });
-        },
-      );
+
+    axios.get(Config.apiBasePath + '/things')
+      .then((res) => {
+        this.setState({
+          isLoaded: true,
+          things: res.data.things,
+        });
+      })
+      .catch((error) => {
+        this.setState({
+          isLoaded: true,
+          error,
+        });
+      });
   }
 
   render() {
