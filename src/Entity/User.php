@@ -6,6 +6,7 @@ namespace App\Entity;
 
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -27,6 +28,7 @@ class User implements UserInterface
     private string $email;
 
     /**
+     * @var string[]
      * @ORM\Column(type="json")
      */
     private array $roles = [];
@@ -47,6 +49,7 @@ class User implements UserInterface
     private ?DateTimeImmutable $passwordResetTokenCreatedAt;
 
     /**
+     * @var Collection<int, Order>
      * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="user", orphanRemoval=true)
      */
     private $orders;
@@ -88,6 +91,11 @@ class User implements UserInterface
         return array_unique($roles);
     }
 
+    /**
+     * @param string[] $roles
+     *
+     * @return $this
+     */
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;

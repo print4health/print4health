@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
@@ -38,6 +39,7 @@ class Order
     private int $quantity;
 
     /**
+     * @var Collection<int, Commitment>
      * @ORM\OneToMany(targetEntity="App\Entity\Commitment", mappedBy="order")
      */
     private $commitments;
