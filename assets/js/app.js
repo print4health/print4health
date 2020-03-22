@@ -43,7 +43,7 @@ export default function App() {
         </div>
       </nav>
 
-      <div className="container-fluid pt-3">
+      <div className="container pt-3">
         <div className="row">
           <div className="col-xl-12">
             <Switch>
