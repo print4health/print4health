@@ -1,4 +1,3 @@
-
 //colors
 
 $primary: #c1272d;
@@ -12,8 +11,18 @@ $dark: #343a40;
 
 $body-bg: #ffffff;
 $body-color: #000000;
-
 $gray-bg: #f9f9f9;
+
+$theme-colors: (
+    'primary' : $primary,
+    'secondary' : $secondary,
+    'danger' : $danger,
+    'success' : $success,
+    'warning' : $warning,
+    'info' : $info,
+    'light' : $light,
+    'dark' : $dark
+);
 
 //navbar
 
@@ -21,6 +30,7 @@ $navbar-light-color: #707070;
 $navbar-light-hover-color: $primary;
 $navbar-light-active-color: #000000;
 
+$link-color: $dark;
 
 //navbar navbar-expand-lg navbar-light bg-light
 //nav-item

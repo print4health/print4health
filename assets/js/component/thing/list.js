@@ -19,9 +19,9 @@ class ThingList extends React.Component {
     }
 
     return (
-      <div className="thing-list row">
+      <div className="thing-list card-columns">
         {this.props.things.map((thing, idx) => (
-          <div className="col-md-4" key={idx}>
+          <div className="thing-item-wrapper mb-2" key={idx}>
             <ThingListItem thing={thing} />
           </div>
         ))}

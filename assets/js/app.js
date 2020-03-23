@@ -15,6 +15,7 @@ import ThingDetailContainer from './container/thing/detail';
 import LoginModal from './component/modal/login';
 import logo from '../logo-print4health-org.svg';
 import Faq from './container/faq/faq';
+import About from './container/about/about';
 
 export default function App() {
   return (
@@ -33,15 +34,17 @@ export default function App() {
               <Link className="nav-link" to="/faq">FAQ</Link>
             </li>
             <li className="nav-item mx-5">
+              <Link className="nav-link" to="/about">About</Link>
+            </li>
+            <li className="nav-item mx-5">
               <UserNav />
             </li>
           </ul>
         </div>
       </nav>
 
-      <div className="container-fluid pt-3">
+      <div className="container pt-3">
         <div className="row">
-          <div className="col-sm"></div>
           <div className="col-xl-12">
             <Switch>
               <Route path="/request-reset-password" component={Index} />
@@ -53,7 +56,7 @@ export default function App() {
               <Route path="/thing/:id" component={ThingDetailContainer} />
               <Route path="/thing/:id/create-order" component={Index} />
               <Route path="/faq" component={Faq} />
-              <Route path="/about" component={Index} />
+              <Route path="/about" component={About} />
               <Route path="/legal" component={Index} />
               <Route path="/" component={Index} />
             </Switch>
