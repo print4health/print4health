@@ -240,7 +240,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"name\": \"{{$randomProductName}}\"\n}\n",
+							"raw": "{\n    \"name\": \"{{$randomProductName}}\",\n    \"imageUrl\": \"{{$randomImageUrl}}\",\n    \"url\": \"{{$randomUrl}}\",\n    \"description\": \"{{$randomWords}}\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -382,7 +382,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"{{$randomExampleEmail}}\",\n    \"password\": \"12345\",\n    \"name\": \"{{$randomCompanyName}}\",\n    \"streetAddress\": \"{{$randomStreetAddress}}\",\n    \"postalCode\": \"12345\",\n    \"addressCity\": \"{{$randomCity}}\",\n    \"addressState\": \"Berlin\"\n}",
+							"raw": "{\n    \"email\": \"{{$randomExampleEmail}}\",\n    \"password\": \"12345\",\n    \"name\": \"{{$randomCompanyName}}\",\n    \"streetAddress\": \"{{$randomStreetAddress}}\",\n    \"postalCode\": \"12345\",\n    \"addressCity\": \"{{$randomCity}}\",\n    \"addressState\": \"Berlin\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -491,6 +491,44 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"email\": \"user@print4health.org\",\n\t\"password\": \"test\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/login - Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6742bbda-fcd1-42ed-8d45-7f3fdf58b7cb",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"admin@print4health.org\",\n\t\"password\": \"test\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
