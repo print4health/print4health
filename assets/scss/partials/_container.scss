@@ -19,17 +19,28 @@
         line-height: 5rem;
         position: relative;
         vertical-align: middle;
+        cursor: pointer;
+
         .btn {
             right: 0;
             position: absolute;
             font-size: 3rem;
             transition: all 0.25s ease-out;
-            &:hover,
+
             &:focus {
                 transform: scale(1.1);
             }
         }
+
+        &:hover {
+            &:hover {
+                .btn {
+                    transform: scale(1.1);
+                }
+            }
+        }
     }
+
     .media-body {
         font-size: 1.25rem;
     }
