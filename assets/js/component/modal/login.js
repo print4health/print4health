@@ -82,7 +82,13 @@ class LoginModal extends React.Component {
                      onChange={this.handleInputChange} />
             </div>
             <p>
-              <a href="#" data-toggle="modal" data-target="#modal-request-passwort-reset" data-dismiss="modal">
+              <a href="#"
+                 data-toggle="modal"
+                 onClick={() => {
+                   this.context.setShowLoginModal(false);
+                   this.context.setShowRequestPasswordResetModal(true);
+                 }}
+              >
                 Passwort vergessen?
               </a>
             </p>

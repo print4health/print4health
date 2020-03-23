@@ -1,7 +1,6 @@
 import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
-import $ from 'jquery';
 import AppContext from '../../context/app-context';
 import PropTypes from 'prop-types';
 
@@ -47,7 +46,6 @@ class ResetPassword extends React.Component {
 
     axios.post(Config.apiBasePath + '/reset-password', this.state)
       .then(function () {
-        $('#modal-request-passwort-reset').modal('hide');
         self.context.setAlert('Das Passwort wurde erfolgreich geändert.', 'success');
       })
       .catch(function (error) {
