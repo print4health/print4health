@@ -3,6 +3,8 @@ import { Config } from '../../config';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
+import map from '../../../2000px-Karte_Deutschland.svg';
+
 class ThingDetailContainer extends React.Component {
 
   constructor(props) {
@@ -51,19 +53,44 @@ class ThingDetailContainer extends React.Component {
 
     return (
       <div>
-        <div className="row">
-          <div className="col-md-3">
+        <div className="row ThingListDetail">
+          <div className="col-md-3 thing-info">
             <h2>{thing.name}</h2>
             <div className="description">
               <p>{thing.description}</p>
             </div>
-            <img src={thing.imageURL} alt={thing.name} />
+            <img src={thing.imageUrl} alt={thing.name} />
           </div>
-          <div className="col-md-6">
-            deutschland karte
+          <div className="col-md-6 col-map">
+            <img src={map} className="map" />
           </div>
-          <div className="col-md-3">
-
+          <div className="col-md-3 col-order">
+            <div className="media ">
+              <div className="media-body">
+                <span className="mr-1">Bedarf gesamt:</span>
+                <strong className="text-primary">{thing.needed}</strong>
+              </div>
+              <a href="" className="btn btn-link">
+                <i className="fas fa-plus-circle text-primary"></i>
+              </a>
+            </div>
+            <div className="media">
+              <div className="media-body">
+                <span className="mr-1">Prints gesamt:</span>
+                <strong className="text-secondary">{thing.printed}</strong>
+              </div>
+              <a href="" className="btn btn-link">
+                <i className="fas fa-plus-circle text-secondary"></i>
+              </a>
+            </div>
+            <div className="media">
+              <div className="media-body">
+                  <strong className="text-uppercase">Downloads</strong>
+              </div>
+              <a href="" className="btn btn-link">
+                <i className="fas fa-arrow-alt-circle-down"></i>
+              </a>
+            </div>
           </div>
         </div>
       </div>

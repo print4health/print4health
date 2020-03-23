@@ -1,0 +1,35 @@
+.ThingListDetail {
+    .thing-info {
+        img {
+            max-width: 100%;
+        }
+    }
+
+    .col-map {
+        .map {
+            max-width: 100%;
+        }
+    }
+
+    .col-order {
+        padding-top: 300px;
+        .media {
+            line-height: 5rem;
+            position: relative;
+            vertical-align: middle;
+            .btn {
+                right: 0;
+                position: absolute;
+                font-size: 3rem;
+                transition: all 0.25s ease-out;
+                &:hover,
+                &:focus {
+                    transform: scale(1.1);
+                }
+            }
+        }
+        .media-body {
+            font-size: 1.25rem;
+        }
+    }
+}

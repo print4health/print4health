@@ -31,6 +31,11 @@ class Thing
     private string $description;
 
     /**
+     * @ORM\Column(type="text")
+     */
+    private string $specification;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private string $url;
@@ -50,7 +55,8 @@ class Thing
         string $name,
         string $imageUrl,
         string $url,
-        string $description
+        string $description,
+        string $specification
     ) {
         $this->name = $name;
         $this->id = Uuid::uuid4()->toString();
@@ -58,6 +64,7 @@ class Thing
         $this->imageUrl = $imageUrl;
         $this->url = $url;
         $this->description = $description;
+        $this->specification = $specification;
     }
 
     public function getId(): string
@@ -108,5 +115,10 @@ class Thing
     public function getImageUrl(): string
     {
         return $this->imageUrl;
+    }
+
+    public function getSpecification(): string
+    {
+        return $this->specification;
     }
 }

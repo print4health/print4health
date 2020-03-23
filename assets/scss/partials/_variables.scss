@@ -2,7 +2,7 @@
 
 $primary: #c1272d;
 $danger: #af0000;
-$secondary: #495057;
+$secondary: #005a65;
 $success: #008d00;
 $warning: #e76800;
 $info: #dee2e6;
@@ -25,6 +25,10 @@ $theme-colors: (
 );
 
 //navbar
+
+$font-family-base: 'Roboto', sans-serif;
+$font-weight-normal: 300;
+$headings-font-weight: 700;
 
 $navbar-light-color: #707070;
 $navbar-light-hover-color: $primary;

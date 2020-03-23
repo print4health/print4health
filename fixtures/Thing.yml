@@ -5,9 +5,9 @@ App\Entity\Thing:
             - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Cylindrical_Narrow_Final.jpg'
             - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
             - 'Optimal for doors of an average weight, like household doors
-                Suitable for both curved and non-curved handles
-                Fits cylindrical handles between 16 and 22 mm
-                Requires one M4 x 12 screw and one M4 x 16 screw'
+               Suitable for both curved and non-curved handles'
+            - 'Fits cylindrical handles between 16 and 22 mm
+               Requires one M4 x 12 screw and one M4 x 16 screw'
 
     thing_manual_2:
         __construct:
@@ -15,9 +15,9 @@ App\Entity\Thing:
             - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Cylindrical_wide_Final.jpg'
             - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
             - 'Optimal for doors of an above-average weight, including fireproof doors with hydraulic pumps
-               Suitable for non-curved handles
-               Fits cylindrical handles between 16 and 22 mm
-               Requires two M4 x 12 screws and two M4 x 16 screws'
+               Suitable for non-curved handles'
+            - 'Fits cylindrical handles between 16 and 22 mm
+               Requires two M4 x 12 screws and two M4 x 16 screws
 
     thing_manual_3:
         __construct:
@@ -25,8 +25,8 @@ App\Entity\Thing:
             - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Rectangular_Narrow_Horizontal_Final.jpg'
             - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
             - 'Optimal for doors of an average weight, for example household doors
-               Suitable for both curved and non-curved handles
-               Fits rectangular, horizontal handles with a height between 11 mm to 18 mm and a depth of at most 25 mm
+               Suitable for both curved and non-curved handles'
+            - 'Fits rectangular, horizontal handles with a height between 11 mm to 18 mm and a depth of at most 25 mm
                Requires one M4 x 12 screw and one M4 x 16 screw'
 
     thing_manual_4:
@@ -35,9 +35,9 @@ App\Entity\Thing:
             - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Rectangular_Wide_Horizontal_Final.jpg'
             - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
             - 'Optimal for doors of an above-average weight, including fireproof doors with hydraulic pumps
-               Suitable for non-curved handles
-               Fits rectangular, horizontal handles with a height between 11 mm to 18 mm and a depth of at most 25 mm
-               Requires two M4 x 12 screws and two M4 x 16 screws'
+               Suitable for non-curved handles'
+            - 'Fits rectangular, horizontal handles with a height between 11 mm to 18 mm and a depth of at most 25 mm
+               Requires two M4 x 12 screws and two M4 x 16 screws
 
     thing_manual_5:
         __construct:
@@ -45,8 +45,8 @@ App\Entity\Thing:
             - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Rectangular_Narrow_Vertical_Final.jpg'
             - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
             - 'Optimal for doors of an average weight, for example household doors
-               Suitable for both curved and non-curved handles
-               Fits rectangular, vertical handles with a height of 31 mm and a depth between 4 mm and 11 mm
+               Suitable for both curved and non-curved handles'
+            - 'Fits rectangular, vertical handles with a height of 31 mm and a depth between 4 mm and 11 mm
                Requires one M4 x 12 screw and one M4 x 16 screw'
 
     thing_manual_6:
@@ -55,8 +55,8 @@ App\Entity\Thing:
             - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Rectangular_Wide_Vertical_Final.jpg'
             - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
             - 'Optimal for doors of an above-average weight, including fireproof doors with hydraulic pumps
-               Suitable for non-curved handles
-               Fits rectangular, vertical handles with a height of 31 mm and a depth between 4 mm and 11 mm
+               Suitable for non-curved handles'
+            - 'Fits rectangular, vertical handles with a height of 31 mm and a depth between 4 mm and 11 mm
                Requires two M4 x 12 screws and two M4 x 16 screws'
 
     thing_manual_7:
@@ -65,8 +65,8 @@ App\Entity\Thing:
             - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Circular_Stationary_Small_Final.jpg'
             - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
             - 'Optimal for doors of a lighter or average weight, for example household doors
-               Suitable for circular door handles that don’t twist
-               Fits circular handles with a diameter between 47 mm and 50 mm
+               Suitable for circular door handles that don’t twist'
+            - 'Fits circular handles with a diameter between 47 mm and 50 mm
                Requires two M4 x 16 screws and two M4 nuts'
 
     thing_manual_8:
@@ -75,8 +75,8 @@ App\Entity\Thing:
             - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Circular_Stationary_Small_Final.jpg'
             - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
             - 'Optimal for doors of a lighter or average weight, for example household doors
-               Suitable for circular door handles that don’t twist
-               Fits circular handles with a diameter between 47 mm and 50 mm
+               Suitable for circular door handles that don’t twist'
+            - 'Fits circular handles with a diameter between 47 mm and 50 mm
                Requires two M4 x 16 screws and two M4 nuts'
 
     thing_manual_9:
@@ -85,8 +85,8 @@ App\Entity\Thing:
             - 'https://www.materialise.com/sites/default/files/image-uploads/blocks/Circular_stat_large.jpg'
             - 'https://www.materialise.com/en/hands-free-door-opener/technical-information'
             - 'Optimal for doors of a lighter or average weight, for example household doors
-               Suitable for circular door handles that don’t twist
-               Fits circular handles with a diameter between 51 mm and 54 mm
+               Suitable for circular door handles that don’t twist'
+            - 'Fits circular handles with a diameter between 51 mm and 54 mm
                Requires two M4 x 16 screws and two M4 nuts'
 
     thing_manual_10:
@@ -96,9 +96,8 @@ App\Entity\Thing:
             - 'https://www.may-b.com/products/sicherheitsturoffner'
             - 'Im Zuge der Ausbreitung des Coronavirus hilft dieses Handstück beim Öffnen von Türen.
                Es ist kein unmittelbarer Kontakt zum Türgriff mehr nötig.
-               Bitte trotzdem regelmäßig mit Seife reinigen oder desinfizieren.
-
-               Zu drucken am besten in PLA oder PETG mit einer Layerhöhe 0,2mm oder 0,3mm und mindestens 20% Infill, besser 30%.'
+               Bitte trotzdem regelmäßig mit Seife reinigen oder desinfizieren.'
+            - 'Zu drucken am besten in PLA oder PETG mit einer Layerhöhe 0,2mm oder 0,3mm und mindestens 20% Infill, besser 30%.'
 
     thing_manual_11:
         __construct:
@@ -106,14 +105,11 @@ App\Entity\Thing:
             - 'https://files.cults3d.com/uploaders/13133858/illustration-file/3dd60cb0-fa78-4cf3-a91e-eb2d6181810f/Projet%20sans%20titre_large.gif'
             - 'https://cults3d.com/en/3d-model/gadget/the-handler'
             - 'Don`t ever touch a handle again. Leave it to the Handler!
-
-                  With the recent pandemic outbreak I realized we had to find a way to stop touching dirty stuff. Especially doors handles, push buttons and so on...
-
+                With the recent pandemic outbreak I realized we had to find a way to stop touching dirty stuff. Especially doors handles, push buttons and so on...
                   I designed this little guys to help with that! Use the Handler to open doors and push button (use the front that is not touching your index finger).
-
                   I use a retractable lanyard to keep at my belt so I can grap it each time I need it.
-
                   I hope you`ll enjoy this little gadget :)'
+            - ''
 
     thing_manual_12:
         __construct:
@@ -121,9 +117,8 @@ App\Entity\Thing:
             - 'https://d2t1xqejof9utc.cloudfront.net/screenshots/pics/aebe250e265d32698b0a6a689de0e8a0/large.jpg'
             - 'https://grabcad.com/library/respirator-free-reanimation-venturi-s-valve-1?fbclid=IwAR1deiw0Ud4STkWHQPTXHzAr_euZVuE_fXBBaOkXR4-DHrr61GhKktqtaHM'
             - 'Ready-to-print Venturi`s valve for respirator-free mask!
-                  Non-profit project for SARS-cov-2 pandemy.
-
-                  Revision 2 (CFD-calculated) available:
+                  Non-profit project for SARS-cov-2 pandemy.'
+            - 'Revision 2 (CFD-calculated) available:
                   * FiO2 = ~33%
                   * O2 sup. = 10LPM
                   * Air out. = ~63LPM
@@ -153,6 +148,10 @@ App\Entity\Thing:
                The visor was moved further away from the forehead - This allows a better fit over bigger respirators and protective goggles
                The printed part now has an extension for the visor (the visor curves less than the headband).
                For now, both RC1 and RC2 versions are relevant. RC1 lets you fit more printed parts on a single print bed. However, if maximum yield isn’t the priority, RC2 provides slightly better protection and is more comfortable to wear.'
+            - 'Layer Height: 0.25mm
+               Nozzle: 0.4mm
+               Material: PET
+               Weight: 105g'
 
     thing_manual_14:
         __construct:
@@ -163,6 +162,7 @@ App\Entity\Thing:
                Our innovation is inspired by the scarcest product these days, the famous and scarce N95 masks.
 
                Basically, there is a breakdown in the global stock of this product, and it is a basic necessity, especially for Healthcare personnel who are at the forefront of fighting this disease. In many countries the authorities have also recommended the use of these masks (or similar) on public transport. These masks, despite being effective, also have some problems such as a short lifecycle (about 8 hours), and have another even more serious problem. Respiratory viruses, specifically SARS-Cov-2 (COVID-19) can live up to 72 hours on different surfaces. This is a problem since using a conventional mask, at the end of the day we would have a high viral/bacterial load trapped within millimeters of our nose and mouth, further exposing ourselves to these dangerous microbes.'
+            - ''
 
     thing_manual_15:
         __construct:
@@ -176,6 +176,7 @@ App\Entity\Thing:
                • Wash your hands very often
 
                Note: This model only includes the mask structure (3 pieces) but does not include the required filter to effectively block the spread of the virus. Also, additional isolation measures could be required to properly fit the face without air gaps. Please check the comments for more information shared by other users about the types of filters that could apply to a mask with these characteristics. The effectiveness of P3 particle filters has been mentioned, and probably also HEPA 12/13, but unfortunately we do not have the means of analysis necessary to confirm this with guarantees. Again we remind you to use this model at your own risk.'
+            - ''
 
     thing_manual_16:
         __construct:
@@ -183,4 +184,4 @@ App\Entity\Thing:
             - 'https://thisables.com/wp-content/uploads/818X487_0002_CANE_BY_ME.jpg'
             - 'https://thisables.com/en/patent/cane-by-me/'
             - 'A rack used to place the walking cane next to the bed so that it is always available and easy to use.'
-
+            - ''

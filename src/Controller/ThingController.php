@@ -22,7 +22,9 @@ use Symfony\Component\Serializer\SerializerInterface;
 class ThingController
 {
     private SerializerInterface $serializer;
+
     private EntityManagerInterface $entityManager;
+
     private ThingRepository $thingRepository;
 
     public function __construct(
@@ -75,7 +77,13 @@ class ThingController
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
 
-        $thing = new Thing($thingIn->name, $thingIn->imageUrl, $thingIn->url, $thingIn->description);
+        $thing = new Thing(
+            $thingIn->name,
+            $thingIn->imageUrl,
+            $thingIn->url,
+            $thingIn->description,
+            $thingIn->specification
+        );
 
         $this->entityManager->persist($thing);
         $this->entityManager->flush();
