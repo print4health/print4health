@@ -30,8 +30,9 @@ class OrderModal extends React.Component {
     const context = this.context;
     const self = this;
     axios.post(Config.apiBasePath + '/orders', this.state)
-      .then(function () {
+      .then(function (res) {
         context.setShowOrderModal(false);
+        context.setCurrentThing(res.data.order.thing);
         context.setAlert('Danke, der Bedarf wurde eingetragen', 'success');
       })
       .catch(function (error) {
