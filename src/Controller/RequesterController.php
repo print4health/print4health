@@ -68,7 +68,7 @@ class RequesterController
      *     format="json"
      * )
      *
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function createAction(Request $request): JsonResponse
     {
