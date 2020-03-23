@@ -17,6 +17,7 @@ import About from './container/about/about';
 import AppContext from './context/app-context';
 import ResetPassword from './container/reset-password/reset-password';
 import DismissableAlert from './component/alert/dismissable-alert';
+import Footer from './component/footer/footer';
 
 class App extends React.Component {
 
@@ -150,13 +151,7 @@ class App extends React.Component {
               </div>
             </div>
           </div>
-          <footer className="container mt-5">
-            <div className="row">
-              <div className="col">
-                <Link className="nav-link" to="/legal">Impressum</Link>
-              </div>
-            </div>
-          </footer>
+          <Footer />
           <LoginModal />
           <RequestPasswordResetModal />
         </Router>
