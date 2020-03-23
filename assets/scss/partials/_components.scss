@@ -1,0 +1,67 @@
+.ThingListCard {
+    overflow: hidden;
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: scale(1.02);
+    }
+
+    &__image {
+        width: 100%;
+        height: 15vw;
+        object-fit: cover;
+
+        &--loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: $gray-200;
+        }
+
+        &--fallback {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: $gray-200;
+        }
+    }
+
+    &__description {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+    }
+}
+
+.Footer {
+    background-color: $gray-bg;
+    color: $primary;
+
+    a {
+        text-align: center;
+    }
+    .label {
+        display: block;
+    }
+
+    .fab,
+    .fas,
+    a img {
+        height: 32px;
+        width: auto;
+        font-size: 2rem;
+        display: block;
+    }
+
+    .link-wirvsvirus {
+        img {
+            //max-width: 150px;
+        }
+    }
+    .link-devpost {
+        img {
+            //max-width: 150px;
+        }
+    }
+}

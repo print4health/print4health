@@ -1,4 +1,9 @@
-App\Entity\User:
+App\Entity\User\User:
+    user_admin_default:
+        email: 'admin@print4health.org'
+        password: 'test'
+        roles: ['ROLE_ADMIN']
+
     user_default:
         email: 'user@print4health.org'
         password: 'test'

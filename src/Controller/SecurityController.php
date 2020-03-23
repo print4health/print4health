@@ -6,9 +6,12 @@ namespace App\Controller;
 
 use App\Dto\ResetPassword;
 use App\Dto\ResetPasswordTokenRequest;
-use App\Entity\User;
+use App\Dto\User as UserDto;
+use App\Entity\User\UserInterface;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -59,20 +62,42 @@ class SecurityController
      *     methods={"POST"},
      *     format="json",
      * )
+     * @SWG\Parameter(
+     *     name="credentials",
+     *     in="body",
+     *     type="json",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="email", type="string"),
+     *         @SWG\Property(property="password", type="string")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Login successfull",
+     *     @Model(type=UserDto::class)
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed request or wrong content type"
+     * )
+     * @SWG\Response(
+     *     response=401,
+     *     description="Invalid credentials"
+     * )
      */
     public function login(Request $request): JsonResponse
     {
         if ('json' !== $request->getContentType()) {
-            throw new BadRequestHttpException();
+            throw new BadRequestHttpException('Content-Type is\'nt "application/json".');
         }
 
-        /** @var User $user */
+        /** @var UserInterface $user */
         $user = $this->security->getUser();
 
-        return new JsonResponse([
-            'email' => $user->getEmail(),
-            'roles' => $user->getRoles(),
-        ]);
+        $userDto = UserDto::createFromUser($user);
+
+        return new JsonResponse($userDto);
     }
 
     /**
@@ -81,10 +106,18 @@ class SecurityController
      *     name="security_logout",
      *     methods={"GET"}
      * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Logout successfull",
+     * )
      */
     public function logout(): RedirectResponse
     {
-        $this->security->getToken()->setAuthenticated(false);
+        $token = $this->security->getToken();
+        if (null === $token) {
+            return new RedirectResponse($this->router->generate('home'));
+        }
+        $token->setAuthenticated(false);
 
         return new RedirectResponse($this->router->generate('home'));
     }
@@ -96,6 +129,23 @@ class SecurityController
      *     methods={"POST"},
      *     format="json"
      * )
+     * @SWG\Parameter(
+     *     name="email",
+     *     in="body",
+     *     type="json",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="email", type="string")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Reset token successfully sent via email"
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed request, wrong content type or email not found"
+     * )
      */
     public function requestPasswordReset(Request $request): JsonResponse
     {
@@ -103,7 +153,8 @@ class SecurityController
             throw new BadRequestHttpException();
         }
 
-        $data = json_decode($request->getContent(), true);
+        $content = (string) $request->getContent();
+        $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         if (null === $data) {
             throw new BadRequestHttpException();
         }
@@ -129,7 +180,7 @@ class SecurityController
             return new JsonResponse(['errors' => $errors], 400);
         }
 
-        /** @var User $user */
+        /** @var UserInterface|null $user */
         $user = $this->userRepository->findOneByEmail($resetPasswordTokenRequest->email);
         if (null === $user) {
             return new JsonResponse(['errors' => ['User not found']], 400);
@@ -139,12 +190,13 @@ class SecurityController
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        $url = $this->router->generate('home', ['token' => $user->getPasswordResetToken()], Router::ABSOLUTE_URL);
+        $url = $this->router->generate('home', [], Router::ABSOLUTE_URL);
+        $url .= '#/reset-password/' . $user->getPasswordResetToken();
         $body = $this->twig->render('email/password_reset.txt.twig', ['url' => $url]);
         $email = (new Email())
             ->from('noreply@print4health.org')
             ->to($resetPasswordTokenRequest->email)
-            ->subject('Print4Health Passwort zurücksetzen')
+            ->subject('print4health Passwort zurücksetzen')
             ->html($body)
         ;
 
@@ -159,7 +211,25 @@ class SecurityController
      *     name="security_reset_password",
      *     methods={"POST"},
      *     format="json"
-     *  )
+     * )
+     * @SWG\Parameter(
+     *     name="password",
+     *     in="body",
+     *     type="json",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="token", type="string"),
+     *         @SWG\Property(property="password", type="string")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Password successfully"
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed request, wrong content type or token expired"
+     * )
      */
     public function resetPassword(Request $request): JsonResponse
     {
@@ -167,7 +237,8 @@ class SecurityController
             throw new BadRequestHttpException();
         }
 
-        $data = json_decode($request->getContent(), true);
+        $content = (string) $request->getContent();
+        $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         if (null === $data) {
             throw new BadRequestHttpException();
         }
@@ -194,7 +265,7 @@ class SecurityController
             return new JsonResponse(['errors' => $errors], 400);
         }
 
-        /** @var User $user */
+        /** @var UserInterface|null $user */
         $user = $this->userRepository->findOneByPasswordResetToken($resetPassword->token);
         if (null === $user) {
             return new JsonResponse(['errors' => ['Invalid Token']], 400);

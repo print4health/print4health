@@ -1,0 +1,26 @@
+App\Entity\User\Requester:
+    requester_default:
+        __construct:
+            - 'requester@print4health.org'
+            - 'print4health Test Requester'
+        streetAddress: '<streetAddress()>'
+        postalCode: '<postCode()>'
+        addressCity: '<city()>'
+        addressState: '<state()>'
+        password: 'test'
+
+    requester_empty_address:
+        __construct:
+            - '<safeEmail()>'
+            - 'print4health Test Requester'
+        password: 'test'
+
+    requester_{1..5}:
+        __construct:
+            - '<safeEmail()>'
+            - '<company()>'
+        streetAddress: '<streetAddress()>'
+        postalCode: '<postCode()>'
+        addressCity: '<city()>'
+        addressState: '<state()>'
+        password: 'test'

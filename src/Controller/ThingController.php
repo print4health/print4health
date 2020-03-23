@@ -15,22 +15,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
-use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Exception\NotEncodableValueException;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class ThingController
 {
-    private DenormalizerInterface $denormalizer;
+    private SerializerInterface $serializer;
+
     private EntityManagerInterface $entityManager;
+
     private ThingRepository $thingRepository;
 
     public function __construct(
-        NormalizerInterface $normalizer,
-        DenormalizerInterface $denormalizer,
+        SerializerInterface $serializer,
         EntityManagerInterface $entityManager,
         ThingRepository $thingRepository
     ) {
-        $this->denormalizer = $denormalizer;
+        $this->serializer = $serializer;
         $this->entityManager = $entityManager;
         $this->thingRepository = $thingRepository;
     }
@@ -58,26 +60,51 @@ class ThingController
 
     /**
      * @Route(
+     *     "/things/search/{searchstring}",
+     *     name="thing_search",
+     *     methods={"GET"},
+     *     format="json"
+     * )
+     */
+    public function searchAction(string $searchstring): JsonResponse
+    {
+        $things = $this->thingRepository->searchNameDescription($searchstring);
+
+        $response = ['things' => []];
+
+        foreach ($things as $thing) {
+            $response['things'][] = ThingOut::createFromThing($thing);
+        }
+
+        return new JsonResponse($response);
+    }
+
+    /**
+     * @Route(
      *     "/things",
      *     name="thing_create",
      *     methods={"POST"},
      *     format="json"
      * )
      *
-     * @IsGranted("ROLE_USER")
+     * @IsGranted("ROLE_ADMIN")
      */
     public function createAction(Request $request): JsonResponse
     {
-        $jsonRequest = json_decode($request->getContent(), true);
-
-        if (null === $jsonRequest) {
-            throw new BadRequestHttpException();
+        try {
+            /** @var ThingIn $thingIn */
+            $thingIn = $this->serializer->deserialize($request->getContent(), ThingIn::class, JsonEncoder::FORMAT);
+        } catch (NotEncodableValueException $notEncodableValueException) {
+            throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
 
-        /** @var ThingIn $thingIn */
-        $thingIn = $this->denormalizer->denormalize($jsonRequest, ThingIn::class);
-
-        $thing = new Thing($thingIn->name);
+        $thing = new Thing(
+            $thingIn->name,
+            $thingIn->imageUrl,
+            $thingIn->url,
+            $thingIn->description,
+            $thingIn->specification
+        );
 
         $this->entityManager->persist($thing);
         $this->entityManager->flush();

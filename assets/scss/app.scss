@@ -1,5 +1,6 @@
+@import "partials/variables";
 @import '~bootstrap';
-
-html{
-    height: 100%;
-}
+@import "partials/global";
+@import "partials/navbar";
+@import "partials/components";
+@import "partials/container";

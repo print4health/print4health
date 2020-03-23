@@ -5,7 +5,8 @@ init:                                                                           
 	composer install
 	yarn install
 	yarn encore dev
-	bin/console do:da:cr --if-not-exists
+	bin/console do:da:drop --force --if-exists
+	bin/console do:da:create
 	bin/console do:mi:mi --no-interaction
 	bin/console hautelook:fixtures:load -n
 
@@ -32,4 +33,4 @@ static: php-cs-fix phpstan psalm                                                
 dev: static                                                                     ## run dev tools
 
 mysql:                                                                          ## go in mysql
-	sudo docker exec -it mysql /usr/bin/mysql website
+	sudo docker exec -it mysql /usr/bin/mysql print4health
