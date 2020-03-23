@@ -14,6 +14,8 @@ class User
     public string $id;
     /** @SWG\Property(type="string") */
     public string $email;
+    /** @SWG\Property(type="array") */
+    public array $roles;
 
     public static function createFromUser(?UserInterface $user): self
     {
@@ -25,6 +27,7 @@ class User
 
         $self->id = $user->getId();
         $self->email = $user->getEmail();
+        $self->roles  = $user->getRoles();
 
         return $self;
     }
