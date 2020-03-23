@@ -27,6 +27,10 @@ class Footer extends React.Component {
               <i className="fas fa-id-card"></i>
               <span className="label mt-3">Impressum</span>
             </Link>
+            <Link className="nav-link" to="/data-privacy-statement">
+              <i className="fas fa-user-secret"></i>
+              <span className="label mt-3">Datenschutzerklärung</span>
+            </Link>
           </div>
         </div>
       </footer>

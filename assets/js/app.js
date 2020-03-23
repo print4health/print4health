@@ -19,6 +19,7 @@ import ResetPassword from './container/reset-password/reset-password';
 import DismissableAlert from './component/alert/dismissable-alert';
 import Footer from './component/footer/footer';
 import Imprint from './container/imprint/imprint';
+import DataPrivacyStatement from './container/data-privacy-statement/data-privacy-statement';
 
 class App extends React.Component {
 
@@ -146,6 +147,7 @@ class App extends React.Component {
                   <Route path="/faq" component={Faq} />
                   <Route path="/about" component={About} />
                   <Route path="/imprint" component={Imprint} />
+                  <Route path="/data-privacy-statement" component={DataPrivacyStatement} />
                   <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
                   <Route path="/" component={Index} />
                 </Switch>
