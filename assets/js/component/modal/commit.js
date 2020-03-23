@@ -2,16 +2,18 @@ import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
 import AppContext from '../../context/app-context';
-import { Modal } from 'react-bootstrap';
+import { Form, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-class OrderModal extends React.Component {
+class CommitModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       thingId: props.thingId,
+      orderId: null,
       quantity: 0,
       error: '',
+      orders: [],
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -24,22 +26,35 @@ class OrderModal extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const self = this;
+    axios.get(Config.apiBasePath + '/orders/thing/' + this.state.thingId)
+      .then((res) => {
+        self.setState({ orders: res.data.orders });
+      })
+      .catch((error) => {
+        self.setState({
+          error: error.response.data.error,
+        });
+      });
+  }
+
   handleSubmit(e) {
     this.setState({ error: '' });
     e.preventDefault();
     const context = this.context;
     const self = this;
     axios.post(
-      Config.apiBasePath + '/orders',
+      Config.apiBasePath + '/commitments',
       {
-        thingId: this.state.thingId,
+        orderId: this.state.orderId,
         quantity: this.state.quantity,
       },
     )
       .then(function (res) {
-        context.setShowOrderModal(false);
-        context.setCurrentThing(res.data.order.thing);
-        context.setAlert('Danke, der Bedarf wurde eingetragen', 'success');
+        context.setShowCommitModal(false);
+        context.setCurrentThing(res.data.commitment.order.thing);
+        context.setAlert('Danke für Deinen Beitrag -  ist notiert.', 'success');
       })
       .catch(function (error) {
         self.setState({
@@ -56,13 +71,26 @@ class OrderModal extends React.Component {
 
   render() {
     return (
-      <Modal show={this.context.showOrderModal} onHide={() => this.context.setShowOrderModal(false)} animation={false}>
+      <Modal show={this.context.showCommitModal}
+             onHide={() => this.context.setShowCommitModal(false)}
+             animation={false}
+      >
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
             <Modal.Title>Bedarf eintragen</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
+            <div className="form-group">
+              <Form.Control as="select" onChange={(e) => this.setState({ orderId: e.target.value })}>
+                {
+                  this.state.orders.map((order, i) => {
+                    return <option key={i} value={order.id}>{i} - {order.requester.name}</option>;
+                  })
+                }
+              </Form.Control>
+            </div>
+
             <div className="form-group">
               <input name="quantity"
                      type="number"
@@ -74,7 +102,7 @@ class OrderModal extends React.Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <input type="submit" className="btn btn-primary" value="Bedarf eintragen" />
+            <input type="submit" className="btn btn-primary" value="Beitrag eintragen" />
           </Modal.Footer>
         </form>
       </Modal>
@@ -82,6 +110,6 @@ class OrderModal extends React.Component {
   }
 }
 
-OrderModal.contextType = AppContext;
+CommitModal.contextType = AppContext;
 
-export default OrderModal;
+export default CommitModal;
