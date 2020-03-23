@@ -19,6 +19,7 @@ import Faq from './container/faq/faq';
 import About from './container/about/about';
 import AppContext from './context/app-context';
 import $ from 'jquery';
+import ResetPassword from './container/reset-password/reset-password';
 
 class App extends React.Component {
 
@@ -98,8 +99,6 @@ class App extends React.Component {
               <div className="col-sm"></div>
               <div className="col-xl-12">
                 <Switch>
-                  <Route path="/request-reset-password" component={Index} />
-                  <Route path="/reset-password" component={Index} />
                   <Route path="/order/list" component={Index} />
                   <Route path="/order/map" component={Index} />
                   <Route path="/order/{id}" component={Index} />
@@ -109,6 +108,7 @@ class App extends React.Component {
                   <Route path="/faq" component={Faq} />
                   <Route path="/about" component={About} />
                   <Route path="/legal" component={Index} />
+                  <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
                   <Route path="/" component={Index} />
                 </Switch>
               </div>

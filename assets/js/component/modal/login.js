@@ -37,7 +37,7 @@ class LoginModal extends React.Component {
       .then(function (res) {
         context.setUser(res.data);
         $('#modal-login').modal('hide');
-        self.context.setAlert('Herzlich Willkommen ' + res.data.email, 'info');
+        self.context.setAlert('Herzlich Willkommen ' + res.data.email, 'success');
       })
       .catch(function (error) {
         self.setState({
