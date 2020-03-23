@@ -10,7 +10,8 @@ class UserNav extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  handleLogout() {
+  handleLogout(e) {
+    e.preventDefault();
     const context = this.context;
     axios.get(Config.apiBasePath + '/logout')
       .then(function () {
@@ -32,7 +33,13 @@ class UserNav extends React.Component {
     }
     return (
       <span>
-        <a href="#" className="nav-link" onClick={() => this.context.setShowLoginModal(true)}>
+        <a href="#"
+           className="nav-link"
+           onClick={(e) => {
+             e.preventDefault();
+             this.context.setShowLoginModal(true);
+           }}
+        >
           Login
         </a>
        </span>

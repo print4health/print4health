@@ -2,8 +2,9 @@ import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-
 import map from '../../../2000px-Karte_Deutschland.svg';
+import AppContext from '../../context/app-context';
+import OrderModal from '../../component/modal/order';
 
 class ThingDetailContainer extends React.Component {
 
@@ -33,9 +34,7 @@ class ThingDetailContainer extends React.Component {
   }
 
   componentDidMount() {
-
     const { id } = this.props.match.params;
-
     axios.get(Config.apiBasePath + '/things/' + id)
       .then((res) => {
         this.setState({
@@ -104,7 +103,7 @@ class ThingDetailContainer extends React.Component {
                 <span className="mr-1">Bedarf gesamt:</span>
                 <strong className="text-primary">{thing.needed}</strong>
               </div>
-              <a className="btn btn-link">
+              <a className="btn btn-link" onClick={() => this.context.setShowOrderModal(true)}>
                 <i className="fas fa-plus-circle fa-fw text-primary"></i>
               </a>
             </div>
@@ -127,9 +126,13 @@ class ThingDetailContainer extends React.Component {
             </a>
           </div>
         </div>
+        <OrderModal thingId={thing.id} />
       </div>
+
     );
   }
 }
+
+ThingDetailContainer.contextType = AppContext;
 
 export default ThingDetailContainer;
