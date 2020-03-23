@@ -45,3 +45,14 @@
         font-size: 1.25rem;
     }
 }
+
+.Faq {
+    .card {
+        .card-header {
+            cursor: pointer;
+            &:hover {
+                background-color: $light;
+            }
+        }
+    }
+}

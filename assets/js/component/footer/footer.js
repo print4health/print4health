@@ -23,7 +23,7 @@ class Footer extends React.Component {
               <img src="https://devpost-challengepost.netdna-ssl.com/assets/reimagine2/devpost-logo-646bdf6ac6663230947a952f8d354cad.svg" alt="Devpost Logo" />
               <span className="label mt-3">WirVsVirus Contribution</span>
             </a>
-            <Link className="nav-link" to="/legal">
+            <Link className="nav-link" to="/imprint">
               <i className="fas fa-id-card"></i>
               <span className="label mt-3">Impressum</span>
             </Link>
@@ -35,7 +35,7 @@ class Footer extends React.Component {
 
   render() {
     return (
-      <div className="container-fluid Footer">
+      <div className="container-fluid Footer mt-5">
         <div className="row">
           <div className="col">
             {this.renderFooter()}

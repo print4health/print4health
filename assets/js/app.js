@@ -18,6 +18,7 @@ import AppContext from './context/app-context';
 import ResetPassword from './container/reset-password/reset-password';
 import DismissableAlert from './component/alert/dismissable-alert';
 import Footer from './component/footer/footer';
+import Imprint from './container/imprint/imprint';
 
 class App extends React.Component {
 
@@ -144,7 +145,7 @@ class App extends React.Component {
                   <Route path="/thing/:id/create-order" component={Index} />
                   <Route path="/faq" component={Faq} />
                   <Route path="/about" component={About} />
-                  <Route path="/legal" component={Index} />
+                  <Route path="/imprint" component={Imprint} />
                   <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
                   <Route path="/" component={Index} />
                 </Switch>
