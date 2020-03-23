@@ -33,4 +33,4 @@ static: php-cs-fix phpstan psalm                                                
 dev: static                                                                     ## run dev tools
 
 mysql:                                                                          ## go in mysql
-	sudo docker exec -it mysql /usr/bin/mysql website
+	sudo docker exec -it mysql /usr/bin/mysql print4health
