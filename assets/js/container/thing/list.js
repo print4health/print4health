@@ -51,7 +51,7 @@ class ThingListContainer extends React.Component {
             <div className="row">
               <div className="col">
                 <h2>
-                  <i className="fas fa-user-md mr-2"></i>
+                  <i className="fas fa-user-md fa-fw mr-2"></i>
                   Bedarf an Ersatzteilen
                 </h2>
                 <p>
@@ -67,6 +67,7 @@ class ThingListContainer extends React.Component {
               </div>
               <div className="col">
                 <h2>
+                  <i className="fas fa-print fa-fw mr-2"></i>
                   Dein Drucker steht noch still?
                 </h2>
                 <p>
@@ -78,7 +79,10 @@ class ThingListContainer extends React.Component {
                 </p>
               </div>
               <div className="col">
-                <h2>Für dein gewünschtes Produkt existiert noch keine Druckvorlage?</h2>
+                <h2>
+                  <i className="fas fa-question-circle fa-fw mr-2"></i>
+                  Für dein gewünschtes Produkt existiert noch keine Druckvorlage?
+                </h2>
                 <p>
                   Wende dich mit den Anforderungen an unsere Community und entwickle gemeinsam die Druckvorlage für
                   deinen konkreten Anwendungsfall.

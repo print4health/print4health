@@ -17,7 +17,7 @@ App\Entity\Thing:
             - 'Optimal for doors of an above-average weight, including fireproof doors with hydraulic pumps
                Suitable for non-curved handles'
             - 'Fits cylindrical handles between 16 and 22 mm
-               Requires two M4 x 12 screws and two M4 x 16 screws
+               Requires two M4 x 12 screws and two M4 x 16 screws'
 
     thing_manual_3:
         __construct:
@@ -37,7 +37,7 @@ App\Entity\Thing:
             - 'Optimal for doors of an above-average weight, including fireproof doors with hydraulic pumps
                Suitable for non-curved handles'
             - 'Fits rectangular, horizontal handles with a height between 11 mm to 18 mm and a depth of at most 25 mm
-               Requires two M4 x 12 screws and two M4 x 16 screws
+               Requires two M4 x 12 screws and two M4 x 16 screws'
 
     thing_manual_5:
         __construct:

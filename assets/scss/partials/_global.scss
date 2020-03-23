@@ -1,13 +1,10 @@
 body {
     font-size: 14px;
+    line-height: 1.5rem;
 }
 
-h1 {
+h1, h2 {
     font-size: 1.8rem;
-}
-
-h2{
-    font-size: 1.6rem;
 }
 
 .mainarea {
@@ -18,12 +15,7 @@ h2{
     background-color: $gray-bg;
 }
 
-.footer {
-    width: 100%;
+footer {
     background-color: $gray-bg;
     color: $primary;
-    text-align: center;
-    bottom: 0;
-    left: 0;
-    position: fixed;
 }

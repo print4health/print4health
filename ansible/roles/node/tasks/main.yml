@@ -12,7 +12,7 @@
 - name: install node
   become: false
   shell: >
-    . {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install v12 & nvm use 12
+    . {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install v8
   args:
     executable: /bin/bash
     chdir: "{{ ansible_env.HOME }}"
