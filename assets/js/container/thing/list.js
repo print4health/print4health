@@ -50,7 +50,10 @@ class ThingListContainer extends React.Component {
           <div className="col">
             <div className="row">
               <div className="col">
-                <h2>Bedarf an Ersatzteilen</h2>
+                <h2>
+                  <i className="fas fa-user-md mr-2"></i>
+                  Bedarf an Ersatzteilen
+                </h2>
                 <p>
                   Du benötigst dringend Infektionsschutz oder Ersatzteile für Geräte?
                 </p>
@@ -59,20 +62,26 @@ class ThingListContainer extends React.Component {
                   Für diese Produkte existieren bereits Vorlagen, um eine direkte Fertigung zu realisieren.
                 </p>
                 <p>
-                  Die schon gedruckten Teile sind in grün gekennzeichnet!
+                  Teile, für die bereits bestätigt wurde, dass sie gedruckt sind, sind grün gekennzeichnet!
+                </p>
+              </div>
+              <div className="col">
+                <h2>
+                  Dein Drucker steht noch still?
+                </h2>
+                <p>
+                  Dann schaue hier, ob Du Deine Kapazität einsetzten kannst!
+                </p>
+                <p>
+                  Besteht bei bestimmten Produkten noch Druckbedarf, so ist dies in rot gekennzeichnet. Hilf mit die
+                  bestehende Nachfrage nach den benötigten Produkten zu decken!
                 </p>
               </div>
               <div className="col">
                 <h2>Für dein gewünschtes Produkt existiert noch keine Druckvorlage?</h2>
                 <p>
-                  Wende dich mit den Anforderungen an unsere Community und entwickle gemeinsam die Druckvorlage für deinen konkreten Anwendungsfall.
-                </p>
-                <p>
-                  Dein Drucker steht noch still? Dann schaue hier, ob Du Deine Kapazität einsetzten kannst!
-                </p>
-                <p>
-                  Besteht bei bestimmten Produkten noch Druckbedarf, so ist dies in rot gekennzeichnet. Hilf mit die
-                  bestehende Nachfrage nach den benötigten Produkten zu decken!
+                  Wende dich mit den Anforderungen an unsere Community und entwickle gemeinsam die Druckvorlage für
+                  deinen konkreten Anwendungsfall.
                 </p>
               </div>
             </div>
@@ -85,8 +94,8 @@ class ThingListContainer extends React.Component {
           </div>
         </div>
       </div>
-  );
+    );
   }
-  }
+}
 
-  export default ThingListContainer;
+export default ThingListContainer;
