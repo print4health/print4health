@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Dto\OrderIn;
 use App\Dto\OrderOut;
 use App\Entity\Order;
+use App\Entity\Thing;
 use App\Entity\User\Requester;
 use App\Repository\OrderRepository;
 use App\Repository\ThingRepository;
@@ -65,6 +66,39 @@ class OrderController
     public function listAction(): JsonResponse
     {
         $orders = $this->orderRepository->findAll();
+
+        $response = ['orders' => []];
+
+        foreach ($orders as $order) {
+            $response['orders'][] = OrderOut::createFromOrder($order);
+        }
+
+        return new JsonResponse($response);
+    }
+
+    /**
+     * @Route(
+     *     "/orders/thing/{thingId}",
+     *     name="order_thing_list",
+     *     methods={"GET"},
+     *     format="json"
+     * )
+     * @SWG\Response(
+     *     response=200,
+     *     description="Orders",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=OrderOut::class))
+     *     )
+     * )
+     */
+    public function listByThingAction(string $thingId): JsonResponse
+    {
+        $thing = $this->thingRepository->find($thingId);
+        if (!$thing instanceof Thing) {
+            throw new NotFoundHttpException('Thing not found');
+        }
+        $orders = $this->orderRepository->findBy(['thing' => $thing]);
 
         $response = ['orders' => []];
 
