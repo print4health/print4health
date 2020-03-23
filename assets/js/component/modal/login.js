@@ -24,7 +24,7 @@ class LoginModal extends React.Component {
         context.setUser(res.data);
       })
       .catch(() => {
-        console.log('unable to retrieve user profile - not logged in.');
+        context.setUser({});
       });
   }
 
