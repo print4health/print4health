@@ -13,30 +13,30 @@ class Faq extends React.Component {
 
       <div className="row mt-5">
           <div className="col">
-            <h3>Krankenhaus / soziale Einrichtung</h3>
+            <h3>Krankenhaus / Soziale Einrichtung</h3>
             <Accordion defaultActiveKey="10" className="shadow-sm">
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="10">
-                  Ich bin Arzt, Krankenhaus, Pflege-, Soziale oder öffentliche Einrichtung.
+                  Ich bin Arzt, Krankenhaus, Pflege-, soziale oder öffentliche Einrichtung.
                   Wie kann ich Material anfragen?
                 </Accordion.Toggle>
                 <Accordion.Collapse as={Card.Body} eventKey="10">
                   <Card.Body>
                     <p>
-                      Dazu müsst ihr euch einloggen und bei dem gewünschten Teil rechts auf das
-                      <i className="fas fa-plus-circle fa-fw text-primary"></i>
-                      bei "Bedarf gesamt: xxx" Klicken.
+                      Dazu müsst Ihr euch einloggen und bei dem gewünschten Teil rechts auf das
+                       <i className="fas fa-plus-circle fa-fw text-primary"></i>
+                       bei "Bedarf gesamt: xxx" klicken.
                     </p>
-                    <p>Danach öffnet sich ein Fenster und ihr könnt die erforderliche Menge eintragen.</p>
+                    <p>Danach öffnet sich ein Fenster und Ihr könnt die erforderliche Menge eintragen.</p>
                     <p>
-                      Solltet ihr noch keinen Login haben, schreibt uns einfach eine kurze E-Mail an
-                      <a href="mailto:contact@print4health.org">contact@print4health.org</a> und wir legen euch
+                      Solltet Ihr noch keinen Login haben, schreibt uns einfach eine kurze E-Mail an
+                      <a href="mailto:contact@print4health.org">contact@print4health.org</a> und wir legen Euch
                       einen Account an. Ein Formular zur Selbstregistrierung war noch nicht Teil des Hackathons,
-                      kommt aber bald nach.
+                      kommt aber bald.
                     </p>
                     {/*
                     Registriert euch unter Login und hakt dabei das Kästchen _____ ab.
-                    So wissen wir, dass ihr unsere Produkte braucht und werden euch nach kurzer Verifikation einen
+                    So wissen wir, dass Ihr unsere Produkte braucht und werden euch nach kurzer Verifikation einen
                     Customer Account zur Verfügung stellen.
                     */}
                   </Card.Body>
@@ -49,8 +49,8 @@ class Faq extends React.Component {
                 <Accordion.Collapse as={Card.Body} eventKey="11">
                   <Card.Body>
                     <p>
-                      In zukunft könnt ihr ein Bauteil mit Foto, Beschreibung, Herstellername und Spezifikation in
-                      unseren Upload Bereich auf der Bedarfs-Webseite etwas hochladen.
+                      In Zukunft könnt Ihr ein Bauteil mit Foto, Beschreibung, Herstellername und Spezifikation in
+                      unseren Upload Bereich auf der Bedarfs-Webseite hochladen.
                     </p>
                     <p>
                       Aktuell kontaktiere uns bitte direkt über Social Media oder unsere E-Mail
@@ -66,7 +66,7 @@ class Faq extends React.Component {
                 <Accordion.Collapse as={Card.Body} eventKey="12">
                   <Card.Body>
                     <p>
-                      Unterstützung kann bei den Behörden kann angefordert werden.
+                      Unterstützung kann bei den Behörden angefordert werden.
                     </p>
                   </Card.Body>
                 </Accordion.Collapse>
@@ -83,7 +83,7 @@ class Faq extends React.Component {
                 <Accordion.Collapse as={Card.Body} eventKey="20">
                   <Card.Body>
                     <p>
-                      Wir brauchen jede freie Druckerkapazität. Ob Industrie 3D-Drucker oder dein privater 3D-Drucker
+                      Wir brauchen jede freie Druckerkapazität. Ob Industrie 3D-Drucker oder Dein privater 3D-Drucker
                       zu Hause - jeder kann helfen!
                     </p>
                   </Card.Body>
@@ -96,9 +96,9 @@ class Faq extends React.Component {
                 <Accordion.Collapse as={Card.Body} eventKey="21">
                   <Card.Body>
                     <p>
-                      Zunächst könnt ihr damit Leben retten!
+                      Zunächst könnt Ihr damit Leben retten!
                       Außerdem arbeiten wir auf freiwilliger Basis, jedoch sind wir dabei, Kooperationen zu schließen,
-                      um euch für eure Arbeit mit Gutscheinen und Filament zu entlohnen.
+                      um Euch für Eure Arbeit mit Gutscheinen und Filament zu entlohnen.
                       Keine Sorge: Eure jetzt schon erledigten Aufträge werden mit eingerechnet.
                     </p>
                   </Card.Body>
@@ -125,7 +125,7 @@ class Faq extends React.Component {
                   <Card.Body>
                     <p>Wir starten zunächst mit dem Druck auf freiwilliger Basis.</p>
                     <p>
-                      Wir bemühen uns aber Kooperationen zu schließen, um euch für eure Arbeit mit Gutscheinen für
+                      Wir bemühen uns aber Kooperationen zu schließen, um Euch für Eure Arbeit mit Gutscheinen für
                       Filament zu entlohnen.
                     </p>
                   </Card.Body>
@@ -162,30 +162,30 @@ class Faq extends React.Component {
                 <Accordion.Collapse as={Card.Body} eventKey="26">
                   <Card.Body>
                     <p>
-                      Aktuell gibt es dazu keine Möglichkeit. Du kannst deinen Druck wie hier in der FAQ beschrieben
+                      Aktuell gibt es dazu keine Möglichkeit. Du kannst Deinen Druck wie hier in der FAQ beschrieben
                       and den jeweiligen Endnutzer übermitteln.
                     </p>
-                    <p>In Zukunft kannst du dies auf unser Plattform melden und es erfolgt die Organisation des
-                      Transportes, damit dein Teil schnellstmöglich zum Einsatz kommt.
+                    <p>In Zukunft kannst Du dies auf unser Plattform melden und es erfolgt die Organisation des
+                      Transportes, damit Dein Teil schnellstmöglich zum Einsatz kommt.
                     </p>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="27">
-                  Ich habe ein Modell gefunden, dass nützlich sein könnte, wie kann ich es bei euch einstellen?
+                  Ich habe ein Modell gefunden, dass nützlich sein könnte, wie kann ich es bei Euch einstellen?
                 </Accordion.Toggle>
                 <Accordion.Collapse as={Card.Body} eventKey="27">
                   <Card.Body>
                     <p>
                       Derzeit werden alle Modelle von uns händisch eingepflegt und überprüft.
-                      Auch in der Zukunft ist eine kuratierung der Inhalte sinnvoll, da wir uns ganz klar auf den
+                      Auch in der Zukunft ist eine Kuratierung der Inhalte sinnvoll, da wir uns ganz klar auf den
                       Gesundheitsbereich beschränken wollen.
                     </p>
                     <p>
                       Es wird in der Zukunft aber auch eine Registrierung für Maker und Ingenieure geben, um 3D
                       Modelle leichter zur Verfügung stellen zu können.
-                      Habt bis dahin bitte noch etwas Geduld und wendet euch mit einer Idee an <a
+                      Habt bis dahin bitte noch etwas Geduld und wendet Euch mit einer Idee an <a
                       href="mailto:contact@print4health.org">contact@print4health.org</a>
                     </p>
                   </Card.Body>

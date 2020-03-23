@@ -59,7 +59,7 @@ class ThingListContainer extends React.Component {
                 </p>
                 <p>
                   Hier findest Du eine Übersicht der druckbaren Produkte.<br />
-                  Für diese Produkte existieren bereits Vorlagen, um eine direkte Fertigung zu realisieren.
+                  Für diese Produkte existieren bereits Vorlagen um eine direkte Fertigung zu realisieren.
                 </p>
                 <p>
                   Teile, für die bereits bestätigt wurde, dass sie gedruckt sind, sind grün gekennzeichnet!
@@ -71,7 +71,7 @@ class ThingListContainer extends React.Component {
                   Dein Drucker steht noch still?
                 </h2>
                 <p>
-                  Dann schaue hier, ob Du Deine Kapazität einsetzten kannst!
+                  Dann schaue hier, ob Du Deine Kapazität einsetzen kannst!
                 </p>
                 <p>
                   Besteht bei bestimmten Produkten noch Druckbedarf, so ist dies in rot gekennzeichnet. Hilf mit die
@@ -81,11 +81,11 @@ class ThingListContainer extends React.Component {
               <div className="col">
                 <h2>
                   <i className="fas fa-question-circle fa-fw mr-2"></i>
-                  Für dein gewünschtes Produkt existiert noch keine Druckvorlage?
+                  Für Dein gewünschtes Produkt existiert noch keine Druckvorlage?
                 </h2>
                 <p>
-                  Wende dich mit den Anforderungen an unsere Community und entwickle gemeinsam die Druckvorlage für
-                  deinen konkreten Anwendungsfall.
+                  Wende Dich mit den Anforderungen an unsere Community und entwickle gemeinsam die Druckvorlage für
+                  Deinen konkreten Anwendungsfall.
                 </p>
               </div>
             </div>
