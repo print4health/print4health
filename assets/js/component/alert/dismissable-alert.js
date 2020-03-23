@@ -13,13 +13,15 @@ class DismissableAlert extends React.Component {
   }
 
   render() {
-
     if (this.props.message === null) {
       return null;
     }
-
     return (
-      <Alert variant={this.props.variant} onClose={() => this.context.setAlert(null, null)} dismissible>
+      <Alert
+        variant={this.props.variant}
+        onClose={() => this.context.setAlert(null, null)}
+        dismissible
+      >
         {this.props.message}
       </Alert>
     );
