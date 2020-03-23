@@ -84,11 +84,11 @@ class ThingDetailContainer extends React.Component {
             <div className="description mt-3">
               <p>{thing.description}</p>
             </div>
-            <div className="media">
+            <div className="media" onClick={this.toggleSpecs}>
               <div className="media-body">
                 <strong className="text-uppercase">Spezifikationen:</strong>
               </div>
-              <a className="btn btn-link" onClick={this.toggleSpecs}>
+              <a className="btn btn-link">
                 {showSpecs && <i className="fas fa-chevron-up fa-fw"></i>}
                 {!showSpecs && <i className="fas fa-chevron-down fa-fw"></i>}
               </a>
@@ -99,7 +99,7 @@ class ThingDetailContainer extends React.Component {
             <img src={map} className="map" />
           </div>
           <div className="col-md-3 col-order">
-            <div className="media ">
+            <div className="media">
               <div className="media-body">
                 <span className="mr-1">Bedarf gesamt:</span>
                 <strong className="text-primary">{thing.needed}</strong>
@@ -117,14 +117,14 @@ class ThingDetailContainer extends React.Component {
                 <i className="fas fa-plus-circle fa-fw text-secondary"></i>
               </a>
             </div>
-            <div className="media">
+            <a className="media" href={thing.url} target="_blank">
               <div className="media-body">
                 <strong className="text-uppercase">Downloads</strong>
               </div>
-              <a className="btn btn-link">
+              <span className="btn btn-link">
                 <i className="fas fa-arrow-alt-circle-down fa-fw"></i>
-              </a>
-            </div>
+              </span>
+            </a>
           </div>
         </div>
       </div>
