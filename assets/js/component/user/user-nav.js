@@ -1,48 +1,29 @@
 import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
+import AppContext from '../../context/app-context';
 
 class UserNav extends React.Component {
+
   constructor(props) {
     super(props);
-    this.state = {
-      loggedIn: null,
-      email: '',
-    };
-  }
-
-  componentDidMount() {
-    axios.get(Config.apiBasePath + '/user/profile')
-      .then((res) => {
-        this.setState({
-          loggedIn: true,
-          email: res.data.email,
-        });
-      })
-      .catch(() => {
-        this.setState({
-          loggedIn: false,
-          email: '',
-        });
-      });
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   handleLogout() {
+    const context = this.context;
     axios.get(Config.apiBasePath + '/logout')
       .then(function () {
-        window.location.reload(true);
+        context.setUser({});
       });
   }
 
   render() {
-    const { loggedIn, email } = this.state;
-    if (loggedIn === null) {
-      return <span></span>;
-    }
-    if (loggedIn === true) {
+    const context = this.context;
+    if (context.user.email) {
       return <span>
         <a href="#" className="nav-link" onClick={this.handleLogout}>
-          Logout {email}
+          Logout {context.user.email}
         </a>
       </span>;
     }
@@ -55,5 +36,7 @@ class UserNav extends React.Component {
     );
   }
 }
+
+UserNav.contextType = AppContext;
 
 export default UserNav;
