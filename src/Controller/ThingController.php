@@ -60,6 +60,27 @@ class ThingController
 
     /**
      * @Route(
+     *     "/things/search/{searchstring}",
+     *     name="thing_search",
+     *     methods={"GET"},
+     *     format="json"
+     * )
+     */
+    public function searchAction(string $searchstring): JsonResponse
+    {
+        $things = $this->thingRepository->searchNameDescription($searchstring);
+
+        $response = ['things' => []];
+
+        foreach ($things as $thing) {
+            $response['things'][] = ThingOut::createFromThing($thing);
+        }
+
+        return new JsonResponse($response);
+    }
+
+    /**
+     * @Route(
      *     "/things",
      *     name="thing_create",
      *     methods={"POST"},
