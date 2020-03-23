@@ -1,0 +1,590 @@
+{
+	"info": {
+		"_postman_id": "e141cd78-3484-4ae5-9dae-64b22c6d70bd",
+		"name": "print4health",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "/orders",
+			"item": [
+				{
+					"name": "/orders",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "bc495183-33cc-455b-afd3-ab78802633b0",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/orders",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/orders/{uuid}",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "bc495183-33cc-455b-afd3-ab78802633b0",
+								"exec": [
+									"let orderUrl = pm.variables.get(\"url\") + \"/orders\";",
+									"",
+									"pm.sendRequest(orderUrl, function (err, response) {",
+									"    pm.environment.set(\"orderUuid\", response.json()['orders'][0].id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/orders/{{orderUuid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"orders",
+								"{{orderUuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/orders",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "73037070-b2ca-40ef-942e-1abaf79654d0",
+								"exec": [
+									"let orderUrl = pm.variables.get(\"url\") + \"/things\";",
+									"",
+									"pm.sendRequest(orderUrl, function (err, response) {",
+									"    pm.environment.set(\"thingUuid\", response.json()['things'][0].id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"thingId\": \"{{thingUuid}}\",\n\t\"quantity\": {{$randomInt}}\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/orders",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "/things",
+			"item": [
+				{
+					"name": "/things",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/things",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"things"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/things/{uuid}",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "bc495183-33cc-455b-afd3-ab78802633b0",
+								"exec": [
+									"let orderUrl = pm.variables.get(\"url\") + \"/things\";",
+									"",
+									"pm.sendRequest(orderUrl, function (err, response) {",
+									"    pm.environment.set(\"thingUuid\", response.json()['things'][0].id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/things/{{thingUuid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"things",
+								"{{thingUuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/things",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "73037070-b2ca-40ef-942e-1abaf79654d0",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{$randomProductName}}\",\n    \"imageUrl\": \"{{$randomImageUrl}}\",\n    \"url\": \"{{$randomUrl}}\",\n    \"description\": \"{{$randomWords}}\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/things",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"things"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0bfd1778-07ba-4df9-8c8b-0f148a4ac4cd",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "6e89d0e7-cb75-4232-9112-2675300079c6",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "/requester",
+			"item": [
+				{
+					"name": "/requester",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/requester",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"requester"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/requester/{uuid}",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "bc495183-33cc-455b-afd3-ab78802633b0",
+								"exec": [
+									"let orderUrl = pm.variables.get(\"url\") + \"/requester\";",
+									"",
+									"pm.sendRequest(orderUrl, function (err, response) {",
+									"    pm.environment.set(\"requesterUuid\", response.json()['requester'][0].id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/requester/{{requesterUuid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"requester",
+								"{{requesterUuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/requester",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "73037070-b2ca-40ef-942e-1abaf79654d0",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomExampleEmail}}\",\n    \"password\": \"12345\",\n    \"name\": \"{{$randomCompanyName}}\",\n    \"streetAddress\": \"{{$randomStreetAddress}}\",\n    \"postalCode\": \"12345\",\n    \"addressCity\": \"{{$randomCity}}\",\n    \"addressState\": \"Berlin\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/requester",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"requester"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "/commitments",
+			"item": [
+				{
+					"name": "/commitments",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "73037070-b2ca-40ef-942e-1abaf79654d0",
+								"exec": [
+									"let orderUrl = pm.variables.get(\"url\") + \"/orders\";",
+									"",
+									"pm.sendRequest(orderUrl, function (err, response) {",
+									"    pm.environment.set(\"orderUuid\", response.json()['orders'][0].id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"orderId\": \"{{orderUuid}}\",\n\t\"quantity\": {{$randomInt}}\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/commitments",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"commitments"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "/user/profile",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/user/profile",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"user",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/login - User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6742bbda-fcd1-42ed-8d45-7f3fdf58b7cb",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"user@print4health.org\",\n\t\"password\": \"test\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/login - Admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6742bbda-fcd1-42ed-8d45-7f3fdf58b7cb",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"admin@print4health.org\",\n\t\"password\": \"test\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/login - Requester",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6742bbda-fcd1-42ed-8d45-7f3fdf58b7cb",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"requester@print4health.org\",\n\t\"password\": \"test\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

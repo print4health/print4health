@@ -1,48 +1,52 @@
 import React from 'react';
 import { Config } from '../../config';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import AppContext from '../../context/app-context';
 
 class UserNav extends React.Component {
+
   constructor(props) {
     super(props);
-    this.state = {
-      loggedIn: false,
-      email: '',
-    };
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
-  componentDidMount() {
-    console.log('asd');
-    fetch(Config.apiBasePath + '/user/profile')
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            loggedIn: true,
-            email: result.email,
-          });
-        },
-        (error) => {
-          this.setState({
-            loggedIn: false,
-            email: '',
-          });
-        },
-      );
+  handleLogout(e) {
+    e.preventDefault();
+    const context = this.context;
+    axios.get(Config.apiBasePath + '/logout')
+      .then(function () {
+        context.setUser({});
+        context.setAlert('erfolgreich abgemeldet.', 'success');
+      });
   }
 
   render() {
-    const { loggedIn, email } = this.state;
-    if (loggedIn) {
-      return <span>hello {email}, <a href="/logout">logout</a></span>;
-    }  else {
-      return (
-       <span>
-          <Link className="nav-link" to="/login">Login</Link>
-       </span>
-      );
+    if (this.context.user === null) {
+      return <span></span>;
     }
+    if (this.context.user.email) {
+      return <span>
+        <a href="#" className="nav-link" onClick={this.handleLogout}>
+          Logout
+        </a>
+      </span>;
+    }
+    return (
+      <span>
+        <a href="#"
+           className="nav-link"
+           onClick={(e) => {
+             e.preventDefault();
+             this.context.setShowLoginModal(true);
+           }}
+        >
+          Login
+        </a>
+       </span>
+    );
   }
 }
+
+UserNav.contextType = AppContext;
 
 export default UserNav;

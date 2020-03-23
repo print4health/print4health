@@ -1,4 +1,5 @@
 App\Entity\Commitment:
     commitment_{1..200}:
-        order: '@order_*'
-        quantity: '<numberBetween(5, 500)>'
+        __construct:
+            - '@order_*'
+            - '<numberBetween(1, 500)>'

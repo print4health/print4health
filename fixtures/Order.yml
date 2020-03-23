@@ -1,5 +1,6 @@
 App\Entity\Order:
-    order_{1..100}:
-        user: '@user_*'
-        thing: '@thing_*'
-        quantity: '<numberBetween(5, 5000)>'
+    order_{1..20}:
+        __construct:
+            - '@requester_*'
+            - '@thing_*'
+            - '<numberBetween(5, 5000)>'
