@@ -18,6 +18,7 @@ import logo from '../logo-print4health-org.svg';
 import Faq from './container/faq/faq';
 import About from './container/about/about';
 import AppContext from './context/app-context';
+import $ from 'jquery';
 
 class App extends React.Component {
 
@@ -38,6 +39,12 @@ class App extends React.Component {
 
   setAlert(alertMessage, alertClass) {
     this.setState({ alertMessage, alertClass });
+    $('.alert').show();
+  }
+
+  hideAlert() {
+    console.log($('.alert'));
+    $('.alert').hide();
   }
 
   render() {
@@ -78,7 +85,9 @@ class App extends React.Component {
             {this.state.alertMessage !== null ?
               <div className={'alert alert-' + this.state.alertClass} role="alert">
                 {this.state.alertMessage}
-                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                <button type="button"
+                        className="close"
+                        onClick={this.hideAlert}>
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>

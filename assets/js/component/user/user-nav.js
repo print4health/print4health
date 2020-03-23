@@ -15,6 +15,7 @@ class UserNav extends React.Component {
     axios.get(Config.apiBasePath + '/logout')
       .then(function () {
         context.setUser({});
+        context.setAlert('erfolgreich abgemeldet.', 'info');
       });
   }
 
@@ -26,7 +27,7 @@ class UserNav extends React.Component {
     if (context.user.email) {
       return <span>
         <a href="#" className="nav-link" onClick={this.handleLogout}>
-          Logout {context.user.email}
+          Logout
         </a>
       </span>;
     }
