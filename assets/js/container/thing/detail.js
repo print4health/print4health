@@ -103,9 +103,12 @@ class ThingDetailContainer extends React.Component {
                 <span className="mr-1">Bedarf gesamt:</span>
                 <strong className="text-primary">{thing.needed}</strong>
               </div>
-              <a className="btn btn-link" onClick={() => this.context.setShowOrderModal(true)}>
+              <button
+                className="btn btn-link"
+                onClick={() => this.context.setShowOrderModal(true)}
+                disabled={this.context.getCurrentUserRole() !== 'ROLE_REQUESTER'}>
                 <i className="fas fa-plus-circle fa-fw text-primary"></i>
-              </a>
+              </button>
             </div>
             <div className="media">
               <div className="media-body">

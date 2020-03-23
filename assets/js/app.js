@@ -32,6 +32,7 @@ class App extends React.Component {
       showCommitModal: false,
     };
     this.setUser = this.setUser.bind(this);
+    this.getCurrentUserRole = this.getCurrentUserRole.bind(this);
     this.setAlert = this.setAlert.bind(this);
     this.setShowLoginModal = this.setShowLoginModal.bind(this);
     this.setShowRequestPasswordResetModal = this.setShowRequestPasswordResetModal.bind(this);
@@ -41,6 +42,19 @@ class App extends React.Component {
 
   setUser(user) {
     this.setState({ user });
+  }
+
+  getCurrentUserRole() {
+    try {
+      if (this.state.user.roles.includes('ROLE_REQUESTER')) {
+        return 'ROLE_REQUESTER';
+      } else if (this.state.user.roles.includes('ROLE_USER')) {
+        return 'ROLE_USER';
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
   }
 
   setAlert(alertMessage, alertClass) {
@@ -69,6 +83,7 @@ class App extends React.Component {
         value={{
           user: this.state.user,
           setUser: this.setUser,
+          getCurrentUserRole: this.getCurrentUserRole,
           setAlert: this.setAlert,
           showLoginModal: this.state.showLoginModal,
           setShowLoginModal: this.setShowLoginModal,
