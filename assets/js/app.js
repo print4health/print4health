@@ -18,8 +18,8 @@ import logo from '../logo-print4health-org.svg';
 import Faq from './container/faq/faq';
 import About from './container/about/about';
 import AppContext from './context/app-context';
-import $ from 'jquery';
 import ResetPassword from './container/reset-password/reset-password';
+import DismissableAlert from './component/alert/dismissable-alert';
 
 class App extends React.Component {
 
@@ -40,12 +40,6 @@ class App extends React.Component {
 
   setAlert(alertMessage, alertClass) {
     this.setState({ alertMessage, alertClass });
-    $('.alert').show();
-  }
-
-  hideAlert() {
-    console.log($('.alert'));
-    $('.alert').hide();
   }
 
   render() {
@@ -84,19 +78,7 @@ class App extends React.Component {
           </nav>
 
           <div className="container pt-3">
-
-            {this.state.alertMessage !== null ?
-              <div className={'alert alert-' + this.state.alertClass} role="alert">
-                {this.state.alertMessage}
-                <button type="button"
-                        className="close"
-                        onClick={this.hideAlert}>
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              :
-              ''}
-
+            <DismissableAlert message={this.state.alertMessage} variant={this.state.alertClass} />
             <div className="row">
               <div className="col-sm"></div>
               <div className="col-xl-12">
