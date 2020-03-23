@@ -28,15 +28,35 @@ class App extends React.Component {
       alertClass: null,
       showLoginModal: false,
       showRequestPasswordResetModal: false,
+      showOrderModal: false,
+      showCommitModal: false,
+      currentThing: null,
     };
     this.setUser = this.setUser.bind(this);
+    this.getCurrentUserRole = this.getCurrentUserRole.bind(this);
     this.setAlert = this.setAlert.bind(this);
     this.setShowLoginModal = this.setShowLoginModal.bind(this);
     this.setShowRequestPasswordResetModal = this.setShowRequestPasswordResetModal.bind(this);
+    this.setShowOrderModal = this.setShowOrderModal.bind(this);
+    this.setShowCommitModal = this.setShowCommitModal.bind(this);
+    this.setCurrentThing = this.setCurrentThing.bind(this);
   }
 
   setUser(user) {
     this.setState({ user });
+  }
+
+  getCurrentUserRole() {
+    try {
+      if (this.state.user.roles.includes('ROLE_REQUESTER')) {
+        return 'ROLE_REQUESTER';
+      } else if (this.state.user.roles.includes('ROLE_USER')) {
+        return 'ROLE_USER';
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
   }
 
   setAlert(alertMessage, alertClass) {
@@ -51,17 +71,36 @@ class App extends React.Component {
     this.setState({ showRequestPasswordResetModal });
   }
 
+  setShowOrderModal(showOrderModal) {
+    this.setState({ showOrderModal });
+  }
+
+  setShowCommitModal(showCommitModal) {
+    this.setState({ showCommitModal });
+  }
+
+  setCurrentThing(currentThing) {
+    this.setState({ currentThing });
+  }
+
   render() {
     return (
       <AppContext.Provider
         value={{
           user: this.state.user,
           setUser: this.setUser,
+          getCurrentUserRole: this.getCurrentUserRole,
           setAlert: this.setAlert,
           showLoginModal: this.state.showLoginModal,
           setShowLoginModal: this.setShowLoginModal,
           showRequestPasswordResetModal: this.state.showRequestPasswordResetModal,
           setShowRequestPasswordResetModal: this.setShowRequestPasswordResetModal,
+          showOrderModal: this.state.showOrderModal,
+          setShowOrderModal: this.setShowOrderModal,
+          showCommitModal: this.state.showCommitModal,
+          setShowCommitModal: this.setShowCommitModal,
+          currentThing: this.state.currentThing,
+          setCurrentThing: this.setCurrentThing,
         }}
       >
         <Router>

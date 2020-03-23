@@ -2,8 +2,10 @@ import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-
 import map from '../../../2000px-Karte_Deutschland.svg';
+import AppContext from '../../context/app-context';
+import OrderModal from '../../component/modal/order';
+import CommitModal from '../../component/modal/commit';
 
 class ThingDetailContainer extends React.Component {
 
@@ -33,14 +35,12 @@ class ThingDetailContainer extends React.Component {
   }
 
   componentDidMount() {
-
     const { id } = this.props.match.params;
-
     axios.get(Config.apiBasePath + '/things/' + id)
       .then((res) => {
+        this.context.setCurrentThing(res.data.thing);
         this.setState({
           isLoaded: true,
-          thing: res.data.thing,
         });
       })
       .catch((error) => {
@@ -67,7 +67,8 @@ class ThingDetailContainer extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, thing, showSpecs } = this.state;
+    const { error, isLoaded, showSpecs } = this.state;
+    const thing = this.context.currentThing;
     if (error) {
       return <div className="alert alert-danger">Error: {error.message}</div>;
     }
@@ -104,18 +105,26 @@ class ThingDetailContainer extends React.Component {
                 <span className="mr-1">Bedarf gesamt:</span>
                 <strong className="text-primary">{thing.needed}</strong>
               </div>
-              <a className="btn btn-link">
+              <button
+                className="btn btn-link"
+                onClick={() => this.context.setShowOrderModal(true)}
+                disabled={this.context.getCurrentUserRole() !== 'ROLE_REQUESTER'}
+              >
                 <i className="fas fa-plus-circle fa-fw text-primary"></i>
-              </a>
+              </button>
             </div>
             <div className="media">
               <div className="media-body">
                 <span className="mr-1">Prints gesamt:</span>
                 <strong className="text-secondary">{thing.printed}</strong>
               </div>
-              <a className="btn btn-link">
+              <button
+                className="btn btn-link"
+                onClick={() => this.context.setShowCommitModal(true)}
+                disabled={thing.needed === 0}
+              >
                 <i className="fas fa-plus-circle fa-fw text-secondary"></i>
-              </a>
+              </button>
             </div>
             <a className="media" href={thing.url} target="_blank">
               <div className="media-body">
@@ -127,9 +136,14 @@ class ThingDetailContainer extends React.Component {
             </a>
           </div>
         </div>
+        <OrderModal thingId={thing.id} />
+        <CommitModal thingId={thing.id} />
       </div>
+
     );
   }
 }
+
+ThingDetailContainer.contextType = AppContext;
 
 export default ThingDetailContainer;
