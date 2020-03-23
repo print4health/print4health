@@ -20,11 +20,10 @@ class UserNav extends React.Component {
   }
 
   render() {
-    const context = this.context;
-    if (context.user === null) {
+    if (this.context.user === null) {
       return <span></span>;
     }
-    if (context.user.email) {
+    if (this.context.user.email) {
       return <span>
         <a href="#" className="nav-link" onClick={this.handleLogout}>
           Logout
@@ -33,7 +32,7 @@ class UserNav extends React.Component {
     }
     return (
       <span>
-        <a href="#" className="nav-link" data-toggle="modal" data-target="#modal-login">
+        <a href="#" className="nav-link" onClick={() => this.context.setShowLoginModal(true)}>
           Login
         </a>
        </span>

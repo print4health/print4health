@@ -29,9 +29,13 @@ class App extends React.Component {
       user: null,
       alertMessage: null,
       alertClass: null,
+      showLoginModal: false,
+      showRequestPasswordResetModal: false,
     };
     this.setUser = this.setUser.bind(this);
     this.setAlert = this.setAlert.bind(this);
+    this.setShowLoginModal = this.setShowLoginModal.bind(this);
+    this.setShowRequestPasswordResetModal = this.setShowRequestPasswordResetModal.bind(this);
   }
 
   setUser(user) {
@@ -42,6 +46,14 @@ class App extends React.Component {
     this.setState({ alertMessage, alertClass });
   }
 
+  setShowLoginModal(showLoginModal) {
+    this.setState({ showLoginModal });
+  }
+
+  setShowRequestPasswordResetModal(showRequestPasswordResetModal) {
+    this.setState({ showRequestPasswordResetModal });
+  }
+
   render() {
     return (
       <AppContext.Provider
@@ -49,6 +61,10 @@ class App extends React.Component {
           user: this.state.user,
           setUser: this.setUser,
           setAlert: this.setAlert,
+          showLoginModal: this.state.showLoginModal,
+          setShowLoginModal: this.setShowLoginModal,
+          showRequestPasswordResetModal: this.state.showRequestPasswordResetModal,
+          setShowRequestPasswordResetModal: this.setShowRequestPasswordResetModal,
         }}
       >
         <Router>
