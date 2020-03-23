@@ -12,7 +12,9 @@ class Search extends React.Component {
       <div className="input-group searchbar">
         <input type="text" className="form-control" placeholder={searchPlaceholder} aria-describedby="lupe"/>
         <div className="input-group-append">
-          <button className="input-group-text" id="lupe">LUPE</button>
+          <button className="input-group-text" id="lupe">
+            <i className="fas fa-search" />
+          </button>
         </div>
       </div>
     );

@@ -1,0 +1,34 @@
+.ThingListCard {
+    transition: transform 0.2s;
+
+    &:hover {
+        transform: scale(1.02);
+    }
+
+    &__image {
+        width: 100%;
+        height: 15vw;
+        object-fit: cover;
+
+        &--loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: $gray-200;
+        }
+
+        &--fallback {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: $gray-200;
+        }
+    }
+
+    &__description {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
+    }
+}
