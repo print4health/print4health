@@ -68,7 +68,7 @@ class App extends React.Component {
                   <Link className="nav-link" to="/">Start</Link>
                 </li>
                 <li className="nav-item mx-5">
-                  <Link className="nav-link" to="/thing/list">Ersatzteile</Link>
+                  <Link className="nav-link" to="/thing/list">Bedarf</Link>
                 </li>
                 <li className="nav-item mx-5">
                   <Link className="nav-link" to="/faq">FAQ</Link>
@@ -116,9 +116,13 @@ class App extends React.Component {
               </div>
             </div>
           </div>
-          <div className="footer">
-            <Link className="nav-link" to="/legal">Impressum</Link>
-          </div>
+          <footer className="container mt-5">
+            <div className="row">
+              <div className="col">
+                <Link className="nav-link" to="/legal">Impressum</Link>
+              </div>
+            </div>
+          </footer>
           <LoginModal />
           <RequestPasswordResetModal />
         </Router>

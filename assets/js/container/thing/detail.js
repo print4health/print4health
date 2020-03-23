@@ -3,14 +3,18 @@ import { Config } from '../../config';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
+import map from '../../../2000px-Karte_Deutschland.svg';
+
 class ThingDetailContainer extends React.Component {
 
   constructor(props) {
     super(props);
+    this.toggleSpecs = this.toggleSpecs.bind(this);
     this.state = {
       error: null,
       isLoaded: false,
       thing: null,
+      showSpecs: false,
     };
   }
 
@@ -19,6 +23,13 @@ class ThingDetailContainer extends React.Component {
       match: PropTypes.object,
       id: PropTypes.string,
     };
+  }
+
+  toggleSpecs(event) {
+    event.preventDefault();
+    this.setState(state => ({
+      showSpecs: !state.showSpecs,
+    }));
   }
 
   componentDidMount() {
@@ -40,8 +51,23 @@ class ThingDetailContainer extends React.Component {
       });
   }
 
+  renderSpecification() {
+    const { thing } = this.state;
+
+    if (thing.specification.length > 0) {
+      return (
+        <div className="specs">{thing.specification}</div>
+      );
+    }
+    if (thing.specification.length === 0) {
+      return (
+        <div className="specs">Noch keine Spezifikation enthalten.</div>
+      );
+    }
+  }
+
   render() {
-    const { error, isLoaded, thing } = this.state;
+    const { error, isLoaded, thing, showSpecs } = this.state;
     if (error) {
       return <div className="alert alert-danger">Error: {error.message}</div>;
     }
@@ -51,19 +77,54 @@ class ThingDetailContainer extends React.Component {
 
     return (
       <div>
-        <div className="row">
-          <div className="col-md-3">
+        <div className="row ThingListDetail">
+          <div className="col-md-3 thing-info">
             <h2>{thing.name}</h2>
-            <div className="description">
+            <img src={thing.imageUrl} alt={thing.name} />
+            <div className="description mt-3">
               <p>{thing.description}</p>
             </div>
-            <img src={thing.imageURL} alt={thing.name} />
+            <div className="media">
+              <div className="media-body">
+                <strong className="text-uppercase">Spezifikationen:</strong>
+              </div>
+              <a className="btn btn-link" onClick={this.toggleSpecs}>
+                {showSpecs && <i className="fas fa-chevron-up fa-fw"></i>}
+                {!showSpecs && <i className="fas fa-chevron-down fa-fw"></i>}
+              </a>
+            </div>
+            {showSpecs && this.renderSpecification()}
           </div>
-          <div className="col-md-6">
-            deutschland karte
+          <div className="col-md-6 col-map">
+            <img src={map} className="map" />
           </div>
-          <div className="col-md-3">
-
+          <div className="col-md-3 col-order">
+            <div className="media ">
+              <div className="media-body">
+                <span className="mr-1">Bedarf gesamt:</span>
+                <strong className="text-primary">{thing.needed}</strong>
+              </div>
+              <a className="btn btn-link">
+                <i className="fas fa-plus-circle fa-fw text-primary"></i>
+              </a>
+            </div>
+            <div className="media">
+              <div className="media-body">
+                <span className="mr-1">Prints gesamt:</span>
+                <strong className="text-secondary">{thing.printed}</strong>
+              </div>
+              <a className="btn btn-link">
+                <i className="fas fa-plus-circle fa-fw text-secondary"></i>
+              </a>
+            </div>
+            <div className="media">
+              <div className="media-body">
+                <strong className="text-uppercase">Downloads</strong>
+              </div>
+              <a className="btn btn-link">
+                <i className="fas fa-arrow-alt-circle-down fa-fw"></i>
+              </a>
+            </div>
           </div>
         </div>
       </div>

@@ -10,4 +10,5 @@ class ThingIn
     public string $imageUrl;
     public string $url;
     public string $description;
+    public string $specification;
 }
