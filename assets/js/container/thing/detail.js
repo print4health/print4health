@@ -38,9 +38,9 @@ class ThingDetailContainer extends React.Component {
     const { id } = this.props.match.params;
     axios.get(Config.apiBasePath + '/things/' + id)
       .then((res) => {
+        this.context.setCurrentThing(res.data.thing);
         this.setState({
           isLoaded: true,
-          thing: res.data.thing,
         });
       })
       .catch((error) => {
@@ -67,7 +67,8 @@ class ThingDetailContainer extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, thing, showSpecs } = this.state;
+    const { error, isLoaded, showSpecs } = this.state;
+    const thing = this.context.currentThing;
     if (error) {
       return <div className="alert alert-danger">Error: {error.message}</div>;
     }
@@ -120,6 +121,7 @@ class ThingDetailContainer extends React.Component {
               <button
                 className="btn btn-link"
                 onClick={() => this.context.setShowCommitModal(true)}
+                disabled={thing.needed === 0}
               >
                 <i className="fas fa-plus-circle fa-fw text-secondary"></i>
               </button>
