@@ -190,7 +190,8 @@ class SecurityController
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        $url = $this->router->generate('home', ['token' => $user->getPasswordResetToken()], Router::ABSOLUTE_URL);
+        $url = $this->router->generate('home', [], Router::ABSOLUTE_URL);
+        $url .= '#/reset-password/' . $user->getPasswordResetToken();
         $body = $this->twig->render('email/password_reset.txt.twig', ['url' => $url]);
         $email = (new Email())
             ->from('noreply@print4health.org')
