@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import map from '../../../2000px-Karte_Deutschland.svg';
 import AppContext from '../../context/app-context';
 import OrderModal from '../../component/modal/order';
+import CommitModal from '../../component/modal/commit';
 
 class ThingDetailContainer extends React.Component {
 
@@ -106,7 +107,8 @@ class ThingDetailContainer extends React.Component {
               <button
                 className="btn btn-link"
                 onClick={() => this.context.setShowOrderModal(true)}
-                disabled={this.context.getCurrentUserRole() !== 'ROLE_REQUESTER'}>
+                disabled={this.context.getCurrentUserRole() !== 'ROLE_REQUESTER'}
+              >
                 <i className="fas fa-plus-circle fa-fw text-primary"></i>
               </button>
             </div>
@@ -115,9 +117,12 @@ class ThingDetailContainer extends React.Component {
                 <span className="mr-1">Prints gesamt:</span>
                 <strong className="text-secondary">{thing.printed}</strong>
               </div>
-              <a className="btn btn-link">
+              <button
+                className="btn btn-link"
+                onClick={() => this.context.setShowCommitModal(true)}
+              >
                 <i className="fas fa-plus-circle fa-fw text-secondary"></i>
-              </a>
+              </button>
             </div>
             <a className="media" href={thing.url} target="_blank">
               <div className="media-body">
@@ -130,6 +135,7 @@ class ThingDetailContainer extends React.Component {
           </div>
         </div>
         <OrderModal thingId={thing.id} />
+        <CommitModal thingId={thing.id} />
       </div>
 
     );
