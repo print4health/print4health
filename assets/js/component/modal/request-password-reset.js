@@ -2,6 +2,7 @@ import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
 import $ from 'jquery';
+import AppContext from '../../context/app-context';
 
 class RequestPasswordResetModal extends React.Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class RequestPasswordResetModal extends React.Component {
     axios.post(Config.apiBasePath + '/request-password-reset', { email: this.state.email })
       .then(function () {
         $('#modal-request-passwort-reset').modal('hide');
+        self.context.setAlert('Ein Link zum Zurücksetzen des Passworts wurde per email verschickt.', 'success');
       })
       .catch(function (error) {
         self.setState({
@@ -71,5 +73,7 @@ class RequestPasswordResetModal extends React.Component {
     );
   }
 }
+
+RequestPasswordResetModal.contextType = AppContext;
 
 export default RequestPasswordResetModal;

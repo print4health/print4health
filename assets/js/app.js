@@ -25,12 +25,19 @@ class App extends React.Component {
     super(props);
     this.state = {
       user: null,
+      alertMessage: null,
+      alertClass: null,
     };
     this.setUser = this.setUser.bind(this);
+    this.setAlert = this.setAlert.bind(this);
   }
 
   setUser(user) {
     this.setState({ user });
+  }
+
+  setAlert(alertMessage, alertClass) {
+    this.setState({ alertMessage, alertClass });
   }
 
   render() {
@@ -39,6 +46,7 @@ class App extends React.Component {
         value={{
           user: this.state.user,
           setUser: this.setUser,
+          setAlert: this.setAlert,
         }}
       >
         <Router>
@@ -66,6 +74,17 @@ class App extends React.Component {
           </nav>
 
           <div className="container pt-3">
+
+            {this.state.alertMessage !== null ?
+              <div className={'alert alert-' + this.state.alertClass} role="alert">
+                {this.state.alertMessage}
+                <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              :
+              ''}
+
             <div className="row">
               <div className="col-sm"></div>
               <div className="col-xl-12">
