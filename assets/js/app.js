@@ -13,6 +13,7 @@ import UserNav from './component/user/user-nav';
 import ThingListContainer from './container/thing/list';
 import ThingDetailContainer from './container/thing/detail';
 import LoginModal from './component/modal/login';
+import RequestPasswordResetModal from './component/modal/request-password-reset';
 import logo from '../logo-print4health-org.svg';
 import Faq from './container/faq/faq';
 import About from './container/about/about';
@@ -84,11 +85,12 @@ class App extends React.Component {
                 </Switch>
               </div>
             </div>
-            <LoginModal />
           </div>
           <div className="footer">
             <Link className="nav-link" to="/legal">Impressum</Link>
           </div>
+          <LoginModal />
+          <RequestPasswordResetModal />
         </Router>
       </AppContext.Provider>
     );
