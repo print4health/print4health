@@ -20,6 +20,9 @@ class UserNav extends React.Component {
 
   render() {
     const context = this.context;
+    if (context.user === null) {
+      return <span></span>;
+    }
     if (context.user.email) {
       return <span>
         <a href="#" className="nav-link" onClick={this.handleLogout}>
