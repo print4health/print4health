@@ -52,7 +52,7 @@ class ThingDetailContainer extends React.Component {
   }
 
   renderSpecification() {
-    const { thing } = this.state;
+    const thing = this.context.currentThing;
 
     if (thing.specification.length > 0) {
       return (
