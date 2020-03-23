@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
@@ -29,7 +30,8 @@ class CommitmentController
         OrderRepository $orderRepository,
         SerializerInterface $serializer,
         EntityManagerInterface $entityManager
-    ) {
+    )
+    {
         $this->orderRepository = $orderRepository;
         $this->serializer = $serializer;
         $this->entityManager = $entityManager;
@@ -64,6 +66,12 @@ class CommitmentController
 
         $commitmentOut = CommitmentOut::createFromCommitment($commitment);
 
-        return new JsonResponse(['commitment' => $commitmentOut], 201);
+        return new JsonResponse(['commitment' => $commitmentOut], Response::HTTP_CREATED);
+    }
+
+    public function get(Request $request): JsonResponse
+    {
+        $commitment = 'test';
+        return new JsonResponse(['commitment' => $commitment], Response::HTTP_OK);
     }
 }
