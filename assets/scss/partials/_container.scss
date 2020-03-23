@@ -27,8 +27,18 @@
             font-size: 3rem;
             transition: all 0.25s ease-out;
 
-            &:focus {
-                transform: scale(1.1);
+            &:not([disabled]) {
+                &:focus {
+                    transform: scale(1.1);
+                }
+            }
+        }
+
+        &:hover {
+            .btn {
+                &:not([disabled]) {
+                    transform: scale(1.1);
+                }
             }
         }
 
@@ -43,5 +53,17 @@
 
     .media-body {
         font-size: 1.25rem;
+    }
+}
+
+.Faq {
+    .card {
+        .card-header {
+            cursor: pointer;
+
+            &:hover {
+                background-color: $light;
+            }
+        }
     }
 }

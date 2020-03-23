@@ -15,7 +15,6 @@ h1, h2 {
     background-color: $gray-bg;
 }
 
-footer {
-    background-color: $gray-bg;
-    color: $primary;
+span[title] {
+    border-bottom: 1px dotted $light;
 }
