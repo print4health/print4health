@@ -32,13 +32,14 @@ class LoginModal extends React.Component {
     this.setState({ error: '' });
     e.preventDefault();
     const context = this.context;
+    const self = this;
     axios.post(Config.apiBasePath + '/login', this.state)
       .then(function (res) {
         context.setUser(res.data);
         $('#modal-login').modal('hide');
       })
       .catch(function (error) {
-        this.setState({
+        self.setState({
           error: error.response.data.error,
         });
       });
