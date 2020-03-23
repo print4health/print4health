@@ -41,7 +41,9 @@ class App extends React.Component {
         }}
       >
         <Router>
-          <img src={logo} alt="Logo" className="rounded mx-auto d-block logo" />
+          <Link to="/">
+            <img src={logo} alt="Logo" className="rounded mx-auto d-block logo" />
+          </Link>
           <nav className="navbar navbar-expand-lg navbar-light navbar-fixed-top">
             <div className="container font-weight-bold">
               <ul className="navbar-nav navbar-center">
