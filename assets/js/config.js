@@ -1,4 +1,4 @@
 
 export const Config = {
-  apiBasePath: 'http://dev.print4health.org',
+  apiBasePath: 'https://print4health.org',
 };
