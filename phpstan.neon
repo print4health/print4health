@@ -1,4 +1,3 @@
 parameters:
 	excludes_analyse:
 		- src/Migrations
-	checkGenericClassInNonGenericObjectType: false
