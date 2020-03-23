@@ -2,6 +2,7 @@ import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
 import $ from 'jquery';
+import AppContext from '../../context/app-context';
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -10,27 +11,34 @@ class LoginModal extends React.Component {
       email: '',
       password: '',
       error: '',
-      redirectHome: false,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  componentDidMount() {
+    const context = this.context;
+    axios.get(Config.apiBasePath + '/user/profile')
+      .then((res) => {
+        context.setUser(res.data);
+      })
+      .catch(() => {
+        context.setUser({});
+      });
+  }
+
   handleSubmit(e) {
-    const self = this;
     this.setState({ error: '' });
     e.preventDefault();
+    const context = this.context;
     axios.post(Config.apiBasePath + '/login', this.state)
-      .then(function () {
+      .then(function (res) {
+        context.setUser(res.data);
         $('#modal-login').modal('hide');
-        window.location.reload(true);
-        self.setState({
-          redirectHome: true,
-        });
       })
       .catch(function (error) {
-        self.setState({
+        this.setState({
           error: error.response.data.error,
         });
       });
@@ -86,5 +94,7 @@ class LoginModal extends React.Component {
     );
   }
 }
+
+LoginModal.contextType = AppContext;
 
 export default LoginModal;
