@@ -24,17 +24,6 @@ class OrderModal extends React.Component {
     };
   }
 
-  componentDidMount() {
-    const context = this.context;
-    axios.get(Config.apiBasePath + '/user/profile')
-      .then((res) => {
-        context.setUser(res.data);
-      })
-      .catch(() => {
-        context.setUser({});
-      });
-  }
-
   handleSubmit(e) {
     this.setState({ error: '' });
     e.preventDefault();
