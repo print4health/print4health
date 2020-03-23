@@ -1,6 +1,3 @@
-import 'jquery';
-import 'popper.js';
-import 'bootstrap';
 import React from 'react';
 import {
   HashRouter as Router,
