@@ -26,7 +26,6 @@ class ThingRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param string $searchstring
      * @return array<Thing>
      */
     public function searchNameDescription(string $searchstring): array
