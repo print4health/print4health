@@ -4,12 +4,11 @@ import axios from 'axios';
 import $ from 'jquery';
 import AppContext from '../../context/app-context';
 
-class LoginModal extends React.Component {
+class RequestPasswordResetModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       email: '',
-      password: '',
       error: '',
     };
 
@@ -17,31 +16,18 @@ class LoginModal extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  componentDidMount() {
-    const context = this.context;
-    axios.get(Config.apiBasePath + '/user/profile')
-      .then((res) => {
-        context.setUser(res.data);
-      })
-      .catch(() => {
-        context.setUser({});
-      });
-  }
-
   handleSubmit(e) {
     this.setState({ error: '' });
-    e.preventDefault();
-    const context = this.context;
     const self = this;
-    axios.post(Config.apiBasePath + '/login', this.state)
-      .then(function (res) {
-        context.setUser(res.data);
-        $('#modal-login').modal('hide');
-        self.context.setAlert('Herzlich Willkommen ' + res.data.email, 'success');
+    e.preventDefault();
+    axios.post(Config.apiBasePath + '/request-password-reset', { email: this.state.email })
+      .then(function () {
+        $('#modal-request-passwort-reset').modal('hide');
+        self.context.setAlert('Ein Link zum Zurücksetzen des Passworts wurde per email verschickt.', 'success');
       })
       .catch(function (error) {
         self.setState({
-          error: error.response.data.error,
+          error: error.response.data.errors.join(', '),
         });
       });
   }
@@ -54,7 +40,7 @@ class LoginModal extends React.Component {
 
   render() {
     return (
-      <div className="modal fade" id="modal-login" tabIndex="-1" role="dialog">
+      <div className="modal fade" id="modal-request-passwort-reset" tabIndex="-1" role="dialog">
         <form onSubmit={this.handleSubmit}>
           <div className="modal-dialog" role="document">
             <div className="modal-content">
@@ -76,23 +62,9 @@ class LoginModal extends React.Component {
                          value={this.state.email}
                          onChange={this.handleInputChange} />
                 </div>
-                <div className="form-group">
-                  <input name="password"
-                         type="password"
-                         placeholder="password"
-                         className="form-control"
-                         required
-                         value={this.state.password}
-                         onChange={this.handleInputChange} />
-                </div>
-                <p>
-                  <a href="#" data-toggle="modal" data-target="#modal-request-passwort-reset" data-dismiss="modal">
-                    Passwort vergessen?
-                  </a>
-                </p>
               </div>
               <div className="modal-footer">
-                <input type="submit" className="btn btn-primary" value=" Login" />
+                <input type="submit" className="btn btn-primary" value="Link anfordern" />
               </div>
             </div>
           </div>
@@ -102,6 +74,6 @@ class LoginModal extends React.Component {
   }
 }
 
-LoginModal.contextType = AppContext;
+RequestPasswordResetModal.contextType = AppContext;
 
-export default LoginModal;
+export default RequestPasswordResetModal;

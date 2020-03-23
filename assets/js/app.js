@@ -13,10 +13,13 @@ import UserNav from './component/user/user-nav';
 import ThingListContainer from './container/thing/list';
 import ThingDetailContainer from './container/thing/detail';
 import LoginModal from './component/modal/login';
+import RequestPasswordResetModal from './component/modal/request-password-reset';
 import logo from '../logo-print4health-org.svg';
 import Faq from './container/faq/faq';
 import About from './container/about/about';
 import AppContext from './context/app-context';
+import $ from 'jquery';
+import ResetPassword from './container/reset-password/reset-password';
 
 class App extends React.Component {
 
@@ -24,12 +27,25 @@ class App extends React.Component {
     super(props);
     this.state = {
       user: null,
+      alertMessage: null,
+      alertClass: null,
     };
     this.setUser = this.setUser.bind(this);
+    this.setAlert = this.setAlert.bind(this);
   }
 
   setUser(user) {
     this.setState({ user });
+  }
+
+  setAlert(alertMessage, alertClass) {
+    this.setState({ alertMessage, alertClass });
+    $('.alert').show();
+  }
+
+  hideAlert() {
+    console.log($('.alert'));
+    $('.alert').hide();
   }
 
   render() {
@@ -38,6 +54,7 @@ class App extends React.Component {
         value={{
           user: this.state.user,
           setUser: this.setUser,
+          setAlert: this.setAlert,
         }}
       >
         <Router>
@@ -65,12 +82,23 @@ class App extends React.Component {
           </nav>
 
           <div className="container pt-3">
+
+            {this.state.alertMessage !== null ?
+              <div className={'alert alert-' + this.state.alertClass} role="alert">
+                {this.state.alertMessage}
+                <button type="button"
+                        className="close"
+                        onClick={this.hideAlert}>
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              :
+              ''}
+
             <div className="row">
               <div className="col-sm"></div>
               <div className="col-xl-12">
                 <Switch>
-                  <Route path="/request-reset-password" component={Index} />
-                  <Route path="/reset-password" component={Index} />
                   <Route path="/order/list" component={Index} />
                   <Route path="/order/map" component={Index} />
                   <Route path="/order/{id}" component={Index} />
@@ -80,15 +108,17 @@ class App extends React.Component {
                   <Route path="/faq" component={Faq} />
                   <Route path="/about" component={About} />
                   <Route path="/legal" component={Index} />
+                  <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
                   <Route path="/" component={Index} />
                 </Switch>
               </div>
             </div>
-            <LoginModal />
           </div>
           <div className="footer">
             <Link className="nav-link" to="/legal">Impressum</Link>
           </div>
+          <LoginModal />
+          <RequestPasswordResetModal />
         </Router>
       </AppContext.Provider>
     );
