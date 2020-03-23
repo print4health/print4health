@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion, Button, Card } from 'react-bootstrap';
+import { Accordion, Card } from 'react-bootstrap';
 
 class Faq extends React.Component {
   render() {
