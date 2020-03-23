@@ -1,6 +1,3 @@
-import 'jquery';
-import 'popper.js';
-import 'bootstrap';
 import React from 'react';
 import {
   HashRouter as Router,
@@ -18,8 +15,8 @@ import logo from '../logo-print4health-org.svg';
 import Faq from './container/faq/faq';
 import About from './container/about/about';
 import AppContext from './context/app-context';
-import $ from 'jquery';
 import ResetPassword from './container/reset-password/reset-password';
+import DismissableAlert from './component/alert/dismissable-alert';
 
 class App extends React.Component {
 
@@ -29,9 +26,13 @@ class App extends React.Component {
       user: null,
       alertMessage: null,
       alertClass: null,
+      showLoginModal: false,
+      showRequestPasswordResetModal: false,
     };
     this.setUser = this.setUser.bind(this);
     this.setAlert = this.setAlert.bind(this);
+    this.setShowLoginModal = this.setShowLoginModal.bind(this);
+    this.setShowRequestPasswordResetModal = this.setShowRequestPasswordResetModal.bind(this);
   }
 
   setUser(user) {
@@ -40,12 +41,14 @@ class App extends React.Component {
 
   setAlert(alertMessage, alertClass) {
     this.setState({ alertMessage, alertClass });
-    $('.alert').show();
   }
 
-  hideAlert() {
-    console.log($('.alert'));
-    $('.alert').hide();
+  setShowLoginModal(showLoginModal) {
+    this.setState({ showLoginModal });
+  }
+
+  setShowRequestPasswordResetModal(showRequestPasswordResetModal) {
+    this.setState({ showRequestPasswordResetModal });
   }
 
   render() {
@@ -55,6 +58,10 @@ class App extends React.Component {
           user: this.state.user,
           setUser: this.setUser,
           setAlert: this.setAlert,
+          showLoginModal: this.state.showLoginModal,
+          setShowLoginModal: this.setShowLoginModal,
+          showRequestPasswordResetModal: this.state.showRequestPasswordResetModal,
+          setShowRequestPasswordResetModal: this.setShowRequestPasswordResetModal,
         }}
       >
         <Router>
@@ -84,19 +91,7 @@ class App extends React.Component {
           </nav>
 
           <div className="container pt-3">
-
-            {this.state.alertMessage !== null ?
-              <div className={'alert alert-' + this.state.alertClass} role="alert">
-                {this.state.alertMessage}
-                <button type="button"
-                        className="close"
-                        onClick={this.hideAlert}>
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              :
-              ''}
-
+            <DismissableAlert message={this.state.alertMessage} variant={this.state.alertClass} />
             <div className="row">
               <div className="col-sm"></div>
               <div className="col-xl-12">

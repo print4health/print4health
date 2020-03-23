@@ -1,8 +1,8 @@
 import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
-import $ from 'jquery';
 import AppContext from '../../context/app-context';
+import { Modal } from 'react-bootstrap';
 
 class RequestPasswordResetModal extends React.Component {
   constructor(props) {
@@ -19,11 +19,12 @@ class RequestPasswordResetModal extends React.Component {
   handleSubmit(e) {
     this.setState({ error: '' });
     const self = this;
+    const context = this.context;
     e.preventDefault();
     axios.post(Config.apiBasePath + '/request-password-reset', { email: this.state.email })
       .then(function () {
-        $('#modal-request-passwort-reset').modal('hide');
-        self.context.setAlert('Ein Link zum Zurücksetzen des Passworts wurde per email verschickt.', 'success');
+        context.setShowRequestPasswordResetModal(false);
+        context.setAlert('Ein Link zum Zurücksetzen des Passworts wurde per email verschickt.', 'success');
       })
       .catch(function (error) {
         self.setState({
@@ -40,36 +41,32 @@ class RequestPasswordResetModal extends React.Component {
 
   render() {
     return (
-      <div className="modal fade" id="modal-request-passwort-reset" tabIndex="-1" role="dialog">
+      <Modal show={this.context.showRequestPasswordResetModal}
+             onHide={() => this.context.setShowRequestPasswordResetModal(false)}
+             animation={false}
+      >
         <form onSubmit={this.handleSubmit}>
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
+          <Modal.Header closeButton>
+            <Modal.Title>Passwort zurücksetzen</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
 
-                <div className="form-group">
-                  <input name="email"
-                         type="email"
-                         placeholder="email"
-                         className="form-control"
-                         required
-                         value={this.state.email}
-                         onChange={this.handleInputChange} />
-                </div>
-              </div>
-              <div className="modal-footer">
-                <input type="submit" className="btn btn-primary" value="Link anfordern" />
-              </div>
+            <div className="form-group">
+              <input name="email"
+                     type="email"
+                     placeholder="email"
+                     className="form-control"
+                     required
+                     value={this.state.email}
+                     onChange={this.handleInputChange} />
             </div>
-          </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <input type="submit" className="btn btn-primary" value="Link anfordern" />
+          </Modal.Footer>
         </form>
-      </div>
+      </Modal>
     );
   }
 }

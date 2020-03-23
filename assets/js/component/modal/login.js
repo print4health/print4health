@@ -1,8 +1,8 @@
 import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
-import $ from 'jquery';
 import AppContext from '../../context/app-context';
+import { Modal } from 'react-bootstrap';
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -36,8 +36,8 @@ class LoginModal extends React.Component {
     axios.post(Config.apiBasePath + '/login', this.state)
       .then(function (res) {
         context.setUser(res.data);
-        $('#modal-login').modal('hide');
-        self.context.setAlert('Herzlich Willkommen ' + res.data.email, 'success');
+        context.setShowLoginModal(false);
+        context.setAlert('Herzlich Willkommen ' + res.data.email, 'success');
       })
       .catch(function (error) {
         self.setState({
@@ -54,50 +54,50 @@ class LoginModal extends React.Component {
 
   render() {
     return (
-      <div className="modal fade" id="modal-login" tabIndex="-1" role="dialog">
-        <form onSubmit={this.handleSubmit}>
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
 
-                <div className="form-group">
-                  <input name="email"
-                         type="email"
-                         placeholder="email"
-                         className="form-control"
-                         required
-                         value={this.state.email}
-                         onChange={this.handleInputChange} />
-                </div>
-                <div className="form-group">
-                  <input name="password"
-                         type="password"
-                         placeholder="password"
-                         className="form-control"
-                         required
-                         value={this.state.password}
-                         onChange={this.handleInputChange} />
-                </div>
-                <p>
-                  <a href="#" data-toggle="modal" data-target="#modal-request-passwort-reset" data-dismiss="modal">
-                    Passwort vergessen?
-                  </a>
-                </p>
-              </div>
-              <div className="modal-footer">
-                <input type="submit" className="btn btn-primary" value=" Login" />
-              </div>
+      <Modal show={this.context.showLoginModal} onHide={() => this.context.setShowLoginModal(false)} animation={false}>
+        <form onSubmit={this.handleSubmit}>
+          <Modal.Header closeButton>
+            <Modal.Title>Login</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
+
+            <div className="form-group">
+              <input name="email"
+                     type="email"
+                     placeholder="email"
+                     className="form-control"
+                     required
+                     value={this.state.email}
+                     onChange={this.handleInputChange} />
             </div>
-          </div>
+            <div className="form-group">
+              <input name="password"
+                     type="password"
+                     placeholder="password"
+                     className="form-control"
+                     required
+                     value={this.state.password}
+                     onChange={this.handleInputChange} />
+            </div>
+            <p>
+              <a href="#"
+                 data-toggle="modal"
+                 onClick={() => {
+                   this.context.setShowLoginModal(false);
+                   this.context.setShowRequestPasswordResetModal(true);
+                 }}
+              >
+                Passwort vergessen?
+              </a>
+            </p>
+          </Modal.Body>
+          <Modal.Footer>
+            <input type="submit" className="btn btn-primary" value=" Login" />
+          </Modal.Footer>
         </form>
-      </div>
+      </Modal>
     );
   }
 }
