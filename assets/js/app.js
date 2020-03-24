@@ -13,7 +13,6 @@ import LoginModal from './component/modal/login';
 import RequestPasswordResetModal from './component/modal/request-password-reset';
 import logo from '../logo-print4health-org.svg';
 import Faq from './container/faq/faq';
-import About from './container/about/about';
 import AppContext from './context/app-context';
 import ResetPassword from './container/reset-password/reset-password';
 import DismissableAlert from './component/alert/dismissable-alert';
