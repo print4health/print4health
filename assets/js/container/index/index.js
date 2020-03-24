@@ -19,7 +19,7 @@ class Index extends React.Component {
             <div className="col">
               <h2>Motivation</h2>
               <p>In pandemischen Krisenzeiten gibt es im Gesundheitssektor einen großen Bedarf an Ersatzteilen.
-                Länder, in denen Krise schon weiter fortgeschritten ist, setzen bereits auf 3D-Druck als Lösung zur
+                Länder, in denen die Krise schon weiter fortgeschritten ist, setzen bereits auf 3D-Druck als Lösung zur
                 Bedarfsdeckung
                 im Gesundheitssektor. <br />
                 So unterstützen Maschinenbauer in Italien die Krankenhäuser mit 3D-gedruckten Ventilen,
@@ -55,13 +55,13 @@ class Index extends React.Component {
             <div className="col-sm">
               <div className="card shadow-sm">
                 <div className="card-body">
-                  <h5 className="card-title">Bist du ein Krankenhaus oder soziale Einrichtung?</h5>
+                  <h5 className="card-title">Bist Du ein Krankenhaus oder eine soziale Einrichtung?</h5>
                   <p className="card-text">
                     Du benötigst dringend Infektionsschutz oder Teile für Geräte?
-                    Dann schau auf unter Bedarf, ob Dein Produkt schon in der Datenbank ist.
-                    Für dein gewünschtes Produkt existiert noch keine Druckvorlage?
-                    Wende dich mit den Anforderungen an unsere Community und entwickle gemeinsam die Druckvorlage für
-                    deinen
+                    Dann schau unter Bedarf, ob Dein Produkt schon in der Datenbank ist.
+                    Für Dein gewünschtes Produkt existiert noch keine Druckvorlage?
+                    Wende Dich mit den Anforderungen an unsere Community und entwickle gemeinsam die Druckvorlage für
+                    Deinen
                     konkreten Anwendungsfall.
                   </p>
                 </div>
@@ -70,12 +70,12 @@ class Index extends React.Component {
             <div className="col-sm">
               <div className="card shadow-sm">
                 <div className="card-body">
-                  <h5 className="card-title">Bist du ein Arzt oder Krankenpfleger?</h5>
+                  <h5 className="card-title">Bist Du ein Arzt oder Krankenpfleger?</h5>
                   <p className="card-text">
                     Du arbeitest in einer Arztpraxis, bist medizinisch technischer Assistent, in der Pflege,
                     Sani oder Student im Praktischen Jahr? Du brauchst Material zum Eigenschutz? Dann schaue unter
                     Bedarf,
-                    ob Dein Produkt schon in der Datenbank ist. Falls nicht nimm Kontaktmit uns auf!
+                    ob Dein Produkt schon in der Datenbank ist. Falls nicht, nimm Kontakt mit uns auf!
                     Oder willst Du Deine Erfahrungen aus der letzen Schicht oder Deine Expertise mit uns teilen?
                     Nimm gerne Kontakt mit uns auf! Auch Deine Erfahrung ist für die Gesellschaft so wichtig!
                   </p>
@@ -85,10 +85,10 @@ class Index extends React.Component {
             <div className="col-sm">
               <div className="card shadow-sm">
                 <div className="card-body">
-                  <h5 className="card-title">Hast du einen 3D-Drucker?</h5>
+                  <h5 className="card-title">Hast Du einen 3D-Drucker?</h5>
                   <p className="card-text">
-                    Dein Drucker steht noch still? Dann schau unter Bedarf, ob Du Deine Kapazität einsetzten kannst!
-                    Falls Du momentan keine Druckkapazität vorrhanden hast, leite den Bedarf gerne an Deine
+                    Dein Drucker steht noch still? Dann schau unter Bedarf, ob Du Deine Kapazität einsetzen kannst!
+                    Falls Du momentan keine Druckkapazität hast, leite den Bedarf gerne an Deine
                     Druckcommunity weiter!
                     Vielleicht kannst Du uns auch mit Deinem Know-How helfen! Sende uns gerne eine Email!
                   </p>
@@ -98,7 +98,7 @@ class Index extends React.Component {
             <div className="col-sm">
               <div className="card shadow-sm">
                 <div className="card-body">
-                  <h5 className="card-title">Kannst du designen?</h5>
+                  <h5 className="card-title">Kannst Du designen?</h5>
                   <p className="card-text">
                     Du bist Techniker, Ingenieur, Designer oder einfach nur kreativ? Dann wirst auch Du unbedingt
                     gebraucht!
