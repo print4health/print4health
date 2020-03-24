@@ -123,9 +123,6 @@ class App extends React.Component {
                   <Link className="nav-link" to="/faq">FAQ</Link>
                 </li>
                 <li className="nav-item mx-5">
-                  <Link className="nav-link" to="/about">About</Link>
-                </li>
-                <li className="nav-item mx-5">
                   <UserNav />
                 </li>
               </ul>
@@ -145,7 +142,6 @@ class App extends React.Component {
                   <Route path="/thing/:id" component={ThingDetailContainer} />
                   <Route path="/thing/:id/create-order" component={Index} />
                   <Route path="/faq" component={Faq} />
-                  <Route path="/about" component={About} />
                   <Route path="/imprint" component={Imprint} />
                   <Route path="/data-privacy-statement" component={DataPrivacyStatement} />
                   <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
