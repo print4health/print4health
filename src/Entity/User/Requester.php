@@ -82,12 +82,12 @@ class Requester implements UserInterface
     /**
      * @ORM\Column(name="latitude", type="decimal", precision=20, scale=16, nullable=true)
      */
-    private ?string $latitude;
+    private ?string $latitude = null;
 
     /**
      * @ORM\Column(name="longitude", type="decimal", precision=20, scale=16, nullable=true)
      */
-    private ?string $longitude;
+    private ?string $longitude = null;
 
     public function __construct(string $email, string $name)
     {

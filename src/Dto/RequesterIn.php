@@ -13,4 +13,6 @@ class RequesterIn
     public ?string $postalCode = null;
     public ?string $addressCity = null;
     public ?string $addressState = null;
+    public ?string $latitude = null;
+    public ?string $longitude = null;
 }

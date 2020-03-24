@@ -15,6 +15,8 @@ class RequesterOut
     public ?string $postalCode;
     public ?string $addressCity;
     public ?string $addressState;
+    public ?string $latitude;
+    public ?string $longitude;
 
     public static function createFromRequester(?\App\Entity\User\Requester $requester): self
     {
@@ -31,6 +33,8 @@ class RequesterOut
         $self->postalCode = $requester->getPostalCode();
         $self->addressCity = $requester->getAddressCity();
         $self->addressState = $requester->getAddressState();
+        $self->latitude = $requester->getLatitude();
+        $self->longitude = $requester->getLongitude();
 
         return $self;
     }
