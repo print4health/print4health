@@ -58,9 +58,23 @@ class LoginModal extends React.Component {
       <Modal show={this.context.showLoginModal} onHide={() => this.context.setShowLoginModal(false)} animation={false}>
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Login</Modal.Title>
+            <Modal.Title>Anmeldung bei print4health</Modal.Title>
           </Modal.Header>
           <Modal.Body>
+
+            <h6>
+              als Gesundheits/Sozial-Einrichtung<br />
+              oder als Maker/Drucker/Printer
+            </h6>
+
+            <p>
+              Schreibt eine E-Mail an <a href="mailto: contact@print4health.org">contact@print4health.org</a> und wir
+              richten euch einen Benutzer-Account ein.
+            </p>
+            <p>
+              Anschließend könnt ihr Bedarf an Ersatzteilen eintragen oder darauf reagieren und diese herstellen.
+            </p>
+
             {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
 
             <div className="form-group">
@@ -91,6 +105,11 @@ class LoginModal extends React.Component {
               >
                 Passwort vergessen?
               </a>
+            </p>
+
+            <p className="text-muted">
+              Ein Registrierungsformular und Accounts für Maker/Drucker/Printer werden gerade vorbereitet.
+              Gesundheits und Sozial-Einrichtungen können sofort starten.
             </p>
           </Modal.Body>
           <Modal.Footer>
