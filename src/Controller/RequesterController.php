@@ -85,6 +85,8 @@ class RequesterController
         $requester->setPostalCode($requesterIn->postalCode);
         $requester->setAddressCity($requesterIn->addressCity);
         $requester->setAddressState($requesterIn->addressState);
+        $requester->setLatitude($requesterIn->latitude);
+        $requester->setLongitude($requesterIn->longitude);
 
         $this->entityManager->persist($requester);
         $this->entityManager->flush();

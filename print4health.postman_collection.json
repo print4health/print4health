@@ -382,7 +382,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\": \"{{$randomExampleEmail}}\",\n    \"password\": \"12345\",\n    \"name\": \"{{$randomCompanyName}}\",\n    \"streetAddress\": \"{{$randomStreetAddress}}\",\n    \"postalCode\": \"12345\",\n    \"addressCity\": \"{{$randomCity}}\",\n    \"addressState\": \"Berlin\"\n}\n",
+							"raw": "{\n    \"email\": \"{{$randomExampleEmail}}\",\n    \"password\": \"12345\",\n    \"name\": \"{{$randomCompanyName}}\",\n    \"streetAddress\": \"{{$randomStreetAddress}}\",\n    \"postalCode\": \"12345\",\n    \"addressCity\": \"{{$randomCity}}\",\n    \"addressState\": \"Berlin\",\n    \"latitude\": \"53.551086\",\n    \"longitude\": \"9.993682\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
