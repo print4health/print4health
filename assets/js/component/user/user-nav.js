@@ -27,7 +27,7 @@ class UserNav extends React.Component {
     if (this.context.user.email) {
       return <span>
         <a href="#" className="nav-link" onClick={this.handleLogout}>
-          Logout
+          Abmelden
         </a>
       </span>;
     }
@@ -40,7 +40,7 @@ class UserNav extends React.Component {
              this.context.setShowLoginModal(true);
            }}
         >
-          Login
+          Anmelden
         </a>
        </span>
     );
