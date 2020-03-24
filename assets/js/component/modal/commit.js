@@ -34,7 +34,11 @@ class CommitModal extends React.Component {
           return;
         }
         self.setState({ orders: res.data.orders });
-        self.setState({ order: res.data.orders[0] });
+        try {
+          self.setState({ orderId: res.data.orders[0].id });
+        } catch (e) {
+          return;
+        }
       })
       .catch((error) => {
         self.setState({
