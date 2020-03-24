@@ -1,5 +1,5 @@
 App\Entity\User\Requester:
-    requester_default:
+    requester_address_default:
         __construct:
             - 'requester@print4health.org'
             - 'print4health Test Requester'
@@ -8,6 +8,8 @@ App\Entity\User\Requester:
         addressCity: '<city()>'
         addressState: '<state()>'
         password: 'test'
+        latitude: '<latitude()>'
+        longitude: '<longitude()>'
 
     requester_empty_address:
         __construct:
@@ -15,7 +17,7 @@ App\Entity\User\Requester:
             - 'print4health Test Requester'
         password: 'test'
 
-    requester_{1..5}:
+    requester_address_{1..5}:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
@@ -24,3 +26,5 @@ App\Entity\User\Requester:
         addressCity: '<city()>'
         addressState: '<state()>'
         password: 'test'
+        latitude: '<latitude()>'
+        longitude: '<longitude()>'
