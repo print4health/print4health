@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion, Alert, Button, Card } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 
 class Imprint extends React.Component {
   render() {

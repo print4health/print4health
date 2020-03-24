@@ -1,5 +1,4 @@
 import React from 'react';
-import { Accordion, Button, Card } from 'react-bootstrap';
 
 class DataPrivacyStatement extends React.Component {
   render() {
