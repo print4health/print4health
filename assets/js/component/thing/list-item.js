@@ -85,11 +85,12 @@ class ThingListItem extends React.Component {
           <div className="row">
             <div className="col">
               <small className="text-uppercase text-muted d-block">Benötigt</small>
-              <span>{thing.needed}</span>
+              <span className={thing.needed > 0 ? 'text-primary' : ''}>{thing.needed}</span>
             </div>
             <div className="col">
               <small className="text-uppercase text-muted d-block">Gedruckt</small>
-              <span className={thing.printed > 0 ? 'text-success' : ''}>{thing.printed}</span>
+              <span className={thing.printed > 0 ? 'text-secondary' +
+                '' : ''}>{thing.printed}</span>
             </div>
             <div className="col">
               <small className="text-uppercase text-muted d-block">Bedarf</small>
