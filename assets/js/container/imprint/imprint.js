@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion, Button, Card } from 'react-bootstrap';
+import { Accordion, Alert, Button, Card } from 'react-bootstrap';
 
 class Imprint extends React.Component {
   render() {
@@ -8,9 +8,17 @@ class Imprint extends React.Component {
         <div className="row">
           <div className="col">
             <h1>Impressum</h1>
-            <p>print4health.org</p>
+            <Alert variant="info">
+              print4health.org ist ein gemscheinschaftliches Projekt, dass im Rahmen des <a
+              href="https://www.bundesregierung.de/breg-de/themen/coronavirus/wir-vs-virus-1731968"
+              target="_blank"><strong>Hackathons WirVsWirus</strong></a> entstanden ist.<br />
+              Es dient derzeit als Prototyp der eingereichten Idee <a href="https://devpost.com/software/print4health"
+                                                                      target="_blank"><strong>06_Medizingeräteherstellung_print4health</strong></a> und ist als Non-Profit OpenSource Projekt angelegt.
+            </Alert>
             <h2>Angaben gemäß § 5 TMG</h2>
-            <p>Conrad Barthelmes<br />
+            <p>
+              print4health<br />
+              Conrad Barthelmes<br />
               Goetheweg 2b<br />
               41469 Neuss</p>
             <h2>Kontakt</h2>
