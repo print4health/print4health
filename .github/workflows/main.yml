@@ -19,18 +19,18 @@ jobs:
       - name: Psalm
         uses: docker://vimeo/psalm-github-actions
 
-  phpstan:
-    name: PHPStan
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: PHPStan
-        uses: docker://oskarstark/phpstan-ga
-        with:
-          args: analyse -l max -c phpstan.neon ./src
-          secrets: "GITHUB_TOKEN"
+#  phpstan:
+#    name: PHPStan
+#    runs-on: ubuntu-18.04
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: PHPStan
+#        uses: docker://oskarstark/phpstan-ga
+#        with:
+#          args: analyse -l max -c phpstan.neon ./src
+#          secrets: "GITHUB_TOKEN"
 
   php-cs-fixer:
     name: PHP-CS-Fixer
