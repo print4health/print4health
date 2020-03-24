@@ -13,11 +13,21 @@ class ThingListContainer extends React.Component {
       isLoaded: false,
       things: [],
     };
+    this.executeSearch = this.executeSearch.bind(this);
   }
 
   componentDidMount() {
+    this.executeSearch('');
+  }
 
-    axios.get(Config.apiBasePath + '/things')
+  executeSearch(query) {
+    query = query.trim();
+    let url = Config.apiBasePath + '/things';
+    if (query.length > 0) {
+      url += '/search/' + query;
+    }
+
+    axios.get(url)
       .then((res) => {
         this.setState({
           isLoaded: true,
@@ -43,7 +53,7 @@ class ThingListContainer extends React.Component {
       <div>
         <div className="row">
           <div className="col-xl-6 offset-xl-3">
-            <Search />
+            <Search executeSearch={this.executeSearch} />
           </div>
         </div>
         <div className="row mt-5">

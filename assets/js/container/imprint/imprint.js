@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion, Alert, Button, Card } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 
 class Imprint extends React.Component {
   render() {
@@ -11,9 +11,9 @@ class Imprint extends React.Component {
             <Alert variant="info">
               print4health.org ist ein gemscheinschaftliches Projekt, dass im Rahmen des <a
               href="https://www.bundesregierung.de/breg-de/themen/coronavirus/wir-vs-virus-1731968"
-              target="_blank"><strong>Hackathons WirVsWirus</strong></a> entstanden ist.<br />
+              target="_blank" rel="noopener noreferrer"><strong>Hackathons WirVsVirus</strong></a> entstanden ist.<br />
               Es dient derzeit als Prototyp der eingereichten Idee <a href="https://devpost.com/software/print4health"
-                                                                      target="_blank"><strong>06_Medizingeräteherstellung_print4health</strong></a> und ist als Non-Profit OpenSource Projekt angelegt.
+                                                                      target="_blank" rel="noopener noreferrer"><strong>06_Medizingeräteherstellung_print4health</strong></a> und ist als Non-Profit OpenSource Projekt angelegt.
             </Alert>
             <h2>Angaben gemäß § 5 TMG</h2>
             <p>

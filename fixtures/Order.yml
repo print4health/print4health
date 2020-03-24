@@ -1,6 +1,6 @@
 App\Entity\Order:
     order_{1..20}:
         __construct:
-            - '@requester_*'
+            - '@requester_address_*'
             - '@thing_*'
             - '<numberBetween(5, 5000)>'

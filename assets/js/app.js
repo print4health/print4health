@@ -13,7 +13,6 @@ import LoginModal from './component/modal/login';
 import RequestPasswordResetModal from './component/modal/request-password-reset';
 import logo from '../logo-print4health-org.svg';
 import Faq from './container/faq/faq';
-import About from './container/about/about';
 import AppContext from './context/app-context';
 import ResetPassword from './container/reset-password/reset-password';
 import DismissableAlert from './component/alert/dismissable-alert';
@@ -123,9 +122,6 @@ class App extends React.Component {
                   <Link className="nav-link" to="/faq">FAQ</Link>
                 </li>
                 <li className="nav-item mx-5">
-                  <Link className="nav-link" to="/about">About</Link>
-                </li>
-                <li className="nav-item mx-5">
                   <UserNav />
                 </li>
               </ul>
@@ -145,7 +141,6 @@ class App extends React.Component {
                   <Route path="/thing/:id" component={ThingDetailContainer} />
                   <Route path="/thing/:id/create-order" component={Index} />
                   <Route path="/faq" component={Faq} />
-                  <Route path="/about" component={About} />
                   <Route path="/imprint" component={Imprint} />
                   <Route path="/data-privacy-statement" component={DataPrivacyStatement} />
                   <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />

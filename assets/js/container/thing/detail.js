@@ -105,11 +105,7 @@ class ThingDetailContainer extends React.Component {
                 <span className="mr-1">Bedarf gesamt:</span>
                 <strong className="text-primary">{thing.needed}</strong>
               </div>
-              <button
-                className="btn btn-link"
-                onClick={() => this.context.setShowOrderModal(true)}
-                disabled={this.context.getCurrentUserRole() !== 'ROLE_REQUESTER'}
-              >
+              <button className="btn btn-link" onClick={() => this.context.setShowOrderModal(true)}>
                 <i className="fas fa-plus-circle fa-fw text-primary"></i>
               </button>
             </div>
@@ -118,15 +114,11 @@ class ThingDetailContainer extends React.Component {
                 <span className="mr-1">Prints gesamt:</span>
                 <strong className="text-secondary">{thing.printed}</strong>
               </div>
-              <button
-                className="btn btn-link"
-                onClick={() => this.context.setShowCommitModal(true)}
-                disabled={thing.needed === 0}
-              >
+              <button className="btn btn-link" onClick={() => this.context.setShowCommitModal(true)}>
                 <i className="fas fa-plus-circle fa-fw text-secondary"></i>
               </button>
             </div>
-            <a className="media" href={thing.url} target="_blank">
+            <a className="media" href={thing.url} target="_blank" rel="noopener noreferrer">
               <div className="media-body">
                 <strong className="text-uppercase">Downloads</strong>
               </div>

@@ -79,6 +79,16 @@ class Requester implements UserInterface
      */
     private ?string $addressState = null;
 
+    /**
+     * @ORM\Column(name="latitude", type="decimal", precision=20, scale=16, nullable=true)
+     */
+    private ?string $latitude = null;
+
+    /**
+     * @ORM\Column(name="longitude", type="decimal", precision=20, scale=16, nullable=true)
+     */
+    private ?string $longitude = null;
+
     public function __construct(string $email, string $name)
     {
         $this->email = $email;
@@ -245,5 +255,25 @@ class Requester implements UserInterface
     public function setAddressState(?string $addressState): void
     {
         $this->addressState = $addressState;
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?string $latitude): void
+    {
+        $this->latitude = $latitude;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?string $longitude): void
+    {
+        $this->longitude = $longitude;
     }
 }

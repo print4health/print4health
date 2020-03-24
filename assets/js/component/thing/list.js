@@ -17,7 +17,9 @@ class ThingList extends React.Component {
     if (this.props.things === undefined) {
       return (<div className="alert alert-danger">Error</div>);
     }
-
+    if (this.props.things.length === 0) {
+      return (<div className="alert alert-warning">Keine Ergebnisse gefunden</div>);
+    }
     return (
       <div className="row">
         {this.props.things.map((thing) => (
