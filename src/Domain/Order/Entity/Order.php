@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Domain\Order\Entity;
 
-use App\Entity\User\Requester;
+use App\Domain\Commitment\Entity\Commitment;
+use App\Domain\Thing\Entity\Thing;
+use App\Domain\User\Entity\Requester;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\OrderRepository")
+ * @ORM\Entity(repositoryClass="App\Domain\Order\Repository\OrderRepository")
  * @ORM\Table(name="`order`")
  */
 class Order
@@ -23,13 +25,13 @@ class Order
     private string $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User\Requester", inversedBy="orders")
+     * @ORM\ManyToOne(targetEntity="App\Domain\User\Entity\Requester", inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
      */
     private Requester $requester;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Thing", inversedBy="orders")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Thing\Entity\Thing", inversedBy="orders")
      * @ORM\JoinColumn(nullable=false)
      */
     private Thing $thing;
@@ -41,7 +43,7 @@ class Order
 
     /**
      * @var Collection<int, Commitment>
-     * @ORM\OneToMany(targetEntity="App\Entity\Commitment", mappedBy="order")
+     * @ORM\OneToMany(targetEntity="App\Domain\Commitment\Entity\Commitment", mappedBy="order")
      */
     private $commitments;
 

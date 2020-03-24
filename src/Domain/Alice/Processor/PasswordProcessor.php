@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Alice\Processor;
+namespace App\Domain\Alice\Processor;
 
-use App\Entity\User\UserInterface;
+use App\Domain\User\UserInterface;
 use Fidry\AliceDataFixtures\ProcessorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 

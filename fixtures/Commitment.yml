@@ -1,4 +1,4 @@
-App\Entity\Commitment:
+App\Domain\Commitment\Entity\Commitment:
     commitment_{1..200}:
         __construct:
             - '@order_*'

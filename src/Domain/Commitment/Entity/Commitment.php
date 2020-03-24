@@ -2,13 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Domain\Commitment\Entity;
 
+use App\Domain\Order\Entity\Order;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CommitmentRepository")
+ * @ORM\Entity(repositoryClass="App\Domain\Commitment\Repository\CommitmentRepository")
  */
 class Commitment
 {
@@ -19,7 +20,7 @@ class Commitment
     private string $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Order")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Order\Entity\Order")
      * @ORM\JoinColumn(nullable=false)
      */
     private Order $order;

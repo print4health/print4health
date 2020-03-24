@@ -11,7 +11,7 @@ Vagrant.configure(2) do |config|
   # API calls
   config.vm.network :forwarded_port, guest: 80, host: 8888
 
-  # mailcatcher
+  # mailcatcherTh
   config.vm.network :forwarded_port, guest: 1080, host: 1080
 
   config.vm.network :private_network, ip: "192.168.222.12"

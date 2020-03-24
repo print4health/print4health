@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Dto;
+namespace App\Domain\Commitment\Dto;
 
-use App\Entity\Commitment;
+use App\Domain\Commitment\Entity\Commitment;
+use App\Domain\Order\Dto\OrderOut;
 
 class CommitmentOut
 {

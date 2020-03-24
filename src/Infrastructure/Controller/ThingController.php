@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Infrastructure\Controller;
 
-use App\Dto\ThingIn;
-use App\Dto\ThingOut;
-use App\Entity\Thing;
-use App\Repository\ThingRepository;
+use App\Domain\Thing\Dto\ThingIn;
+use App\Domain\Thing\Dto\ThingOut;
+use App\Domain\Thing\Entity\Thing;
+use App\Domain\Thing\Repository\ThingRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;

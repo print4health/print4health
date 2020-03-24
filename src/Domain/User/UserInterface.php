@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\User;
+namespace App\Domain\User;
 
 use Symfony\Component\Security\Core\User\UserInterface as CoreUserInterface;
 

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Infrastructure\Controller;
 
-use App\Dto\OrderIn;
-use App\Dto\OrderOut;
-use App\Entity\Order;
-use App\Entity\Thing;
-use App\Entity\User\Requester;
-use App\Repository\OrderRepository;
-use App\Repository\ThingRepository;
+use App\Domain\Order\Dto\OrderIn;
+use App\Domain\Order\Dto\OrderOut;
+use App\Domain\Order\Entity\Order;
+use App\Domain\Order\Repository\OrderRepository;
+use App\Domain\Thing\Entity\Thing;
+use App\Domain\Thing\Repository\ThingRepository;
+use App\Domain\User\Entity\Requester;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

@@ -1,4 +1,4 @@
-App\Entity\User\Requester:
+App\Domain\User\Entity\Requester:
     requester_address_default:
         __construct:
             - 'requester@print4health.org'

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Domain\Thing\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ThingRepository")
+ * @ORM\Entity(repositoryClass="App\Domain\Thing\Repository\ThingRepository")
  */
 class Thing
 {
@@ -47,7 +47,7 @@ class Thing
 
     /**
      * @var Collection<int, Order>
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="thing")
+     * @ORM\OneToMany(targetEntity="App\Domain\Order\Entity\Order", mappedBy="thing")
      */
     private $orders;
 

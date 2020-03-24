@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Dto;
+namespace App\Domain\Order\Dto;
 
-use App\Entity\Order;
+use App\Domain\Order\Entity\Order;
+use App\Domain\Thing\Dto\ThingOut;
+use App\Domain\User\Dto\RequesterOut;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Dto;
+namespace App\Domain\User\Dto;
 
+use App\Domain\User\Entity\Requester;
 use Doctrine\ORM\EntityNotFoundException;
 
 class RequesterOut
@@ -18,7 +19,7 @@ class RequesterOut
     public ?string $latitude;
     public ?string $longitude;
 
-    public static function createFromRequester(?\App\Entity\User\Requester $requester): self
+    public static function createFromRequester(?Requester $requester): self
     {
         if (!$requester instanceof \App\Entity\User\Requester) {
             throw new EntityNotFoundException('User is empty');

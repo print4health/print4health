@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Dto;
+namespace App\Domain\Thing\Dto;
 
-use App\Entity\Thing;
+use App\Domain\Thing\Entity\Thing;
 use Doctrine\ORM\EntityNotFoundException;
 use Swagger\Annotations as SWG;
 

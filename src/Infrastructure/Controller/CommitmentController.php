@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Infrastructure\Controller;
 
-use App\Dto\CommitmentIn;
-use App\Dto\CommitmentOut;
-use App\Entity\Commitment;
-use App\Entity\Order;
-use App\Repository\CommitmentRepository;
-use App\Repository\OrderRepository;
+use App\Domain\Commitment\Dto\CommitmentIn;
+use App\Domain\Commitment\Dto\CommitmentOut;
+use App\Domain\Commitment\Entity\Commitment;
+use App\Domain\Commitment\Repository\CommitmentRepository;
+use App\Domain\Order\Entity\Order;
+use App\Domain\Order\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\JsonResponse;

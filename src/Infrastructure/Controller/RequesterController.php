@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Infrastructure\Controller;
 
-use App\Dto\RequesterIn;
-use App\Dto\RequesterOut;
-use App\Entity\User\Requester;
-use App\Repository\RequesterRepository;
+use App\Domain\User\Dto\RequesterIn;
+use App\Domain\User\Dto\RequesterOut;
+use App\Domain\User\Entity\Requester;
+use App\Domain\User\Repository\RequesterRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;

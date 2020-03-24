@@ -1,4 +1,4 @@
-App\Entity\Order:
+App\Domain\Order\Entity\Order:
     order_{1..50}:
         __construct:
             - '@requester_address_*'

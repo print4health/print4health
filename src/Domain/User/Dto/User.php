@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Dto;
+namespace App\Domain\User\Dto;
 
-use App\Entity\User\UserInterface;
+use App\Domain\User\UserInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Swagger\Annotations as SWG;
 

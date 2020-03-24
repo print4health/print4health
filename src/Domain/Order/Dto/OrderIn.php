@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Dto;
+namespace App\Domain\Order\Dto;
 
 use Swagger\Annotations as SWG;
 

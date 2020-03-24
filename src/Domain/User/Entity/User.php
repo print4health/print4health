@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\User;
+namespace App\Domain\User\Entity;
 
+use App\Domain\User\UserInterface;
 use App\Entity\Order;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -50,7 +51,7 @@ class User implements UserInterface
 
     /**
      * @var Collection<int, Order>
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Domain\Order\Entity\Order", mappedBy="user", orphanRemoval=true)
      */
     private $orders;
 

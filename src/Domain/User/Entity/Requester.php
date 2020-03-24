@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Entity\User;
+namespace App\Domain\User\Entity;
 
-use App\Entity\Order;
+use App\Domain\Order\Entity\Order;
+use App\Domain\User\UserInterface;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -12,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\RequesterRepository")
+ * @ORM\Entity(repositoryClass="App\Domain\User\Repository\RequesterRepository")
  */
 class Requester implements UserInterface
 {
@@ -50,7 +51,7 @@ class Requester implements UserInterface
 
     /**
      * @var Collection<int, Order>
-     * @ORM\OneToMany(targetEntity="App\Entity\Order", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Domain\Order\Entity\Order", mappedBy="user", orphanRemoval=true)
      */
     private $orders;
 
