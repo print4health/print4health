@@ -77,6 +77,58 @@ class CommitModal extends React.Component {
     });
   }
 
+  renderForm() {
+    return <>
+      <Modal.Body>
+        {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
+        <div className="form-group">
+          <Form.Control as="select" onChange={(e) => this.setState({ orderId: e.target.value })}>
+            {
+              this.state.orders.map((order, i) => {
+                return <option key={i} value={order.id}>{i} - {order.requester.name}</option>;
+              })
+            }
+          </Form.Control>
+        </div>
+
+        <div className="form-group">
+          <input name="quantity"
+                 type="number"
+                 placeholder="Anzahl"
+                 className="form-control"
+                 required
+                 value={this.state.quantity}
+                 onChange={this.handleInputChange} />
+        </div>
+      </Modal.Body>
+      <Modal.Footer>
+        <input type="submit" className="btn btn-primary" value="Beitrag eintragen" />
+      </Modal.Footer>
+    </>;
+  }
+
+  renderInfo() {
+    return <>
+      <Modal.Body>
+        <p>
+          Noch ist kein Bedarf für dieses Ersatzteil eingetragen. Wenn es soweit ist, kannst Du an dieser darauf
+          reagieren und Ersatzteile herstellen.
+        </p>
+        <p>
+          Um Dich als Maker/Drucker/Printer anmelden zu können , melde Dich unter <a
+          href="mailto: contact@print4health.org">contact@print4health.org</a> und wir
+          erstellen Dir einen Account.
+        </p>
+      </Modal.Body>
+      <Modal.Footer>
+        <input type="submit"
+               className="btn btn-primary"
+               value="OK"
+               onClick={() => this.context.setShowCommitModal(false)} />
+      </Modal.Footer>
+    </>;
+  }
+
   render() {
     return (
       <Modal show={this.context.showCommitModal}
@@ -87,31 +139,7 @@ class CommitModal extends React.Component {
           <Modal.Header closeButton>
             <Modal.Title>Bedarf eintragen</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
-            <div className="form-group">
-              <Form.Control as="select" onChange={(e) => this.setState({ orderId: e.target.value })}>
-                {
-                  this.state.orders.map((order, i) => {
-                    return <option key={i} value={order.id}>{i} - {order.requester.name}</option>;
-                  })
-                }
-              </Form.Control>
-            </div>
-
-            <div className="form-group">
-              <input name="quantity"
-                     type="number"
-                     placeholder="Anzahl"
-                     className="form-control"
-                     required
-                     value={this.state.quantity}
-                     onChange={this.handleInputChange} />
-            </div>
-          </Modal.Body>
-          <Modal.Footer>
-            <input type="submit" className="btn btn-primary" value="Beitrag eintragen" />
-          </Modal.Footer>
+          {this.context.getCurrentUserRole() === 'ROLE_MAKER' ? this.renderForm() : this.renderInfo()}
         </form>
       </Modal>
     );
