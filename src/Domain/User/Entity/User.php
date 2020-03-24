@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Entity;
 
+use App\Domain\Order\Entity\Order;
 use App\Domain\User\UserInterface;
-use App\Entity\Order;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

@@ -21,7 +21,7 @@ class RequesterOut
 
     public static function createFromRequester(?Requester $requester): self
     {
-        if (!$requester instanceof \App\Entity\User\Requester) {
+        if (!$requester instanceof Requester) {
             throw new EntityNotFoundException('User is empty');
         }
 
