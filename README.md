@@ -6,7 +6,7 @@ Go print something at [print4health.org](https://print4health.org)
 DEVELOPMENT
 -----------
 
-![CI](https://github.com/print4health/print4health/workflows/CI/badge.svg)
+![CI](https://github.com/print4health/print4health/workflows/CI/badge.svg?branch=master)
 
 ### Requirements
 - Virtualbox https://www.virtualbox.org/
