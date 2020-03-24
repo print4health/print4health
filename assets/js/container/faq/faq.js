@@ -25,7 +25,7 @@ class Faq extends React.Component {
                     <p>
                       Dazu müsst Ihr euch einloggen und bei dem gewünschten Teil rechts auf das
                        <i className="fas fa-plus-circle fa-fw text-primary"></i>
-                       bei "Bedarf gesamt: xxx" klicken.
+                       bei &quot;Bedarf gesamt: xxx&quot; klicken.
                     </p>
                     <p>Danach öffnet sich ein Fenster und Ihr könnt die erforderliche Menge eintragen.</p>
                     <p>

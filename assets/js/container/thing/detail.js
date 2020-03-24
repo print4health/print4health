@@ -126,7 +126,7 @@ class ThingDetailContainer extends React.Component {
                 <i className="fas fa-plus-circle fa-fw text-secondary"></i>
               </button>
             </div>
-            <a className="media" href={thing.url} target="_blank">
+            <a className="media" href={thing.url} target="_blank" rel="noopener noreferrer">
               <div className="media-body">
                 <strong className="text-uppercase">Downloads</strong>
               </div>

@@ -30,7 +30,15 @@ class CommitModal extends React.Component {
     const self = this;
     axios.get(Config.apiBasePath + '/orders/thing/' + this.state.thingId)
       .then((res) => {
+        if (!Array.isArray(res.data.orders)) {
+          return;
+        }
         self.setState({ orders: res.data.orders });
+        try {
+          self.setState({ orderId: res.data.orders[0].id });
+        } catch (e) {
+          return;
+        }
       })
       .catch((error) => {
         self.setState({
