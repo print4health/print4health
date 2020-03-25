@@ -46,6 +46,7 @@ class App extends React.Component {
     this.setShowCommitModal = this.setShowCommitModal.bind(this);
     this.setCurrentThing = this.setCurrentThing.bind(this);
     this.setPageTitle = this.setPageTitle.bind(this);
+    this.sendGoogleAnalyticsTag = this.sendGoogleAnalyticsTag.bind(this);
   }
 
   setUser(user) {
@@ -104,7 +105,6 @@ class App extends React.Component {
       // don't log identical link clicks (nav links likely)
       return;
     }
-
 
     if (history.action === 'PUSH' &&
       typeof (gtag) === 'function') {
