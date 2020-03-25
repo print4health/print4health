@@ -1,5 +1,4 @@
-//colors
-
+// Colors
 $primary: #c1272d;
 $danger: #af0000;
 $secondary: #005a65;
@@ -8,9 +7,7 @@ $warning: #e76800;
 $info: #b4cee6;
 $light: #e9ecef;
 $dark: #343a40;
-
 $body-bg: #ffffff;
-$body-color: #000000;
 $gray-bg: #f9f9f9;
 
 $theme-colors: (
@@ -24,14 +21,15 @@ $theme-colors: (
     'dark' : $dark
 );
 
-//navbar
-
+// Fonts
 $font-family-base: 'Roboto', sans-serif;
 $font-weight-normal: 300;
 $headings-font-weight: 700;
 
+// Navbar
 $navbar-light-color: #707070;
 $navbar-light-hover-color: $primary;
 $navbar-light-active-color: #000000;
 
+// Links
 $link-color: $dark;
