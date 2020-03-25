@@ -4,6 +4,7 @@ import {
   Switch,
   Route,
   Link,
+  NavLink,
 } from 'react-router-dom';
 import Index from './container/index/index';
 import UserNav from './component/user/user-nav';
@@ -106,28 +107,30 @@ class App extends React.Component {
         }}
       >
         <Router>
-          <Link to="/">
-            <img src={logo} alt="Logo" className="rounded mx-auto d-block logo" />
-          </Link>
-          <nav className="navbar navbar-light navbar-fixed-top">
-            <div className="container font-weight-bold">
-              <ul className="navbar-nav navbar-center">
-                <li className="nav-item mx-5">
-                  <Link className="nav-link" to="/">Start</Link>
-                </li>
-                <li className="nav-item mx-5">
-                  <Link className="nav-link" to="/thing/list">Bedarf</Link>
-                </li>
-                <li className="nav-item mx-5">
-                  <Link className="nav-link" to="/faq">FAQ</Link>
-                </li>
-                <li className="nav-item mx-5">
-                  <UserNav />
-                </li>
-              </ul>
-            </div>
-          </nav>
-          <div className="container py-3">
+          <header className="Header">
+            <Link to="/">
+              <img src={logo} alt="Logo" className="Header__logo" />
+            </Link>
+            <nav className="navbar navbar-light">
+              <div className="container font-weight-bold text-uppercase">
+                <ul className="mb-0 w-100 list-unstyled d-flex justify-content-around">
+                  <li className="nav-item">
+                    <NavLink className="nav-link" activeClassName="text-primary" exact to="/">Start</NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" activeClassName="text-primary" to="/thing/list">Bedarf</NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" activeClassName="text-primary" to="/faq">FAQ</NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <UserNav />
+                  </li>
+                </ul>
+              </div>
+            </nav>
+          </header>
+          <main className="container py-5">
             <DismissableAlert message={this.state.alertMessage} variant={this.state.alertClass} />
             <Switch>
               <Route path="/order/list" component={Index} />
@@ -142,7 +145,7 @@ class App extends React.Component {
               <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
               <Route path="/" component={Index} />
             </Switch>
-          </div>
+          </main>
           <Footer />
           <LoginModal />
           <RequestPasswordResetModal />
