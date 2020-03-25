@@ -3,11 +3,11 @@ security:
     providers:
         requester:
             entity:
-                class: 'App\Entity\User\Requester'
+                class: 'App\Domain\User\Entity\Requester'
                 property: 'email'
         users:
             entity:
-                class: 'App\Entity\User\User'
+                class: 'App\Domain\User\Entity\User'
                 property: 'email'
         all_users:
             chain:

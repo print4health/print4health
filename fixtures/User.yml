@@ -1,4 +1,4 @@
-App\Entity\User\User:
+App\Domain\User\Entity\User:
     user_admin_default:
         email: 'admin@print4health.org'
         password: 'test'

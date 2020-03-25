@@ -1,4 +1,4 @@
-App\Entity\Thing:
+App\Domain\Thing\Entity\Thing:
     thing_manual_1:
         __construct:
             - 'Hands-Free Door Openers - Cylindrical, Narrow'

@@ -1,4 +1,4 @@
 parameters:
 	checkGenericClassInNonGenericObjectType: false
 	excludes_analyse:
-		- src/Migrations
+		- src/Infrastructure/Migrations
