@@ -2,4 +2,8 @@
     .leaflet-container {
         height: 600px;
     }
+
+    .leaflet-tile-pane {
+        filter: grayscale(1);
+    }
 }
