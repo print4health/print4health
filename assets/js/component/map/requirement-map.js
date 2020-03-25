@@ -1,0 +1,47 @@
+import React from 'react';
+import AppContext from '../../context/app-context';
+import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import axios from 'axios';
+import { Config } from '../../config';
+
+class RequirementMap extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    const self = this;
+    axios.get(Config.apiBasePath + '/orders/thing/' + this.props.thing.id)
+      .then((res) => {
+        if (!Array.isArray(res.data.orders)) {
+          return;
+        }
+        self.setState({ orders: res.data.orders });
+      })
+      .catch((error) => {
+        self.setState({
+          error: error.response.data.error,
+        });
+      });
+  }
+
+  renderMarkers(thing) {
+    console.log(thing.orders);
+  }
+
+  render() {
+    const position = [51.1642292, 10.4541194];
+    return <div id="map">
+      <Map center={position} zoom={6}>
+        <TileLayer url="https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
+                   attribution="https://maps.wikimedia.org" />
+        {this.renderMarkers(this.props.thing)}
+      </Map>
+    </div>;
+  }
+}
+
+RequirementMap.contextType = AppContext;
+
+export default RequirementMap;
