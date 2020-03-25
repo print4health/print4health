@@ -43,6 +43,7 @@ class App extends React.Component {
     this.setShowOrderModal = this.setShowOrderModal.bind(this);
     this.setShowCommitModal = this.setShowCommitModal.bind(this);
     this.setCurrentThing = this.setCurrentThing.bind(this);
+    this.setPageTitle = this.setPageTitle.bind(this);
   }
 
   setUser(user) {
@@ -86,6 +87,10 @@ class App extends React.Component {
     this.setState({ currentThing });
   }
 
+  setPageTitle(title, prefix = 'print4health') {
+    document.title = prefix + ' - ' + title;
+  }
+
   render() {
     return (
       <AppContext.Provider
@@ -104,6 +109,7 @@ class App extends React.Component {
           setShowCommitModal: this.setShowCommitModal,
           currentThing: this.state.currentThing,
           setCurrentThing: this.setCurrentThing,
+          setPageTitle: this.setPageTitle
         }}
       >
         <Router>

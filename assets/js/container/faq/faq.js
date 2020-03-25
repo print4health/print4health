@@ -1,7 +1,13 @@
 import React from 'react';
 import { Accordion, Card } from 'react-bootstrap';
+import AppContext from '../../context/app-context';
 
 class Faq extends React.Component {
+
+  componentDidMount() {
+    this.context.setPageTitle('FAQ')
+  }
+
   render() {
     return (
       <div className="container Faq">
@@ -198,5 +204,7 @@ class Faq extends React.Component {
     );
   }
 }
+
+Faq.contextType = AppContext;
 
 export default Faq;

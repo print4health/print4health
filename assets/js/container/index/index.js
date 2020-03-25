@@ -1,6 +1,12 @@
 import React from 'react';
+import AppContext from '../../context/app-context';
 
 class Index extends React.Component {
+
+  componentDidMount() {
+    this.context.setPageTitle('Helfen mit 3D-Druck');
+  }
+
   render() {
     return (
       <div className="row">
@@ -114,5 +120,7 @@ class Index extends React.Component {
     );
   }
 }
+
+Index.contextType = AppContext;
 
 export default Index;

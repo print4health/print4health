@@ -42,6 +42,7 @@ class ThingDetailContainer extends React.Component {
         this.setState({
           isLoaded: true,
         });
+        this.context.setPageTitle('Bedarf / ' + this.context.currentThing.name);
       })
       .catch((error) => {
         this.setState({
