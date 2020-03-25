@@ -15,10 +15,7 @@ class MarkerOrder extends React.Component {
   render() {
     const requester = this.props.order.requester;
     const iconMarkup = renderToStaticMarkup(
-      <span className="fa-stack fa-2x">
-          <i className="fa fa-circle fa-stack-2x text-white" />
-          <i className="fas fa-plus-circle text-primary fa-stack-2x" />
-          </span>,
+      <i className="fas fa-map-marker-alt text-primary fa-2x" />,
     );
     const customMarkerIcon = divIcon({
       html: iconMarkup,
@@ -28,7 +25,8 @@ class MarkerOrder extends React.Component {
       position={[requester.latitude, requester.longitude]}>
       <Popup>
         <p>
-          <strong>{this.props.order.quantity} Stück benötigt von:</strong>
+          <strong>{this.props.order.quantity}</strong> Stück benötigt von:<br />
+          <strong>{requester.name}</strong>
         </p>
         {requester.streetAddress}<br />
         {requester.postalCode} {requester.city}
