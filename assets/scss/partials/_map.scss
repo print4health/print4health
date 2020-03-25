@@ -1,0 +1,14 @@
+#map {
+    .leaflet-container {
+        height: 600px;
+    }
+
+    .leaflet-tile-pane {
+        filter: grayscale(1);
+    }
+
+    .leaflet-div-icon {
+        background: transparent;
+        border: none;
+    }
+}

@@ -2,10 +2,10 @@ import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
 import PropTypes from 'prop-types';
-import map from '../../../2000px-Karte_Deutschland.svg';
 import AppContext from '../../context/app-context';
 import OrderModal from '../../component/modal/order';
 import CommitModal from '../../component/modal/commit';
+import RequirementMap from '../../component/map/requirement-map';
 
 class ThingDetailContainer extends React.Component {
 
@@ -97,7 +97,7 @@ class ThingDetailContainer extends React.Component {
             {showSpecs && this.renderSpecification()}
           </div>
           <div className="col-md-6 col-map">
-            <img src={map} className="map" />
+            <RequirementMap thing={thing} />
           </div>
           <div className="col-md-3 col-order">
             <div className="media">
