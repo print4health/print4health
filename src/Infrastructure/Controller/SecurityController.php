@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Domain\User\Dto\ResetPassword;
-use App\Domain\User\Dto\ResetPasswordTokenRequest;
-use App\Domain\User\Dto\User as UserDto;
+use App\Infrastructure\Dto\User\ResetPassword;
+use App\Infrastructure\Dto\User\ResetPasswordTokenRequest;
+use App\Infrastructure\Dto\User\User as UserDto;
 use App\Domain\User\Repository\UserRepository;
 use App\Domain\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;

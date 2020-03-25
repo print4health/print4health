@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Dto;
+namespace App\Infrastructure\Dto\User;
 
 use App\Domain\User\UserInterface;
 use Doctrine\ORM\EntityNotFoundException;
