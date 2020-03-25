@@ -21,6 +21,7 @@ import Footer from './component/footer/footer';
 import Imprint from './container/imprint/imprint';
 import DataPrivacyStatement from './container/data-privacy-statement/data-privacy-statement';
 import GoogleAnalytics from './component/google-analytics/google-analytics';
+import { Config } from './config';
 
 class App extends React.Component {
 
@@ -70,18 +71,22 @@ class App extends React.Component {
 
   setShowLoginModal(showLoginModal) {
     this.setState({ showLoginModal });
+    this.sendGoogleAnalyticsTag('show-login-modal');
   }
 
   setShowRequestPasswordResetModal(showRequestPasswordResetModal) {
     this.setState({ showRequestPasswordResetModal });
+    this.sendGoogleAnalyticsTag('show-request-password-reset-modal');
   }
 
   setShowOrderModal(showOrderModal) {
     this.setState({ showOrderModal });
+    this.sendGoogleAnalyticsTag('show-order-modal');
   }
 
   setShowCommitModal(showCommitModal) {
     this.setState({ showCommitModal });
+    this.sendGoogleAnalyticsTag('show-commit-modal');
   }
 
   setCurrentThing(currentThing) {
@@ -90,6 +95,29 @@ class App extends React.Component {
 
   setPageTitle(title, prefix = 'print4health') {
     document.title = prefix + ' - ' + title;
+  }
+
+  sendGoogleAnalyticsTag(action) {
+    const gtag = window.gtag;
+
+    if (location.pathname === this.props.location.pathname) {
+      // don't log identical link clicks (nav links likely)
+      return;
+    }
+
+
+    if (history.action === 'PUSH' &&
+      typeof (gtag) === 'function') {
+      const data = {
+        'page_title': document.title,
+        'page_location': window.location.href,
+        'page_path': location.pathname,
+      };
+      if (typeof (action) === 'string') {
+        data.page_action = action;
+      }
+      gtag('config', Config.gaTrackingId, data);
+    }
   }
 
   render() {
@@ -110,7 +138,7 @@ class App extends React.Component {
           setShowCommitModal: this.setShowCommitModal,
           currentThing: this.state.currentThing,
           setCurrentThing: this.setCurrentThing,
-          setPageTitle: this.setPageTitle
+          setPageTitle: this.setPageTitle,
         }}
       >
         <Router>

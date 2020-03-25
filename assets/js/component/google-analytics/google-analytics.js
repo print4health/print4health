@@ -1,32 +1,19 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Config } from '../../config';
+import AppContext from '../../context/app-context';
 
 class GoogleAnalytics extends React.Component {
 
   componentDidUpdate({ location, history }) {
-    const gtag = window.gtag;
-
-    if (location.pathname === this.props.location.pathname) {
-      // don't log identical link clicks (nav links likely)
-      return;
-    }
-
-
-    if (history.action === 'PUSH' &&
-      typeof (gtag) === 'function') {
-      const data = {
-        'page_title': document.title,
-        'page_location': window.location.href,
-        'page_path': location.pathname,
-      };
-      gtag('config', Config.gaTrackingId, data);
-    }
+    this.context.sendGoogleAnalyticsTag();
   }
 
   render() {
     return null;
   }
 }
+
+GoogleAnalytics.contextType = AppContext;
 
 export default withRouter(GoogleAnalytics);
