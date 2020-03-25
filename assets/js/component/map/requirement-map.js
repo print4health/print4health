@@ -45,7 +45,11 @@ class RequirementMap extends React.Component {
           <Marker
             position={[requester.latitude, requester.longitude]}>
             <Popup>
-              A pretty CSS3 popup. <br /> Easily customizable.
+              <p>
+              <strong>{order.quantity} Stück benötigt von:</strong>
+              </p>
+              {requester.streetAddress}<br />
+              {requester.postalCode} {requester.city}
             </Popup>
           </Marker>
         </span>;

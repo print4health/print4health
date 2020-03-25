@@ -1,5 +1,5 @@
 App\Entity\Order:
-    order_{1..20}:
+    order_{1..50}:
         __construct:
             - '@requester_address_*'
             - '@thing_*'
