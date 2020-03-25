@@ -44,36 +44,23 @@
     }
 }
 
+.Header {
+    background-color: $gray-bg;
+
+    &__logo {
+        display: block;
+        margin: 0 auto;
+        height: 175px;
+        width: 175px;
+    }
+}
+
 .Footer {
     background-color: $gray-bg;
-    color: $primary;
 
-    a {
-        text-align: center;
-    }
-
-    .label {
+    img {
         display: block;
-    }
-
-    .fab,
-    .fas,
-    a img {
-        height: 32px;
-        width: auto;
-        font-size: 2rem;
-        display: block;
-    }
-
-    .link-wirvsvirus {
-        img {
-            //max-width: 150px;
-        }
-    }
-
-    .link-devpost {
-        img {
-            //max-width: 150px;
-        }
+        height: 24px;
+        margin: 0 auto;
     }
 }
