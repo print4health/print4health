@@ -12,6 +12,7 @@ use App\Infrastructure\Dto\Commitment\CommitmentRequest;
 use App\Infrastructure\Dto\Commitment\CommitmentResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -88,6 +89,8 @@ class CommitmentController
      *     methods={"POST"},
      *     format="json"
      * )
+     *
+     * @IsGranted("ROLE_MAKER")
      */
     public function createAction(Request $request): JsonResponse
     {

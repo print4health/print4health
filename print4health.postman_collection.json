@@ -405,6 +405,126 @@
 			"protocolProfileBehavior": {}
 		},
 		{
+			"name": "/maker",
+			"item": [
+				{
+					"name": "/maker",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/maker",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"maker"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/maker/{uuid}",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "bc495183-33cc-455b-afd3-ab78802633b0",
+								"exec": [
+									"let orderUrl = pm.variables.get(\"url\") + \"/maker\";",
+									"",
+									"pm.sendRequest(orderUrl, function (err, response) {",
+									"    pm.environment.set(\"makerUuid\", response.json()['maker'][0].id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/maker/{{makerUuid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"maker",
+								"{{makerUuid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/maker",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "73037070-b2ca-40ef-942e-1abaf79654d0",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"{{$randomExampleEmail}}\",\n    \"password\": \"12345\",\n    \"name\": \"{{$randomCompanyName}}\",\n    \"postalCode\": \"12345\",\n    \"addressCity\": \"{{$randomCity}}\",\n    \"addressState\": \"Berlin\",\n    \"latitude\": \"53.551086\",\n    \"longitude\": \"9.993682\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/maker",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"maker"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
 			"name": "/commitments",
 			"item": [
 				{
@@ -472,44 +592,6 @@
 			"response": []
 		},
 		{
-			"name": "/login - User",
-			"event": [
-				{
-					"listen": "test",
-					"script": {
-						"id": "6742bbda-fcd1-42ed-8d45-7f3fdf58b7cb",
-						"exec": [
-							""
-						],
-						"type": "text/javascript"
-					}
-				}
-			],
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"email\": \"user@print4health.org\",\n\t\"password\": \"test\"\n}\n",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{url}}/login",
-					"host": [
-						"{{url}}"
-					],
-					"path": [
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "/login - Admin",
 			"event": [
 				{
@@ -529,6 +611,82 @@
 				"body": {
 					"mode": "raw",
 					"raw": "{\n\t\"email\": \"admin@print4health.org\",\n\t\"password\": \"test\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/login - Maker",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6742bbda-fcd1-42ed-8d45-7f3fdf58b7cb",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"maker@print4health.org\",\n\t\"password\": \"test\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/login",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "/login - User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6742bbda-fcd1-42ed-8d45-7f3fdf58b7cb",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"email\": \"user@print4health.org\",\n\t\"password\": \"test\"\n}\n",
 					"options": {
 						"raw": {
 							"language": "json"
