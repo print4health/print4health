@@ -20,6 +20,7 @@ import DismissableAlert from './component/alert/dismissable-alert';
 import Footer from './component/footer/footer';
 import Imprint from './container/imprint/imprint';
 import DataPrivacyStatement from './container/data-privacy-statement/data-privacy-statement';
+import GoogleAnalytics from './component/google-analytics/google-analytics';
 
 class App extends React.Component {
 
@@ -155,6 +156,7 @@ class App extends React.Component {
           <Footer />
           <LoginModal />
           <RequestPasswordResetModal />
+          <GoogleAnalytics />
         </Router>
       </AppContext.Provider>
     );
