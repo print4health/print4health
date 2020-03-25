@@ -17,13 +17,15 @@ class ThingList extends React.Component {
     if (this.props.things === undefined) {
       return (<div className="alert alert-danger">Error</div>);
     }
+
     if (this.props.things.length === 0) {
       return (<div className="alert alert-warning">Keine Ergebnisse gefunden</div>);
     }
+
     return (
       <div className="row">
         {this.props.things.map((thing) => (
-          <div className="col-4 mb-4" key={thing.id}>
+          <div className="col-sm-12 col-md-6 col-lg-4 mb-4" key={thing.id}>
             <ThingListItem thing={thing} />
           </div>
         ))}

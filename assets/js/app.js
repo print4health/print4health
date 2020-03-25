@@ -109,7 +109,7 @@ class App extends React.Component {
           <Link to="/">
             <img src={logo} alt="Logo" className="rounded mx-auto d-block logo" />
           </Link>
-          <nav className="navbar navbar-expand-lg navbar-light navbar-fixed-top">
+          <nav className="navbar navbar-light navbar-fixed-top">
             <div className="container font-weight-bold">
               <ul className="navbar-nav navbar-center">
                 <li className="nav-item mx-5">
@@ -127,27 +127,21 @@ class App extends React.Component {
               </ul>
             </div>
           </nav>
-
-          <div className="container pt-3">
+          <div className="container py-3">
             <DismissableAlert message={this.state.alertMessage} variant={this.state.alertClass} />
-            <div className="row">
-              <div className="col-sm"></div>
-              <div className="col-xl-12">
-                <Switch>
-                  <Route path="/order/list" component={Index} />
-                  <Route path="/order/map" component={Index} />
-                  <Route path="/order/{id}" component={Index} />
-                  <Route path="/thing/list" component={ThingListContainer} />
-                  <Route path="/thing/:id" component={ThingDetailContainer} />
-                  <Route path="/thing/:id/create-order" component={Index} />
-                  <Route path="/faq" component={Faq} />
-                  <Route path="/imprint" component={Imprint} />
-                  <Route path="/data-privacy-statement" component={DataPrivacyStatement} />
-                  <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
-                  <Route path="/" component={Index} />
-                </Switch>
-              </div>
-            </div>
+            <Switch>
+              <Route path="/order/list" component={Index} />
+              <Route path="/order/map" component={Index} />
+              <Route path="/order/{id}" component={Index} />
+              <Route path="/thing/list" component={ThingListContainer} />
+              <Route path="/thing/:id" component={ThingDetailContainer} />
+              <Route path="/thing/:id/create-order" component={Index} />
+              <Route path="/faq" component={Faq} />
+              <Route path="/imprint" component={Imprint} />
+              <Route path="/data-privacy-statement" component={DataPrivacyStatement} />
+              <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
+              <Route path="/" component={Index} />
+            </Switch>
           </div>
           <Footer />
           <LoginModal />
