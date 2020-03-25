@@ -42,7 +42,12 @@ class RequirementMap extends React.Component {
     return <>
       {this.state.orders.map((order, id) => {
         const requester = order.requester;
-        const iconMarkup = renderToStaticMarkup(<i className="fas fa-plus-circle fa-fw text-primary fa-3x" />);
+        const iconMarkup = renderToStaticMarkup(
+          <span className="fa-stack fa-2x">
+          <i className="fa fa-circle fa-stack-2x text-white" />
+          <i className="fas fa-plus-circle text-primary fa-stack-2x" />
+          </span>,
+        );
         const customMarkerIcon = divIcon({
           html: iconMarkup,
         });
