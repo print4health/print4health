@@ -6,7 +6,7 @@ namespace App\Infrastructure\Dto\Order;
 
 use App\Domain\Order\Entity\Order;
 use App\Infrastructure\Dto\Thing\ThingResponse;
-use App\Domain\User\Dto\RequesterOut;
+use App\Infrastructure\Dto\Requester\RequesterResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 
@@ -14,8 +14,8 @@ class OrderResponse
 {
     /** @SWG\Property(type="string") */
     public string $id;
-    /** @SWG\Property(type=@SWG\Schema(@Model(type=RequesterOut::class))) */
-    public RequesterOut $requester;
+    /** @SWG\Property(type=@SWG\Schema(@Model(type=RequesterResponse::class))) */
+    public RequesterResponse $requester;
     /** @SWG\Property(type=@SWG\Schema(@Model(type=ThingResponse::class))) */
     public ThingResponse $thing;
     /** @SWG\Property(type="integer") */
@@ -28,7 +28,7 @@ class OrderResponse
         $self = new self();
 
         $self->id = $order->getId();
-        $self->requester = RequesterOut::createFromRequester($order->getRequester());
+        $self->requester = RequesterResponse::createFromRequester($order->getRequester());
         $self->thing = ThingResponse::createFromThing($order->getThing());
 
         $self->quantity = $order->getQuantity();

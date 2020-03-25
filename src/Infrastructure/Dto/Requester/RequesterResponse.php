@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Dto;
+namespace App\Infrastructure\Dto\Requester;
 
 use App\Domain\User\Entity\Requester;
 use Doctrine\ORM\EntityNotFoundException;
 
-class RequesterOut
+class RequesterResponse
 {
     public string $id;
     public string $email;

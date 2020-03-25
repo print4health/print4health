@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Domain\User\Dto\RequesterIn;
-use App\Domain\User\Dto\RequesterOut;
+use App\Infrastructure\Dto\Requester\RequesterRequest;
+use App\Infrastructure\Dto\Requester\RequesterResponse;
 use App\Domain\User\Entity\Requester;
 use App\Domain\User\Repository\RequesterRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -54,7 +54,7 @@ class RequesterController
         $response = ['requester' => []];
 
         foreach ($allRequester as $requester) {
-            $response['requester'][] = RequesterOut::createFromRequester($requester);
+            $response['requester'][] = RequesterResponse::createFromRequester($requester);
         }
 
         return new JsonResponse($response);
@@ -73,27 +73,27 @@ class RequesterController
     public function createAction(Request $request): JsonResponse
     {
         try {
-            /** @var RequesterIn $requesterIn */
-            $requesterIn = $this->serializer->deserialize($request->getContent(), RequesterIn::class, JsonEncoder::FORMAT);
+            /** @var RequesterRequest $RequesterRequest */
+            $RequesterRequest = $this->serializer->deserialize($request->getContent(), RequesterRequest::class, JsonEncoder::FORMAT);
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
 
-        $requester = new Requester($requesterIn->email, $requesterIn->name);
-        $requester->setPassword($this->userPasswordEncoder->encodePassword($requester, $requesterIn->password));
-        $requester->setStreetAddress($requesterIn->streetAddress);
-        $requester->setPostalCode($requesterIn->postalCode);
-        $requester->setAddressCity($requesterIn->addressCity);
-        $requester->setAddressState($requesterIn->addressState);
-        $requester->setLatitude($requesterIn->latitude);
-        $requester->setLongitude($requesterIn->longitude);
+        $requester = new Requester($RequesterRequest->email, $RequesterRequest->name);
+        $requester->setPassword($this->userPasswordEncoder->encodePassword($requester, $RequesterRequest->password));
+        $requester->setStreetAddress($RequesterRequest->streetAddress);
+        $requester->setPostalCode($RequesterRequest->postalCode);
+        $requester->setAddressCity($RequesterRequest->addressCity);
+        $requester->setAddressState($RequesterRequest->addressState);
+        $requester->setLatitude($RequesterRequest->latitude);
+        $requester->setLongitude($RequesterRequest->longitude);
 
         $this->entityManager->persist($requester);
         $this->entityManager->flush();
 
-        $requesterOut = RequesterOut::createFromRequester($requester);
+        $RequesterResponse = RequesterResponse::createFromRequester($requester);
 
-        return new JsonResponse(['requester' => $requesterOut], 201);
+        return new JsonResponse(['requester' => $RequesterResponse], 201);
     }
 
     /**
@@ -112,8 +112,8 @@ class RequesterController
             throw new NotFoundHttpException('Requester not found');
         }
 
-        $requesterOut = RequesterOut::createFromRequester($requester);
+        $RequesterResponse = RequesterResponse::createFromRequester($requester);
 
-        return new JsonResponse(['requester' => $requesterOut]);
+        return new JsonResponse(['requester' => $RequesterResponse]);
     }
 }

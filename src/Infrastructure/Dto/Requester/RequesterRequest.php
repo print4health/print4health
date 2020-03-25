@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Dto;
+namespace App\Infrastructure\Dto\Requester;
 
-class RequesterIn
+class RequesterRequest
 {
     public string $email;
     public string $password;
