@@ -6,6 +6,7 @@ import {
   Link,
   NavLink,
 } from 'react-router-dom';
+import ReactGA from 'react-ga';
 import Index from './container/index/index';
 import UserNav from './component/user/user-nav';
 import ThingListContainer from './container/thing/list';
@@ -20,7 +21,7 @@ import DismissableAlert from './component/alert/dismissable-alert';
 import Footer from './component/footer/footer';
 import Imprint from './container/imprint/imprint';
 import DataPrivacyStatement from './container/data-privacy-statement/data-privacy-statement';
-import GoogleAnalytics from './component/google-analytics/google-analytics';
+import PageView from './component/page-view/page-view.js';
 import { Config } from './config';
 
 class App extends React.Component {
@@ -46,7 +47,7 @@ class App extends React.Component {
     this.setShowCommitModal = this.setShowCommitModal.bind(this);
     this.setCurrentThing = this.setCurrentThing.bind(this);
     this.setPageTitle = this.setPageTitle.bind(this);
-    this.sendGoogleAnalyticsTag = this.sendGoogleAnalyticsTag.bind(this);
+    ReactGA.initialize(Config.gaTrackingId, { standardImplementation: true });
   }
 
   setUser(user) {
@@ -72,22 +73,30 @@ class App extends React.Component {
 
   setShowLoginModal(showLoginModal) {
     this.setState({ showLoginModal });
-    this.sendGoogleAnalyticsTag('show-login-modal');
+    if (showLoginModal) {
+      ReactGA.modalview('/login/show');
+    }
   }
 
   setShowRequestPasswordResetModal(showRequestPasswordResetModal) {
     this.setState({ showRequestPasswordResetModal });
-    this.sendGoogleAnalyticsTag('show-request-password-reset-modal');
+    if (showRequestPasswordResetModal) {
+      ReactGA.modalview('/request-password-reset/show');
+    }
   }
 
   setShowOrderModal(showOrderModal) {
     this.setState({ showOrderModal });
-    this.sendGoogleAnalyticsTag('show-order-modal');
+    if (showOrderModal) {
+      ReactGA.modalview('/order/show');
+    }
   }
 
   setShowCommitModal(showCommitModal) {
     this.setState({ showCommitModal });
-    this.sendGoogleAnalyticsTag('show-commit-modal');
+    if (showCommitModal) {
+      ReactGA.modalview('/commit/show');
+    }
   }
 
   setCurrentThing(currentThing) {
@@ -96,28 +105,6 @@ class App extends React.Component {
 
   setPageTitle(title, prefix = 'print4health') {
     document.title = prefix + ' - ' + title;
-  }
-
-  sendGoogleAnalyticsTag(action) {
-    const gtag = window.gtag;
-
-    if (location.pathname === this.props.location.pathname) {
-      // don't log identical link clicks (nav links likely)
-      return;
-    }
-
-    if (history.action === 'PUSH' &&
-      typeof (gtag) === 'function') {
-      const data = {
-        'page_title': document.title,
-        'page_location': window.location.href,
-        'page_path': location.pathname,
-      };
-      if (typeof (action) === 'string') {
-        data.page_action = action;
-      }
-      gtag('config', Config.gaTrackingId, data);
-    }
   }
 
   render() {
@@ -180,11 +167,11 @@ class App extends React.Component {
               <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
               <Route path="/" component={Index} />
             </Switch>
+            <PageView />
           </main>
           <Footer />
           <LoginModal />
           <RequestPasswordResetModal />
-          <GoogleAnalytics />
         </Router>
       </AppContext.Provider>
     );
