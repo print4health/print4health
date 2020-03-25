@@ -77,10 +77,14 @@ class ThingDetailContainer extends React.Component {
     }
 
     return (
-      <div>
-        <div className="row ThingListDetail">
-          <div className="col-md-3 thing-info">
+      <div className="ThingListDetail">
+        <div className="row">
+          <div className="col-md-12">
             <h2>{thing.name}</h2>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-3 thing-info">
             <img src={thing.imageUrl} alt={thing.name} />
             <div className="description mt-3">
               <p>{thing.description}</p>
