@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Commitment\Dto;
+namespace App\Infrastructure\Dto\Commitment;
 
 use App\Domain\Commitment\Entity\Commitment;
 use App\Domain\Order\Dto\OrderOut;
 
-class CommitmentOut
+class CommitmentResponse
 {
     public string $id;
     public OrderOut $order;

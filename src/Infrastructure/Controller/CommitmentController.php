@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Domain\Commitment\Dto\CommitmentIn;
-use App\Domain\Commitment\Dto\CommitmentOut;
 use App\Domain\Commitment\Entity\Commitment;
 use App\Domain\Commitment\Repository\CommitmentRepository;
 use App\Domain\Order\Entity\Order;
 use App\Domain\Order\Repository\OrderRepository;
+use App\Infrastructure\Dto\Commitment\CommitmentRequest;
+use App\Infrastructure\Dto\Commitment\CommitmentResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -56,7 +56,7 @@ class CommitmentController
         $response = ['things' => []];
 
         foreach ($commitments as $commitment) {
-            $response['commitments'][] = CommitmentOut::createFromCommitment($commitment);
+            $response['commitments'][] = CommitmentResponse::createFromCommitment($commitment);
         }
 
         return new JsonResponse($response, Response::HTTP_OK);
@@ -77,9 +77,9 @@ class CommitmentController
             throw new NotFoundHttpException('Thing not found');
         }
 
-        $commitmentOut = CommitmentOut::createFromCommitment($commitment);
+        $commitmentResponse = CommitmentResponse::createFromCommitment($commitment);
 
-        return new JsonResponse(['commitment' => $commitmentOut], Response::HTTP_OK);
+        return new JsonResponse(['commitment' => $commitmentResponse], Response::HTTP_OK);
     }
 
     /**
@@ -92,25 +92,25 @@ class CommitmentController
     public function createAction(Request $request): JsonResponse
     {
         try {
-            /** @var CommitmentIn $commitmentIn */
-            $commitmentIn = $this->serializer->deserialize($request->getContent(), CommitmentIn::class, JsonEncoder::FORMAT);
+            /** @var CommitmentRequest $commitmentRequest */
+            $commitmentRequest = $this->serializer->deserialize($request->getContent(), CommitmentRequest::class, JsonEncoder::FORMAT);
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
 
-        $order = $this->orderRepository->find($commitmentIn->orderId);
+        $order = $this->orderRepository->find($commitmentRequest->orderId);
 
         if (!$order instanceof Order) {
             throw new EntityNotFoundException('Order not found');
         }
 
-        $commitment = new Commitment($order, $commitmentIn->quantity);
+        $commitment = new Commitment($order, $commitmentRequest->quantity);
 
         $this->entityManager->persist($commitment);
         $this->entityManager->flush();
 
-        $commitmentOut = CommitmentOut::createFromCommitment($commitment);
+        $commitmentResponse = CommitmentResponse::createFromCommitment($commitment);
 
-        return new JsonResponse(['commitment' => $commitmentOut], Response::HTTP_CREATED);
+        return new JsonResponse(['commitment' => $commitmentResponse], Response::HTTP_CREATED);
     }
 }
