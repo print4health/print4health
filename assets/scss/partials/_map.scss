@@ -6,4 +6,9 @@
     .leaflet-tile-pane {
         filter: grayscale(1);
     }
+
+    .leaflet-div-icon {
+        background: transparent;
+        border: none;
+    }
 }
