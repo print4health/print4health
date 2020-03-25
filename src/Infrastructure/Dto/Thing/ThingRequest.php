@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Thing\Dto;
+namespace App\Infrastructure\Dto\Thing;
 
-class ThingIn
+class ThingRequest
 {
     public string $name;
     public string $imageUrl;

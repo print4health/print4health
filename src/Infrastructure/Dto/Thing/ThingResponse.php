@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Thing\Dto;
+namespace App\Infrastructure\Dto\Thing;
 
 use App\Domain\Thing\Entity\Thing;
 use Doctrine\ORM\EntityNotFoundException;
 use Swagger\Annotations as SWG;
 
-class ThingOut
+class ThingResponse
 {
     /** @SWG\Property(type="string") */
     public string $id;

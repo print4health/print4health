@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Domain\Thing\Dto\ThingIn;
-use App\Domain\Thing\Dto\ThingOut;
+use App\Infrastructure\Dto\Thing\ThingRequest;
+use App\Infrastructure\Dto\Thing\ThingResponse;
 use App\Domain\Thing\Entity\Thing;
 use App\Domain\Thing\Repository\ThingRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -52,7 +52,7 @@ class ThingController
         $response = ['things' => []];
 
         foreach ($things as $thing) {
-            $response['things'][] = ThingOut::createFromThing($thing);
+            $response['things'][] = ThingResponse::createFromThing($thing);
         }
 
         return new JsonResponse($response);
@@ -73,7 +73,7 @@ class ThingController
         $response = ['things' => []];
 
         foreach ($things as $thing) {
-            $response['things'][] = ThingOut::createFromThing($thing);
+            $response['things'][] = ThingResponse::createFromThing($thing);
         }
 
         return new JsonResponse($response);
@@ -92,26 +92,26 @@ class ThingController
     public function createAction(Request $request): JsonResponse
     {
         try {
-            /** @var ThingIn $thingIn */
-            $thingIn = $this->serializer->deserialize($request->getContent(), ThingIn::class, JsonEncoder::FORMAT);
+            /** @var ThingRequest $ThingRequest */
+            $ThingRequest = $this->serializer->deserialize($request->getContent(), ThingRequest::class, JsonEncoder::FORMAT);
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
 
         $thing = new Thing(
-            $thingIn->name,
-            $thingIn->imageUrl,
-            $thingIn->url,
-            $thingIn->description,
-            $thingIn->specification
+            $ThingRequest->name,
+            $ThingRequest->imageUrl,
+            $ThingRequest->url,
+            $ThingRequest->description,
+            $ThingRequest->specification
         );
 
         $this->entityManager->persist($thing);
         $this->entityManager->flush();
 
-        $thingOut = ThingOut::createFromThing($thing);
+        $ThingResponse = ThingResponse::createFromThing($thing);
 
-        return new JsonResponse(['thing' => $thingOut], 201);
+        return new JsonResponse(['thing' => $ThingResponse], 201);
     }
 
     /**
@@ -130,8 +130,8 @@ class ThingController
             throw new NotFoundHttpException('Thing not found');
         }
 
-        $thingOut = ThingOut::createFromThing($thing);
+        $ThingResponse = ThingResponse::createFromThing($thing);
 
-        return new JsonResponse(['thing' => $thingOut]);
+        return new JsonResponse(['thing' => $ThingResponse]);
     }
 }
