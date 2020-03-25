@@ -1,11 +1,10 @@
 import React from 'react';
 import AppContext from '../../context/app-context';
-import { Map, Marker, Popup, TileLayer } from 'react-leaflet';
+import { Map, TileLayer } from 'react-leaflet';
 import axios from 'axios';
 import { Config } from '../../config';
 import PropTypes from 'prop-types';
-import { divIcon } from 'leaflet/dist/leaflet-src.esm';
-import { renderToStaticMarkup } from 'react-dom/server';
+import MarkerOrder from './marker-order';
 
 class RequirementMap extends React.Component {
 
@@ -41,29 +40,7 @@ class RequirementMap extends React.Component {
   renderMarkers() {
     return <>
       {this.state.orders.map((order, id) => {
-        const requester = order.requester;
-        const iconMarkup = renderToStaticMarkup(
-          <span className="fa-stack fa-2x">
-          <i className="fa fa-circle fa-stack-2x text-white" />
-          <i className="fas fa-plus-circle text-primary fa-stack-2x" />
-          </span>,
-        );
-        const customMarkerIcon = divIcon({
-          html: iconMarkup,
-        });
-        return <span key={id}>
-          <Marker
-            icon={customMarkerIcon}
-            position={[requester.latitude, requester.longitude]}>
-            <Popup>
-              <p>
-              <strong>{order.quantity} Stück benötigt von:</strong>
-              </p>
-              {requester.streetAddress}<br />
-              {requester.postalCode} {requester.city}
-            </Popup>
-          </Marker>
-        </span>;
+        return <MarkerOrder key={id} order={order} />;
       })}
     </>;
   }
