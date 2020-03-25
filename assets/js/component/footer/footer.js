@@ -1,57 +1,63 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 class Footer extends React.Component {
   constructor(props) {
     super(props);
   }
 
-  renderFooter() {
+  render() {
     return (
-      <footer className="container">
-        <div className="row mt-5 mb-5">
-          <div className="col d-flex d-flex justify-content-around">
-            <a className="nav-link link-github" href="https://github.com/print4health/print4health" target="_blank"
-               rel="noopener noreferrer" title="Improve me on GitHub">
-              <i className="fab fa-github"></i>
-              <span className="label mt-3">Improve me on GitHub</span>
-            </a>
-            <a className="nav-link link-wirvsvirus" href="https://wirvsvirushackathon.org" target="_blank"
-               rel="noopener noreferrer" title="WirVsWirus Hackathon">
-              <img src="https://wirvsvirushackathon.org/wp-content/uploads/2020/03/12-scaled.jpg"
-                   alt="WirVsVirus Logo" />
-              <span className="label mt-3">WirVsVirus Hack</span>
-            </a>
-            <a className="nav-link link-devpost" href="https://devpost.com/software/print4health" target="_blank"
-               rel="noopener noreferrer" title="Unser Beitrag bei DevPost">
-              <img
-                src="https://devpost-challengepost.netdna-ssl.com/assets/reimagine2/devpost-logo-646bdf6ac6663230947a952f8d354cad.svg"
-                alt="Devpost Logo" />
-              <span className="label mt-3">WirVsVirus Contribution</span>
-            </a>
-            <Link className="nav-link" to="/imprint">
-              <i className="fas fa-id-card"></i>
-              <span className="label mt-3">Impressum</span>
-            </Link>
-            <Link className="nav-link" to="/data-privacy-statement">
-              <i className="fas fa-user-secret"></i>
-              <span className="label mt-3">Datenschutzerklärung</span>
-            </Link>
+      <footer className="Footer bg-gray">
+        <div className="container py-4">
+          <div className="d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div className="d-flex mb-2 mb-md-0">
+              <a
+                className="nav-link text-center"
+                href="https://wirvsvirushackathon.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="WirVsWirus Hackathon"
+              >
+                <img
+                  src="https://wirvsvirushackathon.org/wp-content/uploads/2020/03/12-scaled.jpg"
+                  alt="WirVsVirus Logo"
+                />
+              </a>
+              <a
+                className="nav-link text-center"
+                href="https://devpost.com/software/print4health"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="Unser Beitrag bei DevPost"
+              >
+                <img
+                  src="https://devpost-challengepost.netdna-ssl.com/assets/reimagine2/devpost-logo-646bdf6ac6663230947a952f8d354cad.svg"
+                  alt="Devpost Logo"
+                />
+              </a>
+            </div>
+            <ul className="list-inline mb-0">
+              <li className="list-inline-item">
+                <NavLink to="/imprint" activeClassName="text-primary">Impressum</NavLink>
+              </li>
+              <li className="list-inline-item">
+                <NavLink to="/data-privacy-statement" activeClassName="text-primary">Datenschutzerklärung</NavLink>
+              </li>
+              <li className="list-inline-item">
+                <a
+                  href="https://github.com/print4health/print4health"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Improve me on GitHub"
+                >
+                  GitHub
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
       </footer>
-    );
-  }
-
-  render() {
-    return (
-      <div className="container-fluid Footer mt-5">
-        <div className="row">
-          <div className="col">
-            {this.renderFooter()}
-          </div>
-        </div>
-      </div>
     );
   }
 }

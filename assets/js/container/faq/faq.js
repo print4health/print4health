@@ -12,7 +12,7 @@ class Faq extends React.Component {
       </div>
 
       <div className="row mt-5">
-          <div className="col">
+          <div className="col-md-6 col-sm-12">
             <h3>Krankenhaus / Soziale Einrichtung</h3>
             <Accordion defaultActiveKey="10" className="shadow-sm">
               <Card>
@@ -73,7 +73,7 @@ class Faq extends React.Component {
               </Card>
             </Accordion>
           </div>
-          <div className="col">
+          <div className="col-md-6 col-sm-12">
             <h3>FAQ Maker / Ingenieure / Designer</h3>
             <Accordion defaultActiveKey="20">
               <Card>

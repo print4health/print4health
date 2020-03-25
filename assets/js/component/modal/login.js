@@ -80,7 +80,7 @@ class LoginModal extends React.Component {
             <div className="form-group">
               <input name="email"
                      type="email"
-                     placeholder="email"
+                     placeholder="E-Mail-Adresse"
                      className="form-control"
                      required
                      value={this.state.email}
@@ -89,7 +89,7 @@ class LoginModal extends React.Component {
             <div className="form-group">
               <input name="password"
                      type="password"
-                     placeholder="password"
+                     placeholder="Passwort"
                      className="form-control"
                      required
                      value={this.state.password}

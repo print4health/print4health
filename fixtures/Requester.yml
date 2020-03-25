@@ -1,15 +1,15 @@
-App\Entity\User\Requester:
+App\Domain\User\Entity\Requester:
     requester_address_default:
         __construct:
             - 'requester@print4health.org'
             - 'print4health Test Requester'
         streetAddress: '<streetAddress()>'
         postalCode: '<postCode()>'
-        addressCity: '<city()>'
+        addressCity: 'Berlin'
         addressState: '<state()>'
         password: 'test'
-        latitude: '<latitude()>'
-        longitude: '<longitude()>'
+        latitude: 52.5170365
+        longitude: 13.3888599
 
     requester_empty_address:
         __construct:
@@ -17,7 +17,7 @@ App\Entity\User\Requester:
             - 'print4health Test Requester'
         password: 'test'
 
-    requester_address_{1..5}:
+    requester_address_{1..10}:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
@@ -26,5 +26,5 @@ App\Entity\User\Requester:
         addressCity: '<city()>'
         addressState: '<state()>'
         password: 'test'
-        latitude: '<latitude()>'
-        longitude: '<longitude()>'
+        latitude: '<latitude(48.5, 54)>'
+        longitude: '<longitude(8.5, 13)>'
