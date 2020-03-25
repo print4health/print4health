@@ -29,7 +29,7 @@ class Search extends React.Component {
         <input
           type="text"
           className="form-control"
-          placeholder="Search ..."
+          placeholder="Suche nach Produkten ..."
           aria-describedby="lupe"
           onChange={this.handleInputChange}
         />
