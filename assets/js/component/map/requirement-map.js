@@ -49,8 +49,8 @@ class RequirementMap extends React.Component {
     const position = [51.1642292, 10.4541194];
     return <div id="map">
       <Map center={position} zoom={6}>
-        <TileLayer url="https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}.png"
-                   attribution="https://maps.wikimedia.org" />
+        <TileLayer url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                   attribution="&copy; openstreetmap.org" />
         {this.renderMarkers()}
       </Map>
     </div>;
