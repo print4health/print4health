@@ -240,7 +240,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"{{$randomProductName}}\",\n    \"imageUrl\": \"{{$randomImageUrl}}\",\n    \"url\": \"{{$randomUrl}}\",\n    \"description\": \"{{$randomWords}}\"\n}\n",
+							"raw": "{\n    \"name\": \"{{$randomProductName}}\",\n    \"imageUrl\": \"{{$randomImageUrl}}\",\n    \"url\": \"{{$randomUrl}}\",\n    \"description\": \"{{$randomWords}}\",\n    \"specification\": \"{{$randomWords}}\"\n}\n",
 							"options": {
 								"raw": {
 									"language": "json"
