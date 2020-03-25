@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Order\Dto;
+namespace App\Infrastructure\Dto\Order;
 
 use Swagger\Annotations as SWG;
 
-class OrderIn
+class OrderRequest
 {
     /** @SWG\Property(type="string") */
     public string $thingId;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Domain\Order\Dto\OrderIn;
-use App\Domain\Order\Dto\OrderOut;
+use App\Infrastructure\Dto\Order\OrderRequest;
+use App\Infrastructure\Dto\Order\OrderResponse;
 use App\Domain\Order\Entity\Order;
 use App\Domain\Order\Repository\OrderRepository;
 use App\Domain\Thing\Entity\Thing;
@@ -59,7 +59,7 @@ class OrderController
      *     description="Orders",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=OrderOut::class))
+     *         @SWG\Items(ref=@Model(type=OrderResponse::class))
      *     )
      * )
      */
@@ -70,7 +70,7 @@ class OrderController
         $response = ['orders' => []];
 
         foreach ($orders as $order) {
-            $response['orders'][] = OrderOut::createFromOrder($order);
+            $response['orders'][] = OrderResponse::createFromOrder($order);
         }
 
         return new JsonResponse($response);
@@ -88,7 +88,7 @@ class OrderController
      *     description="Orders",
      *     @SWG\Schema(
      *         type="array",
-     *         @SWG\Items(ref=@Model(type=OrderOut::class))
+     *         @SWG\Items(ref=@Model(type=OrderResponse::class))
      *     )
      * )
      */
@@ -103,7 +103,7 @@ class OrderController
         $response = ['orders' => []];
 
         foreach ($orders as $order) {
-            $response['orders'][] = OrderOut::createFromOrder($order);
+            $response['orders'][] = OrderResponse::createFromOrder($order);
         }
 
         return new JsonResponse($response);
@@ -125,7 +125,7 @@ class OrderController
      * @SWG\Response(
      *     response=201,
      *     description="Order successfully created",
-     *     @Model(type=OrderOut::class)
+     *     @Model(type=OrderResponse::class)
      * )
      * @SWG\Response(
      *     response=400,
@@ -144,8 +144,8 @@ class OrderController
         $requester = $this->security->getUser();
 
         try {
-            /** @var OrderIn $orderIn */
-            $orderIn = $this->serializer->deserialize($request->getContent(), OrderIn::class, JsonEncoder::FORMAT);
+            /** @var OrderRequest $orderIn */
+            $orderIn = $this->serializer->deserialize($request->getContent(), OrderRequest::class, JsonEncoder::FORMAT);
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
@@ -164,9 +164,9 @@ class OrderController
         $this->entityManager->persist($order);
         $this->entityManager->flush();
 
-        $orderOut = OrderOut::createFromOrder($order);
+        $OrderResponse = OrderResponse::createFromOrder($order);
 
-        return new JsonResponse(['order' => $orderOut], 201);
+        return new JsonResponse(['order' => $OrderResponse], 201);
     }
 
     /**
@@ -179,7 +179,7 @@ class OrderController
      * @SWG\Response(
      *     response=200,
      *     description="Order",
-     *     @Model(type=OrderOut::class)
+     *     @Model(type=OrderResponse::class)
      * )
      */
     public function showAction(string $uuid): JsonResponse
@@ -190,7 +190,7 @@ class OrderController
             throw new NotFoundHttpException('Order not found');
         }
 
-        $orderDto = OrderOut::createFromOrder($order);
+        $orderDto = OrderResponse::createFromOrder($order);
 
         return new JsonResponse(['order' => $orderDto]);
     }

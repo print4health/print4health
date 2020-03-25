@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Infrastructure\Dto\Commitment;
 
 use App\Domain\Commitment\Entity\Commitment;
-use App\Domain\Order\Dto\OrderOut;
+use App\Infrastructure\Dto\Order\OrderResponse;
 
 class CommitmentResponse
 {
     public string $id;
-    public OrderOut $order;
+    public OrderResponse $order;
     public int $quantity;
 
     public static function createFromCommitment(Commitment $commitment): self
@@ -18,7 +18,7 @@ class CommitmentResponse
         $self = new self();
 
         $self->id = $commitment->getId();
-        $self->order = OrderOut::createFromOrder($commitment->getOrder());
+        $self->order = OrderResponse::createFromOrder($commitment->getOrder());
         $self->quantity = $commitment->getQuantity();
 
         return $self;
