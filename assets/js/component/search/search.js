@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 
-var searchPlaceholder = 'Suchen...';
-
 class Search extends React.Component {
   constructor(props) {
     super(props);
@@ -27,11 +25,11 @@ class Search extends React.Component {
 
   render() {
     return (
-      <div className="input-group searchbar">
+      <div className="Search input-group">
         <input
           type="text"
           className="form-control"
-          placeholder={searchPlaceholder}
+          placeholder="Search ..."
           aria-describedby="lupe"
           onChange={this.handleInputChange}
         />
