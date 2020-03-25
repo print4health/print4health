@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
+use App\Domain\User\Repository\UserRepository;
+use App\Domain\User\UserInterface;
 use App\Infrastructure\Dto\User\ResetPassword;
 use App\Infrastructure\Dto\User\ResetPasswordTokenRequest;
 use App\Infrastructure\Dto\User\User as UserDto;
-use App\Domain\User\Repository\UserRepository;
-use App\Domain\User\UserInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;

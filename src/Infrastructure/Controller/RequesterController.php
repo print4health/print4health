@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Infrastructure\Dto\Requester\RequesterRequest;
-use App\Infrastructure\Dto\Requester\RequesterResponse;
 use App\Domain\User\Entity\Requester;
 use App\Domain\User\Repository\RequesterRepository;
+use App\Infrastructure\Dto\Requester\RequesterRequest;
+use App\Infrastructure\Dto\Requester\RequesterResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;

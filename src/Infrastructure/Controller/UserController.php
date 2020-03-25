@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Infrastructure\Dto\User\User as UserDto;
 use App\Domain\User\Entity\User;
+use App\Infrastructure\Dto\User\User as UserDto;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;

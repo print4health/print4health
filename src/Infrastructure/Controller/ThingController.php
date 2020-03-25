@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Infrastructure\Dto\Thing\ThingRequest;
-use App\Infrastructure\Dto\Thing\ThingResponse;
 use App\Domain\Thing\Entity\Thing;
 use App\Domain\Thing\Repository\ThingRepository;
+use App\Infrastructure\Dto\Thing\ThingRequest;
+use App\Infrastructure\Dto\Thing\ThingResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;

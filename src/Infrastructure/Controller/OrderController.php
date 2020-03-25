@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Infrastructure\Dto\Order\OrderRequest;
-use App\Infrastructure\Dto\Order\OrderResponse;
 use App\Domain\Order\Entity\Order;
 use App\Domain\Order\Repository\OrderRepository;
 use App\Domain\Thing\Entity\Thing;
 use App\Domain\Thing\Repository\ThingRepository;
 use App\Domain\User\Entity\Requester;
+use App\Infrastructure\Dto\Order\OrderRequest;
+use App\Infrastructure\Dto\Order\OrderResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;

@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Infrastructure\Dto\Order;
 
 use App\Domain\Order\Entity\Order;
-use App\Infrastructure\Dto\Thing\ThingResponse;
 use App\Infrastructure\Dto\Requester\RequesterResponse;
+use App\Infrastructure\Dto\Thing\ThingResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 
