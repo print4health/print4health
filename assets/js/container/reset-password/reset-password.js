@@ -71,7 +71,7 @@ class ResetPassword extends React.Component {
               <div className="form-group">
                 <input name="password"
                        type="password"
-                       placeholder="passwort"
+                       placeholder="Passwort"
                        className="form-control"
                        required
                        value={this.state.password}
@@ -80,7 +80,7 @@ class ResetPassword extends React.Component {
               <div className="form-group">
                 <input name="repeatPassword"
                        type="password"
-                       placeholder="passwort wiederholen"
+                       placeholder="Passwort wiederholen"
                        className="form-control"
                        required
                        value={this.state.repeatPassword}

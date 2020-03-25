@@ -55,7 +55,7 @@ class RequestPasswordResetModal extends React.Component {
             <div className="form-group">
               <input name="email"
                      type="email"
-                     placeholder="email"
+                     placeholder="E-Mail-Adresse"
                      className="form-control"
                      required
                      value={this.state.email}
