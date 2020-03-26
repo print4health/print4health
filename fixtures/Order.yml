@@ -3,4 +3,4 @@ App\Domain\Order\Entity\Order:
         __construct:
             - '@requester_address_<current()>'
             - '@thing_*'
-            - '<numberBetween(5, 100)>'
+            - '<numberBetween(50, 100)>'
