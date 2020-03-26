@@ -6,7 +6,14 @@ import AppContext from '../../context/app-context';
 class PageView extends React.Component {
 
   componentDidUpdate({ location, history }) {
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    if (location.pathname === this.props.location.pathname) {
+      // don't log identical link clicks (nav links likely)
+      return;
+    }
+    const path = history.location.pathname + history.location.search;
+    const title = document.title;
+    console.log(path, title);
+    ReactGA.pageview(path, title);
   }
 
   render() {

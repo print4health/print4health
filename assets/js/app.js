@@ -47,7 +47,7 @@ class App extends React.Component {
     this.setShowCommitModal = this.setShowCommitModal.bind(this);
     this.setCurrentThing = this.setCurrentThing.bind(this);
     this.setPageTitle = this.setPageTitle.bind(this);
-    ReactGA.initialize(Config.gaTrackingId, { standardImplementation: true });
+    ReactGA.initialize(Config.gaTrackingId, {});
   }
 
   setUser(user) {
