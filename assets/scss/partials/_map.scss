@@ -68,6 +68,7 @@
 
                 &:hover,
                 &:focus {
+                    background-color: var(--secondary);
                     color: var(--white);
                 }
             }

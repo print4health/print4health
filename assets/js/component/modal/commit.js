@@ -60,13 +60,13 @@ class CommitModal extends React.Component {
     });
   }
 
-  increaseAmount(event) {
+  increaseAmount() {
     this.setState({
       quantity: this.state.quantity + 1,
     });
   }
 
-  decreaseAmount(event) {
+  decreaseAmount() {
     if (this.state.quantity <= 0) {
       return;
     }
