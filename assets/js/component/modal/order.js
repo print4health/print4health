@@ -1,6 +1,4 @@
 import React from 'react';
-import { Config } from '../../config';
-import axios from 'axios';
 import AppContext from '../../context/app-context';
 import { Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
@@ -9,57 +7,52 @@ class OrderModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      thingId: props.thingId,
+      show: true,
+      thing: props.thing,
       quantity: 0,
       error: '',
     };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   static get propTypes() {
     return {
-      thingId: PropTypes.string,
+      thing: PropTypes.object,
+      onExited: PropTypes.func,
+      onSubmit: PropTypes.func,
     };
   }
 
-  handleSubmit(e) {
-    this.setState({ error: '' });
-    e.preventDefault();
-    const context = this.context;
-    const self = this;
-    axios.post(
-      Config.apiBasePath + '/orders',
-      {
-        thingId: this.state.thingId,
-        quantity: this.state.quantity,
-      },
-    )
-      .then(function (res) {
-        context.setShowOrderModal(false);
-        context.setCurrentThing(res.data.order.thing);
-        context.setAlert('Danke, der Bedarf wurde eingetragen', 'success');
-      })
-      .catch(function (error) {
-        self.setState({
-          error: error.response.data.error,
-        });
-      });
-  }
+  onHide = () => {
+    this.setState({
+      show: false,
+    });
+  };
 
-  handleInputChange(event) {
+  onExited = () => {
+    this.props.onExited();
+    if (this.state.quantity > 0) {
+      this.props.onSubmit(this.state.quantity);
+    }
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.setState({
+      show: false,
+    });
+  };
+
+  handleInputChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  }
+  };
 
   renderForm() {
     return <>
       <Modal.Body>
-
         <p>
-          Bitte trage nur eine Anzahl ein, die ihr aktuell wirklich benötigt.
+          Bitte trage die Anzahl ein, die ihr aktuell wirklich benötigt.
         </p>
         <p>
           Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile bestellen.
@@ -102,11 +95,16 @@ class OrderModal extends React.Component {
   }
 
   render() {
+    const { show, thing } = this.state;
     return (
-      <Modal show={this.context.showOrderModal} onHide={() => this.context.setShowOrderModal(false)} animation={false}>
+      <Modal
+        show={show}
+        onHide={this.onHide}
+        onExited={this.onExited}
+        animation={true}>
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Bedarf eintragen</Modal.Title>
+            <Modal.Title>Bedarf für "{thing.name}" eintragen</Modal.Title>
           </Modal.Header>
           {this.context.getCurrentUserRole() === 'ROLE_REQUESTER' ? this.renderForm() : this.renderInfo()}
         </form>

@@ -1,6 +1,4 @@
 import React from 'react';
-import { Config } from '../../config';
-import axios from 'axios';
 import AppContext from '../../context/app-context';
 import { Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
@@ -11,7 +9,7 @@ class CommitModal extends React.Component {
     super(props);
     this.state = {
       show: true,
-      thingId: props.thingId,
+      thing: props.thing,
       quantity: 0,
       errors: '',
       orders: [],
@@ -20,7 +18,7 @@ class CommitModal extends React.Component {
 
   static get propTypes() {
     return {
-      thingId: PropTypes.string,
+      thing: PropTypes.object,
       order: PropTypes.object,
       onExited: PropTypes.func,
       onSubmit: PropTypes.func,
@@ -131,7 +129,7 @@ class CommitModal extends React.Component {
   }
 
   render() {
-    const { show } = this.state;
+    const { show, thing } = this.state;
     return (
       <Modal show={show}
              onHide={this.onHide}
@@ -140,7 +138,7 @@ class CommitModal extends React.Component {
       >
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Herstellung zusagen</Modal.Title>
+            <Modal.Title>Herstellung für "{thing.name}" zusagen</Modal.Title>
           </Modal.Header>
           {this.context.getCurrentUserRole() === 'ROLE_MAKER' ? this.renderForm() : this.renderInfo()}
         </form>

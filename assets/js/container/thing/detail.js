@@ -20,7 +20,8 @@ class ThingDetailContainer extends React.Component {
       currentOrder: null,
       isLoaded: false,
       showSpecs: false,
-      commitModalOpen: false,
+      showCommitModal: false,
+      showOrderModal: false,
     };
   }
 
@@ -81,10 +82,29 @@ class ThingDetailContainer extends React.Component {
       });
   }
 
-  onCloseModal = () => {
+  openCommitModal = (order) => {
     this.setState({
-      commitModalOpen: false,
+      showCommitModal: true,
+      currentOrder: order,
+    });
+  };
+
+  onCloseCommitModal = () => {
+    this.setState({
+      showCommitModal: false,
       currentOrder: null,
+    });
+  };
+
+  openOrderModal = (thing) => {
+    this.setState({
+      showOrderModal: true,
+    });
+  };
+
+  onCloseOrderModal = () => {
+    this.setState({
+      showOrderModal: false,
     });
   };
 
@@ -97,13 +117,34 @@ class ThingDetailContainer extends React.Component {
       },
     )
       .then(res => {
-        this.onCloseModal();
+        this.onCloseCommitModal();
         this.loadThing(false);
         this.loadOrders();
         this.context.setAlert('Danke für Deinen Beitrag -  ist notiert.', 'success');
       })
       .catch(error => {
         this.setState({
+          error: error.response.data.error,
+        });
+      });
+  };
+
+  createOrder = (quantity) => {
+    axios.post(
+      Config.apiBasePath + '/orders',
+      {
+        thingId: this.context.currentThing.id,
+        quantity: quantity,
+      },
+    )
+      .then(res => {
+        this.onCloseOrderModal();
+        this.loadThing(false);
+        this.loadOrders();
+        this.context.setAlert('Danke, der Bedarf wurde eingetragen', 'success');
+      })
+      .catch(error => {
+        self.setState({
           error: error.response.data.error,
         });
       });
@@ -124,13 +165,6 @@ class ThingDetailContainer extends React.Component {
     }
   }
 
-  openModal = (order) => {
-    this.setState({
-      commitModalOpen: true,
-      currentOrder: order,
-    });
-  };
-
   render() {
     const {
       error,
@@ -138,7 +172,8 @@ class ThingDetailContainer extends React.Component {
       isLoaded,
       showSpecs,
       currentOrder,
-      commitModalOpen,
+      showCommitModal,
+      showOrderModal,
     } = this.state;
     const thing = this.context.currentThing;
 
@@ -174,7 +209,7 @@ class ThingDetailContainer extends React.Component {
             {showSpecs && this.renderSpecification()}
           </div>
           <div className="col-md-6 col-map">
-            <RequirementMap thing={thing} orders={orders} openModal={this.openModal} />
+            <RequirementMap thing={thing} orders={orders} openModal={this.openCommitModal} />
           </div>
           <div className="col-md-3 col-order">
             <div className="media">
@@ -182,7 +217,7 @@ class ThingDetailContainer extends React.Component {
                 <span className="mr-1">Bedarf gesamt:</span>
                 <strong className="text-primary">{thing.needed}</strong>
               </div>
-              <button className="btn btn-link" onClick={() => this.context.setShowOrderModal(true)}>
+              <button className="btn btn-link" onClick={this.openOrderModal}>
                 <i className="fas fa-plus-circle fa-fw text-primary"></i>
               </button>
             </div>
@@ -211,11 +246,13 @@ class ThingDetailContainer extends React.Component {
             </a>
           </div>
         </div>
-        <OrderModal thingId={thing.id} />
-        {commitModalOpen && <CommitModal thingId={thing.id}
+        {showOrderModal && <OrderModal thing={thing}
+                                       onSubmit={this.createOrder}
+                                       onExited={this.onCloseOrderModal} />}
+        {showCommitModal && <CommitModal thing={thing}
                                          order={currentOrder}
                                          onSubmit={this.createCommitment}
-                                         onExited={this.onCloseModal} />}
+                                         onExited={this.onCloseCommitModal} />}
       </div>
 
     );
