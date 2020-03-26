@@ -11,7 +11,6 @@ import Index from './container/index/index';
 import UserNav from './component/user/user-nav';
 import ThingListContainer from './container/thing/list';
 import ThingDetailContainer from './container/thing/detail';
-import LoginModal from './component/modal/login';
 import RequestPasswordResetModal from './component/modal/request-password-reset';
 import logo from '../logo-print4health-org.svg';
 import Faq from './container/faq/faq';
@@ -41,7 +40,6 @@ class App extends React.Component {
     this.setUser = this.setUser.bind(this);
     this.getCurrentUserRole = this.getCurrentUserRole.bind(this);
     this.setAlert = this.setAlert.bind(this);
-    this.setShowLoginModal = this.setShowLoginModal.bind(this);
     this.setShowRequestPasswordResetModal = this.setShowRequestPasswordResetModal.bind(this);
     this.setShowOrderModal = this.setShowOrderModal.bind(this);
     this.setShowCommitModal = this.setShowCommitModal.bind(this);
@@ -69,13 +67,6 @@ class App extends React.Component {
 
   setAlert(alertMessage, alertClass) {
     this.setState({ alertMessage, alertClass });
-  }
-
-  setShowLoginModal(showLoginModal) {
-    this.setState({ showLoginModal });
-    if (showLoginModal) {
-      ReactGA.modalview('/login/show');
-    }
   }
 
   setShowRequestPasswordResetModal(showRequestPasswordResetModal) {
@@ -116,7 +107,6 @@ class App extends React.Component {
           getCurrentUserRole: this.getCurrentUserRole,
           setAlert: this.setAlert,
           showLoginModal: this.state.showLoginModal,
-          setShowLoginModal: this.setShowLoginModal,
           showRequestPasswordResetModal: this.state.showRequestPasswordResetModal,
           setShowRequestPasswordResetModal: this.setShowRequestPasswordResetModal,
           showOrderModal: this.state.showOrderModal,
@@ -170,7 +160,6 @@ class App extends React.Component {
             <PageView />
           </main>
           <Footer />
-          <LoginModal />
           <RequestPasswordResetModal />
         </Router>
       </AppContext.Provider>
