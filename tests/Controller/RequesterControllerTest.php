@@ -62,7 +62,7 @@ class RequesterControllerTest extends AbstractControllerTest
     {
         $client = static::createClient();
 
-        $this->logInUser($client);
+        $this->logInAdmin($client);
 
         $client->request('POST', '/requester', [], [], [], json_encode($requestContent));
 

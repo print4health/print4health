@@ -9,7 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class AbstractControllerTest extends WebTestCase
 {
-    protected function logInUser(KernelBrowser $client): void
+    protected function logInAdmin(KernelBrowser $client): void
     {
         $requestContent = [
             'email' => 'user@print4health.org',
