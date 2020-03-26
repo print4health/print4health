@@ -4,6 +4,7 @@ import axios from 'axios';
 import AppContext from '../../context/app-context';
 import { Modal } from 'react-bootstrap';
 import ReactGA from "react-ga";
+import PropTypes from "prop-types";
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -16,6 +17,12 @@ class LoginModal extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  static get propTypes() {
+    return {
+      onClose: PropTypes.func,
+    };
   }
 
   componentDidMount() {
