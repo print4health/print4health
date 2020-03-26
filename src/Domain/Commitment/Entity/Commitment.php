@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Commitment\Entity;
 
 use App\Domain\Order\Entity\Order;
+use App\Domain\User\Entity\Maker;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
@@ -35,10 +36,17 @@ class Commitment
      */
     private \DateTimeImmutable $createdAt;
 
-    public function __construct(Order $order, int $quantity)
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Domain\User\Entity\Maker")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private Maker $maker;
+
+    public function __construct(Order $order, Maker $maker, int $quantity)
     {
         $this->id = Uuid::uuid4()->toString();
         $this->order = $order;
+        $this->maker = $maker;
         $this->quantity = $quantity;
         $this->createdAt = new \DateTimeImmutable();
     }
@@ -61,5 +69,15 @@ class Commitment
     public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    public function getMaker(): Maker
+    {
+        return $this->maker;
+    }
+
+    public function setMaker(Maker $maker): void
+    {
+        $this->maker = $maker;
     }
 }

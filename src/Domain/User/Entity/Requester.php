@@ -51,7 +51,7 @@ class Requester implements UserInterface
 
     /**
      * @var Collection<int, Order>
-     * @ORM\OneToMany(targetEntity="App\Domain\Order\Entity\Order", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Domain\Order\Entity\Order", mappedBy="requester", orphanRemoval=true)
      */
     private $orders;
 

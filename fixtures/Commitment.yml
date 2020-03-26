@@ -2,4 +2,5 @@ App\Domain\Commitment\Entity\Commitment:
     commitment_{1..200}:
         __construct:
             - '@order_*'
+            - '@maker_address_*'
             - '<numberBetween(1, 10)>'
