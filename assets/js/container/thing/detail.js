@@ -96,7 +96,7 @@ class ThingDetailContainer extends React.Component {
     });
   };
 
-  openOrderModal = (thing) => {
+  openOrderModal = () => {
     ReactGA.modalview('/order/show');
     this.setState({
       showOrderModal: true,
@@ -117,7 +117,7 @@ class ThingDetailContainer extends React.Component {
         quantity: quantity,
       },
     )
-      .then(res => {
+      .then(() => {
         ReactGA.event({
           category: 'Commitment',
           action: 'commitment.create',
@@ -143,7 +143,7 @@ class ThingDetailContainer extends React.Component {
         quantity: quantity,
       },
     )
-      .then(res => {
+      .then(() => {
         ReactGA.event({
           category: 'Order',
           action: 'Order.create',

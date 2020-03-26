@@ -137,7 +137,7 @@ class CommitModal extends React.Component {
       >
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Herstellung für "{thing.name}" zusagen</Modal.Title>
+            <Modal.Title>Herstellung für &quot;{thing.name}&quot; zusagen</Modal.Title>
           </Modal.Header>
           {this.context.getCurrentUserRole() === 'ROLE_MAKER' ? this.renderForm() : this.renderInfo()}
         </form>

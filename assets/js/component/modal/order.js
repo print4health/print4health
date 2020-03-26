@@ -129,7 +129,7 @@ class OrderModal extends React.Component {
         animation={true}>
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Bedarf für "{thing.name}" eintragen</Modal.Title>
+            <Modal.Title>Bedarf für &quot;{thing.name}&quot; eintragen</Modal.Title>
           </Modal.Header>
           {this.context.getCurrentUserRole() === 'ROLE_REQUESTER' ? this.renderForm() : this.renderInfo()}
         </form>
