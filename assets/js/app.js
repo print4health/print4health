@@ -35,6 +35,7 @@ class App extends React.Component {
       showLoginModal: false,
       showRequestPasswordResetModal: false,
       showOrderModal: false,
+      order: null,
       showCommitModal: false,
       currentThing: null,
     };
@@ -94,8 +95,8 @@ class App extends React.Component {
     }
   }
 
-  setShowCommitModal(showCommitModal) {
-    this.setState({ showCommitModal });
+  setShowCommitModal(showCommitModal, order) {
+    this.setState({ showCommitModal, order });
     if (showCommitModal) {
       ReactGA.modalview('/commit/show');
     }
@@ -121,6 +122,7 @@ class App extends React.Component {
           setShowLoginModal: this.setShowLoginModal,
           showRequestPasswordResetModal: this.state.showRequestPasswordResetModal,
           setShowRequestPasswordResetModal: this.setShowRequestPasswordResetModal,
+          order: this.state.order,
           showOrderModal: this.state.showOrderModal,
           setShowOrderModal: this.setShowOrderModal,
           showCommitModal: this.state.showCommitModal,
