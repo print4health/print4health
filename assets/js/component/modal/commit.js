@@ -80,7 +80,6 @@ class CommitModal extends React.Component {
           Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile zusagen.
         </p>
 
-        {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
         <InputGroup className="mb-3">
           <FormControl
             type="number"
@@ -123,7 +122,7 @@ class CommitModal extends React.Component {
         <input type="submit"
                className="btn btn-primary"
                value="OK"
-               onClick={() => this.context.setShowCommitModal(false, null)} />
+               onClick={this.onHide} />
       </Modal.Footer>
     </>;
   }

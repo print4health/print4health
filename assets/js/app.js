@@ -44,8 +44,6 @@ class App extends React.Component {
     this.setAlert = this.setAlert.bind(this);
     this.setShowLoginModal = this.setShowLoginModal.bind(this);
     this.setShowRequestPasswordResetModal = this.setShowRequestPasswordResetModal.bind(this);
-    this.setShowOrderModal = this.setShowOrderModal.bind(this);
-    this.setShowCommitModal = this.setShowCommitModal.bind(this);
     this.setCurrentThing = this.setCurrentThing.bind(this);
     this.setPageTitle = this.setPageTitle.bind(this);
     ReactGA.initialize(Config.gaTrackingId, {});
@@ -85,20 +83,6 @@ class App extends React.Component {
     this.setState({ showRequestPasswordResetModal });
     if (showRequestPasswordResetModal) {
       ReactGA.modalview('/request-password-reset/show');
-    }
-  }
-
-  setShowOrderModal(showOrderModal) {
-    this.setState({ showOrderModal });
-    if (showOrderModal) {
-      ReactGA.modalview('/order/show');
-    }
-  }
-
-  setShowCommitModal(showCommitModal, order) {
-    this.setState({ showCommitModal, order });
-    if (showCommitModal) {
-      ReactGA.modalview('/commit/show');
     }
   }
 

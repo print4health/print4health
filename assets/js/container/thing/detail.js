@@ -15,7 +15,6 @@ class ThingDetailContainer extends React.Component {
 
     this.state = {
       orders: [],
-      thing: null,
       error: null,
       currentOrder: null,
       isLoaded: false,
@@ -83,6 +82,7 @@ class ThingDetailContainer extends React.Component {
   }
 
   openCommitModal = (order) => {
+    ReactGA.modalview('/commit/show');
     this.setState({
       showCommitModal: true,
       currentOrder: order,
@@ -97,6 +97,7 @@ class ThingDetailContainer extends React.Component {
   };
 
   openOrderModal = (thing) => {
+    ReactGA.modalview('/order/show');
     this.setState({
       showOrderModal: true,
     });
@@ -117,6 +118,11 @@ class ThingDetailContainer extends React.Component {
       },
     )
       .then(res => {
+        ReactGA.event({
+          category: 'Commitment',
+          action: 'commitment.create',
+          value: this.context.currentThing.id
+        });
         this.onCloseCommitModal();
         this.loadThing(false);
         this.loadOrders();
@@ -138,6 +144,11 @@ class ThingDetailContainer extends React.Component {
       },
     )
       .then(res => {
+        ReactGA.event({
+          category: 'Order',
+          action: 'Order.create',
+          value: this.context.currentThing.id
+        });
         this.onCloseOrderModal();
         this.loadThing(false);
         this.loadOrders();

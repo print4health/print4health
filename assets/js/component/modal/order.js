@@ -1,6 +1,6 @@
 import React from 'react';
 import AppContext from '../../context/app-context';
-import { Modal } from 'react-bootstrap';
+import { Button, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 class OrderModal extends React.Component {
@@ -48,6 +48,21 @@ class OrderModal extends React.Component {
     });
   };
 
+  increaseAmount = () => {
+    this.setState({
+      quantity: this.state.quantity + 1,
+    });
+  };
+
+  decreaseAmount = () => {
+    if (this.state.quantity <= 0) {
+      return;
+    }
+    this.setState({
+      quantity: this.state.quantity - 1,
+    });
+  };
+
   renderForm() {
     return <>
       <Modal.Body>
@@ -58,19 +73,29 @@ class OrderModal extends React.Component {
           Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile bestellen.
         </p>
 
-        {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
-        <div className="form-group">
-          <input name="quantity"
-                 type="number"
-                 placeholder="Anzahl"
-                 className="form-control"
-                 required
-                 value={this.state.quantity}
-                 onChange={this.handleInputChange} />
-        </div>
+        <InputGroup className="mb-3">
+          <FormControl
+            type="number"
+            name="quantity"
+            placeholder="Anzahl"
+            required
+            aria-label="Anzahl der benötigten Teile"
+            aria-describedby="basic-addon2"
+            value={this.state.quantity}
+            onChange={this.handleInputChange}
+          />
+          <InputGroup.Append>
+            <Button variant="outline-primary" onClick={this.increaseAmount}> + </Button>
+            <Button variant="outline-primary" onClick={this.decreaseAmount}> - </Button>
+          </InputGroup.Append>
+        </InputGroup>
+
       </Modal.Body>
       <Modal.Footer>
-        <input type="submit" className="btn btn-primary" value="Bedarf eintragen" />
+        <Button type="submit" variant="outline-primary" disabled={this.state.quantity <= 0}>
+          Bedarf eintragen
+          <i className="fas fa-plus-circle fa-fw"></i>
+        </Button>
       </Modal.Footer>
     </>;
   }
@@ -89,7 +114,7 @@ class OrderModal extends React.Component {
         <input type="submit"
                className="btn btn-primary"
                value="OK"
-               onClick={() => this.context.setShowOrderModal(false)} />
+               onClick={this.onHide} />
       </Modal.Footer>
     </>;
   }
