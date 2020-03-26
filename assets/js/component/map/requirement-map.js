@@ -1,8 +1,6 @@
 import React from 'react';
 import AppContext from '../../context/app-context';
 import { Map, TileLayer } from 'react-leaflet';
-import axios from 'axios';
-import { Config } from '../../config';
 import PropTypes from 'prop-types';
 import MarkerOrder from './marker-order';
 
