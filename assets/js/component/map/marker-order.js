@@ -18,35 +18,45 @@ class MarkerOrder extends React.Component {
     const iconMarkup = renderToStaticMarkup(
       <div className="map-marker-order">
         <i className="fas fa-map-marker-alt text-primary fa-3x" />
-        <span className="text-primary border-primary rounded">{this.props.order.quantity}</span> /
-        <span className="text-secondary border-secondary rounded">{this.props.order.printed}</span>
-      </div>
-      ,
+        <span className="quantity-wrapper rounded">
+          <span className="text-secondary border-secondary p-1"
+                title="Zugesagte Prints">{this.props.order.printed}</span>
+          /
+          <span className="text-primary border-primary p-1" title="Benötigte Menge">{this.props.order.quantity}</span>
+        </span>
+      </div>,
     );
     const customMarkerIcon = divIcon({
       html: iconMarkup,
+      popupAnchor: [10, 0],
     });
     return <Marker
       icon={customMarkerIcon}
-      position={[requester.latitude, requester.longitude]}>
+      position={[requester.latitude, requester.longitude]}
+    >
       <Popup>
+        <address>
+          <h4>{requester.name}</h4>
+          <p>
+            {requester.streetAddress}<br />
+            {requester.postalCode} {requester.city}
+          </p>
+        </address>
         <p>
-          <strong>{requester.name}</strong><br />
-          {requester.streetAddress}<br />
-          {requester.postalCode} {requester.city}
+          <span className="label">Bedarf:</span> <strong
+          className="text-primary">{this.props.order.quantity}</strong><br />
+          <span className="label">Zugesagt:</span> <strong
+          className="text-secondary">{this.props.order.printed}</strong>
         </p>
-        <p>
-          Bedarf: <strong className="text-primary">{this.props.order.quantity}</strong><br />
-          Zugesagt: <strong className="text-secondary">{this.props.order.printed}</strong>
-        </p>
-        <a href="#"
-           onClick={(e) => {
-             e.preventDefault();
-             this.context.setShowCommitModal(true, this.props.order);
-           }}
-           className="text-secondary">
+        <a
+          className="btn btn-outline-secondary btn-sm"
+          href="#"
+          onClick={(e) => {
+            e.preventDefault();
+            this.context.setShowCommitModal(true, this.props.order);
+          }}>
           Herstellung zusagen
-          <i className="fas fa-plus-circle fa-fw text-secondary"></i>
+          <i className="fas fa-plus-circle fa-fw"></i>
         </a>
       </Popup>
     </Marker>;

@@ -37,7 +37,7 @@ class RequirementMap extends React.Component {
       });
   }
 
-  renderMarkers() {
+  renderOrderMarkers() {
     return <>
       {this.state.orders.map((order, id) => {
         return <MarkerOrder key={id} order={order} />;
@@ -51,7 +51,7 @@ class RequirementMap extends React.Component {
       <Map center={position} zoom={6}>
         <TileLayer url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
                    attribution="&copy; openstreetmap.org" />
-        {this.renderMarkers()}
+        {this.renderOrderMarkers()}
       </Map>
     </div>;
   }
