@@ -10,70 +10,63 @@ class CommitModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      show: true,
       thingId: props.thingId,
       quantity: 0,
-      error: '',
+      errors: '',
       orders: [],
     };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.increaseAmount = this.increaseAmount.bind(this);
-    this.decreaseAmount = this.decreaseAmount.bind(this);
   }
 
   static get propTypes() {
     return {
       thingId: PropTypes.string,
+      order: PropTypes.object,
+      onExited: PropTypes.func,
+      onSubmit: PropTypes.func,
     };
   }
 
-  handleSubmit(e) {
-    this.setState({ error: '' });
-    e.preventDefault();
-    const context = this.context;
-    const self = this;
-    console.log(context.order);
-    axios.post(
-      Config.apiBasePath + '/commitments',
-      {
-        orderId: context.order.id,
-        quantity: this.state.quantity,
-      },
-    )
-      .then(function (res) {
-        context.setShowCommitModal(false, null);
-        //update thing to show current quantities!
-        context.setCurrentThing(res.data.commitment.order.thing);
-        context.setAlert('Danke für Deinen Beitrag -  ist notiert.', 'success');
-      })
-      .catch(function (error) {
-        self.setState({
-          error: error.response.data.error,
-        });
-      });
-  }
+  onHide = () => {
+    this.setState({
+      show: false,
+    });
+  };
 
-  handleInputChange(event) {
+  onExited = () => {
+    this.props.onExited();
+    if (this.state.quantity > 0) {
+      this.props.onSubmit(this.state.quantity);
+    }
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.setState({
+      show: false,
+    });
+  };
+
+  handleInputChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  }
+  };
 
-  increaseAmount() {
+  increaseAmount = () => {
     this.setState({
       quantity: this.state.quantity + 1,
     });
-  }
+  };
 
-  decreaseAmount() {
+  decreaseAmount = () => {
     if (this.state.quantity <= 0) {
       return;
     }
     this.setState({
       quantity: this.state.quantity - 1,
     });
-  }
+  };
 
   renderForm() {
     return <>
@@ -138,10 +131,12 @@ class CommitModal extends React.Component {
   }
 
   render() {
+    const { show } = this.state;
     return (
-      <Modal show={this.context.showCommitModal}
-             onHide={() => this.context.setShowCommitModal(false, null)}
-             animation={false}
+      <Modal show={show}
+             onHide={this.onHide}
+             onExited={this.onExited}
+             animation={true}
       >
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>

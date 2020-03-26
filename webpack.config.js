@@ -35,6 +35,10 @@ Encore
     .enableSingleRuntimeChunk()
     .enableReactPreset()
 
+    .configureBabel(function(babelConfig) {
+      babelConfig.plugins.push('transform-class-properties');
+    })
+
     /*
      * FEATURE CONFIG
      *

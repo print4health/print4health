@@ -12,12 +12,15 @@ class ThingDetailContainer extends React.Component {
 
   constructor(props) {
     super(props);
-    this.toggleSpecs = this.toggleSpecs.bind(this);
+
     this.state = {
-      error: null,
-      isLoaded: false,
+      orders: [],
       thing: null,
+      error: null,
+      currentOrder: null,
+      isLoaded: false,
       showSpecs: false,
+      commitModalOpen: false,
     };
   }
 
@@ -28,14 +31,19 @@ class ThingDetailContainer extends React.Component {
     };
   }
 
-  toggleSpecs(event) {
+  toggleSpecs = (event) => {
     event.preventDefault();
     this.setState(state => ({
       showSpecs: !state.showSpecs,
     }));
-  }
+  };
 
   componentDidMount() {
+    this.loadThing(true);
+    this.loadOrders();
+  }
+
+  loadThing(sendGa) {
     const { id } = this.props.match.params;
     axios.get(Config.apiBasePath + '/things/' + id)
       .then((res) => {
@@ -43,9 +51,11 @@ class ThingDetailContainer extends React.Component {
         this.setState({
           isLoaded: true,
         });
-        this.context.setPageTitle('Bedarf / ' + this.context.currentThing.name);
-        const path = window.location.pathname + window.location.hash.substr(2);
-        ReactGA.pageview(path, document.title);
+        if (sendGa) {
+          this.context.setPageTitle('Bedarf / ' + res.data.thing.name);
+          const path = window.location.pathname + window.location.hash.substr(2);
+          ReactGA.pageview(path, document.title);
+        }
       })
       .catch((error) => {
         this.setState({
@@ -54,6 +64,50 @@ class ThingDetailContainer extends React.Component {
         });
       });
   }
+
+  loadOrders() {
+    const { id } = this.props.match.params;
+    axios.get(Config.apiBasePath + '/things/' + id + '/orders')
+      .then((res) => {
+        if (!Array.isArray(res.data.orders)) {
+          return;
+        }
+        this.setState({ orders: res.data.orders });
+      })
+      .catch((error) => {
+        this.setState({
+          error: error.response.data.error,
+        });
+      });
+  }
+
+  onCloseModal = () => {
+    this.setState({
+      commitModalOpen: false,
+      currentOrder: null,
+    });
+  };
+
+  createCommitment = (quantity) => {
+    axios.post(
+      Config.apiBasePath + '/commitments',
+      {
+        orderId: this.state.currentOrder.id,
+        quantity: quantity,
+      },
+    )
+      .then(res => {
+        this.onCloseModal();
+        this.loadThing(false);
+        this.loadOrders();
+        this.context.setAlert('Danke für Deinen Beitrag -  ist notiert.', 'success');
+      })
+      .catch(error => {
+        this.setState({
+          error: error.response.data.error,
+        });
+      });
+  };
 
   renderSpecification() {
     const thing = this.context.currentThing;
@@ -70,9 +124,24 @@ class ThingDetailContainer extends React.Component {
     }
   }
 
+  openModal = (order) => {
+    this.setState({
+      commitModalOpen: true,
+      currentOrder: order,
+    });
+  };
+
   render() {
-    const { error, isLoaded, showSpecs } = this.state;
+    const {
+      error,
+      orders,
+      isLoaded,
+      showSpecs,
+      currentOrder,
+      commitModalOpen,
+    } = this.state;
     const thing = this.context.currentThing;
+
     if (error) {
       return <div className="alert alert-danger">Error: {error.message}</div>;
     }
@@ -105,7 +174,7 @@ class ThingDetailContainer extends React.Component {
             {showSpecs && this.renderSpecification()}
           </div>
           <div className="col-md-6 col-map">
-            <RequirementMap thing={thing} />
+            <RequirementMap thing={thing} orders={orders} openModal={this.openModal} />
           </div>
           <div className="col-md-3 col-order">
             <div className="media">
@@ -143,7 +212,10 @@ class ThingDetailContainer extends React.Component {
           </div>
         </div>
         <OrderModal thingId={thing.id} />
-        <CommitModal thingId={thing.id} />
+        {commitModalOpen && <CommitModal thingId={thing.id}
+                                         order={currentOrder}
+                                         onSubmit={this.createCommitment}
+                                         onExited={this.onCloseModal} />}
       </div>
 
     );

@@ -18,29 +18,18 @@ class RequirementMap extends React.Component {
   static get propTypes() {
     return {
       thing: PropTypes.object,
+      orders: PropTypes.array,
+      openModal: PropTypes.func
     };
   }
 
   componentDidMount() {
-    const self = this;
-    axios.get(Config.apiBasePath + '/things/' + this.props.thing.id + '/orders')
-      .then((res) => {
-        if (!Array.isArray(res.data.orders)) {
-          return;
-        }
-        self.setState({ orders: res.data.orders });
-      })
-      .catch((error) => {
-        self.setState({
-          error: error.response.data.error,
-        });
-      });
   }
 
   renderOrderMarkers() {
     return <>
-      {this.state.orders.map((order, id) => {
-        return <MarkerOrder key={id} order={order} />;
+      {this.props.orders.map((order, id) => {
+        return <MarkerOrder key={id} order={order} openModal={this.props.openModal} />;
       })}
     </>;
   }

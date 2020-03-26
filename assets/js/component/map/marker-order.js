@@ -10,6 +10,7 @@ class MarkerOrder extends React.Component {
   static get propTypes() {
     return {
       order: PropTypes.object,
+      openModal: PropTypes.func
     };
   }
 
@@ -53,7 +54,7 @@ class MarkerOrder extends React.Component {
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            this.context.setShowCommitModal(true, this.props.order);
+            this.props.openModal(this.props.order);
           }}>
           Herstellung zusagen
           <i className="fas fa-plus-circle fa-fw"></i>
