@@ -13,22 +13,6 @@ class MarkerOrder extends React.Component {
     };
   }
 
-  renderCommitButton() {
-    return <a href="#"
-              onClick={(e) => {
-                e.preventDefault();
-                this.context.setShowCommitModal(true, this.props.order);
-              }}
-              className="text-secondary">
-      Herstellung zusagen
-      <i className="fas fa-plus-circle fa-fw text-secondary"></i>
-    </a>;
-  }
-
-  renderCommitInfo() {
-    return <span>info only</span>;
-  }
-
   render() {
     const requester = this.props.order.requester;
     const iconMarkup = renderToStaticMarkup(
@@ -55,7 +39,15 @@ class MarkerOrder extends React.Component {
           Bedarf: <strong className="text-primary">{this.props.order.quantity}</strong><br />
           Zugesagt: <strong className="text-secondary">{this.props.order.printed}</strong>
         </p>
-        {this.context.getCurrentUserRole() === 'ROLE_MAKER' ? this.renderCommitButton() : this.renderCommitInfo()}
+        <a href="#"
+           onClick={(e) => {
+             e.preventDefault();
+             this.context.setShowCommitModal(true, this.props.order);
+           }}
+           className="text-secondary">
+          Herstellung zusagen
+          <i className="fas fa-plus-circle fa-fw text-secondary"></i>
+        </a>
       </Popup>
     </Marker>;
   }
