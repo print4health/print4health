@@ -178,7 +178,10 @@ class OrderController
             throw new NotFoundHttpException('No thing was found');
         }
 
-        $order = new Order($requester, $thing, $orderRequest->quantity);
+        $order = $this->orderRepository->findOneBy(['requester' => $requester, 'thing' => $thing]);
+        if (!$order instanceof Order) {
+            $order = new Order($requester, $thing, $orderRequest->quantity);
+        }
 
         $this->entityManager->persist($order);
         $this->entityManager->flush();
