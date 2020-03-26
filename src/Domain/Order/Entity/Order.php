@@ -96,6 +96,11 @@ class Order
         return $this->quantity;
     }
 
+    public function addQuantity(int $quantity): void
+    {
+        $this->quantity += $quantity;
+    }
+
     /**
      * @return Commitment[]
      */

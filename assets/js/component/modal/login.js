@@ -3,6 +3,8 @@ import { Config } from '../../config';
 import axios from 'axios';
 import AppContext from '../../context/app-context';
 import { Modal } from 'react-bootstrap';
+import ReactGA from "react-ga";
+import PropTypes from "prop-types";
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -17,7 +19,15 @@ class LoginModal extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  static get propTypes() {
+    return {
+      onClose: PropTypes.func,
+    };
+  }
+
   componentDidMount() {
+    ReactGA.modalview('/login/show');
+
     const context = this.context;
     axios.get(Config.apiBasePath + '/user/profile')
       .then((res) => {
@@ -29,6 +39,8 @@ class LoginModal extends React.Component {
   }
 
   handleSubmit(e) {
+    const { onClose } = this.props;
+
     this.setState({ error: '' });
     e.preventDefault();
     const context = this.context;
@@ -36,7 +48,7 @@ class LoginModal extends React.Component {
     axios.post(Config.apiBasePath + '/login', this.state)
       .then(function (res) {
         context.setUser(res.data);
-        context.setShowLoginModal(false);
+        onClose();
         context.setAlert('Herzlich Willkommen ' + res.data.email, 'success');
       })
       .catch(function (error) {
@@ -55,7 +67,7 @@ class LoginModal extends React.Component {
   render() {
     return (
 
-      <Modal show={this.context.showLoginModal} onHide={() => this.context.setShowLoginModal(false)} animation={false}>
+      <Modal show onHide={this.props.onClose} animation={false}>
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
             <Modal.Title>Anmeldung bei print4health</Modal.Title>
@@ -99,7 +111,7 @@ class LoginModal extends React.Component {
               <a href="#"
                  data-toggle="modal"
                  onClick={() => {
-                   this.context.setShowLoginModal(false);
+                   this.props.onClose();
                    this.context.setShowRequestPasswordResetModal(true);
                  }}
               >

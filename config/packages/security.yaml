@@ -5,13 +5,17 @@ security:
             entity:
                 class: 'App\Domain\User\Entity\Requester'
                 property: 'email'
+        maker:
+            entity:
+                class: 'App\Domain\User\Entity\Maker'
+                property: 'email'
         users:
             entity:
                 class: 'App\Domain\User\Entity\User'
                 property: 'email'
         all_users:
             chain:
-                providers: ['requester', 'users']
+                providers: ['requester', 'maker', 'users']
     encoders:
         Symfony\Component\Security\Core\User\UserInterface:
             algorithm: auto

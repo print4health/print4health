@@ -3,6 +3,7 @@ import { Config } from '../../config';
 import ThingList from './../../component/thing/list.js';
 import Search from './../../component/search/search';
 import axios from 'axios';
+import AppContext from '../../context/app-context';
 
 class ThingListContainer extends React.Component {
 
@@ -17,6 +18,7 @@ class ThingListContainer extends React.Component {
   }
 
   componentDidMount() {
+    this.context.setPageTitle('Bedarf & Ersatzteile');
     this.executeSearch('');
   }
 
@@ -59,5 +61,7 @@ class ThingListContainer extends React.Component {
     );
   }
 }
+
+ThingListContainer.contextType = AppContext;
 
 export default ThingListContainer;

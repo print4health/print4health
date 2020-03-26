@@ -9,7 +9,9 @@ use App\Domain\Thing\Repository\ThingRepository;
 use App\Infrastructure\Dto\Thing\ThingRequest;
 use App\Infrastructure\Dto\Thing\ThingResponse;
 use Doctrine\ORM\EntityManagerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -38,11 +40,24 @@ class ThingController
     }
 
     /**
+     * Retrieves the collection of Thing resources.
+     *
      * @Route(
      *     "/things",
      *     name="thing_list",
      *     methods={"GET"},
      *     format="json"
+     * )
+     *
+     * @SWG\Tag(name="Things")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Thing collection response",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=ThingResponse::class))
+     *     )
      * )
      */
     public function listAction(): JsonResponse
@@ -59,11 +74,24 @@ class ThingController
     }
 
     /**
+     * Retrieves the collection of Thing resources.
+     *
      * @Route(
      *     "/things/search/{searchstring}",
      *     name="thing_search",
      *     methods={"GET"},
      *     format="json"
+     * )
+     *
+     * @SWG\Tag(name="Things")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Thing collection response",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=ThingResponse::class))
+     *     )
      * )
      */
     public function searchAction(string $searchstring): JsonResponse
@@ -80,11 +108,35 @@ class ThingController
     }
 
     /**
+     * Creates a Thing Resource.
+     *
      * @Route(
      *     "/things",
      *     name="thing_create",
      *     methods={"POST"},
      *     format="json"
+     * )
+     *
+     * @SWG\Tag(name="Things")
+     *
+     * @SWG\Parameter(
+     *     name="thing",
+     *     in="body",
+     *     type="json",
+     *     @Model(type=ThingRequest::class)
+     * )
+     * @SWG\Response(
+     *     response=201,
+     *     description="Thing successfully created",
+     *     @Model(type=ThingResponse::class)
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed request"
+     * )
+     * @SWG\Response(
+     *     response=401,
+     *     description="Unauthorized"
      * )
      *
      * @IsGranted("ROLE_ADMIN")
@@ -115,11 +167,21 @@ class ThingController
     }
 
     /**
+     * Retrieves a Thing resource.
+     *
      * @Route(
      *     "/things/{uuid}",
      *     name="thing_show",
      *     methods={"GET"},
      *     format="json"
+     * )
+     *
+     * @SWG\Tag(name="Things")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="A Thing",
+     *     @Model(type=ThingResponse::class)
      * )
      */
     public function showAction(string $uuid): JsonResponse

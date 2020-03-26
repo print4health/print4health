@@ -1,108 +1,107 @@
 import React from 'react';
-import { Config } from '../../config';
-import axios from 'axios';
 import AppContext from '../../context/app-context';
-import { Form, Modal } from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { FormControl, InputGroup, Button } from 'react-bootstrap';
 
 class CommitModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      thingId: props.thingId,
-      orderId: null,
+      show: true,
+      thing: props.thing,
       quantity: 0,
-      error: '',
+      errors: '',
       orders: [],
     };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   static get propTypes() {
     return {
-      thingId: PropTypes.string,
+      thing: PropTypes.object,
+      order: PropTypes.object,
+      onExited: PropTypes.func,
+      onSubmit: PropTypes.func,
     };
   }
 
-  componentDidMount() {
-    const self = this;
-    axios.get(Config.apiBasePath + '/orders/thing/' + this.state.thingId)
-      .then((res) => {
-        if (!Array.isArray(res.data.orders)) {
-          return;
-        }
-        self.setState({ orders: res.data.orders });
-        try {
-          self.setState({ orderId: res.data.orders[0].id });
-        } catch (e) {
-          return;
-        }
-      })
-      .catch((error) => {
-        self.setState({
-          error: error.response.data.error,
-        });
-      });
-  }
+  onHide = () => {
+    this.setState({
+      show: false,
+    });
+  };
 
-  handleSubmit(e) {
-    this.setState({ error: '' });
+  onExited = () => {
+    this.props.onExited();
+    if (this.state.quantity > 0) {
+      this.props.onSubmit(this.state.quantity);
+    }
+  };
+
+  handleSubmit = (e) => {
     e.preventDefault();
-    const context = this.context;
-    const self = this;
-    axios.post(
-      Config.apiBasePath + '/commitments',
-      {
-        orderId: this.state.orderId,
-        quantity: this.state.quantity,
-      },
-    )
-      .then(function (res) {
-        context.setShowCommitModal(false);
-        context.setCurrentThing(res.data.commitment.order.thing);
-        context.setAlert('Danke für Deinen Beitrag -  ist notiert.', 'success');
-      })
-      .catch(function (error) {
-        self.setState({
-          error: error.response.data.error,
-        });
-      });
-  }
+    this.setState({
+      show: false,
+    });
+  };
 
-  handleInputChange(event) {
+  handleInputChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  }
+  };
+
+  increaseAmount = () => {
+    this.setState({
+      quantity: this.state.quantity + 1,
+    });
+  };
+
+  decreaseAmount = () => {
+    if (this.state.quantity <= 0) {
+      return;
+    }
+    this.setState({
+      quantity: this.state.quantity - 1,
+    });
+  };
 
   renderForm() {
     return <>
       <Modal.Body>
-        {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
-        <div className="form-group">
-          <Form.Control as="select" onChange={(e) => this.setState({ orderId: e.target.value })}>
-            {
-              this.state.orders.map((order, i) => {
-                return <option key={i} value={order.id}>{i} - {order.requester.name}</option>;
-              })
-            }
-          </Form.Control>
-        </div>
+        <h6>
+          Toll dass Du mithilfst!
+        </h6>
 
-        <div className="form-group">
-          <input name="quantity"
-                 type="number"
-                 placeholder="Anzahl"
-                 className="form-control"
-                 required
-                 value={this.state.quantity}
-                 onChange={this.handleInputChange} />
-        </div>
+        <p>
+          Bitte trage nur eine Anzahl ein, die Du wirklich bereit und in der Lage bist herzustellen.
+        </p>
+        <p>
+          Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile zusagen.
+        </p>
+
+        <InputGroup className="mb-3">
+          <FormControl
+            type="number"
+            name="quantity"
+            placeholder="Anzahl"
+            required
+            aria-label="Anzahl der Teile"
+            aria-describedby="basic-addon2"
+            value={this.state.quantity}
+            onChange={this.handleInputChange}
+          />
+          <InputGroup.Append>
+            <Button variant="outline-secondary" onClick={this.increaseAmount}> + </Button>
+            <Button variant="outline-secondary" onClick={this.decreaseAmount}> - </Button>
+          </InputGroup.Append>
+        </InputGroup>
       </Modal.Body>
       <Modal.Footer>
-        <input type="submit" className="btn btn-primary" value="Beitrag eintragen" />
+        <Button type="submit" variant="outline-secondary" disabled={this.state.quantity <= 0}>
+          Herstellung zusagen
+          <i className="fas fa-plus-circle fa-fw"></i>
+        </Button>
       </Modal.Footer>
     </>;
   }
@@ -111,33 +110,34 @@ class CommitModal extends React.Component {
     return <>
       <Modal.Body>
         <p>
-          Noch ist kein Bedarf für dieses Ersatzteil eingetragen. Wenn es soweit ist, kannst Du an dieser darauf
-          reagieren und Ersatzteile herstellen.
+          Um als Maker Herstellung von Ersatzteilen zusagen zu können, meldet euch unter <a
+          href="mailto: contact@print4health.org">contact@print4health.org</a> und wir erstellen euch einen Account.
         </p>
         <p>
-          Um Dich als Maker/Drucker/Printer anmelden zu können , melde Dich unter <a
-          href="mailto: contact@print4health.org">contact@print4health.org</a> und wir
-          erstellen Dir einen Account.
+          Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an,
+          um Herstellung von Ersatzteilen zusagen zu können.
         </p>
       </Modal.Body>
       <Modal.Footer>
         <input type="submit"
                className="btn btn-primary"
                value="OK"
-               onClick={() => this.context.setShowCommitModal(false)} />
+               onClick={this.onHide} />
       </Modal.Footer>
     </>;
   }
 
   render() {
+    const { show, thing } = this.state;
     return (
-      <Modal show={this.context.showCommitModal}
-             onHide={() => this.context.setShowCommitModal(false)}
-             animation={false}
+      <Modal show={show}
+             onHide={this.onHide}
+             onExited={this.onExited}
+             animation={true}
       >
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Bedarf eintragen</Modal.Title>
+            <Modal.Title>Herstellung für &quot;{thing.name}&quot; zusagen</Modal.Title>
           </Modal.Header>
           {this.context.getCurrentUserRole() === 'ROLE_MAKER' ? this.renderForm() : this.renderInfo()}
         </form>

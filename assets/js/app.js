@@ -6,11 +6,11 @@ import {
   Link,
   NavLink,
 } from 'react-router-dom';
+import ReactGA from 'react-ga';
 import Index from './container/index/index';
 import UserNav from './component/user/user-nav';
 import ThingListContainer from './container/thing/list';
 import ThingDetailContainer from './container/thing/detail';
-import LoginModal from './component/modal/login';
 import RequestPasswordResetModal from './component/modal/request-password-reset';
 import logo from '../logo-print4health-org.svg';
 import Faq from './container/faq/faq';
@@ -20,6 +20,9 @@ import DismissableAlert from './component/alert/dismissable-alert';
 import Footer from './component/footer/footer';
 import Imprint from './container/imprint/imprint';
 import DataPrivacyStatement from './container/data-privacy-statement/data-privacy-statement';
+import PageView from './component/page-view/page-view.js';
+import { Config } from './config';
+import { Nav, Navbar } from 'react-bootstrap';
 
 class App extends React.Component {
 
@@ -32,17 +35,17 @@ class App extends React.Component {
       showLoginModal: false,
       showRequestPasswordResetModal: false,
       showOrderModal: false,
+      order: null,
       showCommitModal: false,
       currentThing: null,
     };
     this.setUser = this.setUser.bind(this);
     this.getCurrentUserRole = this.getCurrentUserRole.bind(this);
     this.setAlert = this.setAlert.bind(this);
-    this.setShowLoginModal = this.setShowLoginModal.bind(this);
     this.setShowRequestPasswordResetModal = this.setShowRequestPasswordResetModal.bind(this);
-    this.setShowOrderModal = this.setShowOrderModal.bind(this);
-    this.setShowCommitModal = this.setShowCommitModal.bind(this);
     this.setCurrentThing = this.setCurrentThing.bind(this);
+    this.setPageTitle = this.setPageTitle.bind(this);
+    ReactGA.initialize(Config.gaTrackingId, {});
   }
 
   setUser(user) {
@@ -53,6 +56,8 @@ class App extends React.Component {
     try {
       if (this.state.user.roles.includes('ROLE_REQUESTER')) {
         return 'ROLE_REQUESTER';
+      } else if (this.state.user.roles.includes('ROLE_MAKER')) {
+        return 'ROLE_MAKER';
       } else if (this.state.user.roles.includes('ROLE_USER')) {
         return 'ROLE_USER';
       }
@@ -66,24 +71,19 @@ class App extends React.Component {
     this.setState({ alertMessage, alertClass });
   }
 
-  setShowLoginModal(showLoginModal) {
-    this.setState({ showLoginModal });
-  }
-
   setShowRequestPasswordResetModal(showRequestPasswordResetModal) {
     this.setState({ showRequestPasswordResetModal });
-  }
-
-  setShowOrderModal(showOrderModal) {
-    this.setState({ showOrderModal });
-  }
-
-  setShowCommitModal(showCommitModal) {
-    this.setState({ showCommitModal });
+    if (showRequestPasswordResetModal) {
+      ReactGA.modalview('/request-password-reset/show');
+    }
   }
 
   setCurrentThing(currentThing) {
     this.setState({ currentThing });
+  }
+
+  setPageTitle(title, prefix = 'print4health') {
+    document.title = prefix + ' - ' + title;
   }
 
   render() {
@@ -95,15 +95,16 @@ class App extends React.Component {
           getCurrentUserRole: this.getCurrentUserRole,
           setAlert: this.setAlert,
           showLoginModal: this.state.showLoginModal,
-          setShowLoginModal: this.setShowLoginModal,
           showRequestPasswordResetModal: this.state.showRequestPasswordResetModal,
           setShowRequestPasswordResetModal: this.setShowRequestPasswordResetModal,
+          order: this.state.order,
           showOrderModal: this.state.showOrderModal,
           setShowOrderModal: this.setShowOrderModal,
           showCommitModal: this.state.showCommitModal,
           setShowCommitModal: this.setShowCommitModal,
           currentThing: this.state.currentThing,
           setCurrentThing: this.setCurrentThing,
+          setPageTitle: this.setPageTitle,
         }}
       >
         <Router>
@@ -111,24 +112,27 @@ class App extends React.Component {
             <Link to="/">
               <img src={logo} alt="Logo" className="Header__logo" />
             </Link>
-            <nav className="navbar navbar-light">
+            <Navbar expand="lg">
               <div className="container font-weight-bold text-uppercase">
-                <ul className="mb-0 w-100 list-unstyled d-flex justify-content-around">
-                  <li className="nav-item">
-                    <NavLink className="nav-link" activeClassName="text-primary" exact to="/">Start</NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink className="nav-link" activeClassName="text-primary" to="/thing/list">Bedarf</NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink className="nav-link" activeClassName="text-primary" to="/faq">FAQ</NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <UserNav />
-                  </li>
-                </ul>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                  <Nav className="mb-0 w-100 list-unstyled d-flex justify-content-around">
+                    <li className="nav-item">
+                      <NavLink className="nav-link" activeClassName="text-primary" exact to="/">Start</NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink className="nav-link" activeClassName="text-primary" to="/thing/list">Bedarf</NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink className="nav-link" activeClassName="text-primary" to="/faq">FAQ</NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <UserNav />
+                    </li>
+                  </Nav>
+                </Navbar.Collapse>
               </div>
-            </nav>
+            </Navbar>
           </header>
           <main className="container py-5">
             <DismissableAlert message={this.state.alertMessage} variant={this.state.alertClass} />
@@ -145,9 +149,9 @@ class App extends React.Component {
               <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
               <Route path="/" component={Index} />
             </Switch>
+            <PageView />
           </main>
           <Footer />
-          <LoginModal />
           <RequestPasswordResetModal />
         </Router>
       </AppContext.Provider>

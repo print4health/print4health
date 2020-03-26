@@ -4,18 +4,15 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Entity;
 
-use App\Domain\Order\Entity\Order;
 use App\Domain\User\UserInterface;
 use DateTimeImmutable;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @ORM\Entity(repositoryClass="App\Domain\User\Repository\RequesterRepository")
+ * @ORM\Entity(repositoryClass="App\Domain\User\Repository\MakerRepository")
  */
-class Requester implements UserInterface
+class Maker implements UserInterface
 {
     /**
      * @ORM\Column(type="guid")
@@ -50,20 +47,9 @@ class Requester implements UserInterface
     private ?DateTimeImmutable $passwordResetTokenCreatedAt;
 
     /**
-     * @var Collection<int, Order>
-     * @ORM\OneToMany(targetEntity="App\Domain\Order\Entity\Order", mappedBy="requester", orphanRemoval=true)
-     */
-    private $orders;
-
-    /**
      * @ORM\Column(type="string", length=255)
      */
     private string $name;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private ?string $streetAddress = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -95,7 +81,6 @@ class Requester implements UserInterface
         $this->email = $email;
         $this->name = $name;
         $this->id = Uuid::uuid4()->toString();
-        $this->orders = new ArrayCollection();
     }
 
     public function getId(): string
@@ -125,7 +110,7 @@ class Requester implements UserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
-        $roles[] = 'ROLE_REQUESTER';
+        $roles[] = 'ROLE_MAKER';
 
         return array_unique($roles);
     }
@@ -182,24 +167,6 @@ class Requester implements UserInterface
         return $this->passwordResetToken;
     }
 
-    /**
-     * @return Order[]
-     */
-    public function getOrders(): array
-    {
-        return $this->orders->toArray();
-    }
-
-    public function addOrder(Order $order): self
-    {
-        if (!$this->orders->contains($order)) {
-            $this->orders[] = $order;
-            $order->setRequester($this);
-        }
-
-        return $this;
-    }
-
     public function getName(): string
     {
         return $this->name;
@@ -208,18 +175,6 @@ class Requester implements UserInterface
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getStreetAddress(): ?string
-    {
-        return $this->streetAddress;
-    }
-
-    public function setStreetAddress(?string $streetAddress): self
-    {
-        $this->streetAddress = $streetAddress;
 
         return $this;
     }

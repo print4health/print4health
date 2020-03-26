@@ -14,12 +14,19 @@ class OrderResponse
 {
     /** @SWG\Property(type="string") */
     public string $id;
-    /** @SWG\Property(type=@SWG\Schema(@Model(type=RequesterResponse::class))) */
+
+    /** @SWG\Property(ref=@Model(type=RequesterResponse::class)) */
     public RequesterResponse $requester;
-    /** @SWG\Property(type=@SWG\Schema(@Model(type=ThingResponse::class))) */
+
+    /** @SWG\Property(ref=@Model(type=ThingResponse::class)) */
     public ThingResponse $thing;
+
     /** @SWG\Property(type="integer") */
     public int $quantity;
+
+    /** @SWG\Property(type="integer") */
+    public int $printed;
+
     /** @SWG\Property(type="integer") */
     public int $remaining;
 
@@ -33,9 +40,11 @@ class OrderResponse
 
         $self->quantity = $order->getQuantity();
         $self->remaining = $order->getRemaining();
+        $self->printed = 0;
 
         $commitments = $order->getCommitments();
         foreach ($commitments as $commitment) {
+            $self->printed += $commitment->getQuantity();
             $self->remaining -= $commitment->getQuantity();
         }
 
