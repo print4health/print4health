@@ -22,6 +22,7 @@ import Imprint from './container/imprint/imprint';
 import DataPrivacyStatement from './container/data-privacy-statement/data-privacy-statement';
 import PageView from './component/page-view/page-view.js';
 import { Config } from './config';
+import { Nav, Navbar } from 'react-bootstrap';
 
 class App extends React.Component {
 
@@ -123,24 +124,27 @@ class App extends React.Component {
             <Link to="/">
               <img src={logo} alt="Logo" className="Header__logo" />
             </Link>
-            <nav className="navbar navbar-light">
+            <Navbar expand="lg">
               <div className="container font-weight-bold text-uppercase">
-                <ul className="mb-0 w-100 list-unstyled d-flex justify-content-around">
-                  <li className="nav-item">
-                    <NavLink className="nav-link" activeClassName="text-primary" exact to="/">Start</NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink className="nav-link" activeClassName="text-primary" to="/thing/list">Bedarf</NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <NavLink className="nav-link" activeClassName="text-primary" to="/faq">FAQ</NavLink>
-                  </li>
-                  <li className="nav-item">
-                    <UserNav />
-                  </li>
-                </ul>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                  <Nav className="mb-0 w-100 list-unstyled d-flex justify-content-around">
+                    <li className="nav-item">
+                      <NavLink className="nav-link" activeClassName="text-primary" exact to="/">Start</NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink className="nav-link" activeClassName="text-primary" to="/thing/list">Bedarf</NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <NavLink className="nav-link" activeClassName="text-primary" to="/faq">FAQ</NavLink>
+                    </li>
+                    <li className="nav-item">
+                      <UserNav />
+                    </li>
+                  </Nav>
+                </Navbar.Collapse>
               </div>
-            </nav>
+            </Navbar>
           </header>
           <main className="container py-5">
             <DismissableAlert message={this.state.alertMessage} variant={this.state.alertClass} />
