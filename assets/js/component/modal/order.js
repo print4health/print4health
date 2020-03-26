@@ -57,6 +57,14 @@ class OrderModal extends React.Component {
   renderForm() {
     return <>
       <Modal.Body>
+
+        <p>
+          Bitte trage nur eine Anzahl ein, die ihr aktuell wirklich benötigt.
+        </p>
+        <p>
+          Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile bestellen.
+        </p>
+
         {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
         <div className="form-group">
           <input name="quantity"
