@@ -179,11 +179,13 @@ class OrderController
         }
 
         $order = $this->orderRepository->findOneBy(['requester' => $requester, 'thing' => $thing]);
-        if (!$order instanceof Order) {
+        if ($order instanceof Order) {
+            $order->addQuantity($orderRequest->quantity);
+        } else {
             $order = new Order($requester, $thing, $orderRequest->quantity);
+            $this->entityManager->persist($order);
         }
 
-        $this->entityManager->persist($order);
         $this->entityManager->flush();
 
         $OrderResponse = OrderResponse::createFromOrder($order);
