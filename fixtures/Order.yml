@@ -1,6 +1,6 @@
 App\Domain\Order\Entity\Order:
-    order_{1..50}:
+    order_{1..100}:
         __construct:
-            - '@requester_address_*'
+            - '@requester_address_<current()>'
             - '@thing_*'
-            - '<numberBetween(5, 5000)>'
+            - '<numberBetween(5, 100)>'

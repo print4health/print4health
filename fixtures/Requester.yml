@@ -17,7 +17,7 @@ App\Domain\User\Entity\Requester:
             - '<company()>'
         password: 'test'
 
-    requester_address_{1..10}:
+    requester_address_{1..100}:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
