@@ -1,75 +1,101 @@
 import React from 'react';
-import { Config } from '../../config';
-import axios from 'axios';
 import AppContext from '../../context/app-context';
-import { Modal } from 'react-bootstrap';
+import { Button, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
 class OrderModal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      thingId: props.thingId,
+      show: true,
+      thing: props.thing,
       quantity: 0,
       error: '',
     };
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   static get propTypes() {
     return {
-      thingId: PropTypes.string,
+      thing: PropTypes.object,
+      onExited: PropTypes.func,
+      onSubmit: PropTypes.func,
     };
   }
 
-  handleSubmit(e) {
-    this.setState({ error: '' });
-    e.preventDefault();
-    const context = this.context;
-    const self = this;
-    axios.post(
-      Config.apiBasePath + '/orders',
-      {
-        thingId: this.state.thingId,
-        quantity: this.state.quantity,
-      },
-    )
-      .then(function (res) {
-        context.setShowOrderModal(false);
-        context.setCurrentThing(res.data.order.thing);
-        context.setAlert('Danke, der Bedarf wurde eingetragen', 'success');
-      })
-      .catch(function (error) {
-        self.setState({
-          error: error.response.data.error,
-        });
-      });
-  }
+  onHide = () => {
+    this.setState({
+      show: false,
+    });
+  };
 
-  handleInputChange(event) {
+  onExited = () => {
+    this.props.onExited();
+    if (this.state.quantity > 0) {
+      this.props.onSubmit(this.state.quantity);
+    }
+  };
+
+  handleSubmit = (e) => {
+    e.preventDefault();
+    this.setState({
+      show: false,
+    });
+  };
+
+  handleInputChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
-  }
+  };
+
+  increaseAmount = () => {
+    this.setState({
+      quantity: this.state.quantity + 1,
+    });
+  };
+
+  decreaseAmount = () => {
+    if (this.state.quantity <= 0) {
+      return;
+    }
+    this.setState({
+      quantity: this.state.quantity - 1,
+    });
+  };
 
   renderForm() {
     return <>
       <Modal.Body>
-        {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
-        <div className="form-group">
-          <input name="quantity"
-                 type="number"
-                 placeholder="Anzahl"
-                 className="form-control"
-                 required
-                 value={this.state.quantity}
-                 onChange={this.handleInputChange} />
-        </div>
+        <p>
+          Bitte trage die Anzahl ein, die ihr aktuell wirklich benötigt.
+        </p>
+        <p>
+          Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile bestellen.
+        </p>
+
+        <InputGroup className="mb-3">
+          <FormControl
+            type="number"
+            name="quantity"
+            placeholder="Anzahl"
+            required
+            aria-label="Anzahl der benötigten Teile"
+            aria-describedby="basic-addon2"
+            value={this.state.quantity}
+            onChange={this.handleInputChange}
+          />
+          <InputGroup.Append>
+            <Button variant="outline-primary" onClick={this.increaseAmount}> + </Button>
+            <Button variant="outline-primary" onClick={this.decreaseAmount}> - </Button>
+          </InputGroup.Append>
+        </InputGroup>
+
       </Modal.Body>
       <Modal.Footer>
-        <input type="submit" className="btn btn-primary" value="Bedarf eintragen" />
+        <Button type="submit" variant="outline-primary" disabled={this.state.quantity <= 0}>
+          Bedarf eintragen
+          <i className="fas fa-plus-circle fa-fw"></i>
+        </Button>
       </Modal.Footer>
     </>;
   }
@@ -88,17 +114,22 @@ class OrderModal extends React.Component {
         <input type="submit"
                className="btn btn-primary"
                value="OK"
-               onClick={() => this.context.setShowOrderModal(false)} />
+               onClick={this.onHide} />
       </Modal.Footer>
     </>;
   }
 
   render() {
+    const { show, thing } = this.state;
     return (
-      <Modal show={this.context.showOrderModal} onHide={() => this.context.setShowOrderModal(false)} animation={false}>
+      <Modal
+        show={show}
+        onHide={this.onHide}
+        onExited={this.onExited}
+        animation={true}>
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Bedarf eintragen</Modal.Title>
+            <Modal.Title>Bedarf für &quot;{thing.name}&quot; eintragen</Modal.Title>
           </Modal.Header>
           {this.context.getCurrentUserRole() === 'ROLE_REQUESTER' ? this.renderForm() : this.renderInfo()}
         </form>

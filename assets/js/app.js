@@ -35,6 +35,7 @@ class App extends React.Component {
       showLoginModal: false,
       showRequestPasswordResetModal: false,
       showOrderModal: false,
+      order: null,
       showCommitModal: false,
       currentThing: null,
     };
@@ -42,8 +43,6 @@ class App extends React.Component {
     this.getCurrentUserRole = this.getCurrentUserRole.bind(this);
     this.setAlert = this.setAlert.bind(this);
     this.setShowRequestPasswordResetModal = this.setShowRequestPasswordResetModal.bind(this);
-    this.setShowOrderModal = this.setShowOrderModal.bind(this);
-    this.setShowCommitModal = this.setShowCommitModal.bind(this);
     this.setCurrentThing = this.setCurrentThing.bind(this);
     this.setPageTitle = this.setPageTitle.bind(this);
     ReactGA.initialize(Config.gaTrackingId, {});
@@ -57,6 +56,8 @@ class App extends React.Component {
     try {
       if (this.state.user.roles.includes('ROLE_REQUESTER')) {
         return 'ROLE_REQUESTER';
+      } else if (this.state.user.roles.includes('ROLE_MAKER')) {
+        return 'ROLE_MAKER';
       } else if (this.state.user.roles.includes('ROLE_USER')) {
         return 'ROLE_USER';
       }
@@ -74,20 +75,6 @@ class App extends React.Component {
     this.setState({ showRequestPasswordResetModal });
     if (showRequestPasswordResetModal) {
       ReactGA.modalview('/request-password-reset/show');
-    }
-  }
-
-  setShowOrderModal(showOrderModal) {
-    this.setState({ showOrderModal });
-    if (showOrderModal) {
-      ReactGA.modalview('/order/show');
-    }
-  }
-
-  setShowCommitModal(showCommitModal) {
-    this.setState({ showCommitModal });
-    if (showCommitModal) {
-      ReactGA.modalview('/commit/show');
     }
   }
 
@@ -110,6 +97,7 @@ class App extends React.Component {
           showLoginModal: this.state.showLoginModal,
           showRequestPasswordResetModal: this.state.showRequestPasswordResetModal,
           setShowRequestPasswordResetModal: this.setShowRequestPasswordResetModal,
+          order: this.state.order,
           showOrderModal: this.state.showOrderModal,
           setShowOrderModal: this.setShowOrderModal,
           showCommitModal: this.state.showCommitModal,

@@ -8,6 +8,7 @@ use App\Domain\Commitment\Entity\Commitment;
 use App\Domain\Commitment\Repository\CommitmentRepository;
 use App\Domain\Order\Entity\Order;
 use App\Domain\Order\Repository\OrderRepository;
+use App\Domain\User\Entity\Maker;
 use App\Infrastructure\Dto\Commitment\CommitmentRequest;
 use App\Infrastructure\Dto\Commitment\CommitmentResponse;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,9 +19,11 @@ use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
@@ -31,17 +34,20 @@ class CommitmentController
     private SerializerInterface $serializer;
     private EntityManagerInterface $entityManager;
     private CommitmentRepository $commitmentRepository;
+    private Security $security;
 
     public function __construct(
         OrderRepository $orderRepository,
         SerializerInterface $serializer,
         EntityManagerInterface $entityManager,
-        CommitmentRepository $commitmentRepository
+        CommitmentRepository $commitmentRepository,
+        Security $security
     ) {
         $this->orderRepository = $orderRepository;
         $this->serializer = $serializer;
         $this->entityManager = $entityManager;
         $this->commitmentRepository = $commitmentRepository;
+        $this->security = $security;
     }
 
     /**
@@ -159,7 +165,12 @@ class CommitmentController
             throw new EntityNotFoundException('Order not found');
         }
 
-        $commitment = new Commitment($order, $commitmentRequest->quantity);
+        $maker = $this->security->getUser();
+        if (!$maker instanceof Maker) {
+            throw new AccessDeniedHttpException('current User is not a maker account');
+        }
+
+        $commitment = new Commitment($order, $maker, $commitmentRequest->quantity);
 
         $this->entityManager->persist($commitment);
         $this->entityManager->flush();

@@ -12,12 +12,15 @@ class ThingDetailContainer extends React.Component {
 
   constructor(props) {
     super(props);
-    this.toggleSpecs = this.toggleSpecs.bind(this);
+
     this.state = {
+      orders: [],
       error: null,
+      currentOrder: null,
       isLoaded: false,
-      thing: null,
       showSpecs: false,
+      showCommitModal: false,
+      showOrderModal: false,
     };
   }
 
@@ -28,14 +31,19 @@ class ThingDetailContainer extends React.Component {
     };
   }
 
-  toggleSpecs(event) {
+  toggleSpecs = (event) => {
     event.preventDefault();
     this.setState(state => ({
       showSpecs: !state.showSpecs,
     }));
-  }
+  };
 
   componentDidMount() {
+    this.loadThing(true);
+    this.loadOrders();
+  }
+
+  loadThing(sendGa) {
     const { id } = this.props.match.params;
     axios.get(Config.apiBasePath + '/things/' + id)
       .then((res) => {
@@ -43,9 +51,11 @@ class ThingDetailContainer extends React.Component {
         this.setState({
           isLoaded: true,
         });
-        this.context.setPageTitle('Bedarf / ' + this.context.currentThing.name);
-        const path = window.location.pathname + window.location.hash.substr(2);
-        ReactGA.pageview(path, document.title);
+        if (sendGa) {
+          this.context.setPageTitle('Bedarf / ' + res.data.thing.name);
+          const path = window.location.pathname + window.location.hash.substr(2);
+          ReactGA.pageview(path, document.title);
+        }
       })
       .catch((error) => {
         this.setState({
@@ -54,6 +64,102 @@ class ThingDetailContainer extends React.Component {
         });
       });
   }
+
+  loadOrders() {
+    const { id } = this.props.match.params;
+    axios.get(Config.apiBasePath + '/things/' + id + '/orders')
+      .then((res) => {
+        if (!Array.isArray(res.data.orders)) {
+          return;
+        }
+        this.setState({ orders: res.data.orders });
+      })
+      .catch((error) => {
+        this.setState({
+          error: error.response.data.error,
+        });
+      });
+  }
+
+  openCommitModal = (order) => {
+    ReactGA.modalview('/commit/show');
+    this.setState({
+      showCommitModal: true,
+      currentOrder: order,
+    });
+  };
+
+  onCloseCommitModal = () => {
+    this.setState({
+      showCommitModal: false,
+      currentOrder: null,
+    });
+  };
+
+  openOrderModal = () => {
+    ReactGA.modalview('/order/show');
+    this.setState({
+      showOrderModal: true,
+    });
+  };
+
+  onCloseOrderModal = () => {
+    this.setState({
+      showOrderModal: false,
+    });
+  };
+
+  createCommitment = (quantity) => {
+    axios.post(
+      Config.apiBasePath + '/commitments',
+      {
+        orderId: this.state.currentOrder.id,
+        quantity: quantity,
+      },
+    )
+      .then(() => {
+        ReactGA.event({
+          category: 'Commitment',
+          action: 'commitment.create',
+          value: this.context.currentThing.id
+        });
+        this.onCloseCommitModal();
+        this.loadThing(false);
+        this.loadOrders();
+        this.context.setAlert('Danke für Deinen Beitrag -  ist notiert.', 'success');
+      })
+      .catch(error => {
+        this.setState({
+          error: error.response.data.error,
+        });
+      });
+  };
+
+  createOrder = (quantity) => {
+    axios.post(
+      Config.apiBasePath + '/orders',
+      {
+        thingId: this.context.currentThing.id,
+        quantity: quantity,
+      },
+    )
+      .then(() => {
+        ReactGA.event({
+          category: 'Order',
+          action: 'Order.create',
+          value: this.context.currentThing.id
+        });
+        this.onCloseOrderModal();
+        this.loadThing(false);
+        this.loadOrders();
+        this.context.setAlert('Danke, der Bedarf wurde eingetragen', 'success');
+      })
+      .catch(error => {
+        self.setState({
+          error: error.response.data.error,
+        });
+      });
+  };
 
   renderSpecification() {
     const thing = this.context.currentThing;
@@ -71,8 +177,17 @@ class ThingDetailContainer extends React.Component {
   }
 
   render() {
-    const { error, isLoaded, showSpecs } = this.state;
+    const {
+      error,
+      orders,
+      isLoaded,
+      showSpecs,
+      currentOrder,
+      showCommitModal,
+      showOrderModal,
+    } = this.state;
     const thing = this.context.currentThing;
+
     if (error) {
       return <div className="alert alert-danger">Error: {error.message}</div>;
     }
@@ -105,7 +220,7 @@ class ThingDetailContainer extends React.Component {
             {showSpecs && this.renderSpecification()}
           </div>
           <div className="col-md-6 col-map">
-            <RequirementMap thing={thing} />
+            <RequirementMap thing={thing} orders={orders} openModal={this.openCommitModal} />
           </div>
           <div className="col-md-3 col-order">
             <div className="media">
@@ -113,19 +228,25 @@ class ThingDetailContainer extends React.Component {
                 <span className="mr-1">Bedarf gesamt:</span>
                 <strong className="text-primary">{thing.needed}</strong>
               </div>
-              <button className="btn btn-link" onClick={() => this.context.setShowOrderModal(true)}>
+              <button className="btn btn-link" onClick={this.openOrderModal}>
                 <i className="fas fa-plus-circle fa-fw text-primary"></i>
               </button>
             </div>
+            <small className="text-muted">
+              Um Bedarf an diesem Ersatzteil anzumelden,
+              melde Dich mit deinem Einrichtungs-Account an und klicke auf das große rote +.
+            </small>
             <div className="media">
               <div className="media-body">
                 <span className="mr-1">Prints gesamt:</span>
                 <strong className="text-secondary">{thing.printed}</strong>
               </div>
-              <button className="btn btn-link" onClick={() => this.context.setShowCommitModal(true)}>
-                <i className="fas fa-plus-circle fa-fw text-secondary"></i>
-              </button>
             </div>
+            <small className="text-muted">
+              Um Ersatzteile für Bestellungen herzustellen,
+              melde Dich mit deinem Maker-Account an und klicke auf die Marker in
+              der Karten-Ansicht.
+            </small>
             <a className="media" href={thing.url} target="_blank" rel="noopener noreferrer">
               <div className="media-body">
                 <strong className="text-uppercase">Downloads</strong>
@@ -136,8 +257,13 @@ class ThingDetailContainer extends React.Component {
             </a>
           </div>
         </div>
-        <OrderModal thingId={thing.id} />
-        <CommitModal thingId={thing.id} />
+        {showOrderModal && <OrderModal thing={thing}
+                                       onSubmit={this.createOrder}
+                                       onExited={this.onCloseOrderModal} />}
+        {showCommitModal && <CommitModal thing={thing}
+                                         order={currentOrder}
+                                         onSubmit={this.createCommitment}
+                                         onExited={this.onCloseCommitModal} />}
       </div>
 
     );

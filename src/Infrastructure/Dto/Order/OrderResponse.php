@@ -25,6 +25,9 @@ class OrderResponse
     public int $quantity;
 
     /** @SWG\Property(type="integer") */
+    public int $printed;
+
+    /** @SWG\Property(type="integer") */
     public int $remaining;
 
     public static function createFromOrder(Order $order): self
@@ -37,9 +40,11 @@ class OrderResponse
 
         $self->quantity = $order->getQuantity();
         $self->remaining = $order->getRemaining();
+        $self->printed = 0;
 
         $commitments = $order->getCommitments();
         foreach ($commitments as $commitment) {
+            $self->printed += $commitment->getQuantity();
             $self->remaining -= $commitment->getQuantity();
         }
 
