@@ -2,8 +2,16 @@ import React from 'react';
 import ReactGA from 'react-ga';
 import { withRouter } from 'react-router-dom';
 import AppContext from '../../context/app-context';
+import PropTypes from 'prop-types';
 
 class PageView extends React.Component {
+
+  static get propTypes() {
+    return {
+      location: PropTypes.object,
+      history: PropTypes.object
+    };
+  }
 
   componentDidUpdate({ location, history }) {
     if (location.pathname === this.props.location.pathname) {
