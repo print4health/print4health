@@ -6,6 +6,7 @@ import AppContext from '../../context/app-context';
 import OrderModal from '../../component/modal/order';
 import CommitModal from '../../component/modal/commit';
 import RequirementMap from '../../component/map/requirement-map';
+import ReactGA from 'react-ga';
 
 class ThingDetailContainer extends React.Component {
 
@@ -42,6 +43,9 @@ class ThingDetailContainer extends React.Component {
         this.setState({
           isLoaded: true,
         });
+        this.context.setPageTitle('Bedarf / ' + this.context.currentThing.name);
+        const path = window.location.pathname + window.location.hash.substr(2);
+        ReactGA.pageview(path, document.title);
       })
       .catch((error) => {
         this.setState({

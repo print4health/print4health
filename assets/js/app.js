@@ -6,6 +6,7 @@ import {
   Link,
   NavLink,
 } from 'react-router-dom';
+import ReactGA from 'react-ga';
 import Index from './container/index/index';
 import UserNav from './component/user/user-nav';
 import ThingListContainer from './container/thing/list';
@@ -20,6 +21,8 @@ import DismissableAlert from './component/alert/dismissable-alert';
 import Footer from './component/footer/footer';
 import Imprint from './container/imprint/imprint';
 import DataPrivacyStatement from './container/data-privacy-statement/data-privacy-statement';
+import PageView from './component/page-view/page-view.js';
+import { Config } from './config';
 
 class App extends React.Component {
 
@@ -43,6 +46,8 @@ class App extends React.Component {
     this.setShowOrderModal = this.setShowOrderModal.bind(this);
     this.setShowCommitModal = this.setShowCommitModal.bind(this);
     this.setCurrentThing = this.setCurrentThing.bind(this);
+    this.setPageTitle = this.setPageTitle.bind(this);
+    ReactGA.initialize(Config.gaTrackingId, {});
   }
 
   setUser(user) {
@@ -68,22 +73,38 @@ class App extends React.Component {
 
   setShowLoginModal(showLoginModal) {
     this.setState({ showLoginModal });
+    if (showLoginModal) {
+      ReactGA.modalview('/login/show');
+    }
   }
 
   setShowRequestPasswordResetModal(showRequestPasswordResetModal) {
     this.setState({ showRequestPasswordResetModal });
+    if (showRequestPasswordResetModal) {
+      ReactGA.modalview('/request-password-reset/show');
+    }
   }
 
   setShowOrderModal(showOrderModal) {
     this.setState({ showOrderModal });
+    if (showOrderModal) {
+      ReactGA.modalview('/order/show');
+    }
   }
 
   setShowCommitModal(showCommitModal) {
     this.setState({ showCommitModal });
+    if (showCommitModal) {
+      ReactGA.modalview('/commit/show');
+    }
   }
 
   setCurrentThing(currentThing) {
     this.setState({ currentThing });
+  }
+
+  setPageTitle(title, prefix = 'print4health') {
+    document.title = prefix + ' - ' + title;
   }
 
   render() {
@@ -104,6 +125,7 @@ class App extends React.Component {
           setShowCommitModal: this.setShowCommitModal,
           currentThing: this.state.currentThing,
           setCurrentThing: this.setCurrentThing,
+          setPageTitle: this.setPageTitle,
         }}
       >
         <Router>
@@ -145,6 +167,7 @@ class App extends React.Component {
               <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
               <Route path="/" component={Index} />
             </Switch>
+            <PageView />
           </main>
           <Footer />
           <LoginModal />

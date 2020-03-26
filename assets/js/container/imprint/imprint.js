@@ -1,7 +1,13 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
+import AppContext from '../../context/app-context';
 
 class Imprint extends React.Component {
+
+  componentDidMount() {
+    this.context.setPageTitle('Impressum')
+  }
+
   render() {
     return (
       <div className="container imprint">
@@ -61,5 +67,7 @@ class Imprint extends React.Component {
     );
   }
 }
+
+Imprint.contextType = AppContext;
 
 export default Imprint;
