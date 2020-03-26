@@ -11,8 +11,13 @@ class PageView extends React.Component {
       return;
     }
     const path = history.location.pathname + history.location.search;
-    const title = document.title;
-    console.log(path, title);
+    const thingDetailMatch = path.match(/^\/thing\/[a-f0-9]{8}/);
+    let title = document.title;
+
+    if (thingDetailMatch !== null && thingDetailMatch.length > 0) {
+      // title = 'print4health - Bedarf Detail';
+      return;
+    }
     ReactGA.pageview(path, title);
   }
 
