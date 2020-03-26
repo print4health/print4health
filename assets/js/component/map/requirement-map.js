@@ -23,7 +23,7 @@ class RequirementMap extends React.Component {
 
   componentDidMount() {
     const self = this;
-    axios.get(Config.apiBasePath + '/orders/thing/' + this.props.thing.id)
+    axios.get(Config.apiBasePath + '/things/' + this.props.thing.id + '/orders')
       .then((res) => {
         if (!Array.isArray(res.data.orders)) {
           return;
