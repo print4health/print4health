@@ -58,6 +58,8 @@ class App extends React.Component {
     try {
       if (this.state.user.roles.includes('ROLE_REQUESTER')) {
         return 'ROLE_REQUESTER';
+      } else if (this.state.user.roles.includes('ROLE_MAKER')) {
+        return 'ROLE_MAKER';
       } else if (this.state.user.roles.includes('ROLE_USER')) {
         return 'ROLE_USER';
       }
