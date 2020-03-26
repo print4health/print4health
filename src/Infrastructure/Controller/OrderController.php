@@ -48,15 +48,20 @@ class OrderController
     }
 
     /**
+     * Retrieves the collection of Order resources.
+     *
      * @Route(
      *     "/orders",
      *     name="order_list",
      *     methods={"GET"},
      *     format="json"
      * )
+     *
+     * @SWG\Tag(name="Orders")
+     *
      * @SWG\Response(
      *     response=200,
-     *     description="Orders",
+     *     description="Order collection response",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=OrderResponse::class))
@@ -77,15 +82,20 @@ class OrderController
     }
 
     /**
+     * Retrieves the collection of Order resources.
+     *
      * @Route(
-     *     "/orders/thing/{thingId}",
+     *     "/things/{thingId}/orders",
      *     name="order_thing_list",
      *     methods={"GET"},
      *     format="json"
      * )
+     *
+     * @SWG\Tag(name="Things")
+     *
      * @SWG\Response(
      *     response=200,
-     *     description="Orders",
+     *     description="Order collection response",
      *     @SWG\Schema(
      *         type="array",
      *         @SWG\Items(ref=@Model(type=OrderResponse::class))
@@ -98,7 +108,7 @@ class OrderController
         if (!$thing instanceof Thing) {
             throw new NotFoundHttpException('Thing not found');
         }
-        $orders = $this->orderRepository->findBy(['thing' => $thing]);
+        $orders = $thing->getOrders();
 
         $response = ['orders' => []];
 
@@ -110,17 +120,22 @@ class OrderController
     }
 
     /**
+     * Creates a Order Resource.
+     *
      * @Route(
      *     "/orders",
      *     name="order_create",
      *     methods={"POST"},
      *     format="json"
      * )
+     *
+     * @SWG\Tag(name="Orders")
+     *
      * @SWG\Parameter(
      *     name="order",
      *     in="body",
      *     type="json",
-     *     @Model(type=OrderIn::class)
+     *     @Model(type=OrderRequest::class)
      * )
      * @SWG\Response(
      *     response=201,
@@ -130,6 +145,10 @@ class OrderController
      * @SWG\Response(
      *     response=400,
      *     description="Malformed request"
+     * )
+     * @SWG\Response(
+     *     response=401,
+     *     description="Unauthorized"
      * )
      * @SWG\Response(
      *     response=404,
@@ -144,22 +163,22 @@ class OrderController
         $requester = $this->security->getUser();
 
         try {
-            /** @var OrderRequest $orderIn */
-            $orderIn = $this->serializer->deserialize($request->getContent(), OrderRequest::class, JsonEncoder::FORMAT);
+            /** @var OrderRequest $orderRequest */
+            $orderRequest = $this->serializer->deserialize($request->getContent(), OrderRequest::class, JsonEncoder::FORMAT);
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
 
-        if ($orderIn->quantity < 1) {
+        if ($orderRequest->quantity < 1) {
             throw new BadRequestHttpException('Quantity must be greater than zero');
         }
 
-        $thing = $this->thingRepository->find($orderIn->thingId);
+        $thing = $this->thingRepository->find($orderRequest->thingId);
         if (null === $thing) {
             throw new NotFoundHttpException('No thing was found');
         }
 
-        $order = new Order($requester, $thing, $orderIn->quantity);
+        $order = new Order($requester, $thing, $orderRequest->quantity);
 
         $this->entityManager->persist($order);
         $this->entityManager->flush();
@@ -170,21 +189,26 @@ class OrderController
     }
 
     /**
+     * Retrieves a Order resource.
+     *
      * @Route(
-     *     "/orders/{uuid}",
+     *     "/orders/{id}",
      *     name="order_show",
      *     methods={"GET"},
      *     format="json"
      * )
+     *
+     * @SWG\Tag(name="Orders")
+     *
      * @SWG\Response(
      *     response=200,
-     *     description="Order",
+     *     description="A Order",
      *     @Model(type=OrderResponse::class)
      * )
      */
-    public function showAction(string $uuid): JsonResponse
+    public function showAction(string $id): JsonResponse
     {
-        $order = $this->orderRepository->find($uuid);
+        $order = $this->orderRepository->find($id);
 
         if (null === $order) {
             throw new NotFoundHttpException('Order not found');

@@ -1,7 +1,7 @@
 nelmio_api_doc:
     documentation:
         info:
-            title: Print4Health
+            title: print4health
             description: ~
             version: 1.0.0
     areas:
@@ -11,3 +11,5 @@ nelmio_api_doc:
                 - ^/(user)
                 - ^/(orders)
                 - ^/(things)
+                - ^/(requester)
+                - ^/(commitments)

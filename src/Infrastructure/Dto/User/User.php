@@ -12,11 +12,12 @@ class User
 {
     /** @SWG\Property(type="string") */
     public string $id;
+
     /** @SWG\Property(type="string") */
     public string $email;
     /**
      * @var string[]
-     * @SWG\Property(type="array")
+     * @SWG\Property(type="array", @SWG\Items(type="string")))
      */
     public array $roles;
 
