@@ -9,7 +9,9 @@ use App\Domain\User\Repository\RequesterRepository;
 use App\Infrastructure\Dto\Requester\RequesterRequest;
 use App\Infrastructure\Dto\Requester\RequesterResponse;
 use Doctrine\ORM\EntityManagerInterface;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -40,11 +42,24 @@ class RequesterController
     }
 
     /**
+     * Retrieves the collection of Requester resources.
+     *
      * @Route(
      *     "/requester",
      *     name="requester_list",
      *     methods={"GET"},
      *     format="json"
+     * )
+     *
+     * @SWG\Tag(name="Requester")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Requester collection response",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=RequesterResponse::class))
+     *     )
      * )
      */
     public function listAction(): JsonResponse
@@ -61,11 +76,35 @@ class RequesterController
     }
 
     /**
+     * Creates a Requester Resource.
+     *
      * @Route(
      *     "/requester",
      *     name="requester_create",
      *     methods={"POST"},
      *     format="json"
+     * )
+     *
+     * @SWG\Tag(name="Requester")
+     *
+     * @SWG\Parameter(
+     *     name="requester",
+     *     in="body",
+     *     type="json",
+     *     @Model(type=RequesterRequest::class)
+     * )
+     * @SWG\Response(
+     *     response=201,
+     *     description="Requester successfully created",
+     *     @Model(type=RequesterResponse::class)
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed request"
+     * )
+     * @SWG\Response(
+     *     response=401,
+     *     description="Unauthorized"
      * )
      *
      * @IsGranted("ROLE_ADMIN")
@@ -97,11 +136,21 @@ class RequesterController
     }
 
     /**
+     * Retrieves a Requester resource.
+     *
      * @Route(
      *     "/requester/{uuid}",
      *     name="requester_show",
      *     methods={"GET"},
      *     format="json"
+     * )
+     *
+     * @SWG\Tag(name="Requester")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="A Requester",
+     *     @Model(type=RequesterResponse::class)
      * )
      */
     public function showAction(string $uuid): JsonResponse

@@ -10,6 +10,7 @@ class OrderRequest
 {
     /** @SWG\Property(type="string") */
     public string $thingId;
+
     /** @SWG\Property(type="string") */
     public int $quantity;
 }

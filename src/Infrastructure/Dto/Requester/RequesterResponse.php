@@ -6,17 +6,35 @@ namespace App\Infrastructure\Dto\Requester;
 
 use App\Domain\User\Entity\Requester;
 use Doctrine\ORM\EntityNotFoundException;
+use Swagger\Annotations as SWG;
 
 class RequesterResponse
 {
+    /** @SWG\Property(type="string") */
     public string $id;
+
+    /** @SWG\Property(type="string") */
     public string $email;
+
+    /** @SWG\Property(type="string") */
     public ?string $name;
+
+    /** @SWG\Property(type="string") */
     public ?string $streetAddress;
+
+    /** @SWG\Property(type="string") */
     public ?string $postalCode;
+
+    /** @SWG\Property(type="string") */
     public ?string $addressCity;
+
+    /** @SWG\Property(type="string") */
     public ?string $addressState;
+
+    /** @SWG\Property(type="string") */
     public ?string $latitude;
+
+    /** @SWG\Property(type="string") */
     public ?string $longitude;
 
     public static function createFromRequester(?Requester $requester): self
