@@ -4,6 +4,7 @@ import axios from 'axios';
 import AppContext from '../../context/app-context';
 import { Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { FormControl, InputGroup, Button } from 'react-bootstrap';
 
 class CommitModal extends React.Component {
   constructor(props) {
@@ -17,6 +18,8 @@ class CommitModal extends React.Component {
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.increaseAmount = this.increaseAmount.bind(this);
+    this.decreaseAmount = this.decreaseAmount.bind(this);
   }
 
   static get propTypes() {
@@ -57,6 +60,21 @@ class CommitModal extends React.Component {
     });
   }
 
+  increaseAmount(event) {
+    this.setState({
+      quantity: this.state.quantity + 1,
+    });
+  }
+
+  decreaseAmount(event) {
+    if (this.state.quantity <= 0) {
+      return;
+    }
+    this.setState({
+      quantity: this.state.quantity - 1,
+    });
+  }
+
   renderForm() {
     return <>
       <Modal.Body>
@@ -72,18 +90,28 @@ class CommitModal extends React.Component {
         </p>
 
         {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
-        <div className="form-group">
-          <input name="quantity"
-                 type="number"
-                 placeholder="Anzahl"
-                 className="form-control"
-                 required
-                 value={this.state.quantity}
-                 onChange={this.handleInputChange} />
-        </div>
+        <InputGroup className="mb-3">
+          <FormControl
+            type="number"
+            name="quantity"
+            placeholder="Anzahl"
+            required
+            aria-label="Anzahl der Teile"
+            aria-describedby="basic-addon2"
+            value={this.state.quantity}
+            onChange={this.handleInputChange}
+          />
+          <InputGroup.Append>
+            <Button variant="outline-secondary" onClick={this.increaseAmount}> + </Button>
+            <Button variant="outline-secondary" onClick={this.decreaseAmount}> - </Button>
+          </InputGroup.Append>
+        </InputGroup>
       </Modal.Body>
       <Modal.Footer>
-        <input type="submit" className="btn btn-primary" value="Beitrag eintragen" />
+        <Button type="submit" variant="outline-secondary" disabled={this.state.quantity <= 0}>
+          Herstellung zusagen
+          <i className="fas fa-plus-circle fa-fw"></i>
+        </Button>
       </Modal.Footer>
     </>;
   }
