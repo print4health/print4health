@@ -8,17 +8,21 @@ use App\Domain\User\Entity\Maker;
 use App\Domain\User\Repository\MakerRepository;
 use App\Infrastructure\Dto\Maker\MakerRequest;
 use App\Infrastructure\Dto\Maker\MakerResponse;
+use App\Infrastructure\Exception\ValidationErrorException;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Swagger\Annotations as SWG;
+use Nelmio\ApiDocBundle\Annotation\Model;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class MakerController
 {
@@ -69,16 +73,42 @@ class MakerController
      *     methods={"POST"},
      *     format="json"
      * )
+     * @SWG\Tag(name="Maker")
      *
-     * @IsGranted("ROLE_ADMIN")
+     * @SWG\Parameter(
+     *     name="maker-user-data",
+     *     in="body",
+     *     type="json",
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="email", type="string"),
+     *         @SWG\Property(property="password", type="string")
+     *     )
+     * )
+     * @SWG\Response(
+     *     response=201,
+     *     description="Maker created successfully",
+     *     @Model(type=MakerResponse::class)
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed request or wrong content type"
+     * )
+     * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
      */
-    public function createAction(Request $request): JsonResponse
+    public function createAction(Request $request, ValidatorInterface $validator): JsonResponse
     {
         try {
             /** @var MakerRequest $makerRequest */
             $makerRequest = $this->serializer->deserialize($request->getContent(), MakerRequest::class, JsonEncoder::FORMAT);
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
+        }
+
+        $errors = $validator->validate($makerRequest);
+        if($errors->count() > 0) {
+            dump($errors);
+            throw new ValidationErrorException($errors, 'MakerCreateValidationError');
         }
 
         $maker = new Maker($makerRequest->email, $makerRequest->name);

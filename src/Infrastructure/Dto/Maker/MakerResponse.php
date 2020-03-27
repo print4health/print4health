@@ -6,16 +6,25 @@ namespace App\Infrastructure\Dto\Maker;
 
 use App\Domain\User\Entity\Maker;
 use Doctrine\ORM\EntityNotFoundException;
+use Swagger\Annotations as SWG;
 
 class MakerResponse
 {
+    /** @SWG\Property(type="string") */
     public string $id;
+    /** @SWG\Property(type="string") */
     public string $email;
+    /** @SWG\Property(type="string") */
     public ?string $name;
+    /** @SWG\Property(type="string") */
     public ?string $postalCode;
+    /** @SWG\Property(type="string") */
     public ?string $addressCity;
+    /** @SWG\Property(type="string") */
     public ?string $addressState;
+    /** @SWG\Property(type="float") */
     public ?string $latitude;
+    /** @SWG\Property(type="float") */
     public ?string $longitude;
 
     public static function createFromMaker(?Maker $maker): self
