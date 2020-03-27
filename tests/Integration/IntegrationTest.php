@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Integration;
 
@@ -106,7 +108,7 @@ abstract class IntegrationTest extends WebTestCase
 
         $response = static::$client->getResponse();
 
-        if (strpos($response->headers->get('Content-Type'), 'application/json') !== false) {
+        if (false !== strpos($response->headers->get('Content-Type'), 'application/json')) {
             return json_decode($response->getContent(), true);
         }
 
@@ -119,7 +121,7 @@ abstract class IntegrationTest extends WebTestCase
 
         $response = static::$client->getResponse();
 
-        if (strpos($response->headers->get('Content-Type'), 'application/json') !== false) {
+        if (false !== strpos($response->headers->get('Content-Type'), 'application/json')) {
             return json_decode($response->getContent(), true);
         }
 
@@ -136,7 +138,7 @@ abstract class IntegrationTest extends WebTestCase
         $response = static::$client->getResponse();
         $message = '';
 
-        if (strpos($response->headers->get('Content-Type'), 'text/html') !== false) {
+        if (false !== strpos($response->headers->get('Content-Type'), 'text/html')) {
             $crawler = static::$client->getCrawler();
 
             if ($crawler && $crawler->filter('h1.exception-message')->count()) {

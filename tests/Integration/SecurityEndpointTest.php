@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Tests\Integration;
 
@@ -8,7 +10,7 @@ class SecurityEndpointTest extends IntegrationTest
     {
         $data = self::post('/login', [
             'email' => 'admin@print4health.org',
-            'password' => 'test'
+            'password' => 'test',
         ]);
 
         self::assertSuccessful();

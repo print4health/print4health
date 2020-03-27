@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Infrastructure\Collector;
 
@@ -23,8 +25,8 @@ final class ExceptionCollector
 
     public function peek(): ?Throwable
     {
-        $entries = count($this->exceptions);
-        if ($entries === 0) {
+        $entries = \count($this->exceptions);
+        if (0 === $entries) {
             return null;
         }
 

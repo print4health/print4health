@@ -21,11 +21,11 @@ class UuidGenerator
             return Uuid::uuid4();
         }
 
-        self::$counter++;
+        ++self::$counter;
 
         return Uuid::fromString(sprintf(
             '10000000-0000-0000-0000-%s',
-            str_pad((string)self::$counter, 12, '0', STR_PAD_LEFT)
+            str_pad((string) self::$counter, 12, '0', STR_PAD_LEFT)
         ));
     }
 

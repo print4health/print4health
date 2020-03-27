@@ -53,7 +53,7 @@ final class JsonExceptionListener
             'message' => $exception->getMessage(),
         ]);
 
-        if ($this->environment !== 'dev') {
+        if ('dev' !== $this->environment) {
             return new JsonResponse(
                 [
                     'code' => 400,
@@ -82,7 +82,7 @@ final class JsonExceptionListener
         $previousException = $exception->getPrevious();
 
         return [
-            'class' => get_class($exception),
+            'class' => \get_class($exception),
             'message' => $exception->getMessage(),
             'file' => $exception->getFile(),
             'line' => $exception->getLine(),
