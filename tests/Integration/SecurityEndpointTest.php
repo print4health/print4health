@@ -16,4 +16,15 @@ class SecurityEndpointTest extends IntegrationTest
         self::assertSuccessful();
         $this->assertMatchesSnapshot($data);
     }
+
+    public function testLoginFailed(): void
+    {
+        $data = self::post('/login', [
+            'email' => 'admin@print4health.org',
+            'password' => 'WRONG_PASSWORD',
+        ]);
+
+        self::assertClientError(401);
+        $this->assertMatchesSnapshot($data);
+    }
 }
