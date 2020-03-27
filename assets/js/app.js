@@ -34,9 +34,7 @@ class App extends React.Component {
       alertClass: null,
       showLoginModal: false,
       showRequestPasswordResetModal: false,
-      showOrderModal: false,
       order: null,
-      showCommitModal: false,
       currentThing: null,
     };
     this.setUser = this.setUser.bind(this);
@@ -98,10 +96,6 @@ class App extends React.Component {
           showRequestPasswordResetModal: this.state.showRequestPasswordResetModal,
           setShowRequestPasswordResetModal: this.setShowRequestPasswordResetModal,
           order: this.state.order,
-          showOrderModal: this.state.showOrderModal,
-          setShowOrderModal: this.setShowOrderModal,
-          showCommitModal: this.state.showCommitModal,
-          setShowCommitModal: this.setShowCommitModal,
           currentThing: this.state.currentThing,
           setCurrentThing: this.setCurrentThing,
           setPageTitle: this.setPageTitle,
