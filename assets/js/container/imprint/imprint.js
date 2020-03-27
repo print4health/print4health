@@ -15,7 +15,7 @@ class Imprint extends React.Component {
           <div className="col">
             <h1>Impressum</h1>
             <Alert variant="info">
-              print4health.org ist ein gemscheinschaftliches Projekt, dass im Rahmen des <a
+              print4health.org ist ein gemeinschaftliches Projekt, dass im Rahmen des <a
               href="https://www.bundesregierung.de/breg-de/themen/coronavirus/wir-vs-virus-1731968"
               target="_blank" rel="noopener noreferrer"><strong>Hackathons WirVsVirus</strong></a> entstanden ist.<br />
               Es dient derzeit als Prototyp der eingereichten Idee <a href="https://devpost.com/software/print4health"
