@@ -14,6 +14,7 @@
         "ramsey/uuid": "^3.9.3",
         "sensio/framework-extra-bundle": "^5.5.3",
         "sentry/sentry-symfony": "^3.4",
+        "spatie/phpunit-snapshot-assertions": "^4.0",
         "symfony/console": "^5.0.5",
         "symfony/dotenv": "^5.0.5",
         "symfony/flex": "^1.6.2",

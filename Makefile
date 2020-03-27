@@ -28,6 +28,10 @@ phpstan:                                                                        
 psalm:                                                                          ## run psalm static code analyser
 	psalm $(OPTIONS) --show-info=false
 
+phpunit:                                                                        ## run phpunit tests
+	vendor/bin/phpunit
+
+test: phpunit                                                                   ## run tests
 static: php-cs-fix phpstan psalm                                                ## run static analyser
 
 dev: static                                                                     ## run dev tools
