@@ -12,7 +12,6 @@ use App\Domain\User\Entity\Maker;
 use App\Infrastructure\Dto\Commitment\CommitmentRequest;
 use App\Infrastructure\Dto\Commitment\CommitmentResponse;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\EntityNotFoundException;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
@@ -162,7 +161,7 @@ class CommitmentController
         $order = $this->orderRepository->find($commitmentRequest->orderId);
 
         if (!$order instanceof Order) {
-            throw new EntityNotFoundException('Order not found');
+            throw new BadRequestHttpException('Order not found');
         }
 
         $maker = $this->security->getUser();

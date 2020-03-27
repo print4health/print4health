@@ -175,7 +175,7 @@ class OrderController
 
         $thing = $this->thingRepository->find($orderRequest->thingId);
         if (null === $thing) {
-            throw new NotFoundHttpException('No thing was found');
+            throw new BadRequestHttpException('No thing was found');
         }
 
         $order = $this->orderRepository->findOneBy(['requester' => $requester, 'thing' => $thing]);
