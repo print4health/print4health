@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 // TODO: Add test for showAction
+// TODO: Add test for listByThingAction
 // TODO: Add success test for createAction
-class CommitmentControllerTest extends AbstractControllerTest
+class OrderControllerTest extends AbstractControllerTest
 {
     /**
      * @group functional
@@ -15,36 +16,16 @@ class CommitmentControllerTest extends AbstractControllerTest
     {
         $client = static::createClient();
 
-        $client->request('GET', '/commitments');
+        $client->request('GET', '/orders');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
 
         $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertArrayHasKey('commitments', $data);
+        $this->assertArrayHasKey('orders', $data);
 
-        foreach ($data['commitments'] as $commitment) {
-            $this->singleCommitment($commitment);
+        foreach ($data['orders'] as $order) {
+            $this->singleOrder($order);
         }
-    }
-
-    private function singleCommitment(array $commitment): void
-    {
-        $this->assertIsString($commitment['id']);
-        $this->assertIsInt($commitment['quantity']);
-
-        $this->assertArrayHasKey('order', $commitment);
-    }
-
-    public function createCommitmentDataProvider(): array
-    {
-        return [
-            [
-                [
-                    'orderId' => '12345-12345-12345-12345', // TODO: Must be a valid order id
-                    'quantity' => 123,
-                ],
-            ],
-        ];
     }
 
     public function failCommitmentDataProvider(): array
@@ -52,9 +33,24 @@ class CommitmentControllerTest extends AbstractControllerTest
         return [
             [
                 [
-                    'orderId' => '12345-12345-12345-12345',
+                    'thingId' => '12345-12345-12345-12345',
+                    'quantity' => -1,
+                ],
+                'Quantity must be greater than zero',
+            ],
+            [
+                [
+                    'thingId' => '12345-12345-12345-12345',
+                    'quantity' => 0,
+                ],
+                'Quantity must be greater than zero',
+            ],
+            [
+                [
+                    'thingId' => '12345-12345-12345-12345',
                     'quantity' => 123,
                 ],
+                'No thing was found',
             ],
         ];
     }
@@ -63,18 +59,18 @@ class CommitmentControllerTest extends AbstractControllerTest
      * @group functional
      * @dataProvider failCommitmentDataProvider
      */
-    public function testFailCreateActionWithFalseOrderId(array $requestContent): void
+    public function testFailCreateActionWithRequesterLogIn(array $requestContent, string $errorMessage): void
     {
         $client = static::createClient();
 
-        $this->logInMaker($client);
+        $this->logInRequester($client);
 
-        $client->request('POST', '/commitments', [], [], [], json_encode($requestContent));
+        $client->request('POST', '/orders', [], [], [], json_encode($requestContent));
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
-
         $data = json_decode($client->getResponse()->getContent(), true);
-        $this->assertEquals('Order not found', $data['detail']);
+
+        $this->assertEquals($errorMessage, $data['detail']);
     }
 
     /**
@@ -86,21 +82,7 @@ class CommitmentControllerTest extends AbstractControllerTest
 
         $this->logInAdmin($client);
 
-        $client->request('POST', '/commitments');
-
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
-    }
-
-    /**
-     * @group functional
-     */
-    public function testFailCreateActionWithRequesterLogIn(): void
-    {
-        $client = static::createClient();
-
-        $this->logInRequester($client);
-
-        $client->request('POST', '/commitments');
+        $client->request('POST', '/orders');
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
@@ -114,7 +96,21 @@ class CommitmentControllerTest extends AbstractControllerTest
 
         $this->logInUser($client);
 
-        $client->request('POST', '/commitments');
+        $client->request('POST', '/orders');
+
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @group functional
+     */
+    public function testFailCreateActionWithMakerLogIn(): void
+    {
+        $client = static::createClient();
+
+        $this->logInMaker($client);
+
+        $client->request('POST', '/orders');
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
@@ -126,7 +122,7 @@ class CommitmentControllerTest extends AbstractControllerTest
     {
         $client = static::createClient();
 
-        $client->request('POST', '/commitments');
+        $client->request('POST', '/orders');
 
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }

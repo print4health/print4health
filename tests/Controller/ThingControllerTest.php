@@ -26,18 +26,6 @@ class ThingControllerTest extends AbstractControllerTest
         }
     }
 
-    private function singleThing(array $thing): void
-    {
-        $this->assertIsString($thing['id']);
-        $this->assertIsString($thing['name']);
-        $this->assertIsString($thing['imageUrl']);
-        $this->assertIsString($thing['url']);
-        $this->assertIsString($thing['description']);
-        $this->assertIsString($thing['specification']);
-        $this->assertIsInt($thing['needed']);
-        $this->assertIsInt($thing['printed']);
-    }
-
     public function createThingDataProvider(): array
     {
         return [
@@ -75,58 +63,54 @@ class ThingControllerTest extends AbstractControllerTest
 
     /**
      * @group functional
-     * @dataProvider createThingDataProvider
      */
-    public function testFailCreateActionWithMakerLogIn(array $requestContent): void
+    public function testFailCreateActionWithMakerLogIn(): void
     {
         $client = static::createClient();
 
         $this->logInMaker($client);
 
-        $client->request('POST', '/things', [], [], [], json_encode($requestContent));
+        $client->request('POST', '/things');
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
     /**
      * @group functional
-     * @dataProvider createThingDataProvider
      */
-    public function testFailCreateActionWithRequesterLogIn(array $requestContent): void
+    public function testFailCreateActionWithRequesterLogIn(): void
     {
         $client = static::createClient();
 
         $this->logInRequester($client);
 
-        $client->request('POST', '/things', [], [], [], json_encode($requestContent));
+        $client->request('POST', '/things');
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
     /**
      * @group functional
-     * @dataProvider createThingDataProvider
      */
-    public function testFailCreateActionWithUserLogIn(array $requestContent): void
+    public function testFailCreateActionWithUserLogIn(): void
     {
         $client = static::createClient();
 
         $this->logInUser($client);
 
-        $client->request('POST', '/things', [], [], [], json_encode($requestContent));
+        $client->request('POST', '/things');
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
     /**
      * @group functional
-     * @dataProvider createThingDataProvider
      */
-    public function testFailCreateActionWithoutLogIn(array $requestContent): void
+    public function testFailCreateActionWithoutLogIn(): void
     {
         $client = static::createClient();
 
-        $client->request('POST', '/things', [], [], [], json_encode($requestContent));
+        $client->request('POST', '/things');
 
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
