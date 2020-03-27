@@ -2,6 +2,7 @@ import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
 import LoginModal from './../modal/login';
+import AppContext from '../../context/app-context';
 
 class UserNav extends React.Component {
   constructor(props) {
@@ -52,5 +53,7 @@ class UserNav extends React.Component {
     );
   }
 }
+
+UserNav.contextType = AppContext;
 
 export default UserNav;
