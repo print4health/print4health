@@ -29,7 +29,10 @@ psalm:                                                                          
 	psalm $(OPTIONS) --show-info=false
 
 phpunit:                                                                        ## run phpunit tests
-	vendor/bin/phpunit
+	vendor/bin/phpunit --testdox --colors=always -v
+
+snapshots:                                                                      ## run phpunit tests and update snapshots
+	vendor/bin/phpunit --testdox --colors=always -d --update-snapshots $(OPTIONS)
 
 test: phpunit                                                                   ## run tests
 static: php-cs-fix phpstan psalm                                                ## run static analyser

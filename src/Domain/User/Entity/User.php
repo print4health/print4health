@@ -6,6 +6,7 @@ namespace App\Domain\User\Entity;
 
 use App\Domain\Order\Entity\Order;
 use App\Domain\User\UserInterface;
+use App\Domain\UuidGenerator;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -57,7 +58,7 @@ class User implements UserInterface
 
     public function __construct()
     {
-        $this->id = Uuid::uuid4()->toString();
+        $this->id = UuidGenerator::generate()->toString();
         $this->orders = new ArrayCollection();
     }
 
@@ -129,7 +130,7 @@ class User implements UserInterface
 
     public function createPasswordResetToken(): void
     {
-        $this->passwordResetToken = Uuid::uuid4()->toString();
+        $this->passwordResetToken = UuidGenerator::generate()->toString();
         $this->passwordResetTokenCreatedAt = new DateTimeImmutable();
     }
 

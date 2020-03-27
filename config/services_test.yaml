@@ -4,3 +4,10 @@ services:
         autoconfigure: true
 
     App\Domain\Alice\Processor\PasswordProcessor: ~
+
+    App\Infrastructure\Collector\ExceptionCollector:
+        public: true
+
+    App\Infrastructure\Listener\ExceptionCollectorListener:
+        tags:
+            - {name: kernel.event_listener, event: kernel.exception, method: onKernelException, priority: 255}

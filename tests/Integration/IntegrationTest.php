@@ -2,7 +2,9 @@
 
 namespace App\Tests\Integration;
 
-use Doctrine\DBAL\Driver\Connection;
+use App\Domain\User\Repository\UserRepository;
+use App\Domain\UuidGenerator;
+use App\Infrastructure\Collector\ExceptionCollector;
 use Spatie\Snapshots\MatchesSnapshots;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -25,19 +27,7 @@ abstract class IntegrationTest extends WebTestCase
     {
         parent::setUp();
 
-        static::$kernel = static::createKernel();
-        static::$kernel->boot();
-
-        if (self::$booted) {
-            $this->purgeDb();
-        } else {
-            $this->resetDb();
-            self::$booted = true;
-        }
-
-        static::ensureKernelShutdown();
-
-        //UuidGenerator::dummy();
+        UuidGenerator::dummy();
 
         static::$client = static::createClient();
     }
@@ -52,37 +42,6 @@ abstract class IntegrationTest extends WebTestCase
 
         static::$kernel = null;
         static::$client = null;
-    }
-
-    protected function resetDb(): void
-    {
-        $this->runCommand('doctrine:database:drop', ['--force' => true]);
-        $this->runCommand('doctrine:database:create');
-        $this->runCommand('doctrine:schema:create');
-    }
-
-    protected function purgeDb(): void
-    {
-        $this->clearDatabase(
-            static::$kernel->getContainer()->get('doctrine.orm.entity_manager')->getConnection()
-        );
-    }
-
-    protected function clearDatabase(Connection $connection): void
-    {
-        $connection->exec('SET foreign_key_checks=0;');
-
-        $sql = [];
-        foreach ($connection->fetchAll('SHOW TABLES;') as $tableRow) {
-            $sql[] .= 'truncate ' . current($tableRow);
-        }
-
-        if (count($sql) === 0) {
-            return;
-        }
-
-        $connection->exec(implode(';', $sql));
-        $connection->exec('SET foreign_key_checks=1;');
     }
 
     protected function runCommand(string $commandName, array $parameters = []): void
@@ -143,7 +102,7 @@ abstract class IntegrationTest extends WebTestCase
 
     protected static function post(string $url, array $data = [])
     {
-        static::$client->request('POST', $url, [], [], [], json_encode($data));
+        static::$client->request('POST', $url, [], [], ['CONTENT_TYPE' => 'application/json'], json_encode($data));
 
         $response = static::$client->getResponse();
 
@@ -156,7 +115,7 @@ abstract class IntegrationTest extends WebTestCase
 
     protected static function get(string $url)
     {
-        static::$client->request('GET', $url);
+        static::$client->request('GET', $url, [], [], ['CONTENT_TYPE' => 'application/json']);
 
         $response = static::$client->getResponse();
 
@@ -194,9 +153,14 @@ abstract class IntegrationTest extends WebTestCase
         $exception = $collector->peek();
 
         if (!$message && $exception) {
-            throw new ApiException($exception);
+            throw $exception;
         }
 
         return $message ?: $response->getContent();
+    }
+
+    protected static function getUserRepository(): UserRepository
+    {
+        return self::getService(UserRepository::class);
     }
 }

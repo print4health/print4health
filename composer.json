@@ -33,7 +33,7 @@
         "twig/twig": "^3.0.3"
     },
     "require-dev": {
-        "dama/doctrine-test-bundle": "^6.3.2",
+        "dama/doctrine-test-bundle": "^6.3",
         "friendsofphp/php-cs-fixer": "^2.16.1",
         "hautelook/alice-bundle": "^2.7.2",
         "nelmio/api-doc-bundle": "^3.6.0",

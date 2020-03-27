@@ -1,0 +1,5 @@
+id: 10000000-0000-0000-0000-000000000001
+email: admin@print4health.org
+roles:
+    - ROLE_ADMIN
+    - ROLE_USER
