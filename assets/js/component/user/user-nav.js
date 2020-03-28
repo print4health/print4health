@@ -14,6 +14,17 @@ class UserNav extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
+  componentDidMount() {
+    const context = this.context;
+    axios.get(Config.apiBasePath + '/user/profile')
+      .then((res) => {
+        context.setUser(res.data);
+      })
+      .catch(() => {
+        context.setUser({});
+      });
+  }
+
   handleLogout(e) {
     e.preventDefault();
     const context = this.context;
