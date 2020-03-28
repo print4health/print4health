@@ -3,8 +3,8 @@ import { Config } from '../../config';
 import axios from 'axios';
 import AppContext from '../../context/app-context';
 import { Modal } from 'react-bootstrap';
-import ReactGA from "react-ga";
-import PropTypes from "prop-types";
+import ReactGA from 'react-ga';
+import PropTypes from 'prop-types';
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -27,15 +27,6 @@ class LoginModal extends React.Component {
 
   componentDidMount() {
     ReactGA.modalview('/login/show');
-
-    const context = this.context;
-    axios.get(Config.apiBasePath + '/user/profile')
-      .then((res) => {
-        context.setUser(res.data);
-      })
-      .catch(() => {
-        context.setUser({});
-      });
   }
 
   handleSubmit(e) {
