@@ -23,22 +23,36 @@ class MakerRegistrationRequest
 
     /**
      * @Assert\NotBlank
+     * @Assert\Length(max=255)
      */
     public string $name;
 
     /**
      * @Assert\NotBlank
      * @Assert\Type(type="numeric")
+     * @Assert\Length(max=255)
      */
     public ?string $postalCode = null;
 
+    /**
+     * @Assert\Length(max=255)
+     */
     public ?string $addressCity = null;
 
+    /**
+     * @Assert\Length(max=255)
+     */
     public ?string $addressState = null;
 
-    public ?string $latitude = null;
+    /**
+      * @Assert\Type(type="numeric")
+      */
+    public ?float $latitude = null;
 
-    public ?string $longitude = null;
+    /**
+     * @Assert\Type(type="numeric")
+     */
+    public ?float $longitude = null;
 
     /**
      * @Assert\IsTrue()
