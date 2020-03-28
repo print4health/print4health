@@ -11,3 +11,19 @@ Cypress.Commands.add('logout', (email, pw) => {
   cy.get('a.nav-link:contains("Abmelden")').click();
   cy.contains('erfolgreich abgemeldet.');
 });
+
+Cypress.Commands.add('openCommitModal', (email, pw) => {
+  cy.get('a.nav-link:contains("Bedarf")').click();
+  cy.title().should('eq', 'print4health - Bedarf & Ersatzteile');
+  cy.get('h5.card-title').first().click();
+  cy.get('.map-marker-order i').first().click();
+  cy.get('.leaflet-popup-content').contains('Herstellung zusagen');
+  cy.get('a.btn:contains("Herstellung zusagen")').click();
+});
+
+Cypress.Commands.add('openOrderModal', (email, pw) => {
+  cy.get('a.nav-link:contains("Bedarf")').click();
+  cy.title().should('eq', 'print4health - Bedarf & Ersatzteile');
+  cy.get('h5.card-title').first().click();
+  cy.get('.fa-plus-circle.text-primary').click();
+});
