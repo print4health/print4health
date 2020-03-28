@@ -4,17 +4,28 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Exception;
 
+use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Throwable;
 
 class ValidationErrorException extends \RuntimeException
 {
-
     private string $type;
 
+    /**
+     * @var ConstraintViolationListInterface<int, ConstraintViolationInterface>
+     */
     private ConstraintViolationListInterface $errors;
 
+    /**
+     * ValidationErrorException constructor.
+     *
+     * @param ConstraintViolationListInterface<int, ConstraintViolationInterface> $errors
+     * @param string                                                              $type
+     * @param string                                                              $message
+     * @param int                                                                 $code
+     * @param Throwable                                                           $previous
+     */
     public function __construct(
         ConstraintViolationListInterface $errors,
         $type = '',
@@ -27,6 +38,9 @@ class ValidationErrorException extends \RuntimeException
         $this->type = $type;
     }
 
+    /**
+     * @return ConstraintViolationListInterface<int, ConstraintViolationInterface>
+     */
     public function getErrors(): ConstraintViolationListInterface
     {
         return $this->errors;
