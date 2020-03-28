@@ -37,6 +37,7 @@
         "hautelook/alice-bundle": "^2.7.2",
         "nelmio/api-doc-bundle": "^3.6.0",
         "symfony/browser-kit": "^5.0.5",
+        "symfony/debug-bundle": "5.0.*",
         "symfony/maker-bundle": "^1.14.6",
         "symfony/phpunit-bridge": "^5.0.5",
         "symfony/profiler-pack": "^1.0",
