@@ -6,6 +6,7 @@ import {
   Link,
   NavLink,
 } from 'react-router-dom';
+import PrivateRoute from './component/security/PricateRoute';
 import ReactGA from 'react-ga';
 import Index from './container/index/index';
 import UserNav from './component/user/user-nav';
@@ -13,6 +14,7 @@ import ThingListContainer from './container/thing/list';
 import ThingDetailContainer from './container/thing/detail';
 import RequestPasswordResetModal from './component/modal/request-password-reset';
 import logo from '../logo-print4health-org.svg';
+import Dashbord from './container/dashboard/dashbord';
 import Faq from './container/faq/faq';
 import AppContext from './context/app-context';
 import ResetPassword from './container/reset-password/reset-password';
@@ -23,6 +25,10 @@ import DataPrivacyStatement from './container/data-privacy-statement/data-privac
 import PageView from './component/page-view/page-view.js';
 import { Config } from './config';
 import { Nav, Navbar } from 'react-bootstrap';
+
+const ROLE_USER = 'ROLE_USER';
+const ROLE_MAKER = 'ROLE_MAKER';
+const ROLE_REQUESTER = 'ROLE_REQUESTER';
 
 class App extends React.Component {
 
@@ -51,13 +57,15 @@ class App extends React.Component {
   }
 
   getCurrentUserRole() {
+    const { user } = this.state;
+
     try {
-      if (this.state.user.roles.includes('ROLE_REQUESTER')) {
-        return 'ROLE_REQUESTER';
-      } else if (this.state.user.roles.includes('ROLE_MAKER')) {
-        return 'ROLE_MAKER';
-      } else if (this.state.user.roles.includes('ROLE_USER')) {
-        return 'ROLE_USER';
+      if (user.roles.includes(ROLE_MAKER)) {
+        return ROLE_MAKER;
+      }else if (user.roles.includes(ROLE_REQUESTER)) {
+        return ROLE_REQUESTER;
+      } else if (user.roles.includes(ROLE_USER)) {
+        return ROLE_USER;
       }
       return null;
     } catch (e) {
@@ -85,18 +93,20 @@ class App extends React.Component {
   }
 
   render() {
+    const { user, alertMessage, alertClass, showLoginModal, showRequestPasswordResetModal, currentThing, order } = this.state;
+
     return (
       <AppContext.Provider
         value={{
-          user: this.state.user,
+          user: user,
           setUser: this.setUser,
           getCurrentUserRole: this.getCurrentUserRole,
           setAlert: this.setAlert,
-          showLoginModal: this.state.showLoginModal,
-          showRequestPasswordResetModal: this.state.showRequestPasswordResetModal,
+          showLoginModal: showLoginModal,
+          showRequestPasswordResetModal: showRequestPasswordResetModal,
           setShowRequestPasswordResetModal: this.setShowRequestPasswordResetModal,
-          order: this.state.order,
-          currentThing: this.state.currentThing,
+          order: order,
+          currentThing: currentThing,
           setCurrentThing: this.setCurrentThing,
           setPageTitle: this.setPageTitle,
         }}
@@ -108,6 +118,7 @@ class App extends React.Component {
             </Link>
             <Navbar expand="lg">
               <div className="container font-weight-bold text-uppercase">
+
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="mb-0 w-100 list-unstyled d-flex justify-content-around">
@@ -120,17 +131,16 @@ class App extends React.Component {
                     <li className="nav-item">
                       <NavLink className="nav-link" activeClassName="text-primary" to="/faq">FAQ</NavLink>
                     </li>
-                    <li className="nav-item">
-                      <UserNav />
-                    </li>
+                    <UserNav />
                   </Nav>
                 </Navbar.Collapse>
               </div>
             </Navbar>
           </header>
           <main className="container py-5">
-            <DismissableAlert message={this.state.alertMessage} variant={this.state.alertClass} />
+            <DismissableAlert message={alertMessage} variant={alertClass} />
             <Switch>
+              <PrivateRoute path="/dashbord" component={Dashbord} authed={user && Object.keys(user).length !== 0 && this.getCurrentUserRole() === "ROLE_REQUESTER"} user={user}/>
               <Route path="/order/list" component={Index} />
               <Route path="/order/map" component={Index} />
               <Route path="/order/{id}" component={Index} />
