@@ -1,3 +1,7 @@
+Cypress.Commands.add('initApiRoutes', () => {
+  cy.server().route('GET', '/things').as('thingsList');
+});
+
 Cypress.Commands.add('login', (email, pw) => {
   cy.get('a.nav-link:contains("Anmelden")').click();
   cy.contains('Anmeldung bei print4health');
@@ -13,7 +17,9 @@ Cypress.Commands.add('logout', (email, pw) => {
 });
 
 Cypress.Commands.add('openCommitModal', (email, pw) => {
+  cy.initApiRoutes();
   cy.get('a.nav-link:contains("Bedarf")').click();
+  cy.wait('@thingsList').its('status').should('be', 200);
   cy.title().should('eq', 'print4health - Bedarf & Ersatzteile');
   cy.get('h5.card-title').first().click();
   cy.get('.map-marker-order i').first().click();
@@ -22,7 +28,9 @@ Cypress.Commands.add('openCommitModal', (email, pw) => {
 });
 
 Cypress.Commands.add('openOrderModal', (email, pw) => {
+  cy.initApiRoutes();
   cy.get('a.nav-link:contains("Bedarf")').click();
+  cy.wait('@thingsList').its('status').should('be', 200);
   cy.title().should('eq', 'print4health - Bedarf & Ersatzteile');
   cy.get('h5.card-title').first().click();
   cy.get('.fa-plus-circle.text-primary').click();
