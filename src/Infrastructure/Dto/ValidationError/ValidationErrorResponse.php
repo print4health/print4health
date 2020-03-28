@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Infrastructure\Dto\ValidationError;
 
 use App\Infrastructure\Exception\ValidationErrorException;
+use Swagger\Annotations as SWG;
 
 class ValidationErrorResponse
 {
+    /** @SWG\Property(type="string") */
     public string $type;
 
+    /** @SWG\Property(type="string") */
     public string $message;
 
     /**

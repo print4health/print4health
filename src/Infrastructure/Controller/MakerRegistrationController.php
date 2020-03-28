@@ -8,6 +8,7 @@ use App\Domain\User\Entity\Maker;
 use App\Domain\User\Repository\MakerRepository;
 use App\Infrastructure\Dto\MakerRegistration\MakerRegistrationRequest;
 use App\Infrastructure\Dto\MakerRegistration\MakerRegistrationResponse;
+use App\Infrastructure\Dto\ValidationError\ValidationErrorResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
@@ -113,7 +114,8 @@ class MakerRegistrationController
      * )
      * @SWG\Response(
      *     response=422,
-     *     description="Validation failed due to missing mandatory fields or invalid field data"
+     *     description="Validation failed due to missing mandatory fields or invalid field data",
+     *     @Model(type=ValidationErrorResponse::class)
      * )
      */
     public function __invoke(Request $request)
