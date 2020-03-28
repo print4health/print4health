@@ -30,3 +30,4 @@ yarn-error.log
 ###< symfony/phpunit-bridge ###
 
 cypress/screenshots
+cypress/videos
