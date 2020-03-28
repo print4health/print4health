@@ -1,4 +1,4 @@
-describe('requester workflow', function () {
+describe('maker workflow', function () {
 
   beforeEach(function () {
     Cypress.Cookies.preserveOnce('PHPSESSID');
@@ -11,10 +11,10 @@ describe('requester workflow', function () {
     cy.wait(500);
   });
   it('login as requester', function () {
-    cy.get('input[name=email]').type('requester@print4health.org');
+    cy.get('input[name=email]').type('maker@print4health.org');
     cy.get('input[name=password]').type('test');
     cy.get('input[type=submit]').click();
-    cy.contains('Herzlich Willkommen requester@print4health.org');
+    cy.contains('Herzlich Willkommen maker@print4health.org');
     cy.wait(500);
   });
   it('go to thing list', function () {
@@ -31,11 +31,8 @@ describe('requester workflow', function () {
     cy.wait(500);
     cy.contains('Bedarf für "COVID-19 MASK" eintragen');
   });
-  it('place order', function () {
-    cy.get('button:contains("+")').click();
-    cy.get('button:contains("Bedarf eintragen")').click();
-    cy.scrollTo('top');
-    cy.get('.alert-success').contains('Danke, der Bedarf wurde eingetragen');
+  it('check order modal displays only info text', function () {
+    cy.get('input[value=OK]').click();
     cy.wait(500);
   });
   it('click map marker', function () {
@@ -48,7 +45,10 @@ describe('requester workflow', function () {
     cy.wait(500);
   });
   it('close info modal', function () {
-    cy.get('input[value=OK]').click();
+    cy.get('button:contains("+")').click();
+    cy.get('button:contains("Herstellung zusagen")').click();
+    cy.scrollTo('top');
+    cy.get('.alert-success').contains('alertDanke für Deinen Beitrag - ist notiert.');
     cy.wait(500);
   });
   it('logout', function () {
