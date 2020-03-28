@@ -18,8 +18,6 @@ jobs:
 
       - name: Psalm
         uses: docker://vimeo/psalm-github-actions
-        with:
-            secrets: "GITHUB_TOKEN"
 
 #  phpstan:
 #    name: PHPStan
