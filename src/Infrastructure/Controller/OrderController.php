@@ -9,6 +9,8 @@ use App\Domain\Order\Repository\OrderRepository;
 use App\Domain\Thing\Entity\Thing;
 use App\Domain\Thing\Repository\ThingRepository;
 use App\Domain\User\Entity\Requester;
+use App\Domain\User\Repository\RequesterRepository;
+use App\Domain\User\RequesterNotFoundException;
 use App\Infrastructure\Dto\Order\OrderRequest;
 use App\Infrastructure\Dto\Order\OrderResponse;
 use Doctrine\ORM\EntityManagerInterface;
@@ -32,19 +34,22 @@ class OrderController
     private Security $security;
     private OrderRepository $orderRepository;
     private ThingRepository $thingRepository;
+    private RequesterRepository $RequesterRepository;
 
     public function __construct(
         SerializerInterface $serializer,
         EntityManagerInterface $entityManager,
         Security $security,
         OrderRepository $orderRepository,
-        ThingRepository $thingRepository
+        ThingRepository $thingRepository,
+        RequesterRepository $requesterRepository
     ) {
         $this->serializer = $serializer;
         $this->entityManager = $entityManager;
         $this->security = $security;
         $this->orderRepository = $orderRepository;
         $this->thingRepository = $thingRepository;
+        $this->requesterRepository = $requesterRepository;
     }
 
     /**
@@ -71,6 +76,46 @@ class OrderController
     public function listAction(): JsonResponse
     {
         $orders = $this->orderRepository->findAll();
+
+        $response = ['orders' => []];
+
+        foreach ($orders as $order) {
+            $response['orders'][] = OrderResponse::createFromOrder($order);
+        }
+
+        return new JsonResponse($response);
+    }
+
+    /**
+     * Retrieves the collection of Order resources.
+     *
+     * @Route(
+     *     "/orders/requester/{requesterId}",
+     *     name="order_requester_list",
+     *     methods={"GET"},
+     *     format="json"
+     * )
+     *
+     * @SWG\Tag(name="Requester")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Order collection response",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=OrderResponse::class))
+     *     )
+     * )
+     */
+    public function listByRequesterAction(string $requesterId): JsonResponse
+    {
+        $requester = $this->requesterRepository->find($requesterId);
+
+        if (!$requester instanceof Requester) {
+            throw new RequesterNotFoundException($requesterId);
+        }
+
+        $orders = $this->orderRepository->findBy(['requester' => $requester]);
 
         $response = ['orders' => []];
 
