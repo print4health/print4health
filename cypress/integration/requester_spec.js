@@ -10,7 +10,7 @@ describe('requester workflow', function () {
   });
   it('place order', function () {
     cy.openOrderModal();
-    cy.get('button:contains("+")').click();
+    cy.checkQuantityInput(50);
     cy.get('button:contains("Bedarf eintragen")').click();
     cy.scrollTo('top');
     cy.get('.alert-success').contains('Danke, der Bedarf wurde eingetragen');

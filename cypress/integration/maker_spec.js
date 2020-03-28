@@ -10,7 +10,7 @@ describe('maker workflow', function () {
   });
   it('commit to order', function () {
     cy.openCommitModal();
-    cy.get('button:contains("+")').click();
+    cy.checkQuantityInput(50);
     cy.get('button:contains("Herstellung zusagen")').click();
     cy.scrollTo('top');
     cy.get('.alert-success').contains('alertDanke für Deinen Beitrag - ist notiert.');

@@ -16,6 +16,14 @@ Cypress.Commands.add('initApiRoutes', () => {
   cy.server().route('GET', '/things').as('thingsList');
 });
 
+Cypress.Commands.add('checkQuantityInput', (quantity) => {
+  cy.get('input[name="quantity"]').clear().type(quantity);
+  cy.get('button:contains("+")').click();
+  cy.get('input[name="quantity"]').should('have.value', (quantity + 1));
+  cy.get('button:contains("-")').click();
+  cy.get('input[name="quantity"]').should('have.value', (quantity - 1));
+});
+
 Cypress.Commands.add('login', (email, pw) => {
   cy.get('a.nav-link:contains("Anmelden")').click();
   cy.contains('Anmeldung bei print4health');
