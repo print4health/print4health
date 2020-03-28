@@ -1,5 +1,12 @@
 import { Redirect, Route } from "react-router-dom";
 import React from "react";
+import PropTypes from "prop-types";
+
+PrivateRoute.propTypes = {
+  component: PropTypes.any,
+  location: PropTypes.any,
+  authed: PropTypes.bool
+};
 
 function PrivateRoute({component: Component, authed}) {
   return (

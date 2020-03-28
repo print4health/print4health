@@ -75,6 +75,7 @@ class Dashbord extends React.Component {
             <div key={`order_${i}`} className='row Dashbord__value-row'>
               <div className="col-md-2">
                 <div className='Dashbord__value Dashbord__value-img'>
+                  {/* eslint-disable-next-line react/jsx-no-target-blank */}
                   <a href={order.thing.url} target='_blank'>
                     <img key={`things_image_${i}`} src={order.thing.imageUrl}/>
                   </a>
@@ -82,6 +83,7 @@ class Dashbord extends React.Component {
               </div>
               <div className="col-md-2">
                 <div className='Dashbord__value'>
+                  {/* eslint-disable-next-line react/jsx-no-target-blank */}
                   <a href={order.thing.url} target='_blank'>
                     <p>{order.thing.name}</p>
                   </a>

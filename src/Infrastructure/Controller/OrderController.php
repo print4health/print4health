@@ -34,7 +34,7 @@ class OrderController
     private Security $security;
     private OrderRepository $orderRepository;
     private ThingRepository $thingRepository;
-    private RequesterRepository $RequesterRepository;
+    private RequesterRepository $requesterRepository;
 
     public function __construct(
         SerializerInterface $serializer,
