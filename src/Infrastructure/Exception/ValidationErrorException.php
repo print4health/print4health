@@ -10,21 +10,21 @@ use Throwable;
 
 class ValidationErrorException extends \RuntimeException
 {
-    private string $type;
-
-    /**
+     /**
      * @var ConstraintViolationListInterface<int, ConstraintViolationInterface>
      */
     private ConstraintViolationListInterface $errors;
+
+    private string $type;
 
     /**
      * ValidationErrorException constructor.
      *
      * @param ConstraintViolationListInterface<int, ConstraintViolationInterface> $errors
-     * @param string                                                              $type
-     * @param string                                                              $message
-     * @param int                                                                 $code
-     * @param Throwable                                                           $previous
+     * @param string $type
+     * @param string $message
+     * @param int $code
+     * @param Throwable $previous
      */
     public function __construct(
         ConstraintViolationListInterface $errors,

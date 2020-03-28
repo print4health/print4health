@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\EventListener;
 
+use App\Infrastructure\Dto\ValidationError\ValidationErrorResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,15 +22,8 @@ class ValidationErrorExceptionListener
             return;
         }
 
-        $output = [
-            'message' => $exception->getMessage(),
-            'type' => $exception->getType(),
-            'errors' => [],
-        ];
-
-        dump($exception->getErrors());
-
-        $response = new JsonResponse($output, Response::HTTP_UNPROCESSABLE_ENTITY);
+        $validationErrorResponse = ValidationErrorResponse::createFromValidationErrorException($exception);
+        $response = new JsonResponse($validationErrorResponse, Response::HTTP_UNPROCESSABLE_ENTITY);
 
         $event->setResponse($response);
     }

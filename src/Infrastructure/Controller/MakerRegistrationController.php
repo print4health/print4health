@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -37,8 +38,11 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class MakerRegistrationController
 {
     private SerializerInterface $serializer;
+
     private MakerRepository $makerRepository;
+
     private EntityManagerInterface $entityManager;
+
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
     /**
@@ -73,15 +77,15 @@ class MakerRegistrationController
      *     @SWG\Schema(
      *         type="object",
      *         required={
-     *              "email",
-     *              "password",
-     *              "name",
-     *              "postalCode",
-     *              "confirmedRuleForFree",
-     *              "confirmedRuleMaterialAndTransport",
-     *              "confirmedPlattformIsContactOnly",
-     *              "confirmedNoAccountability",
-     *              "confirmedPersonalDataTransferToRequester"
+     *             "email",
+     *             "password",
+     *             "name",
+     *             "postalCode",
+     *             "confirmedRuleForFree",
+     *             "confirmedRuleMaterialAndTransport",
+     *             "confirmedPlattformIsContactOnly",
+     *             "confirmedNoAccountability",
+     *             "confirmedPersonalDataTransferToRequester"
      *         },
      *         @SWG\Property(property="email", type="string"),
      *         @SWG\Property(property="password", type="string"),
@@ -92,10 +96,10 @@ class MakerRegistrationController
      *         @SWG\Property(property="latitude", type="float"),
      *         @SWG\Property(property="longitude", type="float"),
      *         @SWG\Property(property="confirmedRuleForFree", type="boolean"),
-     *         @SWG\Property(property="confirmedRuleMaterialAndTransport", type="boolean"),
-     *         @SWG\Property(property="confirmedPlattformIsContactOnly", type="boolean"),
-     *         @SWG\Property(property="confirmedNoAccountability", type="boolean"),
-     *         @SWG\Property(property="confirmedPersonalDataTransferToRequester", type="boolean")
+     *         @SWG\Property(property="confirmedRuleMaterialAndTransport", type="boolean", default=false),
+     *         @SWG\Property(property="confirmedPlattformIsContactOnly", type="boolean", default=false),
+     *         @SWG\Property(property="confirmedNoAccountability", type="boolean", default=false),
+     *         @SWG\Property(property="confirmedPersonalDataTransferToRequester", type="boolean", default=false)
      *     )
      * )
      * @SWG\Response(
@@ -116,7 +120,11 @@ class MakerRegistrationController
     {
         try {
             /** @var MakerRegistrationRequest $makerRegistrationRequest */
-            $makerRegistrationRequest = $this->serializer->deserialize($request->getContent(), MakerRegistrationRequest::class, JsonEncoder::FORMAT);
+            $makerRegistrationRequest = $this->serializer->deserialize(
+                $request->getContent(),
+                MakerRegistrationRequest::class,
+                JsonEncoder::FORMAT
+            );
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
@@ -141,6 +149,6 @@ class MakerRegistrationController
 
         $makerResponse = MakerRegistrationResponse::createFromMaker($maker);
 
-        return new JsonResponse(['maker' => $makerResponse], 201);
+        return new JsonResponse(['maker' => $makerResponse], Response::HTTP_CREATED);
     }
 }

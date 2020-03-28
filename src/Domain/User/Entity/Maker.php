@@ -8,9 +8,11 @@ use App\Domain\User\UserInterface;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Domain\User\Repository\MakerRepository")
+ * @ORM\Entity
+ * @UniqueEntity("email")
  */
 class Maker implements UserInterface
 {
