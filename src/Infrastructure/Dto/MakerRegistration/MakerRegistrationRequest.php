@@ -33,8 +33,11 @@ class MakerRegistrationRequest
     public ?string $postalCode = null;
 
     public ?string $addressCity = null;
+
     public ?string $addressState = null;
+
     public ?string $latitude = null;
+
     public ?string $longitude = null;
 
     /**
@@ -50,7 +53,7 @@ class MakerRegistrationRequest
     /**
      * @Assert\IsTrue()
      */
-    public bool $confirmedContactOnly = false;
+    public bool $confirmedPlattformIsContactOnly = false;
 
     /**
      * @Assert\IsTrue()
@@ -60,5 +63,5 @@ class MakerRegistrationRequest
     /**
      * @Assert\IsTrue()
      */
-    public bool $confirmedPersonalDataTransfer = false;
+    public bool $confirmedPersonalDataTransferToRequester = false;
 }

@@ -72,8 +72,30 @@ class MakerRegistrationController
      *     type="json",
      *     @SWG\Schema(
      *         type="object",
+     *         required={
+     *              "email",
+     *              "password",
+     *              "name",
+     *              "postalCode",
+     *              "confirmedRuleForFree",
+     *              "confirmedRuleMaterialAndTransport",
+     *              "confirmedPlattformIsContactOnly",
+     *              "confirmedNoAccountability",
+     *              "confirmedPersonalDataTransferToRequester"
+     *         },
      *         @SWG\Property(property="email", type="string"),
-     *         @SWG\Property(property="password", type="string")
+     *         @SWG\Property(property="password", type="string"),
+     *         @SWG\Property(property="name", type="string"),
+     *         @SWG\Property(property="postalCode", type="integer"),
+     *         @SWG\Property(property="addressCity", type="string"),
+     *         @SWG\Property(property="addressState", type="string"),
+     *         @SWG\Property(property="latitude", type="float"),
+     *         @SWG\Property(property="longitude", type="float"),
+     *         @SWG\Property(property="confirmedRuleForFree", type="boolean"),
+     *         @SWG\Property(property="confirmedRuleMaterialAndTransport", type="boolean"),
+     *         @SWG\Property(property="confirmedPlattformIsContactOnly", type="boolean"),
+     *         @SWG\Property(property="confirmedNoAccountability", type="boolean"),
+     *         @SWG\Property(property="confirmedPersonalDataTransferToRequester", type="boolean")
      *     )
      * )
      * @SWG\Response(
