@@ -6,9 +6,9 @@ Cypress.Commands.add('initApiRoutes', () => {
 Cypress.Commands.add('checkQuantityInput', (quantity) => {
   cy.get('input[name="quantity"]').clear().type(quantity);
   cy.get('button:contains("+")').click();
-  cy.get('input[name="quantity"]').should('have.value', (quantity + 1));
+  cy.get('input[name="quantity"]').should('have.value', (quantity + 1).toString());
   cy.get('button:contains("-")').click();
-  cy.get('input[name="quantity"]').should('have.value', (quantity - 1));
+  cy.get('input[name="quantity"]').should('have.value', quantity.toString());
 });
 
 Cypress.Commands.add('login', (email, pw) => {
