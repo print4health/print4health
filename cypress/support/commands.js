@@ -1,5 +1,6 @@
 Cypress.Commands.add('initApiRoutes', () => {
   cy.server().route('GET', '/things').as('thingsList');
+  cy.server().route('GET', '/things/**').as('thingsDetail');
 });
 
 Cypress.Commands.add('checkQuantityInput', (quantity) => {
@@ -30,6 +31,7 @@ Cypress.Commands.add('openCommitModal', (email, pw) => {
   cy.wait('@thingsList').its('status').should('be', 200);
   cy.title().should('eq', 'print4health - Bedarf & Ersatzteile');
   cy.get('h5.card-title').first().click();
+  cy.wait('@thingsDetail').its('status').should('be', 200);
   cy.get('.map-marker-order i').first().click();
   cy.get('.leaflet-popup-content').contains('Herstellung zusagen');
   cy.get('a.btn:contains("Herstellung zusagen")').click();
@@ -41,5 +43,6 @@ Cypress.Commands.add('openOrderModal', (email, pw) => {
   cy.wait('@thingsList').its('status').should('be', 200);
   cy.title().should('eq', 'print4health - Bedarf & Ersatzteile');
   cy.get('h5.card-title').first().click();
+  cy.wait('@thingsDetail').its('status').should('be', 200);
   cy.get('.fa-plus-circle.text-primary').click();
 });
