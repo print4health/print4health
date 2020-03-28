@@ -12,7 +12,6 @@ class MakerResponse
     public string $id;
     public string $email;
     public ?string $name;
-    public ?string $streetAddress;
     public ?string $postalCode;
     public ?string $addressCity;
     public ?string $addressState;

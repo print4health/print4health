@@ -26,26 +26,14 @@ class RequesterControllerTest extends AbstractControllerTest
         }
     }
 
-    private function singleRequester(array $requester): void
-    {
-        $this->assertIsString($requester['id']);
-        $this->assertIsString($requester['email']);
-        $this->assertIsString($requester['name']);
-
-        $this->assertArrayHasKey('streetAddress', $requester);
-        $this->assertArrayHasKey('postalCode', $requester);
-        $this->assertArrayHasKey('addressCity', $requester);
-        $this->assertArrayHasKey('addressState', $requester);
-    }
-
     public function createRequesterDataProvider(): array
     {
         return [
             [
                 [
-                    'email' => 'unittester@print4health.org',
+                    'email' => 'unittester-requester@print4health.org',
                     'password' => '123465789',
-                    'name' => 'Unit Tester Hospital',
+                    'name' => 'Unit Tester Requester',
                     'streetAddress' => 'Salzstraße 123',
                     'postalCode' => '48155',
                     'addressCity' => 'Münster',
@@ -77,58 +65,54 @@ class RequesterControllerTest extends AbstractControllerTest
 
     /**
      * @group functional
-     * @dataProvider createRequesterDataProvider
      */
-    public function testFailCreateActionWithMakerLogIn(array $requestContent): void
+    public function testFailCreateActionWithMakerLogIn(): void
     {
         $client = static::createClient();
 
         $this->logInMaker($client);
 
-        $client->request('POST', '/requester', [], [], [], json_encode($requestContent));
+        $client->request('POST', '/requester');
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
     /**
      * @group functional
-     * @dataProvider createRequesterDataProvider
      */
-    public function testFailCreateActionWithRequesterLogIn(array $requestContent): void
+    public function testFailCreateActionWithRequesterLogIn(): void
     {
         $client = static::createClient();
 
         $this->logInRequester($client);
 
-        $client->request('POST', '/requester', [], [], [], json_encode($requestContent));
+        $client->request('POST', '/requester');
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
     /**
      * @group functional
-     * @dataProvider createRequesterDataProvider
      */
-    public function testFailCreateActionWithUserLogIn(array $requestContent): void
+    public function testFailCreateActionWithUserLogIn(): void
     {
         $client = static::createClient();
 
         $this->logInUser($client);
 
-        $client->request('POST', '/requester', [], [], [], json_encode($requestContent));
+        $client->request('POST', '/requester');
 
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
 
     /**
      * @group functional
-     * @dataProvider createRequesterDataProvider
      */
-    public function testFailCreateActionWithoutLogIn(array $requestContent): void
+    public function testFailCreateActionWithoutLogIn(): void
     {
         $client = static::createClient();
 
-        $client->request('POST', '/requester', [], [], [], json_encode($requestContent));
+        $client->request('POST', '/requester');
 
         $this->assertEquals(401, $client->getResponse()->getStatusCode());
     }
