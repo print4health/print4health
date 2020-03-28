@@ -64,3 +64,81 @@
         margin: 0 auto;
     }
 }
+
+.Dashbord {
+    p {
+        margin-bottom: 0;
+    }
+
+    h1 {
+        margin: 0 0 2.5rem 5rem;
+    }
+
+    &__user, &__table, &__headline-row, &__value-row {
+        background-color: $gray-bg;
+    }
+
+    &__user {
+        margin: 0 3rem;
+        padding: 0 3rem;
+
+        h6 {
+            margin: 0.75rem 0;
+        }
+    }
+
+    &__table {
+        margin: 2rem 0 0 0;
+        padding: 0 2rem 1rem;
+    }
+
+    &__headline-row {
+        margin-top: 2rem;
+
+        h6 {
+            padding: 0 0 1rem 0;
+            text-align: center;
+            display: inline-block;
+            vertical-align: bottom;
+            line-height: normal;
+        }
+    }
+
+    &__headline {
+        height: 7rem;
+        line-height: 7rem;
+        text-align: center;
+    }
+
+    &__value-row {
+        p {
+            padding: 0 1rem;
+            text-align: center;
+            display: inline-block;
+            vertical-align: middle;
+            line-height: normal;
+        }
+    }
+
+    &__value {
+        background-color: $white;
+        margin: 1rem 0;
+        height: 7rem;
+        line-height: 7rem;
+        text-align: center;
+    }
+
+    &__value-img {
+        background-color: $gray-bg;
+
+        img {
+            max-height: 100%;
+            max-width: 100%;
+            width: auto;
+        }
+    }
+}
+
+.bg-primary {
+    background-color: $gray-bg;
+}
