@@ -28,3 +28,42 @@ App\Domain\User\Entity\Requester:
         password: 'test'
         latitude: '<latitude(48.5, 54)>'
         longitude: '<longitude(8.5, 13)>'
+
+    requester_hub_bremen:
+        __construct:
+            - '<safeEmail()>'
+            - '<company()>'
+        streetAddress: '<streetAddress()>'
+        postalCode: '<postCode()>'
+        addressCity: 'Bremen'
+        addressState: '<state()>'
+        password: 'test'
+        latitude: 53.095831720337145
+        longitude: 8.815992937273837
+        hub: true
+        area:
+            - [53.059532629110166, 8.361433611101962]
+            - [52.70983511374458, 8.820112810320712]
+            - [53.023202928141174, 9.822615251726962]
+            - [53.4963725863187, 8.931349382586337]
+            - [53.312984094940276, 8.431471452898837]
+
+    requester_hub_koeln:
+        __construct:
+            - '<safeEmail()>'
+            - '<company()>'
+        streetAddress: '<streetAddress()>'
+        postalCode: '<postCode()>'
+        addressCity: 'Köln'
+        addressState: '<state()>'
+        password: 'test'
+        latitude: 50.93336083207188
+        longitude: 6.951462563588646
+        hub: true
+        area:
+            - [51.02587509291266, 6.863571938588646]
+            - [51.03019368160585, 7.406021889760521]
+            - [50.864070824575364, 7.202774819448021]
+            - [50.841529369234514, 6.881424721791771]
+            - [50.974020639475455, 6.569687661244896]
+            - [51.043147033551726, 6.723496254994896]
