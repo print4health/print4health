@@ -1,0 +1,47 @@
+{
+  "title": "FAQ - Here you find answers to your questions.",
+  "hospital": {
+    "title": "Hospital / Social Institution",
+    "ask1": "",
+    "ans1": {
+      "part1": "",
+      "part2": "",
+      "part3": "",
+      "part4": "",
+      "part5": ""
+    },
+    "ask2": "",
+    "ans2": {
+      "part1": "",
+      "part2": ""
+    },
+    "ask3": "",
+    "ans3": ""
+  },
+  "maker": {
+    "title": "Maker / Engineer / Designer",
+    "ask1": "",
+    "ans1": "",
+    "ask2": "",
+    "ans2": "",
+    "ask3": "",
+    "ans3": "",
+    "ask4": "",
+    "ans4": {
+      "part1": "",
+      "part2": ""
+    },
+    "ask5": "",
+    "ans5": "",
+    "ask6": "",
+    "ans6": {
+      "part1": "",
+      "part2": ""
+    },
+    "ask7": ""
+    "ans7": {
+      "part1": "",
+      "part2": ""
+    }
+  }
+}

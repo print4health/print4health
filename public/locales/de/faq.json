@@ -1,0 +1,47 @@
+{
+  "title": "FAQ - Hier findet Ihr Antworten auf Eure Fragen.",
+  "hospital": {
+    "title": "Krankenhaus / Soziale Einrichtung",
+    "ask1": "Ich bin Arzt, Krankenhaus, Pflege-, soziale oder öffentliche Einrichtung. Wie kann ich Material anfragen?",
+    "ans1": {
+      "part1": "Dazu müsst Ihr euch einloggen und bei dem gewünschten Teil rechts auf das",
+      "part2": "bei &quot;Bedarf gesamt: xxx&quot; klicken.",
+      "part3": "Danach öffnet sich ein Fenster und Ihr könnt die erforderliche Menge eintragen.",
+      "part4": "Solltet Ihr noch keinen Login haben, schreibt uns einfach eine kurze E-Mail an",
+      "part5": "und wir legen Euch einen Account an. Ein Formular zur Selbstregistrierung war noch nicht Teil des Hackathons, kommt aber bald."
+    },
+    "ask2": "Ich brauche ein sehr spezielles Bauteil, wie gehe ich am Besten vor?",
+    "ans2": {
+      "part1": "In Zukunft könnt Ihr ein Bauteil mit Foto, Beschreibung, Herstellername und Spezifikation in unseren Upload Bereich auf der Bedarfs-Webseite hochladen.",
+      "part2": "Aktuell kontaktiere uns bitte direkt über Social Media oder unsere E-Mail"
+    },
+    "ask3": "Wie kann ich den Prozess beschleunigen, ich brauche wirklich dringend Teile?",
+    "ans3": "Unterstützung kann bei den Behörden angefordert werden."
+  },
+  "maker": {
+    "title": "Maker / Ingenieure / Designer",
+    "ask1": "Ich habe ein 3D-Drucker als Privatperson. Kann ich auch damit unterstützen?",
+    "ans1": "Wir brauchen jede freie Druckerkapazität. Ob Industrie 3D-Drucker oder Dein privater 3D-Drucker zu Hause - jeder kann helfen!",
+    "ask2": "Was bringt mir das Drucken der Modelle?",
+    "ans2": "Zunächst könnt Ihr damit Leben retten! Außerdem arbeiten wir auf freiwilliger Basis, jedoch sind wir dabei, Kooperationen zu schließen, um Euch für Eure Arbeit mit Gutscheinen und Filament zu entlohnen. Keine Sorge: Eure jetzt schon erledigten Aufträge werden mit eingerechnet.",
+    "ask3": "Welches Filament brauche ich und wo kann ich das bestellen?",
+    "ans3": "In den Produktbeschreibungen findet Ihr die Materialspezifikationen. Hier finden sich auch Links von Anbietern für das zu benutzende Filament.",
+    "ask4": "Werden die Kosten für das Filament erstattet?",
+    "ans4": {
+      "part1": "Wir starten zunächst mit dem Druck auf freiwilliger Basis.",
+      "part2": "Wir bemühen uns aber Kooperationen zu schließen, um Euch für Eure Arbeit mit Gutscheinen für Filament zu entlohnen."
+    },
+    "ask5": "Wie kommt mein gedrucktes Teil an die Klinik, den Arzt oder den Endnutzer?",
+    "ans5": "Per freiwilliger Fahrer, Taxis, Behörden. Auch hier suchen wir nach freiwilligen Unterstützern. Kleinere Produkte und Mengen können natürlich auch per Post versendet werden.",
+    "ask6": "Wen kann ich kontaktieren, wenn meine Teile fertig gedruckt sind?",
+    "ans6": {
+      "part1": "Aktuell gibt es dazu keine Möglichkeit. Du kannst Deinen Druck wie hier in der FAQ beschrieben and den jeweiligen Endnutzer übermitteln.",
+      "part2": "In Zukunft kannst Du dies auf unser Plattform melden und es erfolgt die Organisation des Transportes, damit Dein Teil schnellstmöglich zum Einsatz kommt."
+    },
+    "ask7": "Ich habe ein Modell gefunden, dass nützlich sein könnte, wie kann ich es bei Euch einstellen?",
+    "ans7": {
+      "part1": "Derzeit werden alle Modelle von uns händisch eingepflegt und überprüft. Auch in der Zukunft ist eine Kuratierung der Inhalte sinnvoll, da wir uns ganz klar auf den Gesundheitsbereich beschränken wollen.",
+      "part2": "Es wird in der Zukunft aber auch eine Registrierung für Maker und Ingenieure geben, um 3D Modelle leichter zur Verfügung stellen zu können. Habt bis dahin bitte noch etwas Geduld und wendet Euch mit einer Idee an"
+    }
+  }
+}

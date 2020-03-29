@@ -1,0 +1,15 @@
+{
+  "title": "Login at print4health",
+  "info1": {
+    "part1": "as Health/Social-Institution",
+    "part2": "or as Maker/Printer",
+    "part3": "Send an E-Mail to",
+    "part4": "and we create an User-Account for You.",
+    "part5": "translation needed"
+  },
+  "info2": "translation needed",
+  "email": "E-Mail-Address",
+  "pass": "Password",
+  "forgot": "Forgot password?",
+  "button": " Login"
+}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 
 class Footer extends React.Component {
   constructor(props) {
@@ -7,6 +8,7 @@ class Footer extends React.Component {
   }
 
   render() {
+    const { t, i18n } = this.props;
     return (
       <footer className="Footer bg-gray">
         <div className="container py-4">
@@ -39,13 +41,13 @@ class Footer extends React.Component {
             </div>
             <ul className="list-inline mb-0">
               <li className="list-inline-item">
-                <NavLink to="/contact" activeClassName="text-primary">Kontakt</NavLink>
+                <NavLink to="/contact" activeClassName="text-primary">{t('imprint')}</NavLink>
               </li>
               <li className="list-inline-item">
-                <NavLink to="/imprint" activeClassName="text-primary">Impressum</NavLink>
+                <NavLink to="/imprint" activeClassName="text-primary">{t('imprint')}</NavLink>
               </li>
               <li className="list-inline-item">
-                <NavLink to="/data-privacy-statement" activeClassName="text-primary">Datenschutzerklärung</NavLink>
+                <NavLink to="/data-privacy-statement" activeClassName="text-primary">{t('privacy')}</NavLink>
               </li>
               <li className="list-inline-item">
                 <a
@@ -54,7 +56,7 @@ class Footer extends React.Component {
                   rel="noopener noreferrer"
                   title="Improve me on GitHub"
                 >
-                  GitHub
+                  {t('github')}
                 </a>
               </li>
             </ul>
@@ -65,4 +67,4 @@ class Footer extends React.Component {
   }
 }
 
-export default Footer;
+export default withTranslation('footer')(Footer);
