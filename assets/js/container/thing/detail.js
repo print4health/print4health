@@ -223,14 +223,19 @@ class ThingDetailContainer extends React.Component {
             <RequirementMap thing={thing} orders={orders} openModal={this.openCommitModal} />
           </div>
           <div className="col-md-3 col-order">
-            <div className="media">
+            <div className="media requests">
               <div className="media-body">
                 <span className="mr-1">Bedarf gesamt:</span>
                 <strong className="text-primary">{thing.needed}</strong>
               </div>
-              <button className="btn btn-link" onClick={this.openOrderModal}>
-                <i className="fas fa-plus-circle fa-fw text-primary"></i>
-              </button>
+            </div>
+            <div className="media requests mb-2">
+              <div className="media-body">
+                <button className="btn btn-outline-primary" onClick={this.openOrderModal}>
+                  Bedarf anmelden
+                  <i className="fas fa-plus-circle fa-fw"></i>
+                </button>
+              </div>
             </div>
             <small className="text-muted">
               Um Bedarf an diesem Ersatzteil anzumelden,
@@ -251,7 +256,7 @@ class ThingDetailContainer extends React.Component {
               <div className="media-body">
                 <strong className="text-uppercase">Downloads</strong>
               </div>
-              <span className="btn btn-link">
+              <span className="btn btn-link btn-large">
                 <i className="fas fa-arrow-alt-circle-down fa-fw"></i>
               </span>
             </a>
