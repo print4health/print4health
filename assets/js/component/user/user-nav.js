@@ -44,7 +44,7 @@ class UserNav extends React.Component {
         <React.Fragment>
           {this.context.getCurrentUserRole() === 'ROLE_REQUESTER' &&
           <li className="nav-item">
-            <NavLink className="nav-link" activeClassName="text-primary" to="/dashbord">Dashbord</NavLink>
+            <NavLink className="nav-link" activeClassName="text-primary" to="/dashboard">Dashboard</NavLink>
           </li>
           }
           <li className="nav-item">
