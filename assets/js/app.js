@@ -14,7 +14,7 @@ import ThingListContainer from './container/thing/list';
 import ThingDetailContainer from './container/thing/detail';
 import RequestPasswordResetModal from './component/modal/request-password-reset';
 import logo from '../logo-print4health-org.svg';
-import Dashbord from './container/dashboard/dashbord';
+import Dashboard from './container/dashboard/dashboard';
 import Faq from './container/faq/faq';
 import AppContext from './context/app-context';
 import ResetPassword from './container/reset-password/reset-password';
