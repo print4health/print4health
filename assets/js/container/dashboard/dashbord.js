@@ -142,4 +142,4 @@ class Dashboard extends React.Component {
 
 Dashbord.contextType = AppContext;
 
-export default Dashbord;
+export default Dashboard;
