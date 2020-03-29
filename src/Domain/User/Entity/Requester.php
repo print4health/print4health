@@ -96,6 +96,7 @@ class Requester implements UserInterface
     private ?bool $hub = false;
 
     /**
+     * @var array[]
      * @ORM\Column(name="area", type="json_array", nullable=true)
      */
     private ?array $area = null;
@@ -298,11 +299,17 @@ class Requester implements UserInterface
         $this->hub = $hub;
     }
 
+    /**
+     * @return array[]
+     */
     public function getArea(): ?array
     {
         return $this->area;
     }
 
+    /**
+     * @param array[] $area
+     */
     public function setArea(?array $area): void
     {
         $this->area = $area;

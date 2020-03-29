@@ -40,7 +40,10 @@ class RequesterResponse
     /** @SWG\Property(type="bool") */
     public ?bool $isHub;
 
-    /** @SWG\Property(type="array") */
+    /**
+     * @var array[]
+     * @SWG\Property(type="array")
+     */
     public ?array $area;
 
     public static function createFromRequester(?Requester $requester): self
