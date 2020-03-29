@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
 import AppContext from '../../context/app-context';
@@ -10,7 +10,10 @@ import { Link } from 'react-router-dom';
 const RegistrationForm = (props) => {
 
   const { callback, alert, serverErrors, showForm } = props;
-  const { register, errors, handleSubmit } = useForm();
+  const { register, errors, watch, handleSubmit } = useForm();
+
+  const password = useRef({});
+  password.current = watch('password', '');
 
   const printError = (error, message) => {
     if (!error) {
@@ -26,16 +29,16 @@ const RegistrationForm = (props) => {
       <div className="row">
         <div className="col-md-8 offset-md-2">
           <h1>Maker Registrierung</h1>
-          <p>
-            Hier könnt ihr euch als Maker bei <span className="text-primary">print4health.org</span> registrieren.
-            Bitte füllt das Formular gewissenhaft aus, denn schließlich geht es darum, Menschen zu helfen.
-          </p>
           {alert.show &&
           <Alert variant="danger">
             <strong>Fehler {alert.status}</strong>: {alert.message}
           </Alert>}
           {showForm &&
           <form onSubmit={handleSubmit(callback)} className="mt-5 registration-form">
+            <p>
+              Hier könnt ihr euch als Maker bei <span className="text-primary">print4health.org</span> registrieren.
+              Bitte füllt das Formular gewissenhaft aus, denn schließlich geht es darum, Menschen zu helfen.
+            </p>
             <Form.Group as={Row} controlId="registerMakerName">
               <Form.Label column sm="2">Name*</Form.Label>
               <Col sm="10">
@@ -73,7 +76,7 @@ const RegistrationForm = (props) => {
                 </Form.Text>
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId="registerMakerPasswort">
+            <Form.Group as={Row} controlId="registerMakerPassword">
               <Form.Label column sm="2">Passwort*</Form.Label>
               <Col sm="10">
                 <Form.Control type="password"
@@ -85,6 +88,19 @@ const RegistrationForm = (props) => {
                   steht nirgendwo im Wörterbuch oder ist leicht zu erraten.
                   {printError(errors.password, 'Dies ist ein Pflichtfeld. Dein Passwort sollte min. 8 Zeichen lang sein.')}
                   {printError(serverErrors.password, serverErrors.password)}
+                </Form.Text>
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} controlId="registerMakerPassword">
+              <Form.Label column sm="2">Passwort wiederholen*</Form.Label>
+              <Col sm="10">
+                <Form.Control type="password"
+                              name="passwordRepeat"
+                              placeholder="Wiederhole dein Passwort"
+                              ref={register({ validate: value => value === password.current || 'The passwords do not match' })} />
+                <Form.Text className="text-muted">
+                  Bitte gib zur Sicherheit dein Passwort zwei mal ein.
+                  {printError(errors.passwordRepeat, 'Die Passwörter stimmen nicht überein')}
                 </Form.Text>
               </Col>
             </Form.Group>
