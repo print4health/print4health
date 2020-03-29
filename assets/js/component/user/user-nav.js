@@ -3,6 +3,7 @@ import { Config } from '../../config';
 import axios from 'axios';
 import LoginModal from './../modal/login';
 import AppContext from '../../context/app-context';
+import { NavLink } from "react-router-dom";
 
 class UserNav extends React.Component {
   constructor(props) {
@@ -39,11 +40,18 @@ class UserNav extends React.Component {
     const { user } = this.context;
 
     if (user && user.email) {
-      return <span>
-        <a href="#" className="nav-link" onClick={this.handleLogout}>
-          Abmelden
-        </a>
-      </span>;
+      return (
+        <React.Fragment>
+          {this.context.getCurrentUserRole() === 'ROLE_REQUESTER' &&
+          <li className="nav-item">
+            <NavLink className="nav-link" activeClassName="text-primary" to="/dashboard">Dashboard</NavLink>
+          </li>
+          }
+          <li className="nav-item">
+            <a href="#" className="nav-link" onClick={this.handleLogout}>Abmelden</a>
+          </li>
+        </React.Fragment>
+      );
     }
 
     return (
