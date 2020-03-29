@@ -35,7 +35,7 @@
     phpstan: https://github.com/phpstan/phpstan/releases/download/0.12.18/phpstan.phar
     deptrac: http://get.sensiolabs.de/deptrac.phar
     php-cs-fixer: http://cs.sensiolabs.org/download/php-cs-fixer-v2.phar
-    psalm: https://github.com/vimeo/psalm/releases/download/3.9.3/psalm.phar
+    psalm: https://github.com/vimeo/psalm/releases/download/3.10.1/psalm.phar
 
 - name: copy xdebug script
   become: true

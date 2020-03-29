@@ -121,6 +121,13 @@ class DataPrivacyStatement extends React.Component {
               Person oder aus Gründen eines wichtigen öffentlichen Interesses der Europäischen Union oder eines
               Mitgliedstaats verarbeitet werden.</p>
             <h2>3. Datenerfassung auf dieser Website</h2>
+            <h3>Registrierte Maker</h3>
+            <p>
+              Der Weitergabe der von Makern mitgeteilten Kontaktdaten und Kapazitätsangaben durch print4health an
+              registrierte Krankenhäuser und sonstige medizinische und soziale Einrichtungen sowie medizinisches
+              Personal muss bei der Registrierung zugestimmt werden.
+            </p>
+
             <h3>Cookies</h3> <p>Unsere Internetseiten verwenden so genannte „Cookies“. Cookies sind kleine Textdateien
             und richten auf Ihrem Endgerät keinen Schaden an. Sie werden entweder vorübergehend für die Dauer einer
             Sitzung (Session-Cookies) oder dauerhaft (permanente Cookies) auf Ihrem Endgerät gespeichert.

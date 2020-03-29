@@ -5,3 +5,4 @@ dependencies:
   - node
   - tools
   - mail-dev
+  - cypress-deps

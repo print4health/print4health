@@ -53,6 +53,7 @@ jobs:
           uses: actions/checkout@v2
 
       -   name: eslint
-          uses: stefanoeb/eslint-action@1.0.2
+          uses: reviewdog/action-eslint@v1
           with:
-            files: assets/js
+              github_token: ${{ secrets.github_token }}
+              eslint_flags: 'assets/js'

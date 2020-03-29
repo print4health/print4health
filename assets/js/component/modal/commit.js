@@ -53,7 +53,7 @@ class CommitModal extends React.Component {
 
   increaseAmount = () => {
     this.setState({
-      quantity: this.state.quantity + 1,
+      quantity: parseInt(this.state.quantity) + 1,
     });
   };
 
@@ -62,7 +62,7 @@ class CommitModal extends React.Component {
       return;
     }
     this.setState({
-      quantity: this.state.quantity - 1,
+      quantity: parseInt(this.state.quantity) - 1,
     });
   };
 
@@ -120,8 +120,8 @@ class CommitModal extends React.Component {
       </Modal.Body>
       <Modal.Footer>
         <input type="submit"
-               className="btn btn-primary"
-               value="OK"
+               className="btn btn-light"
+               value="Schließen"
                onClick={this.onHide} />
       </Modal.Footer>
     </>;

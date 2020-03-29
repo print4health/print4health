@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
+use App\Domain\Exception\Maker\MakerNotFoundException;
 use App\Domain\User\Entity\Maker;
 use App\Domain\User\Repository\MakerRepository;
 use App\Infrastructure\Dto\Maker\MakerRequest;
 use App\Infrastructure\Dto\Maker\MakerResponse;
+use App\Infrastructure\Exception\ValidationErrorException;
 use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +22,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class MakerController
 {
@@ -72,13 +76,18 @@ class MakerController
      *
      * @IsGranted("ROLE_ADMIN")
      */
-    public function createAction(Request $request): JsonResponse
+    public function createAction(Request $request, ValidatorInterface $validator): JsonResponse
     {
         try {
             /** @var MakerRequest $makerRequest */
             $makerRequest = $this->serializer->deserialize($request->getContent(), MakerRequest::class, JsonEncoder::FORMAT);
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
+        }
+
+        $errors = $validator->validate($makerRequest);
+        if ($errors->count() > 0) {
+            throw new ValidationErrorException($errors, 'MakerCreateValidationError');
         }
 
         $maker = new Maker($makerRequest->email, $makerRequest->name);
@@ -109,9 +118,9 @@ class MakerController
      */
     public function showAction(string $uuid): JsonResponse
     {
-        $maker = $this->makerRepository->find($uuid);
-
-        if (null === $maker) {
+        try {
+            $maker = $this->makerRepository->find(Uuid::fromString($uuid));
+        } catch (MakerNotFoundException $exception) {
             throw new NotFoundHttpException('Maker not found');
         }
 
