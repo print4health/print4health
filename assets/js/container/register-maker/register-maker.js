@@ -31,7 +31,8 @@ const RegistrationForm = (props) => {
           <h1>Maker Registrierung</h1>
           <Alert variant="info" className="mt-3">
             Um Bedarf anzumelden, müsst ihr als <strong>Krankenhaus, Arzt, soziale Einrichtung oder
-            Maker-Hub (<a href="https://www.makervsvirus.org/" target="_blank">MakerVsVirus</a>)</strong> angemeldet
+            Maker-Hub (<a href="https://www.makervsvirus.org/" target="_blank"
+                          rel="noopener noreferrer">MakerVsVirus</a>)</strong> angemeldet
             sein.
             <br />
             Die Registrierung dafür wird aktuell noch vorbereitet. Schreibt uns einfach eine E-Mail
