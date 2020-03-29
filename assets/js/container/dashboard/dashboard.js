@@ -41,7 +41,7 @@ class Dashboard extends React.Component {
     this.fetchData();
   }
 
-  renderTale() {
+  renderTable() {
     const { data } = this.state;
 
     if (!data || !data.orders) {
@@ -134,7 +134,7 @@ class Dashboard extends React.Component {
             <h6>{user.email}</h6>
           </div>
         </div>
-        {this.renderTale()}
+        {this.renderTable()}
       </div>
     )
   }
