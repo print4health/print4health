@@ -4,13 +4,57 @@ import axios from 'axios';
 import AppContext from '../../context/app-context';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-import { Form, Button, Row, Col, InputGroup } from 'react-bootstrap';
+import { Form, Button, Row, Col, InputGroup, Alert } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 function RegistrationForm() {
+
+  let showForm = true;
+  const alert = {
+    show: false,
+    status: null,
+    message: '',
+  };
 
   const { register, errors, handleSubmit } = useForm();
   const onSubmit = data => {
     console.log(data);
+
+    alert.show = false;
+
+    axios.post(Config.apiBasePath + '/maker/registration', data)
+      .then((res) => {
+        if (res.data.id) {
+          showForm = false;
+        }
+      })
+      .catch((srvErr) => {
+        if (typeof (srvErr.response) === 'undefined') {
+          console.log(srvErr);
+          return;
+        }
+        const response = srvErr.response;
+        if (response.status === 422) {
+
+          alert.show = true;
+          alert.status = response.status;
+          alert.message = 'Die Registrierung konnte nicht abgeschlossen werden. Bitte überprüfe die Daten in den Eingabefeldern.';
+
+          // todo make hook or component for this for validation errors and more sophisticated? ;)
+          if (response.data.errors) {
+            for (const error of response.data.errors) {
+              if (error.hasOwnProperty('propertyPath')) {
+                errors[error.propertyPath] = error.message;
+              }
+            }
+          }
+
+        } else {
+          alert.show = true;
+          alert.status = response.status;
+          alert.message = response.statusText;
+        }
+      });
   };
 
   return (
@@ -22,6 +66,11 @@ function RegistrationForm() {
             Hier könnt ihr euch als Maker bei <span className="text-primary">print4health.org</span> registrieren.
             Bitte füllt das Formular gewissenhaft aus, denn schließlich geht es darum, Menschen zu helfen.
           </p>
+          {alert.show &&
+          <Alert variant="danger">
+            <strong>Fehler {alert.status}</strong>: {alert.message}
+          </Alert>}
+          {showForm &&
           <form onSubmit={handleSubmit(onSubmit)} className="mt-5 registration-form">
             <Form.Group as={Row} controlId="registerMakerName">
               <Form.Label column sm="2">Name*</Form.Label>
@@ -35,7 +84,7 @@ function RegistrationForm() {
                   zwischen den Institutionen, die Bedarf angemeldet haben. Mindestens fünf Zeichen sind erforderlich.
                   {errors.name &&
                   <Form.Control.Feedback type="invalid">
-                    test
+                    Dies ist ein Pflichtfeld. Bitte gib min. 5 Zeichen ein.
                   </Form.Control.Feedback>
                   }
                 </Form.Text>
@@ -58,6 +107,11 @@ function RegistrationForm() {
                 <Form.Text className="text-muted">
                   Bitte trage deine E-Mail Adresse ein. Sie wird verwendet um dein Passwort zurück zu setzen oder
                   damit Institutionen Kontakt mit dir aufnehmen können.
+                  {errors.email &&
+                  <Form.Control.Feedback type="invalid">
+                    Dies ist ein Pflichtfeld. Bitte gib deine E-Mail Adresse ein.
+                  </Form.Control.Feedback>
+                  }
                 </Form.Text>
               </Col>
             </Form.Group>
@@ -71,6 +125,11 @@ function RegistrationForm() {
                 <Form.Text className="text-muted">
                   Dein Passwort für print4health.org. Am besten du wählst ein langes mit vielen Sonderzeichen und es
                   steht nirgendwo im Wörterbuch.
+                  {errors.password &&
+                  <Form.Control.Feedback type="invalid">
+                    Dies ist ein Pflichtfeld. Dein Passwort sollte min. 8 Zeichen lang sein.
+                  </Form.Control.Feedback>
+                  }
                 </Form.Text>
               </Col>
             </Form.Group>
@@ -84,6 +143,11 @@ function RegistrationForm() {
                 <Form.Text className="text-muted">
                   Deine Postleitzahl wird verwendet um dich bei einer nächsten Version auf einer Karte anzuzeigen, damit
                   eine Einrichtung in deiner Nähe sehen kann, dass du zur Verfügung stehst.
+                  {errors.postalCode &&
+                  <Form.Control.Feedback type="invalid">
+                    Dies ist ein Pflichtfeld. Deine Postleitzahl sollte 4 oder 5 Zeichen lang sein.
+                  </Form.Control.Feedback>
+                  }
                 </Form.Text>
               </Col>
             </Form.Group>
@@ -96,6 +160,11 @@ function RegistrationForm() {
                               ref={register({ required: false, maxLength: 255 })} />
                 <Form.Text className="text-muted">
                   Das Land in dem du Wohnst (kein Pflichtfeld)
+                  {errors.addressState &&
+                  <Form.Control.Feedback type="invalid">
+                    Der Name deines Landes darf max. 255 Zeichen lang sein.
+                  </Form.Control.Feedback>
+                  }
                 </Form.Text>
               </Col>
             </Form.Group>
@@ -106,7 +175,7 @@ function RegistrationForm() {
                   <Form.Check
                     type="checkbox"
                     id="registerMakerConfirmedRuleForFree"
-                    name="registerMakerConfirmedRuleForFree"
+                    name="confirmedRuleForFree"
                     ref={register({ required: true })}
                   />
                   <Form.Text className="col-sm-11 flex-grow-1">
@@ -213,31 +282,14 @@ function RegistrationForm() {
                 </Button>
               </Col>
             </Row>
-            {/*
-                {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
-                <div className="form-group">
-                  <input name="password"
-                         type="password"
-                         placeholder="Passwort"
-                         className="form-control"
-                         required
-                         value={this.state.password}
-                         onChange={this.handleInputChange} />
-                </div>
-                <div className="form-group">
-                  <input name="repeatPassword"
-                         type="password"
-                         placeholder="Passwort wiederholen"
-                         className="form-control"
-                         required
-                         value={this.state.repeatPassword}
-                         onChange={this.handleInputChange} />
-                </div>
-                <div className="form-group">
-                  <input type="submit" className="btn btn-primary" value="Passwort aktualisieren" />
-                </div>
-                */}
           </form>
+          }
+          {showForm === false &&
+          <Alert variant="success">
+            Registrierung erfolgreich. Nun kannst du zum <Link to="/thing/list">Bedarf</Link> und Druckaufträge
+            Druckaufträge zusagen.
+          </Alert>
+          }
         </div>
       </div>
     </div>
@@ -255,7 +307,6 @@ class RegisterMaker extends React.Component {
       postalCode: null,
       error: '',
     };
-
   }
 
   static get propTypes() {
@@ -266,7 +317,18 @@ class RegisterMaker extends React.Component {
   }
 
   componentDidMount() {
+    if (this.context.user && this.context.user.id) {
+      // todo redirect to home?
+    }
   }
+
+  // MyRegistrationForm() {
+  //   const { register, errors, handleSubmit } = useForm();
+  //
+  //   return (
+  //     <div>test</div>
+  //   );
+  // };
 
   // handleSubmit = (e) => {
   //   this.setState({ error: '' });
@@ -298,7 +360,8 @@ class RegisterMaker extends React.Component {
   };
 
   render() {
-    return <RegistrationForm />;
+    // return <div>{this.MyRegistrationForm()}</div>;
+    return <RegistrationForm/>;
   }
 }
 
