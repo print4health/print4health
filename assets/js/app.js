@@ -145,8 +145,8 @@ class App extends React.Component {
                     </li>
                     <UserNav />
                     <li className="nav-item">
-                      <button onClick={() => changeLanguage('de')}>DE</button>
-                      <button onClick={() => changeLanguage('en')}>EN</button>
+                      <button className="btn" onClick={() => changeLanguage('de')}>DE</button>
+                      <button className="btn" onClick={() => changeLanguage('en')}>EN</button>
                     </li>
                   </Nav>
                 </Navbar.Collapse>
