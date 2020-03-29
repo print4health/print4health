@@ -29,6 +29,16 @@ const RegistrationForm = (props) => {
       <div className="row">
         <div className="col-md-8 offset-md-2">
           <h1>Maker Registrierung</h1>
+          <Alert variant="info" className="mt-3">
+            Um Bedarf anzumelden, müsst ihr als <strong>Krankenhaus, Arzt, soziale Einrichtung oder
+            Maker-Hub (<a href="https://www.makervsvirus.org/" target="_blank"
+                          rel="noopener noreferrer">MakerVsVirus</a>)</strong> angemeldet
+            sein.
+            <br />
+            Die Registrierung dafür wird aktuell noch vorbereitet. Schreibt uns einfach eine E-Mail
+            an <a href="mailto:contact@print4health.org">contact@print4health.org</a> dann kümmern wir uns so schnell
+            es geht darum.
+          </Alert>
           {alert.show &&
           <Alert variant="danger">
             <strong>Fehler {alert.status}</strong>: {alert.message}
