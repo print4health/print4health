@@ -62,3 +62,22 @@
         }
     }
 }
+
+.registration-form {
+    .form-check {
+        > input[type="checkbox"] {
+            margin-top: 0.5rem;
+        }
+    }
+
+    .invalid-feedback {
+        display: block;
+    }
+
+    small {
+        font-size: 1rem;
+    }
+    label {
+        margin-bottom: 0;
+    }
+}

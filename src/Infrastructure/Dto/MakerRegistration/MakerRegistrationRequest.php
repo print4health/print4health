@@ -23,7 +23,7 @@ class MakerRegistrationRequest
 
     /**
      * @Assert\NotBlank
-     * @Assert\Length(max=255)
+     * @Assert\Length(min=5, max=255)
      */
     public string $name;
 
