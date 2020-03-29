@@ -1,7 +1,6 @@
 import { Redirect, Route } from "react-router-dom";
 import React from "react";
 import PropTypes from "prop-types";
-import { set } from "react-ga";
 
 PrivateRoute.propTypes = {
   component: PropTypes.any,
