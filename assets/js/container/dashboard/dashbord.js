@@ -1,7 +1,7 @@
 import React from 'react';
 import AppContext from "../../context/app-context";
 
-class Dashbord extends React.Component {
+class Dashboard extends React.Component {
   constructor(props) {
     super(props);
 
