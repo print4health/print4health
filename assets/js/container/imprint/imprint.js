@@ -29,7 +29,7 @@ class Imprint extends React.Component {
               41469 Neuss</p>
             <h2>Kontakt</h2>
             <p>E-Mail: <a href="mailto: contact@print4health.org">contact@print4health.org</a></p>
-            <p>Telefon: 0160/9566 9630</p>
+            <p>Telefon: 02137 / 9275848</p>
             <h3>Haftung für Inhalte</h3>
             <p>Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf
               diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als
