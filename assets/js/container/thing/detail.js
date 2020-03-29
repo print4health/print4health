@@ -233,7 +233,7 @@ class ThingDetailContainer extends React.Component {
               <div className="media-body">
                 <button className="btn btn-outline-primary" onClick={this.openOrderModal}>
                   Bedarf anmelden
-                  <i className="fas fa-plus-circle fa-fw"></i>
+                  <i className="ml-2 fas fa-plus-circle fa-fw"></i>
                 </button>
               </div>
             </div>
