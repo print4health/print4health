@@ -50,8 +50,6 @@ class MakerController
      *     methods={"GET"},
      *     format="json"
      * )
-     *
-     * @IsGranted("ROLE_ADMIN")
      */
     public function listAction(): JsonResponse
     {
