@@ -37,6 +37,7 @@ class MakerUniqueEmailValidator extends ConstraintValidator
 
         $this->context->buildViolation($constraint->message)
             ->setParameter('{{ email }}', $value)
-            ->addViolation();
+            ->addViolation()
+        ;
     }
 }
