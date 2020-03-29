@@ -28,3 +28,6 @@ yarn-error.log
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+cypress/screenshots
+cypress/videos
