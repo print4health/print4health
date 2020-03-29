@@ -1,5 +1,4 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
 
 class DataPrivacyStatement extends React.Component {
   render() {
