@@ -4,7 +4,7 @@ import axios from 'axios';
 import AppContext from '../../context/app-context';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-import { Form, Button, Row, Col, InputGroup, Alert } from 'react-bootstrap';
+import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const RegistrationForm = (props) => {
