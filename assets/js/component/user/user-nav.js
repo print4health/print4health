@@ -3,6 +3,7 @@ import { Config } from '../../config';
 import axios from 'axios';
 import LoginModal from './../modal/login';
 import { NavLink } from 'react-router-dom';
+import AppContext from '../../context/app-context';
 
 class UserNav extends React.Component {
   constructor(props) {

@@ -218,13 +218,19 @@ const RegistrationForm = (props) => {
           {showForm === false &&
           <Alert variant="success">
             <strong>Registrierung erfolgreich!</strong>
-            <p className="mb-0">Nun kannst du dich Anmelden und zum <Link to="/thing/list">Bedarf</Link> und Druckaufträge Druckaufträge zusagen.</p>
+            <p className="mb-0">Nun kannst du dich Anmelden und zum <Link to="/thing/list">Bedarf</Link> und
+              Druckaufträge Druckaufträge zusagen.</p>
           </Alert>
           }
         </div>
       </div>
     </div>
   );
+};
+
+// satisfies eslint.. hmm
+RegistrationForm.propTypes = () => {
+  return {};
 };
 
 class RegisterMaker extends React.Component {
@@ -264,8 +270,8 @@ class RegisterMaker extends React.Component {
       .then((res) => {
         if (res.data && res.data.maker && res.data.maker.id) {
           this.setState({
-            showForm: false
-          })
+            showForm: false,
+          });
         }
       })
       .catch((srvErr) => {
@@ -284,7 +290,7 @@ class RegisterMaker extends React.Component {
           // todo make hook or component for this for validation errors and more sophisticated? ;)
           if (response.data.errors) {
             for (const error of response.data.errors) {
-              if (error.hasOwnProperty('propertyPath')) {
+              if (error && typeof (error.propertyPath) === 'string') {
                 errors[error.propertyPath] = error.message;
               }
             }
