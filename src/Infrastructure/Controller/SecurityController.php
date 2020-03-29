@@ -4,8 +4,11 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
+use App\Domain\PasswordRecovery\Mailer as PasswordRecoveryMailer;
+use App\Domain\User\NotFoundException;
 use App\Domain\User\Repository\UserRepository;
 use App\Domain\User\UserInterface;
+use App\Domain\User\UserRepositoryWrapper;
 use App\Infrastructure\Dto\User\ResetPassword;
 use App\Infrastructure\Dto\User\ResetPasswordTokenRequest;
 use App\Infrastructure\Dto\User\User as UserDto;
@@ -16,10 +19,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Router;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
@@ -32,7 +32,6 @@ class SecurityController
     private UserRepository $userRepository;
     private EntityManagerInterface $entityManager;
     private UserPasswordEncoderInterface $passwordEncoder;
-    private MailerInterface $mailer;
     private Environment $twig;
     private RouterInterface $router;
     private Security $security;
@@ -41,7 +40,6 @@ class SecurityController
         UserRepository $userRepository,
         EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder,
-        MailerInterface $mailer,
         Environment $twig,
         RouterInterface $router,
         Security $security
@@ -49,7 +47,6 @@ class SecurityController
         $this->userRepository = $userRepository;
         $this->entityManager = $entityManager;
         $this->passwordEncoder = $passwordEncoder;
-        $this->mailer = $mailer;
         $this->twig = $twig;
         $this->router = $router;
         $this->security = $security;
@@ -147,8 +144,11 @@ class SecurityController
      *     description="Malformed request, wrong content type or email not found"
      * )
      */
-    public function requestPasswordReset(Request $request): JsonResponse
-    {
+    public function requestPasswordReset(
+        Request $request,
+        PasswordRecoveryMailer $mailer,
+        UserRepositoryWrapper $userRepositoryWrapper
+    ): JsonResponse {
         if ('json' !== $request->getContentType()) {
             throw new BadRequestHttpException();
         }
@@ -180,27 +180,13 @@ class SecurityController
             return new JsonResponse(['errors' => $errors], 400);
         }
 
-        /** @var UserInterface|null $user */
-        $user = $this->userRepository->findOneByEmail($resetPasswordTokenRequest->email);
-        if (null === $user) {
+        try {
+            $user = $userRepositoryWrapper->findByEmail($resetPasswordTokenRequest->email);
+        } catch (NotFoundException $exception) {
             return new JsonResponse(['errors' => ['User not found']], 400);
         }
 
-        $user->createPasswordResetToken();
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
-        $url = $this->router->generate('home', [], Router::ABSOLUTE_URL);
-        $url .= '#/reset-password/' . $user->getPasswordResetToken();
-        $body = $this->twig->render('email/password_reset.txt.twig', ['url' => $url]);
-        $email = (new Email())
-            ->from('noreply@print4health.org')
-            ->to($resetPasswordTokenRequest->email)
-            ->subject('print4health Passwort zurücksetzen')
-            ->html($body)
-        ;
-
-        $this->mailer->send($email);
+        $mailer->send($user);
 
         return new JsonResponse(['status' => 'ok']);
     }
