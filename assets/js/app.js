@@ -36,6 +36,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       user: null,
+      initalUserCheck: false,
       alertMessage: null,
       alertClass: null,
       showLoginModal: false,
@@ -53,7 +54,10 @@ class App extends React.Component {
   }
 
   setUser(user) {
-    this.setState({ user });
+    this.setState({
+      user,
+      initalUserCheck: true
+    });
   }
 
   getCurrentUserRole() {
@@ -93,7 +97,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { user, alertMessage, alertClass, showLoginModal, showRequestPasswordResetModal, currentThing, order } = this.state;
+    const { initalUserCheck, user, alertMessage, alertClass, showLoginModal, showRequestPasswordResetModal, currentThing, order } = this.state;
 
     return (
       <AppContext.Provider
@@ -137,24 +141,26 @@ class App extends React.Component {
               </div>
             </Navbar>
           </header>
-          <main className="container py-5">
-            <DismissableAlert message={alertMessage} variant={alertClass} />
-            <Switch>
-              <PrivateRoute path="/dashboard" component={Dashboard} authed={user && Object.keys(user).length !== 0 && this.getCurrentUserRole() === "ROLE_REQUESTER"} setAlert={this.setAlert} user={user}/>
-              <Route path="/order/list" component={Index} />
-              <Route path="/order/map" component={Index} />
-              <Route path="/order/{id}" component={Index} />
-              <Route path="/thing/list" component={ThingListContainer} />
-              <Route path="/thing/:id" component={ThingDetailContainer} />
-              <Route path="/thing/:id/create-order" component={Index} />
-              <Route path="/faq" component={Faq} />
-              <Route path="/imprint" component={Imprint} />
-              <Route path="/data-privacy-statement" component={DataPrivacyStatement} />
-              <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
-              <Route path="/" component={Index} />
-            </Switch>
-            <PageView />
-          </main>
+          {initalUserCheck &&
+            <main className="container py-5">
+              <DismissableAlert message={alertMessage} variant={alertClass} />
+              <Switch>
+                <PrivateRoute path="/dashboard" component={Dashboard} authed={user && Object.keys(user).length !== 0 && this.getCurrentUserRole() === "ROLE_REQUESTER"} setAlert={this.setAlert} user={user}/>
+                <Route path="/order/list" component={Index} />
+                <Route path="/order/map" component={Index} />
+                <Route path="/order/{id}" component={Index} />
+                <Route path="/thing/list" component={ThingListContainer} />
+                <Route path="/thing/:id" component={ThingDetailContainer} />
+                <Route path="/thing/:id/create-order" component={Index} />
+                <Route path="/faq" component={Faq} />
+                <Route path="/imprint" component={Imprint} />
+                <Route path="/data-privacy-statement" component={DataPrivacyStatement} />
+                <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
+                <Route path="/" component={Index} />
+              </Switch>
+              <PageView />
+            </main>
+          }
           <Footer />
           <RequestPasswordResetModal />
         </Router>
