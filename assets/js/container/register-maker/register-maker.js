@@ -7,54 +7,18 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Row, Col, InputGroup, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-function RegistrationForm() {
+const RegistrationForm = (props) => {
 
-  let showForm = true;
-  const alert = {
-    show: false,
-    status: null,
-    message: '',
-  };
-
+  const { callback, alert, serverErrors, showForm } = props;
   const { register, errors, handleSubmit } = useForm();
-  const onSubmit = data => {
-    console.log(data);
 
-    alert.show = false;
-
-    axios.post(Config.apiBasePath + '/maker/registration', data)
-      .then((res) => {
-        if (res.data.id) {
-          showForm = false;
-        }
-      })
-      .catch((srvErr) => {
-        if (typeof (srvErr.response) === 'undefined') {
-          console.log(srvErr);
-          return;
-        }
-        const response = srvErr.response;
-        if (response.status === 422) {
-
-          alert.show = true;
-          alert.status = response.status;
-          alert.message = 'Die Registrierung konnte nicht abgeschlossen werden. Bitte überprüfe die Daten in den Eingabefeldern.';
-
-          // todo make hook or component for this for validation errors and more sophisticated? ;)
-          if (response.data.errors) {
-            for (const error of response.data.errors) {
-              if (error.hasOwnProperty('propertyPath')) {
-                errors[error.propertyPath] = error.message;
-              }
-            }
-          }
-
-        } else {
-          alert.show = true;
-          alert.status = response.status;
-          alert.message = response.statusText;
-        }
-      });
+  const printError = (error, message) => {
+    if (!error) {
+      return;
+    }
+    return (
+      <Form.Control.Feedback type="invalid">{message}</Form.Control.Feedback>
+    );
   };
 
   return (
@@ -71,7 +35,7 @@ function RegistrationForm() {
             <strong>Fehler {alert.status}</strong>: {alert.message}
           </Alert>}
           {showForm &&
-          <form onSubmit={handleSubmit(onSubmit)} className="mt-5 registration-form">
+          <form onSubmit={handleSubmit(callback)} className="mt-5 registration-form">
             <Form.Group as={Row} controlId="registerMakerName">
               <Form.Label column sm="2">Name*</Form.Label>
               <Col sm="10">
@@ -82,11 +46,8 @@ function RegistrationForm() {
                 <Form.Text className="text-muted">
                   Bitte trage deinen Namen ein. Er wird nicht öffentlich angezeigt und ist notwendig zur Vermittlung
                   zwischen den Institutionen, die Bedarf angemeldet haben. Mindestens fünf Zeichen sind erforderlich.
-                  {errors.name &&
-                  <Form.Control.Feedback type="invalid">
-                    Dies ist ein Pflichtfeld. Bitte gib min. 5 Zeichen ein.
-                  </Form.Control.Feedback>
-                  }
+                  {printError(errors.name, 'Dies ist ein Pflichtfeld. Bitte gib min. 5 Zeichen ein.')}
+                  {printError(serverErrors.name, serverErrors.name)}
                 </Form.Text>
               </Col>
             </Form.Group>
@@ -107,11 +68,8 @@ function RegistrationForm() {
                 <Form.Text className="text-muted">
                   Bitte trage deine E-Mail Adresse ein. Sie wird verwendet um dein Passwort zurück zu setzen oder
                   damit Institutionen Kontakt mit dir aufnehmen können.
-                  {errors.email &&
-                  <Form.Control.Feedback type="invalid">
-                    Dies ist ein Pflichtfeld. Bitte gib deine E-Mail Adresse ein.
-                  </Form.Control.Feedback>
-                  }
+                  {printError(errors.email, 'Dies ist ein Pflichtfeld. Bitte gib deine E-Mail Adresse ein.')}
+                  {printError(serverErrors.email, serverErrors.email)}
                 </Form.Text>
               </Col>
             </Form.Group>
@@ -124,12 +82,9 @@ function RegistrationForm() {
                               ref={register({ required: true, minLength: 8, maxLength: 255 })} />
                 <Form.Text className="text-muted">
                   Dein Passwort für print4health.org. Am besten du wählst ein langes mit vielen Sonderzeichen und es
-                  steht nirgendwo im Wörterbuch.
-                  {errors.password &&
-                  <Form.Control.Feedback type="invalid">
-                    Dies ist ein Pflichtfeld. Dein Passwort sollte min. 8 Zeichen lang sein.
-                  </Form.Control.Feedback>
-                  }
+                  steht nirgendwo im Wörterbuch oder ist leicht zu erraten.
+                  {printError(errors.password, 'Dies ist ein Pflichtfeld. Dein Passwort sollte min. 8 Zeichen lang sein.')}
+                  {printError(serverErrors.password, serverErrors.password)}
                 </Form.Text>
               </Col>
             </Form.Group>
@@ -143,11 +98,8 @@ function RegistrationForm() {
                 <Form.Text className="text-muted">
                   Deine Postleitzahl wird verwendet um dich bei einer nächsten Version auf einer Karte anzuzeigen, damit
                   eine Einrichtung in deiner Nähe sehen kann, dass du zur Verfügung stehst.
-                  {errors.postalCode &&
-                  <Form.Control.Feedback type="invalid">
-                    Dies ist ein Pflichtfeld. Deine Postleitzahl sollte 4 oder 5 Zeichen lang sein.
-                  </Form.Control.Feedback>
-                  }
+                  {printError(errors.postalCode, 'Dies ist ein Pflichtfeld. Deine Postleitzahl sollte 4 oder 5 Zeichen lang sein.')}
+                  {printError(serverErrors.postalCode, serverErrors.postalCode)}
                 </Form.Text>
               </Col>
             </Form.Group>
@@ -160,21 +112,18 @@ function RegistrationForm() {
                               ref={register({ required: false, maxLength: 255 })} />
                 <Form.Text className="text-muted">
                   Das Land in dem du Wohnst (kein Pflichtfeld)
-                  {errors.addressState &&
-                  <Form.Control.Feedback type="invalid">
-                    Der Name deines Landes darf max. 255 Zeichen lang sein.
-                  </Form.Control.Feedback>
-                  }
+                  {printError(errors.addressState, 'Der Name deines Landes darf max. 255 Zeichen lang sein.')}
+                  {printError(serverErrors.addressState, serverErrors.addressState)}
                 </Form.Text>
               </Col>
             </Form.Group>
             <Row>
               <Col sm={{ offset: 2 }}>
                 <h3>Einverständniserklärungen</h3>
-                <Form.Group className="d-flex" controlId="registerMakerConfirmedRuleForFree">
+                <Form.Group className="d-flex" controlId="confirmedRuleForFree">
                   <Form.Check
                     type="checkbox"
-                    id="registerMakerConfirmedRuleForFree"
+                    id="confirmedRuleForFree"
                     name="confirmedRuleForFree"
                     ref={register({ required: true })}
                   />
@@ -185,13 +134,9 @@ function RegistrationForm() {
                       Einrichtungen sowie medizinisches Personal herzustellen, die auf dieser Internetpräsenz
                       registriert sind.
                     </Form.Label>
-                    {errors.registerMakerConfirmedRuleForFree &&
-                    <Form.Control.Feedback type="invalid">
-                      Bitte akzeptiere alle unsere Bedingungen für die Plattform.
-                    </Form.Control.Feedback>
-                    }
+                    {printError(errors.confirmedRuleForFree, 'Bitte akzeptiere alle unsere Bedingungen für die Plattform.')}
+                    {printError(serverErrors.confirmedRuleForFree, serverErrors.confirmedRuleForFree)}
                   </Form.Text>
-                  <div className="clearfix"></div>
                 </Form.Group>
                 <Form.Group className="d-flex" controlId="confirmedRuleMaterialAndTransport">
                   <Form.Check
@@ -206,11 +151,8 @@ function RegistrationForm() {
                       ich mit den vermittelten Krankenhäusern und sonstigen medizinischen und sozialen Einrichtungen
                       sowie medizinischem Personal unmittelbar treffen.
                     </Form.Label>
-                    {errors.confirmedRuleMaterialAndTransport &&
-                    <Form.Control.Feedback type="invalid">
-                      Bitte akzeptiere alle unsere Bedingungen für die Plattform.
-                    </Form.Control.Feedback>
-                    }
+                    {printError(errors.confirmedRuleMaterialAndTransport, 'Bitte akzeptiere alle unsere Bedingungen für die Plattform.')}
+                    {printError(serverErrors.confirmedRuleMaterialAndTransport, serverErrors.confirmedRuleMaterialAndTransport)}
                   </Form.Text>
                 </Form.Group>
                 <Form.Group className="d-flex" controlId="confirmedPlattformIsContactOnly">
@@ -226,11 +168,8 @@ function RegistrationForm() {
                       medizinischen und sozialen Einrichtungen sowie medizinischem Personal einerseits und privaten
                       3D-Druckern und Designern von 3D-Druck-Bauplänen andererseits vermittelt.
                     </Form.Label>
-                    {errors.confirmedPlattformIsContactOnly &&
-                    <Form.Control.Feedback type="invalid">
-                      Bitte akzeptiere alle unsere Bedingungen für die Plattform.
-                    </Form.Control.Feedback>
-                    }
+                    {printError(errors.confirmedPlattformIsContactOnly, 'Bitte akzeptiere alle unsere Bedingungen für die Plattform.')}
+                    {printError(serverErrors.confirmedPlattformIsContactOnly, serverErrors.confirmedPlattformIsContactOnly)}
                   </Form.Text>
                 </Form.Group>
                 <Form.Group className="d-flex" controlId="confirmedNoAccountability">
@@ -249,11 +188,8 @@ function RegistrationForm() {
                       </ul>
                       übernimmt.
                     </Form.Label>
-                    {errors.confirmedNoAccountability &&
-                    <Form.Control.Feedback type="invalid">
-                      Bitte akzeptiere alle unsere Bedingungen für die Plattform.
-                    </Form.Control.Feedback>
-                    }
+                    {printError(errors.confirmedNoAccountability, 'Bitte akzeptiere alle unsere Bedingungen für die Plattform.')}
+                    {printError(serverErrors.confirmedNoAccountability, serverErrors.confirmedNoAccountability)}
                   </Form.Text>
                 </Form.Group>
                 <Form.Group className="d-flex" controlId="confirmedPersonalDataTransferToRequester">
@@ -270,42 +206,39 @@ function RegistrationForm() {
                       registrierte Krankenhäuser und sonstige medizinische und soziale Einrichtungen sowie medizinisches
                       Personal stimme ich ausdrücklich zu.
                     </Form.Label>
-                    {errors.confirmedPersonalDataTransferToRequester &&
-                    <Form.Control.Feedback type="invalid">
-                      Bitte akzeptiere alle unsere Bedingungen für die Plattform.
-                    </Form.Control.Feedback>
-                    }
+                    {printError(errors.confirmedPersonalDataTransferToRequester, 'Bitte akzeptiere alle unsere Bedingungen für die Plattform.')}
+                    {printError(serverErrors.confirmedPersonalDataTransferToRequester, serverErrors.confirmedPersonalDataTransferToRequester)}
                   </Form.Text>
                 </Form.Group>
-                <Button variant="primary" type="submit">
-                  Als Maker Registrieren
-                </Button>
+                <Button variant="primary" type="submit">Als Maker Registrieren</Button>
               </Col>
             </Row>
           </form>
           }
           {showForm === false &&
           <Alert variant="success">
-            Registrierung erfolgreich. Nun kannst du zum <Link to="/thing/list">Bedarf</Link> und Druckaufträge
-            Druckaufträge zusagen.
+            <strong>Registrierung erfolgreich!</strong>
+            <p className="mb-0">Nun kannst du dich Anmelden und zum <Link to="/thing/list">Bedarf</Link> und Druckaufträge Druckaufträge zusagen.</p>
           </Alert>
           }
         </div>
       </div>
     </div>
   );
-}
+};
 
 class RegisterMaker extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      email: '',
-      password: '',
-      postalCode: null,
-      error: '',
+      showForm: true,
+      alert: {
+        show: false,
+        status: null,
+        message: '',
+      },
+      serverErrors: {},
     };
   }
 
@@ -322,46 +255,56 @@ class RegisterMaker extends React.Component {
     }
   }
 
-  // MyRegistrationForm() {
-  //   const { register, errors, handleSubmit } = useForm();
-  //
-  //   return (
-  //     <div>test</div>
-  //   );
-  // };
+  onSubmit = (data) => {
+    console.log(data);
 
-  // handleSubmit = (e) => {
-  //   this.setState({ error: '' });
-  //   const self = this;
-  //   e.preventDefault();
-  //
-  //   if (this.state.password !== this.state.repeatPassword) {
-  //     this.setState({
-  //       error: 'Passwörter stimmen nicht überein.',
-  //     });
-  //     return false;
-  //   }
+    const alert = {};
 
-  // axios.post(Config.apiBasePath + '/maker/registration', this.state)
-  //   .then(function () {
-  //     self.context.setAlert('Das Passwort wurde erfolgreich geändert.', 'success');
-  //   })
-  //   .catch(function (error) {
-  //     self.setState({
-  //       error: error.response.data.errors.join(', '),
-  //     });
-  //   });
-  // }
+    axios.post(Config.apiBasePath + '/maker/registration', data)
+      .then((res) => {
+        if (res.data && res.data.maker && res.data.maker.id) {
+          this.setState({
+            showForm: false
+          })
+        }
+      })
+      .catch((srvErr) => {
+        if (typeof (srvErr.response) === 'undefined') {
+          console.log(srvErr);
+          return;
+        }
+        const response = srvErr.response;
+        if (response.status === 422) {
 
-  handleInputChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+          alert.show = true;
+          alert.status = response.status;
+          alert.message = 'Die Registrierung konnte nicht abgeschlossen werden. Bitte überprüfe die Daten in den Eingabefeldern.';
+
+          let errors = {};
+          // todo make hook or component for this for validation errors and more sophisticated? ;)
+          if (response.data.errors) {
+            for (const error of response.data.errors) {
+              if (error.hasOwnProperty('propertyPath')) {
+                errors[error.propertyPath] = error.message;
+              }
+            }
+          }
+          this.setState({
+            alert: alert,
+            serverErrors: errors,
+          });
+
+        } else {
+          alert.show = true;
+          alert.status = response.status;
+          alert.message = response.statusText;
+        }
+      });
   };
 
   render() {
-    // return <div>{this.MyRegistrationForm()}</div>;
-    return <RegistrationForm/>;
+    const { showForm, alert, serverErrors } = this.state;
+    return <RegistrationForm callback={this.onSubmit} alert={alert} serverErrors={serverErrors} showForm={showForm} />;
   }
 }
 
