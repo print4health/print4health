@@ -32,6 +32,6 @@ class MakerRequest
 
     public ?string $addressCity = null;
     public ?string $addressState = null;
-    public ?string $latitude = null;
-    public ?string $longitude = null;
+    public ?float $latitude = null;
+    public ?float $longitude = null;
 }

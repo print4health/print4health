@@ -23,9 +23,9 @@ class MakerResponse
     /** @SWG\Property(type="string") */
     public ?string $addressState;
     /** @SWG\Property(type="float") */
-    public ?string $latitude;
+    public ?float $latitude;
     /** @SWG\Property(type="float") */
-    public ?string $longitude;
+    public ?float $longitude;
 
     public static function createFromMaker(?Maker $maker): self
     {

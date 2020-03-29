@@ -45,8 +45,8 @@ class MakerRegistrationRequest
     public ?string $addressState = null;
 
     /**
-      * @Assert\Type(type="numeric")
-      */
+     * @Assert\Type(type="numeric")
+     */
     public ?float $latitude = null;
 
     /**

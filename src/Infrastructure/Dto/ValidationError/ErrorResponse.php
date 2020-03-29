@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Dto\ValidationError;
 
-use Symfony\Component\Validator\ConstraintViolationInterface;
 use Swagger\Annotations as SWG;
+use Symfony\Component\Validator\ConstraintViolationInterface;
 
 class ErrorResponse
 {

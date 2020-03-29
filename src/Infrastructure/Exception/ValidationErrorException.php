@@ -10,8 +10,8 @@ use Throwable;
 
 class ValidationErrorException extends \RuntimeException
 {
-     /**
-     * @var ConstraintViolationListInterface<int, ConstraintViolationInterface>
+    /**
+     * @var ConstraintViolationListInterface|ConstraintViolationInterface[]
      */
     private ConstraintViolationListInterface $errors;
 
@@ -20,10 +20,9 @@ class ValidationErrorException extends \RuntimeException
     /**
      * ValidationErrorException constructor.
      *
-     * @param ConstraintViolationListInterface<int, ConstraintViolationInterface> $errors
-     * @param string $type
-     * @param string $message
-     * @param int $code
+     * @param string    $type
+     * @param string    $message
+     * @param int       $code
      * @param Throwable $previous
      */
     public function __construct(
@@ -38,9 +37,6 @@ class ValidationErrorException extends \RuntimeException
         $this->type = $type;
     }
 
-    /**
-     * @return ConstraintViolationListInterface<int, ConstraintViolationInterface>
-     */
     public function getErrors(): ConstraintViolationListInterface
     {
         return $this->errors;
