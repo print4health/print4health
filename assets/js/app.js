@@ -25,6 +25,7 @@ import DataPrivacyStatement from './container/data-privacy-statement/data-privac
 import PageView from './component/page-view/page-view.js';
 import { Config } from './config';
 import { Nav, Navbar } from 'react-bootstrap';
+import RegisterMaker from './container/register-maker/register-maker';
 import { withTranslation, changeLanguage } from 'react-i18next';
 
 const ROLE_USER = 'ROLE_USER';
@@ -166,6 +167,7 @@ class App extends React.Component {
                 <Route path="/imprint" component={Imprint} />
                 <Route path="/data-privacy-statement" component={DataPrivacyStatement} />
                 <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
+                <Route path="/register/maker" component={RegisterMaker} />
                 <Route path="/" component={Index} />
               </Switch>
               <PageView />

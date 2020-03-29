@@ -16,7 +16,7 @@
         position: relative;
         vertical-align: middle;
 
-        .btn {
+        .btn-large {
             right: 0;
             position: absolute;
             font-size: 3rem;
@@ -30,7 +30,7 @@
         }
 
         &:hover {
-            .btn {
+            .btn-large {
                 &:not([disabled]) {
                     transform: scale(1.1);
                 }
@@ -39,10 +39,14 @@
 
         &:hover {
             &:hover {
-                .btn {
+                .btn-large {
                     transform: scale(1.1);
                 }
             }
+        }
+
+        &.requests {
+            line-height: 3rem;
         }
     }
 
@@ -60,5 +64,24 @@
                 background-color: $light;
             }
         }
+    }
+}
+
+.registration-form {
+    .form-check {
+        > input[type="checkbox"] {
+            margin-top: 0.5rem;
+        }
+    }
+
+    .invalid-feedback {
+        display: block;
+    }
+
+    small {
+        font-size: 1rem;
+    }
+    label {
+        margin-bottom: 0;
     }
 }

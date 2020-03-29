@@ -114,7 +114,7 @@ class OrderModal extends React.Component {
       </Modal.Body>
       <Modal.Footer>
         <input type="submit"
-               className="btn btn-primary"
+               className="btn btn-light"
                value={t('info.button')}
                onClick={this.onHide} />
       </Modal.Footer>
