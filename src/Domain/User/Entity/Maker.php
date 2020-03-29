@@ -8,9 +8,11 @@ use App\Domain\User\UserInterface;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * @ORM\Entity(repositoryClass="App\Domain\User\Repository\MakerRepository")
+ * @ORM\Entity
+ * @UniqueEntity("email")
  */
 class Maker implements UserInterface
 {
@@ -69,12 +71,12 @@ class Maker implements UserInterface
     /**
      * @ORM\Column(name="latitude", type="decimal", precision=20, scale=16, nullable=true)
      */
-    private ?string $latitude = null;
+    private ?float $latitude = null;
 
     /**
      * @ORM\Column(name="longitude", type="decimal", precision=20, scale=16, nullable=true)
      */
-    private ?string $longitude = null;
+    private ?float $longitude = null;
 
     public function __construct(string $email, string $name)
     {
@@ -213,22 +215,22 @@ class Maker implements UserInterface
         $this->addressState = $addressState;
     }
 
-    public function getLatitude(): ?string
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
 
-    public function setLatitude(?string $latitude): void
+    public function setLatitude(?float $latitude): void
     {
         $this->latitude = $latitude;
     }
 
-    public function getLongitude(): ?string
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
 
-    public function setLongitude(?string $longitude): void
+    public function setLongitude(?float $longitude): void
     {
         $this->longitude = $longitude;
     }

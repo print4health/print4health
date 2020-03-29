@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
-class RequesterNotFoundException extends \RuntimeException implements \App\Domain\Exception\NotFoundException
+use App\Domain\Exception\NotFoundException as DomainNotFoundException;
+
+class RequesterNotFoundException extends DomainNotFoundException
 {
     public function __construct(string $id)
     {
