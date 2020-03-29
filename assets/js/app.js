@@ -140,7 +140,7 @@ class App extends React.Component {
           <main className="container py-5">
             <DismissableAlert message={alertMessage} variant={alertClass} />
             <Switch>
-              <PrivateRoute path="/dashbord" component={Dashbord} authed={user && Object.keys(user).length !== 0 && this.getCurrentUserRole() === "ROLE_REQUESTER"} user={user}/>
+              <PrivateRoute path="/dashboard" component={Dashboard} authed={user && Object.keys(user).length !== 0 && this.getCurrentUserRole() === "ROLE_REQUESTER"} user={user}/>
               <Route path="/order/list" component={Index} />
               <Route path="/order/map" component={Index} />
               <Route path="/order/{id}" component={Index} />
