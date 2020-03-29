@@ -1,0 +1,19 @@
+{
+  "title": {
+    "part1": "Bedarf für",
+    "part2": "eintragen",
+  },
+  "info": {
+    "part1": "Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, meldet euch unter",
+    "part2": "und wir erstellen euch einen Account.",
+    "part3": "Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an um Bedarf einzutragen.",
+    "button": "OK"
+  },
+  "form": {
+    "part1": "Bitte trage die Anzahl ein, die ihr aktuell wirklich benötigt.",
+    "part2": "Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile bestellen.",
+    "input": "Anzahl",
+    "label": "Anzahl der benötigten Teile",
+    "button": "Bedarf eintragen"
+  }
+}

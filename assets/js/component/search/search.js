@@ -1,6 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
+import { withTranslation } from 'react-i18next';
+
+function SearchPlaceholder() {
+  const { t, i18n } = useTranslation('searchbar');
+  return(t('searchbar'));
+}
 
 class Search extends React.Component {
   constructor(props) {
@@ -24,12 +30,13 @@ class Search extends React.Component {
   }
 
   render() {
+    const { t, i18n } = this.props;
     return (
       <div className="Search input-group">
         <input
           type="text"
           className="form-control"
-          placeholder="Suche nach Produkten ..."
+          placeholder={t('searchbar')}
           aria-describedby="lupe"
           onChange={this.handleInputChange}
         />
@@ -43,4 +50,4 @@ class Search extends React.Component {
   }
 }
 
-export default Search;
+export default withTranslation('searchbar')(Search);

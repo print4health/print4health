@@ -2,6 +2,7 @@ import React from 'react';
 import AppContext from '../../context/app-context';
 import { Button, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 class OrderModal extends React.Component {
   constructor(props) {
@@ -64,22 +65,23 @@ class OrderModal extends React.Component {
   };
 
   renderForm() {
+    const { t, i18n } = this.props;
     return <>
       <Modal.Body>
         <p>
-          Bitte trage die Anzahl ein, die ihr aktuell wirklich benötigt.
+          {t('form.part1')}
         </p>
         <p>
-          Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile bestellen.
+          {t('form.part2')}
         </p>
 
         <InputGroup className="mb-3">
           <FormControl
             type="number"
             name="quantity"
-            placeholder="Anzahl"
+            placeholder={t('form.input')}
             required
-            aria-label="Anzahl der benötigten Teile"
+            aria-label={t('form.label')}
             aria-describedby="basic-addon2"
             value={this.state.quantity}
             onChange={this.handleInputChange}
@@ -93,7 +95,7 @@ class OrderModal extends React.Component {
       </Modal.Body>
       <Modal.Footer>
         <Button type="submit" variant="outline-primary" disabled={this.state.quantity <= 0}>
-          Bedarf eintragen
+          {t('form.button')}
           <i className="fas fa-plus-circle fa-fw"></i>
         </Button>
       </Modal.Footer>
@@ -101,19 +103,19 @@ class OrderModal extends React.Component {
   }
 
   renderInfo() {
+    const { t, i18n } = this.props;
     return <>
       <Modal.Body>
         <p>
-          Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, meldet euch unter <a
-          href="mailto: contact@print4health.org">contact@print4health.org</a> und wir erstellen euch einen Account.
+          {t('info.part1')} <a
+          href="mailto: contact@print4health.org">contact@print4health.org</a> {t('info.part2')}
         </p>
-        <p>Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an um Bedarf
-          einzutragen.</p>
+        <p>{t('info.part3')}</p>
       </Modal.Body>
       <Modal.Footer>
         <input type="submit"
                className="btn btn-primary"
-               value="OK"
+               value={t('info.button')}
                onClick={this.onHide} />
       </Modal.Footer>
     </>;
@@ -121,6 +123,7 @@ class OrderModal extends React.Component {
 
   render() {
     const { show, thing } = this.state;
+    const { t, i18n } = this.props;
     return (
       <Modal
         show={show}
@@ -129,7 +132,7 @@ class OrderModal extends React.Component {
         animation={true}>
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Bedarf für &quot;{thing.name}&quot; eintragen</Modal.Title>
+            <Modal.Title>{t('title.part1')} &quot;{thing.name}&quot; {t('title.part2')}</Modal.Title>
           </Modal.Header>
           {this.context.getCurrentUserRole() === 'ROLE_REQUESTER' ? this.renderForm() : this.renderInfo()}
         </form>
@@ -140,4 +143,4 @@ class OrderModal extends React.Component {
 
 OrderModal.contextType = AppContext;
 
-export default OrderModal;
+export default withTranslation('order')(OrderModal);

@@ -25,6 +25,7 @@ import DataPrivacyStatement from './container/data-privacy-statement/data-privac
 import PageView from './component/page-view/page-view.js';
 import { Config } from './config';
 import { Nav, Navbar } from 'react-bootstrap';
+import { withTranslation, changeLanguage } from 'react-i18next';
 
 const ROLE_USER = 'ROLE_USER';
 const ROLE_MAKER = 'ROLE_MAKER';
@@ -99,6 +100,12 @@ class App extends React.Component {
   render() {
     const { initalUserCheck, user, alertMessage, alertClass, showLoginModal, showRequestPasswordResetModal, currentThing, order } = this.state;
 
+    const { t, i18n } = this.props;
+
+    const changeLanguage = lng => {
+      i18n.changeLanguage(lng);
+    };
+
     return (
       <AppContext.Provider
         value={{
@@ -122,20 +129,23 @@ class App extends React.Component {
             </Link>
             <Navbar expand="lg">
               <div className="container font-weight-bold text-uppercase">
-
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="mb-0 w-100 list-unstyled d-flex justify-content-around">
                     <li className="nav-item">
-                      <NavLink className="nav-link" activeClassName="text-primary" exact to="/">Start</NavLink>
+                      <NavLink className="nav-link" activeClassName="text-primary" exact to="/">{t('start')}</NavLink>
                     </li>
                     <li className="nav-item">
-                      <NavLink className="nav-link" activeClassName="text-primary" to="/thing/list">Bedarf</NavLink>
+                      <NavLink className="nav-link" activeClassName="text-primary" to="/thing/list">{t('need')}</NavLink>
                     </li>
                     <li className="nav-item">
-                      <NavLink className="nav-link" activeClassName="text-primary" to="/faq">FAQ</NavLink>
+                      <NavLink className="nav-link" activeClassName="text-primary" to="/faq">{t('faq')}</NavLink>
                     </li>
                     <UserNav />
+                    <li className="nav-item">
+                      <button onClick={() => changeLanguage('de')}>DE</button>
+                      <button onClick={() => changeLanguage('en')}>EN</button>
+                    </li>
                   </Nav>
                 </Navbar.Collapse>
               </div>
@@ -169,4 +179,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withTranslation('navbar')(App);
