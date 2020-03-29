@@ -2,14 +2,13 @@ import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
 import LoginModal from './../modal/login';
-import AppContext from '../../context/app-context';
 import { NavLink } from "react-router-dom";
 
 class UserNav extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        loginModal: false
+      loginModal: false,
     };
 
     this.handleLogout = this.handleLogout.bind(this);
@@ -56,18 +55,23 @@ class UserNav extends React.Component {
 
     return (
       <React.Fragment>
+        <li className="nav-item">
         <span>
           <a href="#"
              className="nav-link"
              onClick={(e) => {
                e.preventDefault();
-               this.setState({loginModal: true})
+               this.setState({ loginModal: true });
              }}
           >
             Anmelden
           </a>
          </span>
-        {this.state.loginModal && <LoginModal onClose={() => this.setState({loginModal: false})}/>}
+        </li>
+        <li className="nav-item">
+          <NavLink className="nav-link" activeClassName="text-primary" exact to="/register/maker">Registrieren</NavLink>
+        </li>
+        {this.state.loginModal && <LoginModal onClose={() => this.setState({ loginModal: false })} />}
       </React.Fragment>
     );
   }
