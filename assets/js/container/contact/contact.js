@@ -3,9 +3,7 @@ import axios from 'axios';
 import { Config } from '../../config';
 import { Alert,
          Button,
-         Form,
-         FormControl,
-         FormGroup } from 'react-bootstrap';
+         Form } from 'react-bootstrap';
 
 class Contact extends React.Component {
 
@@ -52,12 +50,12 @@ class Contact extends React.Component {
 
   postForm(data) {
     axios.post(Config.apiBasePath + '/contact-form', data)
-      .then((res) => {
+      .then(() => {
         this.setState({
           response: { code: 200, msg: "Thank you for your message! We will get back to you as soon as possible." },
         });
       })
-      .catch((error) => {
+      .catch(() => {
         this.setState({
           response: { code: 500, error: "Something went wrong, please send us an email directly at contact@print4health.org." },
         });
