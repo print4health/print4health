@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Domain\Commitment\Entity\Commitment;
 use App\Domain\Commitment\Repository\CommitmentRepository;
 use App\Domain\Order\Entity\Order;
 use App\Domain\Order\Repository\OrderRepository;
 use App\Domain\Thing\Entity\Thing;
 use App\Domain\Thing\Repository\ThingRepository;
-use App\Domain\User\CommitmentNotFoundException;
-use App\Domain\User\Entity\Maker;
 use App\Domain\User\Entity\Requester;
-use App\Domain\User\MakerNotFoundException;
 use App\Domain\User\Repository\MakerRepository;
 use App\Domain\User\Repository\RequesterRepository;
 use App\Domain\User\RequesterNotFoundException;
@@ -42,6 +38,8 @@ class OrderController
     private OrderRepository $orderRepository;
     private ThingRepository $thingRepository;
     private RequesterRepository $requesterRepository;
+    private MakerRepository $makerRepository;
+    private CommitmentRepository $commitmentRepository;
 
     public function __construct(
         SerializerInterface $serializer,
@@ -162,10 +160,6 @@ class OrderController
     {
         $maker = $this->makerRepository->find(Uuid::fromString($makerId));
 
-        if (!$maker instanceof Maker) {
-            throw new MakerNotFoundException($makerId);
-        }
-
         $commitments = $this->commitmentRepository->findBy(['maker' => $maker]);
 
         $response = ['orders' => []];
@@ -176,8 +170,6 @@ class OrderController
 
         return new JsonResponse($response);
     }
-
-
 
     /**
      * Retrieves the collection of Order resources.
