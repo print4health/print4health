@@ -4,12 +4,11 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
+use App\Domain\Contact\Mailer as ContactMailer;
 use Twig\Environment;
 
 class ContactController
@@ -37,42 +36,33 @@ class ContactController
      *     description="received contact form data",
      * )
      *
+     * @param Request $request
+     * @param ContactMailer $contactMailer
+     * @return JsonResponse
+     * @throws \Exception
      */
 
-    public function formDataAction(Request $request): JsonResponse
-    {
-        try {
-            $formData = json_decode($request->getContent());
-        } catch (NotEncodableValueException $notEncodableValueException) {
-            throw new BadRequestHttpException('No valid json', $notEncodableValueException);
-        }
+    public function formDataAction(
+        Request $request,
+        ContactMailer $contactMailer
+    ): JsonResponse {
 
         try {
             $params = $request->request->all();
             $file = $request->files->get('file');
 
-            $mailBody = $this->twig->render(
-                '/email/contact_form.html.twig',
-                $params);
-
-            $email = new Email();
-            $email->subject($params['subject']);
-            $email->html($mailBody);
-            $email->to($params['email']);
-            $email->bcc("contact@print4health.org");
-            $email->from("contact@print4health.org");
-
             if($file){
                 if($_FILES['file']['size'] <= 3000000) {
-                    $fileContent = file_get_contents($_FILES['file']['tmp_name']);
-                    $email->attach($fileContent, $file->getClientOriginalName());
+                    $params['filePath'] = $_FILES['file']['tmp_name'];
+                    $params['fileName'] = $_FILES['file'];
                 } else {
                     throw new \Exception("File larger than 3MB", 1);
                 }
             }
 
-            $this->mailer->send($email);
-        } catch (Exception $err) {
+            $contactMailer->send($params, $file);
+
+        } catch (\Exception $err) {
             throw new \Exception();
         }
 
