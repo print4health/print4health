@@ -6,10 +6,12 @@ describe('search thing list', function () {
     cy.initApiRoutes();
 
     cy.get('a.nav-link:contains("Bedarf")').click();
+    cy.server().route('GET', '/things').as('thingsList');
     cy.wait('@thingsList').its('status').should('be', 200);
 
     cy.get('.ThingListCard').should('have.length', 16);
     cy.get('.Search input').type('cane');
+    cy.server().route('GET', '/things/search/**').as('thingsSearch');
     cy.wait('@thingsSearch').its('status').should('be', 200);
     cy.get('.ThingListCard').should('have.length', 1);
 
