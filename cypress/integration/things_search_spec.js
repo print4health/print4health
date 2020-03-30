@@ -3,8 +3,6 @@ describe('search thing list', function () {
     cy.visit('http://192.168.222.12');
   });
   it('filter things', () => {
-    cy.initApiRoutes();
-
     cy.get('a.nav-link:contains("Bedarf")').click();
     cy.server().route('GET', '/things').as('thingsList');
     cy.wait('@thingsList').its('status').should('be', 200);

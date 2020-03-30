@@ -36,7 +36,6 @@ Cypress.Commands.add('logout', (email, pw) => {
 });
 
 Cypress.Commands.add('openCommitModal', (email, pw) => {
-  cy.initApiRoutes();
   cy.get('a.nav-link:contains("Bedarf")').click();
   cy.server().route('GET', '/things').as('thingsList');
   cy.wait('@thingsList').its('status').should('be', 200);
@@ -50,7 +49,6 @@ Cypress.Commands.add('openCommitModal', (email, pw) => {
 });
 
 Cypress.Commands.add('openOrderModal', (email, pw) => {
-  cy.initApiRoutes();
   cy.get('a.nav-link:contains("Bedarf")').click();
   cy.server().route('GET', '/things').as('thingsList');
   cy.wait('@thingsList').its('status').should('be', 200);
