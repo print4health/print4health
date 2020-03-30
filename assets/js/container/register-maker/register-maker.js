@@ -6,14 +6,22 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import postalCodes from 'postal-codes-js';
 
 const RegistrationForm = (props) => {
 
-  const { callback, alert, serverErrors, showForm } = props;
+  const { callback, alert, serverErrors, showForm, countries } = props;
   const { register, errors, watch, handleSubmit } = useForm();
 
   const password = useRef({});
   password.current = watch('password', '');
+
+  const country = useRef({});
+  country.current = watch('addressState', '');
+
+  const validatePostalCode = (postalCode) => {
+    return postalCodes.validate(country.current, postalCode);
+  };
 
   const printError = (error, message) => {
     if (!error) {
@@ -107,7 +115,7 @@ const RegistrationForm = (props) => {
                 <Form.Control type="password"
                               name="passwordRepeat"
                               placeholder="Wiederhole dein Passwort"
-                              ref={register({ validate: value => value === password.current || 'The passwords do not match' })} />
+                              ref={register({ validate: value => value === password.current })} />
                 <Form.Text className="text-muted">
                   Bitte gib zur Sicherheit dein Passwort zwei mal ein.
                   {printError(errors.passwordRepeat, 'Die Passwörter stimmen nicht überein')}
@@ -117,10 +125,10 @@ const RegistrationForm = (props) => {
             <Form.Group as={Row} controlId="registerMakerPostalCode">
               <Form.Label column sm="2">Postleitzahl*</Form.Label>
               <Col sm="10">
-                <Form.Control type="number"
+                <Form.Control type="text"
                               name="postalCode"
                               placeholder="Postleitzahl"
-                              ref={register({ required: true, minLength: 4, maxLength: 5 })} />
+                              ref={register({ validate: (val) => validatePostalCode(val) })}/>
                 <Form.Text className="text-muted">
                   Deine Postleitzahl wird verwendet um dich bei einer nächsten Version auf einer Karte anzuzeigen, damit
                   eine Einrichtung in deiner Nähe sehen kann, dass du zur Verfügung stehst.
@@ -135,7 +143,10 @@ const RegistrationForm = (props) => {
                 <Form.Control type="text"
                               name="addressState"
                               placeholder="Land"
-                              ref={register({ required: false, maxLength: 255 })} />
+                              as="select"
+                              ref={register({ required: true })} >
+                  { countries.map(({name, code}) => <option key={code} value={code}>{name}</option>)}
+                </Form.Control>
                 <Form.Text className="text-muted">
                   Das Land in dem du Wohnst (kein Pflichtfeld)
                   {printError(errors.addressState, 'Der Name deines Landes darf max. 255 Zeichen lang sein.')}
@@ -265,6 +276,7 @@ class RegisterMaker extends React.Component {
     super(props);
     this.state = {
       showForm: true,
+      countries: [],
       alert: {
         show: false,
         status: null,
@@ -335,8 +347,8 @@ class RegisterMaker extends React.Component {
   };
 
   render() {
-    const { showForm, alert, serverErrors } = this.state;
-    return <RegistrationForm callback={this.onSubmit} alert={alert} serverErrors={serverErrors} showForm={showForm} />;
+    const { showForm, alert, serverErrors, countries } = this.state;
+    return <RegistrationForm callback={this.onSubmit} alert={alert} serverErrors={serverErrors} showForm={showForm} countries={countries} />;
   }
 }
 
