@@ -31,17 +31,18 @@ class Mailer
 
         $email = new Email();
         $email->subject($params['subject'])
-              ->html($mailBody)
-              ->cc($params['email'])
-              ->to("contact@print4health.org")
-              ->from("contact@print4health.org");
-        
-        if(!empty($params['filePath']) && !empty($params['file'])) {
+            ->html($mailBody)
+            ->cc($params['email'])
+            ->to('contact@print4health.org')
+            ->from('contact@print4health.org')
+        ;
+
+        if (!empty($params['filePath']) && !empty($params['file'])) {
             $fileName = $params['file']->getClientOriginalName();
             $fileContent = file_get_contents($params['filePath']);
             $email->attach($fileContent, $fileName);
         }
-        
+
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $transportException) {
