@@ -7,10 +7,10 @@ describe('anonymous workflow', function () {
   });
   it('check that commit-modal only displays infotext', function () {
     cy.openCommitModal();
-    cy.get('input[value=OK]').click();
+    cy.get('input[value=Schließen]').click();
   });
   it('check that order-modal only displays infotext', function () {
     cy.openOrderModal();
-    cy.get('input[value=OK]').click();
+    cy.get('input[value=Schließen]').click();
   });
 });

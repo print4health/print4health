@@ -17,9 +17,12 @@ describe('maker workflow', function () {
   });
   it('check that order-modal only displays infotext', function () {
     cy.openOrderModal();
-    cy.get('input[value=OK]').click();
+    cy.get('input[value=Schließen]').click();
   });
   it('logout', function () {
     cy.logout();
+  });
+  it('reset password', () => {
+    cy.resetPassword('maker@print4health.org', 'my new password');
   });
 });
