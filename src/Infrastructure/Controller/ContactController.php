@@ -6,6 +6,7 @@ namespace App\Infrastructure\Controller;
 
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
+use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Mailer\MailerInterface;
 use App\Domain\Contact\Mailer as ContactMailer;
@@ -50,11 +51,13 @@ class ContactController
         try {
             $params = $request->request->all();
             $file = $request->files->get('file');
+            $params['filePath'] = null;
+            $params['file'] = null;
 
             if($file){
                 if($_FILES['file']['size'] <= 3000000) {
                     $params['filePath'] = $_FILES['file']['tmp_name'];
-                    $params['fileName'] = $_FILES['file'];
+                    $params['file'] = $file;
                 } else {
                     throw new \Exception("File larger than 3MB", 1);
                 }
@@ -63,7 +66,7 @@ class ContactController
             $contactMailer->send($params, $file);
 
         } catch (\Exception $err) {
-            throw new \Exception();
+            throw new \Exception($err);
         }
 
         return new JsonResponse(['status' => 'ok']);
