@@ -58,5 +58,5 @@ Cypress.Commands.add('openOrderModal', (email, pw) => {
   cy.title().should('eq', 'print4health - Bedarf & Ersatzteile');
   cy.get('h5.card-title').first().click();
   cy.wait('@thingsDetail').its('status').should('be', 200);
-  cy.get('.fa-plus-circle.text-primary').click();
+  cy.get('button:contains("Bedarf anmelden")').click();
 });

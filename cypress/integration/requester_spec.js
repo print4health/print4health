@@ -17,7 +17,7 @@ describe('requester workflow', function () {
   });
   it('check that commit modal only displays info text', function () {
     cy.openCommitModal();
-    cy.get('input[value=OK]').click();
+    cy.get('input[value=Schließen]').click();
   });
   it('logout', function () {
     cy.logout();
