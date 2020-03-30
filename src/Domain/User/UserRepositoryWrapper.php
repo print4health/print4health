@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User;
 
+use App\Domain\Exception\Maker\MakerNotFoundException;
 use App\Domain\User\Repository\MakerRepository;
 use App\Domain\User\Repository\RequesterRepository;
 use App\Domain\User\Repository\UserRepository;
@@ -27,10 +28,10 @@ class UserRepositoryWrapper
     public function findByEmail(string $email): UserInterface
     {
         /** @var UserInterface|null $user */
-        $user = $this->makerRepository->findOneByEmail($email);
+        try {
+            return $this->makerRepository->findOneByEmail($email);
+        }catch(MakerNotFoundException $exception) {
 
-        if ($user instanceof UserInterface) {
-            return $user;
         }
 
         $user = $this->userRepository->findOneByEmail($email);
