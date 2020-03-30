@@ -15,7 +15,7 @@ for (const command of ['visit', 'click', 'trigger', 'type', 'clear', 'reload', '
 
 Cypress.Commands.add('initApiRoutes', () => {
   cy.server().route('GET', '/things').as('thingsList');
-  cy.server().route('GET', '/things/**').as('thingsDetail');
+  cy.server().route('GET', '/things/search/**').as('thingsSearch');
 });
 
 Cypress.Commands.add('checkQuantityInput', (quantity) => {
