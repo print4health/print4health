@@ -66,7 +66,7 @@ class ContactController
             $contactMailer->send($params);
 
         } catch (\Exception $err) {
-            throw new \Exception($err);
+            throw new \Exception($err->getMessage());
         }
 
         return new JsonResponse(['status' => 'ok']);
