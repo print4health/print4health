@@ -27,11 +27,10 @@ class UserRepositoryWrapper
 
     public function findByEmail(string $email): UserInterface
     {
-        /** @var UserInterface|null $user */
+        /* @var UserInterface|null $user */
         try {
             return $this->makerRepository->findOneByEmail($email);
-        }catch(MakerNotFoundException $exception) {
-
+        } catch (MakerNotFoundException $exception) {
         }
 
         $user = $this->userRepository->findOneByEmail($email);
@@ -43,7 +42,6 @@ class UserRepositoryWrapper
         if ($user instanceof UserInterface) {
             return $user;
         }
-
         throw new NotFoundException(sprintf('User with email [%s] not found', $email));
     }
 }
