@@ -4,17 +4,24 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
+use App\Domain\Commitment\Entity\Commitment;
+use App\Domain\Commitment\Repository\CommitmentRepository;
 use App\Domain\Order\Entity\Order;
 use App\Domain\Order\Repository\OrderRepository;
 use App\Domain\Thing\Entity\Thing;
 use App\Domain\Thing\Repository\ThingRepository;
+use App\Domain\User\CommitmentNotFoundException;
+use App\Domain\User\Entity\Maker;
 use App\Domain\User\Entity\Requester;
+use App\Domain\User\MakerNotFoundException;
+use App\Domain\User\Repository\MakerRepository;
 use App\Domain\User\Repository\RequesterRepository;
 use App\Domain\User\RequesterNotFoundException;
 use App\Infrastructure\Dto\Order\OrderRequest;
 use App\Infrastructure\Dto\Order\OrderResponse;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -42,7 +49,9 @@ class OrderController
         Security $security,
         OrderRepository $orderRepository,
         ThingRepository $thingRepository,
-        RequesterRepository $requesterRepository
+        RequesterRepository $requesterRepository,
+        MakerRepository $makerRepository,
+        CommitmentRepository $commitmentRepository
     ) {
         $this->serializer = $serializer;
         $this->entityManager = $entityManager;
@@ -50,6 +59,8 @@ class OrderController
         $this->orderRepository = $orderRepository;
         $this->thingRepository = $thingRepository;
         $this->requesterRepository = $requesterRepository;
+        $this->makerRepository = $makerRepository;
+        $this->commitmentRepository = $commitmentRepository;
     }
 
     /**
@@ -125,6 +136,48 @@ class OrderController
 
         return new JsonResponse($response);
     }
+
+    /**
+     * Retrieves the collection of Order resources.
+     *
+     * @Route(
+     *     "/orders/maker/{makerId}",
+     *     name="order_maker_list",
+     *     methods={"GET"},
+     *     format="json"
+     * )
+     *
+     * @SWG\Tag(name="Maker")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Order collection response",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=OrderResponse::class))
+     *     )
+     * )
+     */
+    public function listByMakerAction(string $makerId): JsonResponse
+    {
+        $maker = $this->makerRepository->find(Uuid::fromString($makerId));
+
+        if (!$maker instanceof Maker) {
+            throw new MakerNotFoundException($makerId);
+        }
+
+        $commitments = $this->commitmentRepository->findBy(['maker' => $maker]);
+
+        $response = ['orders' => []];
+
+        foreach ($commitments as $commitment) {
+            $response['orders'][] = OrderResponse::createFromOrder($commitment->getOrder());
+        }
+
+        return new JsonResponse($response);
+    }
+
+
 
     /**
      * Retrieves the collection of Order resources.
