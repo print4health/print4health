@@ -17,9 +17,8 @@ class Contact extends React.Component {
           error: null,
           msg: ""
         }
-      }
+      };
 
-      this.formEl = React.createRef();
       this.fileField = React.createRef();
       this.onChangeHandler = this.onChangeHandler.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
