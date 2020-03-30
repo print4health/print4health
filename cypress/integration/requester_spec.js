@@ -22,4 +22,7 @@ describe('requester workflow', function () {
   it('logout', function () {
     cy.logout();
   });
+  it('reset password', () => {
+    cy.resetPassword('requester@print4health.org', 'my new password');
+  });
 });

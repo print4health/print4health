@@ -22,4 +22,7 @@ describe('maker workflow', function () {
   it('logout', function () {
     cy.logout();
   });
+  it('reset password', () => {
+    cy.resetPassword('maker@print4health.org', 'my new password');
+  });
 });
