@@ -297,11 +297,28 @@ class RegisterMaker extends React.Component {
     if (this.context.user && this.context.user.id) {
       // todo redirect to home?
     }
+
+    this.getCountryList("de");
+  }
+
+  getCountryList(lang) {
+    const url = `https://restcountries.eu/rest/v2/all?fields=alpha2Code;name;translations`;
+    const langIsSupported = ["de", "es", "fr", "ja", "it", "br", "pt"].includes(lang);
+
+    axios.get(url)
+      .then((result) => {
+        const data = result.data.map(({name, translations, alpha2Code}) => (
+          { name: lang === "en" || !langIsSupported? name : translations[lang],
+            code: alpha2Code,
+          }));
+
+        this.setState({countries: data});
+    }).catch(()=> {
+      console.log("error");
+    })
   }
 
   onSubmit = (data) => {
-    console.log(data);
-
     const alert = {};
 
     axios.post(Config.apiBasePath + '/maker/registration', data)
