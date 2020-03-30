@@ -6,7 +6,7 @@ namespace App\Domain\Exception\Maker;
 
 use App\Domain\Exception\NotFoundException;
 
-class MakerByRecoveryTokenNotFoundException extends NotFoundException
+class MakerByPasswordResetTokenNotFoundException extends NotFoundException
 {
     public function __construct(string $recoveryToken)
     {

@@ -22,4 +22,10 @@ class RequesterRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Requester::class);
     }
+
+    public function save(Requester $requester): void
+    {
+        $this->getEntityManager()->persist($requester);
+        $this->getEntityManager()->flush();
+    }
 }

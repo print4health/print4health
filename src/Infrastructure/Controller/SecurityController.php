@@ -30,10 +30,15 @@ use Twig\Environment;
 class SecurityController
 {
     private UserRepository $userRepository;
+
     private EntityManagerInterface $entityManager;
+
     private UserPasswordEncoderInterface $passwordEncoder;
+
     private Environment $twig;
+
     private RouterInterface $router;
+
     private Security $security;
 
     public function __construct(
@@ -217,7 +222,7 @@ class SecurityController
      *     description="Malformed request, wrong content type or token expired"
      * )
      */
-    public function resetPassword(Request $request): JsonResponse
+    public function resetPassword(Request $request, UserRepositoryWrapper $userRepositoryWrapper): JsonResponse
     {
         if ('json' !== $request->getContentType()) {
             throw new BadRequestHttpException();
@@ -252,7 +257,7 @@ class SecurityController
         }
 
         /** @var UserInterface|null $user */
-        $user = $this->userRepository->findOneByPasswordResetToken($resetPassword->token);
+        $user = $userRepositoryWrapper->findByPasswordResetToken($resetPassword->token);
         if (null === $user) {
             return new JsonResponse(['errors' => ['Invalid Token']], 400);
         }
