@@ -63,7 +63,7 @@ class ContactController
                 }
             }
 
-            $contactMailer->send($params, $file);
+            $contactMailer->send($params);
 
         } catch (\Exception $err) {
             throw new \Exception($err);
