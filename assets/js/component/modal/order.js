@@ -108,6 +108,7 @@ class OrderModal extends React.Component {
           href="mailto: contact@print4health.org">contact@print4health.org</a> und wir erstellen euch einen Zugang.
           Daraufhin könnt ihr euer Passwort setzen und Bestellungen anzeigen.
         </Alert>
+
         <p>Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an um Bedarf
           einzutragen.</p>
       </Modal.Body>
