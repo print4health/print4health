@@ -6,7 +6,7 @@ import {
   Link,
   NavLink,
 } from 'react-router-dom';
-import PrivateRoute from './component/security/PrivateRoute';
+import PrivateRoute from './security/PrivateRoute';
 import ReactGA from 'react-ga';
 import Index from './container/index/index';
 import UserNav from './component/user/user-nav';
