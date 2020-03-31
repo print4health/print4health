@@ -1,10 +1,9 @@
 import React from 'react';
-import { Config } from '../../config';
-import axios from 'axios';
 import AppContext from '../../context/app-context';
 import { Modal } from 'react-bootstrap';
 import ReactGA from 'react-ga';
 import PropTypes from 'prop-types';
+import { POST } from '../../security/Api'
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -29,24 +28,27 @@ class LoginModal extends React.Component {
     ReactGA.modalview('/login/show');
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     const { onClose } = this.props;
 
     this.setState({ error: '' });
     e.preventDefault();
     const context = this.context;
-    const self = this;
-    axios.post(Config.apiBasePath + '/login', this.state)
-      .then(function (res) {
-        context.setUser(res.data);
-        onClose();
-        context.setAlert('Herzlich Willkommen ' + res.data.email, 'success');
-      })
-      .catch(function (error) {
-        self.setState({
-          error: error.response.data.error,
-        });
-      });
+    const response = await POST('/login', this.state);
+    const data = await response.json();
+
+    if (response.status === 401) {
+      this.setState({error: 'Die Zugangsdaten sind nicht korrekt.'})
+      return;
+    }
+
+    if (response.status !== 200) {
+      throw new Error();
+    }
+
+    context.setUser(data);
+    onClose();
+    context.setAlert('Herzlich Willkommen ' + data.email, 'success');
   }
 
   handleInputChange(event) {

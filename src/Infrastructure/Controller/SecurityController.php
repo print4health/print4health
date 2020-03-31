@@ -253,13 +253,13 @@ class SecurityController
                 }
             }
 
-            return new JsonResponse(['errors' => $errors], 400);
+            return new JsonResponse(['errors' => $errors], 422);
         }
 
         /** @var UserInterface|null $user */
         $user = $userRepositoryWrapper->findByPasswordResetToken($resetPassword->token);
         if (null === $user) {
-            return new JsonResponse(['errors' => ['Invalid Token']], 400);
+            return new JsonResponse(['errors' => ['Invalid Token']], 422);
         }
 
         $user->setPassword($this->passwordEncoder->encodePassword($user, $resetPassword->password));

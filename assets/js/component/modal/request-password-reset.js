@@ -1,8 +1,7 @@
 import React from 'react';
-import { Config } from '../../config';
-import axios from 'axios';
 import AppContext from '../../context/app-context';
 import { Modal } from 'react-bootstrap';
+import { POST } from "../../security/Api";
 
 class RequestPasswordResetModal extends React.Component {
   constructor(props) {
@@ -16,21 +15,26 @@ class RequestPasswordResetModal extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     this.setState({ error: '' });
     const self = this;
     const context = this.context;
     e.preventDefault();
-    axios.post(Config.apiBasePath + '/request-password-reset', { email: this.state.email })
-      .then(function () {
-        context.setShowRequestPasswordResetModal(false);
-        context.setAlert('Ein Link zum Zurücksetzen des Passworts wurde per email verschickt.', 'success');
-      })
-      .catch(function (error) {
-        self.setState({
-          error: error.response.data.errors.join(', '),
-        });
-      });
+
+
+    const response = await POST('/request-password-reset', {email: this.state.email});
+
+    if (response.status === 400) {
+      this.setState({error: `Es wurde kein User gefunden mit der Email ${this.state.email}`})
+      return;
+    }
+
+    if (response.status !== 200) {
+      throw new Error();
+    }
+
+    context.setShowRequestPasswordResetModal(false);
+    context.setAlert('Ein Link zum Zurücksetzen des Passworts wurde per email verschickt.', 'success');
   }
 
   handleInputChange(event) {

@@ -1,10 +1,9 @@
 import React from 'react';
-import { Config } from '../../config';
-import axios from 'axios';
 import LoginModal from './../modal/login';
 import { NavLink } from 'react-router-dom';
 import AppContext from '../../context/app-context';
-import {ROLE_MAKER, ROLE_REQUESTER} from '../../constants/UserRoles';
+import { ROLE_MAKER, ROLE_REQUESTER } from '../../constants/UserRoles';
+import { GET } from '../../security/Api';
 
 class UserNav extends React.Component {
   constructor(props) {
@@ -16,25 +15,27 @@ class UserNav extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const context = this.context;
-    axios.get(Config.apiBasePath + '/user/profile')
-      .then((res) => {
-        context.setUser(res.data);
-      })
-      .catch(() => {
-        context.setUser({});
-      });
+
+    const response = await GET('/user/profile');
+    const data = await response.json();
+
+    if (response.status === 200) {
+      context.setUser(data);
+    } else {
+      context.setUser({});
+    }
   }
 
-  handleLogout(e) {
+  async handleLogout(e) {
     e.preventDefault();
     const context = this.context;
-    axios.get(Config.apiBasePath + '/logout')
-      .then(function () {
-        context.setUser({});
-        context.setAlert('erfolgreich abgemeldet.', 'success');
-      });
+
+    await GET('/logout');
+
+    context.setUser({});
+    context.setAlert('erfolgreich abgemeldet.', 'success');
   }
 
   render() {

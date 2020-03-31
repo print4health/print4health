@@ -7,6 +7,7 @@ import OrderModal from '../../component/modal/order';
 import CommitModal from '../../component/modal/commit';
 import RequirementMap from '../../component/map/requirement-map';
 import ReactGA from 'react-ga';
+import { GET } from '../../security/Api';
 
 class ThingDetailContainer extends React.Component {
 
@@ -43,8 +44,28 @@ class ThingDetailContainer extends React.Component {
     this.loadOrders();
   }
 
-  loadThing(sendGa) {
+  async loadThing(sendGa) {
     const { id } = this.props.match.params;
+
+    const response = await GET(`/things/${id}`)
+    const data = await response.json();
+
+    console.log(response);
+    console.log(data);
+
+    if (response.status === 200) {
+      this.context.setCurrentThing(data.thing);
+      this.setState({
+        isLoaded: true,
+      });
+      if (sendGa) {
+        this.context.setPageTitle( `Bedarf / ${data.thing.name}`);
+        const path = window.location.pathname + window.location.hash.substr(2);
+        ReactGA.pageview(path, document.title);
+      }
+    }
+
+
     axios.get(Config.apiBasePath + '/things/' + id)
       .then((res) => {
         this.context.setCurrentThing(res.data.thing);
