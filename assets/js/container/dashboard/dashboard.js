@@ -1,5 +1,7 @@
 import React from 'react';
 import AppContext from "../../context/app-context";
+import {ROLE_MAKER, ROLE_REQUESTER} from '../../constants/UserRoles';
+
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -10,7 +12,43 @@ class Dashboard extends React.Component {
     };
   }
 
+
   async fetchData() {
+    const { user } = this.context;
+    if (user.roles.includes(ROLE_REQUESTER)) {
+      this.fetchDataByRequester();
+    }
+    if (user.roles.includes(ROLE_MAKER)) {
+      this.fetchDataMaker();
+    }
+
+
+  }
+
+  async fetchDataMaker() {
+    const { user } = this.context;
+    const { data } = this.state;
+
+    if (data !== null) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/orders/maker/${user.id}`);
+
+      if (response.status !== 200) {
+        throw new Error();
+      }
+
+      const data = await response.json();
+
+      this.setState({ data })
+    }  catch (e) {
+      throw new Error();
+    }
+  }
+
+  async fetchDataByRequester() {
     const { user } = this.context;
     const { data } = this.state;
 
