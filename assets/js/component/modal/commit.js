@@ -3,6 +3,7 @@ import AppContext from '../../context/app-context';
 import { Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { FormControl, InputGroup, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 class CommitModal extends React.Component {
   constructor(props) {
@@ -110,8 +111,8 @@ class CommitModal extends React.Component {
     return <>
       <Modal.Body>
         <p>
-          Um als Maker Herstellung von Ersatzteilen zusagen zu können, meldet euch unter <a
-          href="mailto: contact@print4health.org">contact@print4health.org</a> und wir erstellen euch einen Account.
+          Um als Maker Herstellung von Ersatzteilen zusagen zu können, könnt ihr euch
+          <Link to="/register/maker" className="btn btn-link" onClick={this.onHide}>hier registrieren.</Link>
         </p>
         <p>
           Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an,

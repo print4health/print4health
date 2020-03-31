@@ -10,7 +10,7 @@ class Index extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="col-lg-8 col-md-12">
+        <div className="col-md-8 offset-md-2">
           <section className="container py-4">
             <h1>Helfen mit 3D-Druck</h1>
             <p className="lead mb-0">
