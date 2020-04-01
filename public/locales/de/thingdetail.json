@@ -1,0 +1,14 @@
+{
+  "loading": "Seite läd ...",
+  "error": "Fehler",
+  "specs": "Spezificationen",
+  "need": "Bedarf gesamt",
+  "order": "Bedarf anmelden",
+  "hospinfo": "Um Bedarf an diesem Ersatzteil anzumelden, melde Dich mit deinem Einrichtungs-Account an und klicke auf das große rote +.",
+  "makerinfo": "Um Ersatzteile für Bestellungen herzustellen, melde Dich mit deinem Maker-Account an und klicke auf die Marker in der Karten-Ansicht.",
+  "prints": "Prints gesamt",
+  "downloads": "Downloads",
+  "nospecs": "Noch keine Spezifikation enthalten.",
+  "ordermade": "Danke, der Bedarf wurde eingetragen",
+  "commitmentmade": "Danke für Deinen Beitrag - ist notiert."
+}

@@ -1,0 +1,14 @@
+{
+  "loading": "Loading ...",
+  "error": "Error",
+  "specs": "Specs",
+  "need": "Total need",
+  "order": "Publish need",
+  "hospinfo": "translation needed",
+  "makerinfo": "translation needed",
+  "prints": "Total prints",
+  "downloads": "Downloads",
+  "nospecs": "No specs yet.",
+  "ordermade": "Thank you, your need was published.",
+  "commitmentmade": "Thank you for your commitment."
+}

@@ -1,7 +1,7 @@
 import React from 'react';
 import AppContext from "../../context/app-context";
 import {ROLE_MAKER, ROLE_REQUESTER} from '../../constants/UserRoles';
-
+import { withTranslation } from 'react-i18next';
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -81,6 +81,7 @@ class Dashboard extends React.Component {
 
   renderTable() {
     const { data } = this.state;
+    const { t, i18n } = this.props;
 
     if (!data || !data.orders) {
       return;
@@ -90,22 +91,22 @@ class Dashboard extends React.Component {
       <div className="Dashboard__table">
         <div className="row Dashboard__headline-row">
           <div className="col-md-2 Dashboard__headline">
-            <h6>Produkt Bild</h6>
+            <h6>{t('picture')}</h6>
           </div>
           <div className="col-md-2 Dashboard__headline">
-            <h6>Produkt Name</h6>
+            <h6>{t('name')}</h6>
           </div>
           <div className="col-md-2 Dashboard__headline">
-            <h6>Priorität Bestellung</h6>
+            <h6>{t('orderprio')}</h6>
           </div>
           <div className="col-md-2 Dashboard__headline">
-            <h6>Bedarf</h6>
+            <h6>{t('need')}</h6>
           </div>
           <div className="col-md-2 Dashboard__headline">
-            <h6>Herstellerbestätigung</h6>
+            <h6>{t('confirmation')}</h6>
           </div>
           <div className="col-md-2 Dashboard__headline">
-            <h6>Bereits gedruckt</h6>
+            <h6>{t('printed')}</h6>
           </div>
         </div>
         {data.orders.map((order, i) => {
@@ -159,12 +160,12 @@ class Dashboard extends React.Component {
 
   render() {
     const { user } = this.context;
-
+    const { t, i18n } = this.props;
     return (
       <div className="container Dashboard">
         <div className="row">
           <div className="col">
-            <h1>Dashboard</h1>
+            <h1>{t('title')}</h1>
           </div>
         </div>
         <div className="row">
@@ -180,4 +181,4 @@ class Dashboard extends React.Component {
 
 Dashboard.contextType = AppContext;
 
-export default Dashboard;
+export default withTranslation('dashboard')(Dashboard);

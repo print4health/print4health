@@ -1,0 +1,9 @@
+{
+  "picture": "Produktbild",
+  "name": "Produktname",
+  "orderprio": "Bestellungspriorität",
+  "need": "Bedarf",
+  "confirmation": "Herstellerbestätigung",
+  "printed": "Bereits gedruckt",
+  "title": "Dashboard"
+}
