@@ -14,13 +14,16 @@ class Mailer
 {
     private MailerInterface $mailer;
     private Environment $twig;
+    private string $contactEmail;
 
     public function __construct(
         MailerInterface $mailer,
-        Environment $twig
+        Environment $twig,
+        string $contactEmail
     ) {
         $this->mailer = $mailer;
         $this->twig = $twig;
+        $this->contactEmail = $contactEmail;
     }
 
     public function send($params): void
@@ -33,8 +36,8 @@ class Mailer
         $email->subject($params['subject'])
             ->html($mailBody)
             ->cc($params['email'])
-            ->to('contact@print4health.org')
-            ->from('contact@print4health.org')
+            ->to($this->contactEmail)
+            ->from($this->contactEmail)
         ;
 
         if (!empty($params['filePath']) && !empty($params['file'])) {

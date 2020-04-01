@@ -28,6 +28,10 @@ services:
         arguments:
             $from: '%env(EMAIL_CONTACT)%'
 
+    App\Domain\Contact\Mailer:
+        arguments:
+            $contactEmail: '%env(EMAIL_CONTACT)%'
+
     App\Infrastructure\EventListener\ValidationErrorExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
