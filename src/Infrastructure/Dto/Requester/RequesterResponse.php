@@ -37,6 +37,15 @@ class RequesterResponse
     /** @SWG\Property(type="string") */
     public ?string $longitude;
 
+    /** @SWG\Property(type="bool") */
+    public ?bool $isHub;
+
+    /**
+     * @var array[]
+     * @SWG\Property(type="array")
+     */
+    public ?array $area;
+
     public static function createFromRequester(?Requester $requester): self
     {
         if (!$requester instanceof Requester) {
@@ -54,6 +63,8 @@ class RequesterResponse
         $self->addressState = $requester->getAddressState();
         $self->latitude = $requester->getLatitude();
         $self->longitude = $requester->getLongitude();
+        $self->isHub = $requester->isHub();
+        $self->area = $requester->getArea();
 
         return $self;
     }

@@ -16,7 +16,7 @@ App\Domain\User\Entity\Maker:
             - '<company()>'
         password: 'test'
 
-    maker_address_{1..10}:
+    maker_address_{1..20}:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
