@@ -4,6 +4,7 @@ import { divIcon } from 'leaflet/dist/leaflet-src.esm';
 import { Marker, Popup } from 'react-leaflet';
 import PropTypes from 'prop-types';
 import AppContext from '../../context/app-context';
+import { withTranslation } from 'react-i18next';
 
 class MarkerOrder extends React.Component {
 
@@ -15,15 +16,16 @@ class MarkerOrder extends React.Component {
   }
 
   render() {
+    const { t, i18n } = this.props;
     const requester = this.props.order.requester;
     const iconMarkup = renderToStaticMarkup(
       <div className="map-marker-order">
         <i className="fas fa-map-marker-alt text-primary fa-3x" />
         <span className="quantity-wrapper rounded">
           <span className="text-secondary border-secondary p-1"
-                title="Zugesagte Prints">{this.props.order.printed}</span>
+                title={t('confirmed1')}>{this.props.order.printed}</span>
           /
-          <span className="text-primary border-primary p-1" title="Benötigte Menge">{this.props.order.quantity}</span>
+          <span className="text-primary border-primary p-1" title={t('needed')}>{this.props.order.quantity}</span>
         </span>
       </div>,
     );
@@ -44,9 +46,9 @@ class MarkerOrder extends React.Component {
           </p>
         </address>
         <p>
-          <span className="label">Bedarf:</span> <strong
+          <span className="label">{t('need')}:</span> <strong
           className="text-primary">{this.props.order.quantity}</strong><br />
-          <span className="label">Zugesagt:</span> <strong
+          <span className="label">{t('confirmed2')}:</span> <strong
           className="text-secondary">{this.props.order.printed}</strong>
         </p>
         <a
@@ -56,7 +58,7 @@ class MarkerOrder extends React.Component {
             e.preventDefault();
             this.props.openModal(this.props.order);
           }}>
-          Herstellung zusagen
+          {t('make')}
           <i className="fas fa-plus-circle fa-fw"></i>
         </a>
       </Popup>
@@ -66,4 +68,4 @@ class MarkerOrder extends React.Component {
 
 MarkerOrder.contextType = AppContext;
 
-export default MarkerOrder;
+export default withTranslation('makerorder')(MarkerOrder);
