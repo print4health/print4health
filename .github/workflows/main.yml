@@ -45,21 +45,21 @@ jobs:
           args: --diff --dry-run --allow-risky=yes
           secrets: "GITHUB_TOKEN"
 
-  phpunit:
-      name: PHPUnit
-      runs-on: ubuntu-18.04
-      steps:
-          - name: Checkout code
-            uses: actions/checkout@v2
-
-          - name: Install Dependencies
-            uses: php-actions/composer@v1 # or alternative dependency management
-
-          - name: PHPUnit tests
-            uses: php-actions/phpunit@v1
-            with:
-                config: phpunit.xml.dist
-                memory: 256M
+#  phpunit:
+#      name: PHPUnit
+#      runs-on: ubuntu-18.04
+#      steps:
+#          - name: Checkout code
+#            uses: actions/checkout@v2
+#
+#          - name: Install Dependencies
+#            uses: php-actions/composer@v1 # or alternative dependency management
+#
+#          - name: PHPUnit tests
+#            uses: php-actions/phpunit@v1
+#            with:
+#                config: phpunit.xml.dist
+#                memory: 256M
 
   eslint:
     name: eslint
