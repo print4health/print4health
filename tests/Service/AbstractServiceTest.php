@@ -10,7 +10,7 @@ abstract class AbstractServiceTest extends KernelTestCase
 {
     protected $container;
 
-    public function setUp()
+    public function setUp(): void
     {
         $kernel = self::bootKernel();
         $kernel->boot();
