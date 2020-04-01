@@ -41,7 +41,7 @@ psalm:                                                                          
 
 static: php-cs-fix phpstan psalm                                                ## run static analyser
 
-dev: static                                                                     ## run dev tools
+dev: static phpunit                                                             ## run dev tools
 
 mysql:                                                                          ## go in mysql
 	sudo docker exec -it mysql /usr/bin/mysql print4health

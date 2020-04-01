@@ -41,7 +41,7 @@ class Commitment
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private DateTimeImmutable $updatedDate;
+    private ?DateTimeImmutable $updatedDate;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Domain\User\Entity\Maker")
@@ -92,4 +92,10 @@ class Commitment
     {
         $this->updatedDate = DateHelper::create();
     }
+
+    public function getUpdatedDate(): ?DateTimeImmutable
+    {
+        return $this->updatedDate;
+    }
+
 }

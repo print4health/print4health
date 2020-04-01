@@ -7,6 +7,7 @@ namespace App\Infrastructure\Dto\Requester;
 use App\Domain\User\Entity\Requester;
 use Doctrine\ORM\EntityNotFoundException;
 use Swagger\Annotations as SWG;
+use DateTimeImmutable;
 
 class RequesterResponse
 {
@@ -46,6 +47,9 @@ class RequesterResponse
      */
     public ?array $area;
 
+    /** @SWG\Property(type="date") */
+    public DateTimeImmutable $createdDate;
+
     public static function createFromRequester(?Requester $requester): self
     {
         if (!$requester instanceof Requester) {
@@ -65,6 +69,7 @@ class RequesterResponse
         $self->longitude = $requester->getLongitude();
         $self->isHub = $requester->isHub();
         $self->area = $requester->getArea();
+        $self->createdDate = $requester->getCreatedDate();
 
         return $self;
     }

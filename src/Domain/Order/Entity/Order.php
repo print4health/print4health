@@ -57,7 +57,7 @@ class Order
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private DateTimeImmutable $updatedDate;
+    private ?DateTimeImmutable $updatedDate;
 
     public function __construct(Requester $requester, Thing $thing, int $quantity)
     {
@@ -129,5 +129,15 @@ class Order
     public function updateUpdatedDate(): void
     {
         $this->updatedDate = DateHelper::create();
+    }
+
+    public function getCreatedDate(): DateTimeImmutable
+    {
+        return $this->createdDate;
+    }
+
+    public function getUpdatedDate(): ?DateTimeImmutable
+    {
+        return $this->updatedDate;
     }
 }

@@ -64,7 +64,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private DateTimeImmutable $updatedDate;
+    private ?DateTimeImmutable $updatedDate;
 
     public function __construct()
     {
@@ -159,5 +159,15 @@ class User implements UserInterface
     public function updateUpdatedDate(): void
     {
         $this->updatedDate = DateHelper::create();
+    }
+
+    public function getCreatedDate(): DateTimeImmutable
+    {
+        return $this->createdDate;
+    }
+
+    public function getUpdatedDate(): ?DateTimeImmutable
+    {
+        return $this->updatedDate;
     }
 }

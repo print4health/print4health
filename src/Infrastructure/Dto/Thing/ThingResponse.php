@@ -7,6 +7,7 @@ namespace App\Infrastructure\Dto\Thing;
 use App\Domain\Thing\Entity\Thing;
 use Doctrine\ORM\EntityNotFoundException;
 use Swagger\Annotations as SWG;
+use DateTimeImmutable;
 
 class ThingResponse
 {
@@ -34,6 +35,12 @@ class ThingResponse
     /** @SWG\Property(type="int") */
     public int $printed = 0;
 
+    /** @SWG\Property(type="date") */
+    public DateTimeImmutable $createdDate;
+
+    /** @SWG\Property(type="date") */
+    public ?DateTimeImmutatble $updatedDate;
+
     public static function createFromThing(?Thing $thing): self
     {
         if (!$thing instanceof Thing) {
@@ -48,6 +55,8 @@ class ThingResponse
         $self->url = $thing->getUrl();
         $self->description = $thing->getDescription();
         $self->specification = $thing->getSpecification();
+        $self->createdDate = $thing->getCreatedDate();
+        $self->updatedDate = $thing->getUpdatedDate();
 
         $orders = $thing->getOrders();
         foreach ($orders as $order) {
