@@ -25,15 +25,6 @@ class MarkerMaker extends React.Component {
       icon={customMarkerIcon}
       position={[maker.latitude, maker.longitude]}
     >
-      <Popup>
-        <address>
-          <h4>{maker.name}</h4>
-          <p>
-            {maker.streetAddress}<br />
-            {maker.postalCode} {maker.city}
-          </p>
-        </address>
-      </Popup>
     </Marker>;
   }
 }
