@@ -97,5 +97,4 @@ class Commitment
     {
         return $this->updatedDate;
     }
-
 }

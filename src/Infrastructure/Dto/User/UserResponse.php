@@ -5,10 +5,9 @@ declare(strict_types=1);
 namespace App\Infrastructure\Dto\User;
 
 use App\Domain\User\UserInterface;
-use Doctrine\ORM\EntityNotFoundException;
 use Swagger\Annotations as SWG;
 
-class User
+class UserResponse
 {
     /** @SWG\Property(type="string") */
     public string $id;
@@ -21,12 +20,8 @@ class User
      */
     public array $roles;
 
-    public static function createFromUser(?UserInterface $user): self
+    public static function createFromUser(UserInterface $user): self
     {
-        if (!$user instanceof UserInterface) {
-            throw new EntityNotFoundException('User is empty');
-        }
-
         $self = new self();
 
         $self->id = $user->getId();

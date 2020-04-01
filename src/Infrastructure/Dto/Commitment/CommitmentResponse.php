@@ -6,9 +6,9 @@ namespace App\Infrastructure\Dto\Commitment;
 
 use App\Domain\Commitment\Entity\Commitment;
 use App\Infrastructure\Dto\Order\OrderResponse;
+use DateTimeImmutable;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
-use DateTimeImmutable;
 
 class CommitmentResponse
 {
@@ -21,8 +21,8 @@ class CommitmentResponse
     /** @SWG\Property(type="integer") */
     public int $quantity;
 
-    /** @SWG\Property(type="date") */
-    public DateTimeImmutable $createdDate;
+    /** @SWG\Property(type="string", example="Y-m-d\TH:i:sP") */
+    public string $createdDate;
 
     public static function createFromCommitment(Commitment $commitment): self
     {
@@ -31,7 +31,7 @@ class CommitmentResponse
         $self->id = $commitment->getId();
         $self->order = OrderResponse::createFromOrder($commitment->getOrder());
         $self->quantity = $commitment->getQuantity();
-        $self->createdDate = $commitment->getCreatedDate();
+        $self->createdDate = $commitment->getCreatedDate()->format(DateTimeImmutable::ATOM);
 
         return $self;
     }

@@ -7830,16 +7830,16 @@
         },
         {
             "name": "nelmio/api-doc-bundle",
-            "version": "v3.6.0",
+            "version": "v3.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/NelmioApiDocBundle.git",
-                "reference": "0fcf2d5c9a9b4e230e5bcf6b3f4ad469ba738ed2"
+                "reference": "ab014fe032beb1a7875939ff4162e8d05ad778ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/0fcf2d5c9a9b4e230e5bcf6b3f4ad469ba738ed2",
-                "reference": "0fcf2d5c9a9b4e230e5bcf6b3f4ad469ba738ed2",
+                "url": "https://api.github.com/repos/nelmio/NelmioApiDocBundle/zipball/ab014fe032beb1a7875939ff4162e8d05ad778ab",
+                "reference": "ab014fe032beb1a7875939ff4162e8d05ad778ab",
                 "shasum": ""
             },
             "require": {
@@ -7914,7 +7914,7 @@
                 "documentation",
                 "rest"
             ],
-            "time": "2020-02-23T16:51:12+00:00"
+            "time": "2020-03-31T10:05:08+00:00"
         },
         {
             "name": "nikic/php-parser",

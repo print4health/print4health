@@ -31,11 +31,11 @@ class OrderResponse
     /** @SWG\Property(type="integer") */
     public int $remaining;
 
-    /** @SWG\Property(type="date") */
-    public DateTimeImmutable $createdDate;
+    /** @SWG\Property(type="string", example="Y-m-d\TH:i:sP") */
+    public string $createdDate;
 
-    /** @SWG\Property(type="date") */
-    public ?DateTimeImmutable $updatedDate;
+    /** @SWG\Property(type="string", example="Y-m-d\TH:i:sP") */
+    public ?string $updatedDate;
 
     public static function createFromOrder(Order $order): self
     {
@@ -49,8 +49,11 @@ class OrderResponse
         $self->remaining = $order->getRemaining();
         $self->printed = 0;
 
-        $self->createdDate = $order->getCreatedDate();
-        $self->updatedDate = $order->getUpdatedDate();
+        $self->createdDate = $order->getCreatedDate()->format(DateTimeImmutable::ATOM);
+        $updatedDate = $order->getUpdatedDate();
+        if ($updatedDate instanceof DateTimeImmutable) {
+            $self->updatedDate = $updatedDate->format(DateTimeImmutable::ATOM);
+        }
 
         $commitments = $order->getCommitments();
         foreach ($commitments as $commitment) {

@@ -11,13 +11,14 @@ use App\Domain\User\UserInterface;
 use App\Domain\User\UserRepositoryWrapper;
 use App\Infrastructure\Dto\User\ResetPassword;
 use App\Infrastructure\Dto\User\ResetPasswordTokenRequest;
-use App\Infrastructure\Dto\User\User as UserDto;
+use App\Infrastructure\Dto\User\UserResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -72,7 +73,7 @@ class SecurityController
      * @SWG\Response(
      *     response=200,
      *     description="Login successfull",
-     *     @Model(type=UserDto::class)
+     *     @Model(type=UserResponse::class)
      * )
      * @SWG\Response(
      *     response=400,
@@ -89,10 +90,13 @@ class SecurityController
             throw new BadRequestHttpException('Content-Type is\'nt "application/json".');
         }
 
-        /** @var UserInterface $user */
+        /** @var UserInterface|null $user */
         $user = $this->security->getUser();
+        if (null === $user) {
+            throw new NotFoundHttpException('User is empty');
+        }
 
-        $userDto = UserDto::createFromUser($user);
+        $userDto = UserResponse::createFromUser($user);
 
         return new JsonResponse($userDto);
     }

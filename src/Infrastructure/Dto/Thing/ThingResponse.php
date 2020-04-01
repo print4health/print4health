@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace App\Infrastructure\Dto\Thing;
 
 use App\Domain\Thing\Entity\Thing;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityNotFoundException;
 use Swagger\Annotations as SWG;
-use DateTimeImmutable;
 
 class ThingResponse
 {
@@ -29,17 +29,17 @@ class ThingResponse
     /** @SWG\Property(type="string") */
     public string $specification;
 
-    /** @SWG\Property(type="int") */
+    /** @SWG\Property(type="integer") */
     public int $needed = 0;
 
-    /** @SWG\Property(type="int") */
+    /** @SWG\Property(type="integer") */
     public int $printed = 0;
 
-    /** @SWG\Property(type="date") */
-    public DateTimeImmutable $createdDate;
+    /** @SWG\Property(type="string", example="Y-m-d\TH:i:sP") */
+    public string $createdDate;
 
-    /** @SWG\Property(type="date") */
-    public ?DateTimeImmutatble $updatedDate;
+    /** @SWG\Property(type="string", example="Y-m-d\TH:i:sP") */
+    public ?string $updatedDate;
 
     public static function createFromThing(?Thing $thing): self
     {
@@ -55,8 +55,11 @@ class ThingResponse
         $self->url = $thing->getUrl();
         $self->description = $thing->getDescription();
         $self->specification = $thing->getSpecification();
-        $self->createdDate = $thing->getCreatedDate();
-        $self->updatedDate = $thing->getUpdatedDate();
+        $self->createdDate = $thing->getCreatedDate()->format(DateTimeImmutable::ATOM);
+        $updatedDate = $thing->getUpdatedDate();
+        if ($updatedDate instanceof DateTimeImmutable) {
+            $self->updatedDate = $updatedDate->format(DateTimeImmutable::ATOM);
+        }
 
         $orders = $thing->getOrders();
         foreach ($orders as $order) {
