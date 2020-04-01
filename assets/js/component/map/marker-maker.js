@@ -1,7 +1,7 @@
 import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { divIcon } from 'leaflet/dist/leaflet-src.esm';
-import { Marker, Popup } from 'react-leaflet';
+import { Marker } from 'react-leaflet';
 import PropTypes from 'prop-types';
 
 class MarkerMaker extends React.Component {
