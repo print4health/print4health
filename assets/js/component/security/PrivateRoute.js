@@ -1,6 +1,7 @@
 import { Redirect, Route } from "react-router-dom";
 import React from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from 'react-i18next';
 
 PrivateRoute.propTypes = {
   component: PropTypes.any,
@@ -10,8 +11,9 @@ PrivateRoute.propTypes = {
 };
 
 function PrivateRoute({component: Component, authed, setAlert}) {
+  const { t, i18n } = useTranslation('private');
 
-  {authed !== true && setAlert('You are not authorized to access this page. Please log in.', 'danger') }
+  {authed !== true && setAlert(t('unauthorized'), 'danger') }
 
   return (
     <Route

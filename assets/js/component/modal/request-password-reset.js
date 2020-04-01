@@ -3,6 +3,7 @@ import { Config } from '../../config';
 import axios from 'axios';
 import AppContext from '../../context/app-context';
 import { Modal } from 'react-bootstrap';
+import { withTranslation } from 'react-i18next';
 
 class RequestPasswordResetModal extends React.Component {
   constructor(props) {
@@ -20,11 +21,12 @@ class RequestPasswordResetModal extends React.Component {
     this.setState({ error: '' });
     const self = this;
     const context = this.context;
+    const { t, i18n } = this.props;
     e.preventDefault();
     axios.post(Config.apiBasePath + '/request-password-reset', { email: this.state.email })
       .then(function () {
         context.setShowRequestPasswordResetModal(false);
-        context.setAlert('Ein Link zum Zurücksetzen des Passworts wurde per email verschickt.', 'success');
+        context.setAlert(t('request.mailsend'), 'success');
       })
       .catch(function (error) {
         self.setState({
@@ -40,6 +42,7 @@ class RequestPasswordResetModal extends React.Component {
   }
 
   render() {
+    const { t, i18n } = this.props;
     return (
       <Modal show={this.context.showRequestPasswordResetModal}
              onHide={() => this.context.setShowRequestPasswordResetModal(false)}
@@ -47,7 +50,7 @@ class RequestPasswordResetModal extends React.Component {
       >
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Passwort zurücksetzen</Modal.Title>
+            <Modal.Title>{t('request.title')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
@@ -55,7 +58,7 @@ class RequestPasswordResetModal extends React.Component {
             <div className="form-group">
               <input name="email"
                      type="email"
-                     placeholder="E-Mail-Adresse"
+                     placeholder={t('request.placeholder')}
                      className="form-control"
                      required
                      value={this.state.email}
@@ -63,7 +66,7 @@ class RequestPasswordResetModal extends React.Component {
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <input type="submit" className="btn btn-primary" value="Link anfordern" />
+            <input type="submit" className="btn btn-primary" value={t('request.button')} />
           </Modal.Footer>
         </form>
       </Modal>
@@ -73,4 +76,4 @@ class RequestPasswordResetModal extends React.Component {
 
 RequestPasswordResetModal.contextType = AppContext;
 
-export default RequestPasswordResetModal;
+export default withTranslation('password')(RequestPasswordResetModal);

@@ -6,11 +6,14 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { withTranslation, useTranslation } from 'react-i18next';
 
 const RegistrationForm = (props) => {
 
   const { callback, alert, serverErrors, showForm } = props;
   const { register, errors, watch, handleSubmit } = useForm();
+
+  const { t, i18n } = useTranslation('registration');
 
   const password = useRef({});
   password.current = watch('password', '');
@@ -28,124 +31,116 @@ const RegistrationForm = (props) => {
     <div className="container">
       <div className="row">
         <div className="col-md-8 offset-md-2">
-          <h1>Maker Registrierung</h1>
+          <h1>{t('title')}</h1>
           <Alert variant="info" className="mt-3">
-            Um Bedarf anzumelden, müsst ihr als <strong>Krankenhaus, Arzt, soziale Einrichtung oder
-            Maker-Hub (<a href="https://www.makervsvirus.org/" target="_blank"
-                          rel="noopener noreferrer">MakerVsVirus</a>)</strong> angemeldet
-            sein.
+            {t('infohospital.part1')} <strong>{t('infohospital.strong')} (<a href="https://www.makervsvirus.org/" target="_blank"
+                          rel="noopener noreferrer">MakerVsVirus</a>)</strong> {t('infohospital.part2')}
             <br />
-            Die Registrierung dafür wird aktuell noch vorbereitet. Schreibt uns einfach eine E-Mail
-            an <a href="mailto:contact@print4health.org">contact@print4health.org</a> dann kümmern wir uns so schnell
-            es geht darum.
+            {t('infohospital.part3')} <a href="mailto:contact@print4health.org">contact@print4health.org</a> {t('infohospital.part4')}
           </Alert>
           {alert.show &&
           <Alert variant="danger">
-            <strong>Fehler {alert.status}</strong>: {alert.message}
+            <strong>{t('error')} {alert.status}</strong>: {alert.message}
           </Alert>}
           {showForm &&
           <form onSubmit={handleSubmit(callback)} className="mt-5 registration-form">
             <p>
-              Hier könnt ihr euch als Maker bei <span className="text-primary">print4health.org</span> registrieren.
-              Bitte füllt das Formular gewissenhaft aus, denn schließlich geht es darum, Menschen zu helfen.
+              {t('info.part1')} <span className="text-primary">print4health.org</span> {t('info.part2')}
             </p>
             <Form.Group as={Row} controlId="registerMakerName">
-              <Form.Label column sm="2">Name*</Form.Label>
+              <Form.Label column sm="2">{t('namefield.label')}*</Form.Label>
               <Col sm="10">
                 <Form.Control type="text"
                               name="name"
-                              placeholder="Dein Name"
+                              placeholder={t('namefield.placeholder')}
                               ref={register({ required: 'Pflichtfeld', minLength: 5, maxLength: 255 })} />
                 <Form.Text className="text-muted">
-                  Bitte trage deinen Namen ein. Er wird nicht öffentlich angezeigt und ist notwendig zur Vermittlung
-                  zwischen den Institutionen, die Bedarf angemeldet haben. Mindestens fünf Zeichen sind erforderlich.
-                  {printError(errors.name, 'Dies ist ein Pflichtfeld. Bitte gib min. 5 Zeichen ein.')}
+                  {t('namefield.info')}
+                  {printError(errors.name, t('namefield.errorrequired'))}
                   {printError(serverErrors.name, serverErrors.name)}
                 </Form.Text>
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="registerMakerEmail">
-              <Form.Label column sm="2">E-Mail*</Form.Label>
+              <Form.Label column sm="2">{t('mailfield.label')}*</Form.Label>
               <Col sm="10">
                 <Form.Control type="email"
                               name="email"
-                              placeholder="Deine E-Mail Adresse"
+                              placeholder={t('mailfield.placeholder')}
                               ref={register({
                                 required: true,
                                 maxLength: 255,
                                 pattern: {
                                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                                  message: 'Ungültige E-Mail Adresse',
+                                  message: t('mailfield.invalid'),
                                 },
                               })} />
                 <Form.Text className="text-muted">
-                  Bitte trage deine E-Mail Adresse ein. Sie wird verwendet um dein Passwort zurück zu setzen oder
-                  damit Institutionen Kontakt mit dir aufnehmen können.
-                  {printError(errors.email, 'Dies ist ein Pflichtfeld. Bitte gib deine E-Mail Adresse ein.')}
+                  {t('mailfield.info')}
+                  {printError(errors.email, t('mailfield.errorrequired'))}
                   {printError(serverErrors.email, serverErrors.email)}
                 </Form.Text>
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="registerMakerPassword">
-              <Form.Label column sm="2">Passwort*</Form.Label>
+              <Form.Label column sm="2">{t('passfield1.label')}*</Form.Label>
               <Col sm="10">
                 <Form.Control type="password"
                               name="password"
-                              placeholder="Dein Passwort"
+                              placeholder={t('passfield1.placeholder')}
                               ref={register({ required: true, minLength: 8, maxLength: 255 })} />
                 <Form.Text className="text-muted">
-                  Dein Passwort für print4health.org. Am besten du wählst ein langes mit vielen Sonderzeichen und es
-                  steht nirgendwo im Wörterbuch oder ist leicht zu erraten.
-                  {printError(errors.password, 'Dies ist ein Pflichtfeld. Dein Passwort sollte min. 8 Zeichen lang sein.')}
+                  {t('passfield1.info')}
+                  {printError(errors.password, t('passfield1.errorrequired'))}
                   {printError(serverErrors.password, serverErrors.password)}
                 </Form.Text>
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="registerMakerPassword">
-              <Form.Label column sm="2">Passwort wiederholen*</Form.Label>
+              <Form.Label column sm="2">{t('passfield2.label')}*</Form.Label>
               <Col sm="10">
                 <Form.Control type="password"
                               name="passwordRepeat"
-                              placeholder="Wiederhole dein Passwort"
+                              placeholder={t('passfield2.placeholder')}
                               ref={register({ validate: value => value === password.current || 'The passwords do not match' })} />
                 <Form.Text className="text-muted">
-                  Bitte gib zur Sicherheit dein Passwort zwei mal ein.
-                  {printError(errors.passwordRepeat, 'Die Passwörter stimmen nicht überein')}
+                  {t('passfield2.info')}
+                  {printError(errors.passwordRepeat, t('passfield2.error'))}
                 </Form.Text>
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="registerMakerPostalCode">
-              <Form.Label column sm="2">Postleitzahl*</Form.Label>
+              <Form.Label column sm="2">{t('plz.label')}*</Form.Label>
               <Col sm="10">
                 <Form.Control type="number"
                               name="postalCode"
-                              placeholder="Postleitzahl"
+                              placeholder={t('plz.placeholder')}
                               ref={register({ required: true, minLength: 4, maxLength: 5 })} />
                 <Form.Text className="text-muted">
-                  Deine Postleitzahl wird verwendet um dich bei einer nächsten Version auf einer Karte anzuzeigen, damit
-                  eine Einrichtung in deiner Nähe sehen kann, dass du zur Verfügung stehst.
-                  {printError(errors.postalCode, 'Dies ist ein Pflichtfeld. Deine Postleitzahl sollte 4 oder 5 Zeichen lang sein.')}
+                  {t('plz.info')}
+
+                  {printError(errors.postalCode, t('plz.errorrequired'))}
                   {printError(serverErrors.postalCode, serverErrors.postalCode)}
                 </Form.Text>
               </Col>
             </Form.Group>
             <Form.Group as={Row} controlId="registerMakerPostalState">
-              <Form.Label column sm="2">Land</Form.Label>
+              <Form.Label column sm="2">{t('country.label')}</Form.Label>
               <Col sm="10">
                 <Form.Control type="text"
                               name="addressState"
-                              placeholder="Land"
+                              placeholder={t('country.placeholder')}
                               ref={register({ required: false, maxLength: 255 })} />
                 <Form.Text className="text-muted">
-                  Das Land in dem du Wohnst (kein Pflichtfeld)
-                  {printError(errors.addressState, 'Der Name deines Landes darf max. 255 Zeichen lang sein.')}
+                  {t('country.info')}
+                  {printError(errors.addressState, t('country.label'))}
                   {printError(serverErrors.addressState, serverErrors.addressState)}
                 </Form.Text>
               </Col>
             </Form.Group>
             <Row>
               <Col sm={{ offset: 2 }}>
-                <h3>Einverständniserklärungen</h3>
+                <h3>{t('accept.label')}</h3>
                 <Form.Group className="d-flex" controlId="confirmedRuleForFree">
                   <Form.Check
                     type="checkbox"
@@ -155,12 +150,9 @@ const RegistrationForm = (props) => {
                   />
                   <Form.Text className="col-sm-11 flex-grow-1">
                     <Form.Label>
-                      Ich erkläre mich im Umfang meiner Möglichkeiten bereit, nach besten Möglichkeiten und
-                      Fähigkeiten kostenlos 3D-Drucke für Krankenhäuser und sonstige medizinische und soziale
-                      Einrichtungen sowie medizinisches Personal herzustellen, die auf dieser Internetpräsenz
-                      registriert sind.
+                      {t('accept.condition1')}
                     </Form.Label>
-                    {printError(errors.confirmedRuleForFree, 'Bitte akzeptiere alle unsere Bedingungen für die Plattform.')}
+                    {printError(errors.confirmedRuleForFree, t('accept.errorrequired'))}
                     {printError(serverErrors.confirmedRuleForFree, serverErrors.confirmedRuleForFree)}
                   </Form.Text>
                 </Form.Group>
@@ -173,11 +165,9 @@ const RegistrationForm = (props) => {
                   />
                   <Form.Text className="col-sm-11 flex-grow-1">
                     <Form.Label>
-                      Regelungen zu etwaigen Materialkostenübernahmen sowie für etwaig anfallende Transportkosten werde
-                      ich mit den vermittelten Krankenhäusern und sonstigen medizinischen und sozialen Einrichtungen
-                      sowie medizinischem Personal unmittelbar treffen.
+                      {t('accept.condition2')}
                     </Form.Label>
-                    {printError(errors.confirmedRuleMaterialAndTransport, 'Bitte akzeptiere alle unsere Bedingungen für die Plattform.')}
+                    {printError(errors.confirmedRuleMaterialAndTransport, t('accept.errorrequired'))}
                     {printError(serverErrors.confirmedRuleMaterialAndTransport, serverErrors.confirmedRuleMaterialAndTransport)}
                   </Form.Text>
                 </Form.Group>
@@ -190,11 +180,9 @@ const RegistrationForm = (props) => {
                   />
                   <Form.Text className="col-sm-11 flex-grow-1">
                     <Form.Label>
-                      Mir ist bekannt, dass print4health ausschließlich Kontakte zwischen Krankenhäusern und sonstigen
-                      medizinischen und sozialen Einrichtungen sowie medizinischem Personal einerseits und privaten
-                      3D-Druckern und Designern von 3D-Druck-Bauplänen andererseits vermittelt.
+                      {t('accept.condition3')}
                     </Form.Label>
-                    {printError(errors.confirmedPlattformIsContactOnly, 'Bitte akzeptiere alle unsere Bedingungen für die Plattform.')}
+                    {printError(errors.confirmedPlattformIsContactOnly, t('accept.errorrequired'))}
                     {printError(serverErrors.confirmedPlattformIsContactOnly, serverErrors.confirmedPlattformIsContactOnly)}
                   </Form.Text>
                 </Form.Group>
@@ -207,14 +195,14 @@ const RegistrationForm = (props) => {
                   />
                   <Form.Text className="col-sm-11 flex-grow-1">
                     <Form.Label>
-                      Ich erkläre mich daher damit einverstanden, dass print4health keinerlei Haftung für
+                      {t('accept.condition4.part1')}
                       <ul className="mb-2 mt-2">
-                        <li>das Zustandekommen von 3D-Druck-Aufträgen und</li>
-                        <li>die Qualität der auf dieser Internetpräsenz vorgehaltenen 3D-Druck-Design-Vorlagen</li>
+                        <li>{t('accept.condition4.part2')}</li>
+                        <li>{t('accept.condition4.part3')}</li>
                       </ul>
-                      übernimmt.
+                      {t('accept.condition4.part4')}
                     </Form.Label>
-                    {printError(errors.confirmedNoAccountability, 'Bitte akzeptiere alle unsere Bedingungen für die Plattform.')}
+                    {printError(errors.confirmedNoAccountability, t('accept.errorrequired'))}
                     {printError(serverErrors.confirmedNoAccountability, serverErrors.confirmedNoAccountability)}
                   </Form.Text>
                 </Form.Group>
@@ -228,24 +216,22 @@ const RegistrationForm = (props) => {
                   />
                   <Form.Text className="col-sm-11 flex-grow-1">
                     <Form.Label>
-                      Einer Weitergabe der von mir mitgeteilten Kontaktdaten und Kapazitätsangaben durch print4health an
-                      registrierte Krankenhäuser und sonstige medizinische und soziale Einrichtungen sowie medizinisches
-                      Personal stimme ich ausdrücklich zu.
+                      {t('accept.condition5')}
                     </Form.Label>
-                    {printError(errors.confirmedPersonalDataTransferToRequester, 'Bitte akzeptiere alle unsere Bedingungen für die Plattform.')}
+                    {printError(errors.confirmedPersonalDataTransferToRequester, t('accept.errorrequired'))}
                     {printError(serverErrors.confirmedPersonalDataTransferToRequester, serverErrors.confirmedPersonalDataTransferToRequester)}
                   </Form.Text>
                 </Form.Group>
-                <Button variant="primary" type="submit">Als Maker Registrieren</Button>
+                <Button variant="primary" type="submit">{t('button')}</Button>
               </Col>
             </Row>
           </form>
           }
           {showForm === false &&
           <Alert variant="success">
-            <strong>Registrierung erfolgreich!</strong>
-            <p className="mb-0">Nun kannst du dich Anmelden und zum <Link to="/thing/list">Bedarf</Link> und
-              Druckaufträge Druckaufträge zusagen.</p>
+            <strong>{t('success')}</strong>
+            <p className="mb-0">{t('successtext.part1')} <Link to="/thing/list">{t('successtext.link')}</Link> {t('successtext.part2')}
+            </p>
           </Alert>
           }
         </div>
@@ -301,6 +287,7 @@ class RegisterMaker extends React.Component {
         }
       })
       .catch((srvErr) => {
+        const { t, i18n } = this.props;
         if (typeof (srvErr.response) === 'undefined') {
           console.log(srvErr);
           return;
@@ -310,7 +297,7 @@ class RegisterMaker extends React.Component {
 
           alert.show = true;
           alert.status = response.status;
-          alert.message = 'Die Registrierung konnte nicht abgeschlossen werden. Bitte überprüfe die Daten in den Eingabefeldern.';
+          alert.message = t('fail');
 
           let errors = {};
           // todo make hook or component for this for validation errors and more sophisticated? ;)
@@ -342,4 +329,4 @@ class RegisterMaker extends React.Component {
 
 RegisterMaker.contextType = AppContext;
 
-export default RegisterMaker;
+export default withTranslation('registration')(RegisterMaker);

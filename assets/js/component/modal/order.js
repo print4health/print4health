@@ -109,7 +109,6 @@ class OrderModal extends React.Component {
         <Alert variant="info">
           {t('info.part1')} <a
           href="mailto: contact@print4health.org">contact@print4health.org</a> {t('info.part2')}
-
         </Alert>
 
         <p>{t('info.part3')}</p>
