@@ -35,7 +35,7 @@ class IndexMap extends React.Component {
       return;
     }
     try {
-      const response = await fetch('/maker');
+      const response = await fetch('/maker/geodata');
 
       if (response.status !== 200) {
         throw new Error();
