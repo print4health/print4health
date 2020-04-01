@@ -26,11 +26,8 @@ import PageView from './component/page-view/page-view.js';
 import { Config } from './config';
 import { Nav, Navbar } from 'react-bootstrap';
 import RegisterMaker from './container/register-maker/register-maker';
+import {ROLE_USER, ROLE_MAKER, ROLE_REQUESTER} from './constants/UserRoles';
 import { withTranslation, changeLanguage } from 'react-i18next';
-
-const ROLE_USER = 'ROLE_USER';
-const ROLE_MAKER = 'ROLE_MAKER';
-const ROLE_REQUESTER = 'ROLE_REQUESTER';
 
 class App extends React.Component {
 
@@ -156,7 +153,7 @@ class App extends React.Component {
             <main className="container py-5">
               <DismissableAlert message={alertMessage} variant={alertClass} />
               <Switch>
-                <PrivateRoute path="/dashboard" component={Dashboard} authed={user && Object.keys(user).length !== 0 && this.getCurrentUserRole() === "ROLE_REQUESTER"} setAlert={this.setAlert} user={user}/>
+                <PrivateRoute path="/dashboard" component={Dashboard} authed={user && Object.keys(user).length !== 0} setAlert={this.setAlert} user={user}/>
                 <Route path="/order/list" component={Index} />
                 <Route path="/order/map" component={Index} />
                 <Route path="/order/{id}" component={Index} />

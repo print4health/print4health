@@ -5,6 +5,7 @@ import LoginModal from './../modal/login';
 import { NavLink } from 'react-router-dom';
 import AppContext from '../../context/app-context';
 import { withTranslation } from 'react-i18next';
+import {ROLE_MAKER, ROLE_REQUESTER} from '../../constants/UserRoles';
 
 class UserNav extends React.Component {
   constructor(props) {
@@ -40,11 +41,12 @@ class UserNav extends React.Component {
   render() {
     const { user } = this.context;
     const { t, i18n } = this.props;
+    const userRole = this.context.getCurrentUserRole();
 
     if (user && user.email) {
       return (
         <React.Fragment>
-          {this.context.getCurrentUserRole() === 'ROLE_REQUESTER' &&
+          {(userRole === ROLE_REQUESTER || userRole === ROLE_MAKER) &&
           <li className="nav-item">
             <NavLink className="nav-link" activeClassName="text-primary" to="/dashboard">{t('dashboard')}</NavLink>
           </li>

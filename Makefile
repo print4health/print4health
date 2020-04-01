@@ -10,6 +10,11 @@ init:                                                                           
 	bin/console do:mi:mi --no-interaction
 	bin/console hautelook:fixtures:load -n
 
+cypress:                                                                        ## run frontend tests
+	bin/console hautelook:fixtures:load -n
+	yarn cypress run
+	bin/console hautelook:fixtures:load -n
+
 logs:                                                                           ## display logs
 	tail -f var/log/dev.logs
 
@@ -34,3 +39,5 @@ dev: static                                                                     
 
 mysql:                                                                          ## go in mysql
 	sudo docker exec -it mysql /usr/bin/mysql print4health
+
+.PHONY: cypress

@@ -90,6 +90,17 @@ class Requester implements UserInterface
      */
     private ?string $longitude = null;
 
+    /**
+     * @ORM\Column(name="hub", type="boolean", nullable=true)
+     */
+    private ?bool $hub = false;
+
+    /**
+     * @var array[]
+     * @ORM\Column(name="area", type="json_array", nullable=true)
+     */
+    private ?array $area = null;
+
     public function __construct(string $email, string $name)
     {
         $this->email = $email;
@@ -276,5 +287,31 @@ class Requester implements UserInterface
     public function setLongitude(?string $longitude): void
     {
         $this->longitude = $longitude;
+    }
+
+    public function isHub(): ?bool
+    {
+        return $this->hub;
+    }
+
+    public function setHub(?bool $hub): void
+    {
+        $this->hub = $hub;
+    }
+
+    /**
+     * @return array[]
+     */
+    public function getArea(): ?array
+    {
+        return $this->area;
+    }
+
+    /**
+     * @param array[] $area
+     */
+    public function setArea(?array $area): void
+    {
+        $this->area = $area;
     }
 }

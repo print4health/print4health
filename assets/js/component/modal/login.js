@@ -104,7 +104,8 @@ class LoginModal extends React.Component {
             <p>
               <a href="#"
                  data-toggle="modal"
-                 onClick={() => {
+                 onClick={(e) => {
+                   e.preventDefault();
                    this.props.onClose();
                    this.context.setShowRequestPasswordResetModal(true);
                  }}

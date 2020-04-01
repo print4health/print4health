@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\User\Repository;
 
 use App\Domain\Exception\Maker\MakerByEmailNotFoundException;
-use App\Domain\Exception\Maker\MakerByRecoveryTokenNotFoundException;
+use App\Domain\Exception\Maker\MakerByPasswordResetTokenNotFoundException;
 use App\Domain\Exception\Maker\MakerNotFoundException;
 use App\Domain\User\Entity\Maker;
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -45,12 +45,12 @@ class MakerRepository
         return $maker;
     }
 
-    public function findOneByRecoveryToken(string $recoveryToken): Maker
+    public function findOneByPasswordResetToken(string $passwordResetToken): Maker
     {
-        $user = $this->getRepository()->findOneBy(['recoveryToken' => $recoveryToken]);
+        $user = $this->getRepository()->findOneBy(['passwordResetToken' => $passwordResetToken]);
 
         if (!$user instanceof Maker) {
-            throw new MakerByRecoveryTokenNotFoundException($recoveryToken);
+            throw new MakerByPasswordResetTokenNotFoundException($passwordResetToken);
         }
 
         return $user;
@@ -62,6 +62,12 @@ class MakerRepository
     public function findAll()
     {
         return $this->getRepository()->findAll();
+    }
+
+    public function save(Maker $maker): void
+    {
+        $this->getManager()->persist($maker);
+        $this->getManager()->flush();
     }
 
     private function getManager(): EntityManager

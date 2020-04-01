@@ -1,6 +1,6 @@
 import React from 'react';
 import AppContext from '../../context/app-context';
-import { Button, FormControl, InputGroup, Modal } from 'react-bootstrap';
+import { Alert, Button, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
@@ -106,10 +106,12 @@ class OrderModal extends React.Component {
     const { t, i18n } = this.props;
     return <>
       <Modal.Body>
-        <p>
+        <Alert variant="info">
           {t('info.part1')} <a
           href="mailto: contact@print4health.org">contact@print4health.org</a> {t('info.part2')}
-        </p>
+
+        </Alert>
+
         <p>{t('info.part3')}</p>
       </Modal.Body>
       <Modal.Footer>
