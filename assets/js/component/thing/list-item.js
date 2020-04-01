@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 
 class ThingListItem extends React.Component {
   constructor(props) {
@@ -37,11 +38,12 @@ class ThingListItem extends React.Component {
   renderImage() {
     const { thing } = this.props;
     const { image } = this.state;
+    const { t, i18n } = this.props;
 
     if (image === 'loading') {
       return (
         <div className="ThingListCard__image ThingListCard__image--loading">
-          Bild wird geladen ...
+          {t('item.loading')}
         </div>
       );
     }
@@ -49,7 +51,7 @@ class ThingListItem extends React.Component {
     if (image === 'error') {
       return (
         <div className="ThingListCard__image ThingListCard__image--fallback">
-          Kein Bild vorhanden
+          {t('item.noimage')}
         </div>
       );
     }
@@ -65,9 +67,10 @@ class ThingListItem extends React.Component {
 
   render() {
     const { thing } = this.props;
+    const { t, i18n } = this.props;
 
     if (thing === undefined) {
-      return (<div className="alert alert-danger">Something went wrong</div>);
+      return (<div className="alert alert-danger">{t('item.fail')}Something went wrong</div>);
     }
 
     const todo = thing.needed - thing.printed;
@@ -84,16 +87,16 @@ class ThingListItem extends React.Component {
         <div className="card-footer">
           <div className="row">
             <div className="col">
-              <small className="text-uppercase text-muted d-block">Benötigt</small>
+              <small className="text-uppercase text-muted d-block">{t('item.need')}</small>
               <span className={thing.needed > 0 ? 'text-primary' : ''}>{thing.needed}</span>
             </div>
             <div className="col">
-              <small className="text-uppercase text-muted d-block">Gedruckt</small>
+              <small className="text-uppercase text-muted d-block">{t('item.made')}</small>
               <span className={thing.printed > 0 ? 'text-secondary' +
                 '' : ''}>{thing.printed}</span>
             </div>
             <div className="col">
-              <small className="text-uppercase text-muted d-block">Bedarf</small>
+              <small className="text-uppercase text-muted d-block">{t('item.remaining')}</small>
               <span className={todo > 0 ? 'text-danger' : ''}>{todo}</span>
             </div>
           </div>
@@ -103,4 +106,4 @@ class ThingListItem extends React.Component {
   }
 }
 
-export default ThingListItem;
+export default withTranslation('list')(ThingListItem);

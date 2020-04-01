@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ThingListItem from './list-item';
+import { withTranslation } from 'react-i18next';
 
 class ThingList extends React.Component {
   constructor(props) {
@@ -14,12 +15,13 @@ class ThingList extends React.Component {
   }
 
   render() {
+    const { t, i18n } = this.props;
     if (this.props.things === undefined) {
-      return (<div className="alert alert-danger">Error</div>);
+      return (<div className="alert alert-danger">{t('list.error')}</div>);
     }
 
     if (this.props.things.length === 0) {
-      return (<div className="alert alert-warning">Keine Ergebnisse gefunden</div>);
+      return (<div className="alert alert-warning">{t('list.nothing')}</div>);
     }
 
     return (
@@ -34,4 +36,4 @@ class ThingList extends React.Component {
   }
 }
 
-export default ThingList;
+export default withTranslation('list')(ThingList);

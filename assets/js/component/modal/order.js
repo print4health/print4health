@@ -106,11 +106,13 @@ class OrderModal extends React.Component {
     const { t, i18n } = this.props;
     return <>
       <Modal.Body>
-        <p>
-          {t('info.part1')}
-          <a href="mailto: contact@print4health.org">contact@print4health.org</a>
-          {t('info.part2')}
-        </p>
+        <Alert variant="info">
+          <p>
+            {t('info.part1')}
+            <a href="mailto: contact@print4health.org">contact@print4health.org</a>
+            {t('info.part2')}
+          </p>
+        </Alert>
         <p>{t('info.part3')}</p>
       </Modal.Body>
       <Modal.Footer>

@@ -1,0 +1,14 @@
+{
+  "item": {
+    "loading": "Bild wird geladen ...",
+    "noimage": "Kein Bild vorhanden",
+    "fail": "Irgendwas hat nicht funktioniert",
+    "remaining": "Benötigt",
+    "made": "Gedruckt",
+    "need": "Bedarf"
+  },
+  "list": {
+    "error": "Fehler",
+    "nothing": "Keine Ergebnisse gefunden"
+  }
+}
