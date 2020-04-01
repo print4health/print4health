@@ -39,7 +39,7 @@ class Commitment
     private DateTimeImmutable $createdDate;
 
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime_immutable", nullable=true)
      */
     private DateTimeImmutable $updatedDate;
 
