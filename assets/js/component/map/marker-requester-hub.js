@@ -14,7 +14,6 @@ class MarkerRequesterHub extends React.Component {
 
   render() {
     const requester = this.props.requester;
-    console.log(requester.area);
     const iconMarkup = renderToStaticMarkup(
       <i className="fab fa-hubspot text-success fa-4x" />,
     );
