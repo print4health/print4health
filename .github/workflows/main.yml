@@ -55,7 +55,7 @@ jobs:
           - name: PHPUnit tests
             uses: php-actions/phpunit@v1
             with:
-                config: phpunit.xml
+                config: phpunit.xml.dist
                 memory: 256M
 
   eslint:
