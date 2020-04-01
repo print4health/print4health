@@ -32,6 +32,10 @@ services:
         arguments:
             $contactEmail: '%env(EMAIL_CONTACT)%'
 
+    App\Infrastructure\Services\GeoLocationEncoder:
+        arguments:
+            $googleApiKey: '%env(GOOGLE_MAPS_API_KEY)%'
+
     App\Infrastructure\EventListener\ValidationErrorExceptionListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
