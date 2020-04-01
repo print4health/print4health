@@ -24,15 +24,11 @@ services:
         resource: '../src/Infrastructure/Controller'
         tags: ['controller.service_arguments']
 
-    App\Domain\PasswordRecovery\Mailer:
-        arguments:
-            $from: '%env(EMAIL_CONTACT)%'
-
     App\Domain\Contact\Mailer:
         arguments:
             $contactEmail: '%env(EMAIL_CONTACT)%'
 
-    App\Infrastructure\Services\GeoLocationEncoder:
+    App\Infrastructure\Services\GeoCoder:
         arguments:
             $googleApiKey: '%env(GOOGLE_MAPS_API_KEY)%'
 

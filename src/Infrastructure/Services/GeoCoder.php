@@ -7,7 +7,7 @@ namespace App\Infrastructure\Services;
 use App\Infrastructure\Dto\Coordinates\Coordinates;
 use Symfony\Component\HttpClient\HttpClient;
 
-class GeoLocationEncoder
+class GeoCoder
 {
     private string $googleKey;
     private string $baseUrl = 'https://maps.googleapis.com/maps/api/geocode/json?';
@@ -37,12 +37,12 @@ class GeoLocationEncoder
                 ],
             ]);
 
-            $content = $response->toArray();
+            $content = $response->toArray()['results'][0];
             $location = $content['geometry']['location'];
 
             return new Coordinates($location['lat'], $location['lng']);
         } catch (\Exception $err) {
-            throw new \Exception('Status code not 200');
+            throw new \Exception($err->getMessage());
         }
     }
 }
