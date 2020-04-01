@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { POST } from "../../security/Api";
 
 const RegistrationForm = (props) => {
 
@@ -287,10 +288,56 @@ class RegisterMaker extends React.Component {
     }
   }
 
-  onSubmit = (data) => {
-    console.log(data);
+  async onSubmit(formData) {
+    console.log(formData);
 
     const alert = {};
+
+    const response = await POST('/maker/registratioen', formData);
+
+    console.log(response);
+
+    const data = await response.json();
+
+    console.log(data);
+
+    if (data && data.maker && data.maker.id) {
+      console.log(1);
+      this.setState({
+        showForm: false,
+      });
+    }
+
+    if (response.status === 422) {
+      console.log(2);
+      alert.show = true;
+      alert.status = response.status;
+      alert.message = 'Die Registrierung konnte nicht abgeschlossen werden. Bitte überprüfe die Daten in den Eingabefeldern.';
+      let errors = {};
+      // todo make hook or component for this for validation errors and more sophisticated? ;)
+      if (data.errors) {
+        for (const error of data.errors) {
+          if (error && typeof (error.propertyPath) === 'string') {
+            errors[error.propertyPath] = error.message;
+          }
+        }
+      }
+      this.setState({
+        alert: alert,
+        serverErrors: errors,
+      });
+    } else {
+      console.log(3);
+      console.log(response.status, response.statusText, data);
+
+      alert.show = true;
+      alert.status = response.status;
+      alert.message = response.statusText;
+    }
+
+    console.log('ende');
+
+
 
     axios.post(Config.apiBasePath + '/maker/registration', data)
       .then((res) => {
@@ -336,7 +383,7 @@ class RegisterMaker extends React.Component {
 
   render() {
     const { showForm, alert, serverErrors } = this.state;
-    return <RegistrationForm callback={this.onSubmit} alert={alert} serverErrors={serverErrors} showForm={showForm} />;
+    return <RegistrationForm callback={(formData) => this.onSubmit(formData)} alert={alert} serverErrors={serverErrors} showForm={showForm} />;
   }
 }
 

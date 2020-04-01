@@ -1,8 +1,7 @@
 import React from 'react';
-import { Config } from '../../config';
-import axios from 'axios';
 import AppContext from '../../context/app-context';
 import PropTypes from 'prop-types';
+import { POST } from "../../security/Api";
 
 class ResetPassword extends React.Component {
   constructor(props) {
@@ -32,7 +31,7 @@ class ResetPassword extends React.Component {
     });
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     this.setState({ error: '' });
     const self = this;
     e.preventDefault();
@@ -44,15 +43,25 @@ class ResetPassword extends React.Component {
       return false;
     }
 
-    axios.post(Config.apiBasePath + '/reset-password', this.state)
-      .then(function () {
-        self.context.setAlert('Das Passwort wurde erfolgreich geändert.', 'success');
-      })
-      .catch(function (error) {
-        self.setState({
-          error: error.response.data.errors.join(', '),
-        });
+    const response = await POST('/reset-password', this.state);
+    const data = await response.json();
+
+    console.log(response);
+
+    if (response.status === 200) {
+      self.context.setAlert('Das Passwort wurde erfolgreich geändert.', 'success');
+    }
+
+    if (response.status === 422) {
+      self.setState({
+        //@TODO replace with a speaking german or better translated messeage
+        error: data.errors.join(', '),
       });
+    }
+
+    if (response.status !== 200) {
+      throw new Error();
+    }
   }
 
   handleInputChange(event) {
