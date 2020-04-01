@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Entity;
 
+use App\Domain\DateHelper;
 use App\Domain\Order\Entity\Order;
 use App\Domain\User\UserInterface;
 use DateTimeImmutable;
@@ -55,10 +56,21 @@ class User implements UserInterface
      */
     private $orders;
 
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private DateTimeImmutable $createdDate;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private DateTimeImmutable $updatedDate;
+
     public function __construct()
     {
         $this->id = Uuid::uuid4()->toString();
         $this->orders = new ArrayCollection();
+        $this->createdDate = DateHelper::create();
     }
 
     public function getId(): string
@@ -142,5 +154,10 @@ class User implements UserInterface
     public function getPasswordResetToken(): ?string
     {
         return $this->passwordResetToken;
+    }
+
+    public function updateUpdatedDate(): void
+    {
+        $this->updatedDate = DateHelper::create();
     }
 }

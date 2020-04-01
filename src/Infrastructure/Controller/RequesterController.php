@@ -8,7 +8,6 @@ use App\Domain\User\Entity\Requester;
 use App\Domain\User\Repository\RequesterRepository;
 use App\Infrastructure\Dto\Requester\RequesterRequest;
 use App\Infrastructure\Dto\Requester\RequesterResponse;
-use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
@@ -26,18 +25,15 @@ class RequesterController
 {
     private SerializerInterface $serializer;
     private RequesterRepository $requesterRepository;
-    private EntityManagerInterface $entityManager;
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
     public function __construct(
         SerializerInterface $serializer,
         RequesterRepository $requesterRepository,
-        EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $userPasswordEncoder
     ) {
         $this->serializer = $serializer;
         $this->requesterRepository = $requesterRepository;
-        $this->entityManager = $entityManager;
         $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
@@ -127,8 +123,7 @@ class RequesterController
         $requester->setLatitude($RequesterRequest->latitude);
         $requester->setLongitude($RequesterRequest->longitude);
 
-        $this->entityManager->persist($requester);
-        $this->entityManager->flush();
+        $this->requesterRepository->save($requester);
 
         $RequesterResponse = RequesterResponse::createFromRequester($requester);
 

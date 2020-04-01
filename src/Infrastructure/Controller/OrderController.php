@@ -15,7 +15,6 @@ use App\Domain\User\Repository\RequesterRepository;
 use App\Domain\User\RequesterNotFoundException;
 use App\Infrastructure\Dto\Order\OrderRequest;
 use App\Infrastructure\Dto\Order\OrderResponse;
-use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -33,7 +32,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 class OrderController
 {
     private SerializerInterface $serializer;
-    private EntityManagerInterface $entityManager;
     private Security $security;
     private OrderRepository $orderRepository;
     private ThingRepository $thingRepository;
@@ -43,7 +41,6 @@ class OrderController
 
     public function __construct(
         SerializerInterface $serializer,
-        EntityManagerInterface $entityManager,
         Security $security,
         OrderRepository $orderRepository,
         ThingRepository $thingRepository,
@@ -52,7 +49,6 @@ class OrderController
         CommitmentRepository $commitmentRepository
     ) {
         $this->serializer = $serializer;
-        $this->entityManager = $entityManager;
         $this->security = $security;
         $this->orderRepository = $orderRepository;
         $this->thingRepository = $thingRepository;
@@ -273,10 +269,9 @@ class OrderController
             $order->addQuantity($orderRequest->quantity);
         } else {
             $order = new Order($requester, $thing, $orderRequest->quantity);
-            $this->entityManager->persist($order);
         }
 
-        $this->entityManager->flush();
+        $this->orderRepository->save($order);
 
         $OrderResponse = OrderResponse::createFromOrder($order);
 

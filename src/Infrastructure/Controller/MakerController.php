@@ -11,7 +11,6 @@ use App\Infrastructure\Dto\Maker\MakerGeoDataResponse;
 use App\Infrastructure\Dto\Maker\MakerRequest;
 use App\Infrastructure\Dto\Maker\MakerResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
-use Doctrine\ORM\EntityManagerInterface;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -29,18 +28,15 @@ class MakerController
 {
     private SerializerInterface $serializer;
     private MakerRepository $makerRepository;
-    private EntityManagerInterface $entityManager;
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
     public function __construct(
         SerializerInterface $serializer,
         MakerRepository $makerRepository,
-        EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $userPasswordEncoder
     ) {
         $this->serializer = $serializer;
         $this->makerRepository = $makerRepository;
-        $this->entityManager = $entityManager;
         $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
@@ -120,8 +116,7 @@ class MakerController
         $maker->setLatitude($makerRequest->latitude);
         $maker->setLongitude($makerRequest->longitude);
 
-        $this->entityManager->persist($maker);
-        $this->entityManager->flush();
+        $this->makerRepository->save($maker);
 
         $makerResponse = MakerResponse::createFromMaker($maker);
 

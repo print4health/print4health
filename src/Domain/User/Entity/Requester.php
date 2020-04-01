@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Entity;
 
+use App\Domain\DateHelper;
 use App\Domain\Order\Entity\Order;
 use App\Domain\User\UserInterface;
 use DateTimeImmutable;
@@ -101,12 +102,23 @@ class Requester implements UserInterface
      */
     private ?array $area = null;
 
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private DateTimeImmutable $createdDate;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private DateTimeImmutable $updatedDate;
+
     public function __construct(string $email, string $name)
     {
         $this->email = $email;
         $this->name = $name;
         $this->id = Uuid::uuid4()->toString();
         $this->orders = new ArrayCollection();
+        $this->createdDate = DateHelper::create();
     }
 
     public function getId(): string
@@ -313,5 +325,10 @@ class Requester implements UserInterface
     public function setArea(?array $area): void
     {
         $this->area = $area;
+    }
+
+    public function updateUpdatedDate(): void
+    {
+        $this->updatedDate = DateHelper::create();
     }
 }

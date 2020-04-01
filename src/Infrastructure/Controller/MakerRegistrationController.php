@@ -54,13 +54,11 @@ class MakerRegistrationController
     public function __construct(
         SerializerInterface $serializer,
         MakerRepository $makerRepository,
-        EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $userPasswordEncoder,
         ValidatorInterface $validator
     ) {
         $this->serializer = $serializer;
         $this->makerRepository = $makerRepository;
-        $this->entityManager = $entityManager;
         $this->userPasswordEncoder = $userPasswordEncoder;
         $this->validator = $validator;
     }
@@ -144,8 +142,7 @@ class MakerRegistrationController
         $maker->setLatitude($makerRegistrationRequest->latitude);
         $maker->setLongitude($makerRegistrationRequest->longitude);
 
-        $this->entityManager->persist($maker);
-        $this->entityManager->flush();
+        $this->makerRepository->save($maker);
 
         // todo send email for activation ?
 

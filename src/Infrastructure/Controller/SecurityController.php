@@ -12,7 +12,6 @@ use App\Domain\User\UserRepositoryWrapper;
 use App\Infrastructure\Dto\User\ResetPassword;
 use App\Infrastructure\Dto\User\ResetPasswordTokenRequest;
 use App\Infrastructure\Dto\User\User as UserDto;
-use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,8 +30,6 @@ class SecurityController
 {
     private UserRepository $userRepository;
 
-    private EntityManagerInterface $entityManager;
-
     private UserPasswordEncoderInterface $passwordEncoder;
 
     private Environment $twig;
@@ -43,14 +40,12 @@ class SecurityController
 
     public function __construct(
         UserRepository $userRepository,
-        EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder,
         Environment $twig,
         RouterInterface $router,
         Security $security
     ) {
         $this->userRepository = $userRepository;
-        $this->entityManager = $entityManager;
         $this->passwordEncoder = $passwordEncoder;
         $this->twig = $twig;
         $this->router = $router;
@@ -264,8 +259,8 @@ class SecurityController
 
         $user->setPassword($this->passwordEncoder->encodePassword($user, $resetPassword->password));
         $user->erasePasswordResetToken();
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+
+        $userRepositoryWrapper->save($user);
 
         return new JsonResponse(['status' => 'ok']);
     }

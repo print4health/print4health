@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Entity;
 
+use App\Domain\DateHelper;
 use App\Domain\User\UserInterface;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
@@ -78,11 +79,22 @@ class Maker implements UserInterface
      */
     private ?float $longitude = null;
 
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private DateTimeImmutable $createdDate;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private DateTimeImmutable $updatedDate;
+
     public function __construct(string $email, string $name)
     {
         $this->email = $email;
         $this->name = $name;
         $this->id = Uuid::uuid4()->toString();
+        $this->createdDate = DateHelper::create();
     }
 
     public function getId(): string
@@ -233,5 +245,10 @@ class Maker implements UserInterface
     public function setLongitude(?float $longitude): void
     {
         $this->longitude = $longitude;
+    }
+
+    public function updateUpdatedDate(): void
+    {
+        $this->updatedDate = DateHelper::create();
     }
 }
