@@ -7,6 +7,7 @@ namespace App\Infrastructure\Controller;
 use App\Domain\Exception\Maker\MakerNotFoundException;
 use App\Domain\User\Entity\Maker;
 use App\Domain\User\Repository\MakerRepository;
+use App\Infrastructure\Dto\Maker\MakerGeoDataResponse;
 use App\Infrastructure\Dto\Maker\MakerRequest;
 use App\Infrastructure\Dto\Maker\MakerResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
@@ -50,6 +51,8 @@ class MakerController
      *     methods={"GET"},
      *     format="json"
      * )
+     *
+     * @IsGranted("ROLE_ADMIN")
      */
     public function listAction(): JsonResponse
     {
@@ -59,6 +62,27 @@ class MakerController
 
         foreach ($allMaker as $maker) {
             $response['maker'][] = MakerResponse::createFromMaker($maker);
+        }
+
+        return new JsonResponse($response);
+    }
+
+    /**
+     * @Route(
+     *     "/maker/geodata",
+     *     name="maker_list_geo_data",
+     *     methods={"GET"},
+     *     format="json"
+     * )
+     */
+    public function listGeoDataAction(): JsonResponse
+    {
+        $allMaker = $this->makerRepository->findAll();
+
+        $response = ['maker' => []];
+
+        foreach ($allMaker as $maker) {
+            $response['maker'][] = MakerGeoDataResponse::createFromMaker($maker);
         }
 
         return new JsonResponse($response);
