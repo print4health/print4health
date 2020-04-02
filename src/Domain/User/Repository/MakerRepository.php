@@ -66,6 +66,7 @@ class MakerRepository
 
     public function save(Maker $maker): void
     {
+        $maker->updateUpdatedDate();
         $this->getManager()->persist($maker);
         $this->getManager()->flush();
     }

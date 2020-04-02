@@ -48,4 +48,11 @@ class ThingRepository extends ServiceEntityRepository
 
         return $repository;
     }
+
+    public function save(Thing $thing): void
+    {
+        $thing->updateUpdatedDate();
+        $this->getEntityManager()->persist($thing);
+        $this->getEntityManager()->flush();
+    }
 }

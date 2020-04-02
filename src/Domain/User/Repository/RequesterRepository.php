@@ -25,6 +25,7 @@ class RequesterRepository extends ServiceEntityRepository
 
     public function save(Requester $requester): void
     {
+        $requester->updateUpdatedDate();
         $this->getEntityManager()->persist($requester);
         $this->getEntityManager()->flush();
     }

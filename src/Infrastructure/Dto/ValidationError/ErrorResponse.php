@@ -29,6 +29,7 @@ class ErrorResponse
     public static function createFromConstraintViolation(ConstraintViolationInterface $constraintViolation): self
     {
         $self = new self();
+        /* @psalm-surpress */
         $self->message = $constraintViolation->getMessage();
         $self->propertyPath = $constraintViolation->getPropertyPath();
         $self->invalidValue = $constraintViolation->getInvalidValue();

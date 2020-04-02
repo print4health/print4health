@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Dto\Requester;
 
 use App\Domain\User\Entity\Requester;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityNotFoundException;
 use Swagger\Annotations as SWG;
 
@@ -42,9 +43,15 @@ class RequesterResponse
 
     /**
      * @var array[]
-     * @SWG\Property(type="array")
+     * @SWG\Property(
+     *     type="array",
+     *     @SWG\Items(type="float")
+     * )
      */
     public ?array $area;
+
+    /** @SWG\Property(type="string", example="Y-m-d\TH:i:sP") */
+    public string $createdDate;
 
     public static function createFromRequester(?Requester $requester): self
     {
@@ -65,6 +72,7 @@ class RequesterResponse
         $self->longitude = $requester->getLongitude();
         $self->isHub = $requester->isHub();
         $self->area = $requester->getArea();
+        $self->createdDate = $requester->getCreatedDate()->format(DateTimeImmutable::ATOM);
 
         return $self;
     }

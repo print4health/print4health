@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Dto\Maker;
 
 use App\Domain\User\Entity\Maker;
+use DateTimeImmutable;
 use Doctrine\ORM\EntityNotFoundException;
 use Swagger\Annotations as SWG;
 
@@ -27,6 +28,9 @@ class MakerResponse
     /** @SWG\Property(type="float") */
     public ?float $longitude;
 
+    /** @SWG\Property(type="string", example="Y-m-d\TH:i:sP") */
+    public string $createdDate;
+
     public static function createFromMaker(?Maker $maker): self
     {
         if (!$maker instanceof Maker) {
@@ -43,6 +47,7 @@ class MakerResponse
         $self->addressState = $maker->getAddressState();
         $self->latitude = $maker->getLatitude();
         $self->longitude = $maker->getLongitude();
+        $self->createdDate = $maker->getCreatedDate()->format(DateTimeImmutable::ATOM);
 
         return $self;
     }

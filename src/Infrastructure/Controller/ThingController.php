@@ -8,7 +8,6 @@ use App\Domain\Thing\Entity\Thing;
 use App\Domain\Thing\Repository\ThingRepository;
 use App\Infrastructure\Dto\Thing\ThingRequest;
 use App\Infrastructure\Dto\Thing\ThingResponse;
-use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
@@ -25,17 +24,13 @@ class ThingController
 {
     private SerializerInterface $serializer;
 
-    private EntityManagerInterface $entityManager;
-
     private ThingRepository $thingRepository;
 
     public function __construct(
         SerializerInterface $serializer,
-        EntityManagerInterface $entityManager,
         ThingRepository $thingRepository
     ) {
         $this->serializer = $serializer;
-        $this->entityManager = $entityManager;
         $this->thingRepository = $thingRepository;
     }
 
@@ -158,8 +153,7 @@ class ThingController
             $ThingRequest->specification
         );
 
-        $this->entityManager->persist($thing);
-        $this->entityManager->flush();
+        $this->thingRepository->save($thing);
 
         $ThingResponse = ThingResponse::createFromThing($thing);
 

@@ -87,6 +87,10 @@ class UserRepositoryWrapper
 
         if ($user instanceof Requester) {
             $this->requesterRepository->save($user);
+
+            return;
         }
+
+        throw new \RuntimeException(sprintf('Unknown UserInterface [%s]', \get_class($user)));
     }
 }

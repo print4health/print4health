@@ -11,14 +11,14 @@ use App\Domain\User\UserInterface;
 use App\Domain\User\UserRepositoryWrapper;
 use App\Infrastructure\Dto\User\ResetPassword;
 use App\Infrastructure\Dto\User\ResetPasswordTokenRequest;
-use App\Infrastructure\Dto\User\User as UserDto;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Infrastructure\Dto\User\UserResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -31,8 +31,6 @@ class SecurityController
 {
     private UserRepository $userRepository;
 
-    private EntityManagerInterface $entityManager;
-
     private UserPasswordEncoderInterface $passwordEncoder;
 
     private Environment $twig;
@@ -43,14 +41,12 @@ class SecurityController
 
     public function __construct(
         UserRepository $userRepository,
-        EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $passwordEncoder,
         Environment $twig,
         RouterInterface $router,
         Security $security
     ) {
         $this->userRepository = $userRepository;
-        $this->entityManager = $entityManager;
         $this->passwordEncoder = $passwordEncoder;
         $this->twig = $twig;
         $this->router = $router;
@@ -77,7 +73,7 @@ class SecurityController
      * @SWG\Response(
      *     response=200,
      *     description="Login successfull",
-     *     @Model(type=UserDto::class)
+     *     @Model(type=UserResponse::class)
      * )
      * @SWG\Response(
      *     response=400,
@@ -94,10 +90,13 @@ class SecurityController
             throw new BadRequestHttpException('Content-Type is\'nt "application/json".');
         }
 
-        /** @var UserInterface $user */
+        /** @var UserInterface|null $user */
         $user = $this->security->getUser();
+        if (null === $user) {
+            throw new NotFoundHttpException('User is empty');
+        }
 
-        $userDto = UserDto::createFromUser($user);
+        $userDto = UserResponse::createFromUser($user);
 
         return new JsonResponse($userDto);
     }
@@ -264,8 +263,8 @@ class SecurityController
 
         $user->setPassword($this->passwordEncoder->encodePassword($user, $resetPassword->password));
         $user->erasePasswordResetToken();
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+
+        $userRepositoryWrapper->save($user);
 
         return new JsonResponse(['status' => 'ok']);
     }
