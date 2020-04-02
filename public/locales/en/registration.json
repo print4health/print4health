@@ -30,6 +30,7 @@
     "placeholder": "Your Password",
     "info": "translation needed",
     "errorrequired": "translation needed"
+  },
   "passfield2": {
     "label": "Repeat password",
     "placeholder": "Repeat your Password",
