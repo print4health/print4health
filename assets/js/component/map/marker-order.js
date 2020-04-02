@@ -68,4 +68,4 @@ class MarkerOrder extends React.Component {
 
 MarkerOrder.contextType = AppContext;
 
-export default withTranslation('makerorder')(MarkerOrder);
+export default withTranslation('markerorder')(MarkerOrder);

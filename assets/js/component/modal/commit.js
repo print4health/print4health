@@ -4,6 +4,7 @@ import { Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { FormControl, InputGroup, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 
 class CommitModal extends React.Component {
   constructor(props) {
@@ -68,26 +69,27 @@ class CommitModal extends React.Component {
   };
 
   renderForm() {
+    const { t, i18n } = this.props;
     return <>
       <Modal.Body>
         <h6>
-          Toll dass Du mithilfst!
+          {t('form.title')}
         </h6>
 
         <p>
-          Bitte trage nur eine Anzahl ein, die Du wirklich bereit und in der Lage bist herzustellen.
+          {t('form.text1')}
         </p>
         <p>
-          Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile zusagen.
+          {t('form.text2')}
         </p>
 
         <InputGroup className="mb-3">
           <FormControl
             type="number"
             name="quantity"
-            placeholder="Anzahl"
+            placeholder={t('form.placeholder')}
             required
-            aria-label="Anzahl der Teile"
+            aria-label={t('form.label')}
             aria-describedby="basic-addon2"
             value={this.state.quantity}
             onChange={this.handleInputChange}
@@ -100,7 +102,7 @@ class CommitModal extends React.Component {
       </Modal.Body>
       <Modal.Footer>
         <Button type="submit" variant="outline-secondary" disabled={this.state.quantity <= 0}>
-          Herstellung zusagen
+          {t('form.button')}
           <i className="fas fa-plus-circle fa-fw"></i>
         </Button>
       </Modal.Footer>
@@ -108,21 +110,21 @@ class CommitModal extends React.Component {
   }
 
   renderInfo() {
+    const { t, i18n } = this.props;
     return <>
       <Modal.Body>
         <p>
-          Um als Maker Herstellung von Ersatzteilen zusagen zu können, könnt ihr euch
-          <Link to="/register/maker" className="btn btn-link" onClick={this.onHide}>hier registrieren.</Link>
+          {t('info.text1')}
+          <Link to="/register/maker" className="btn btn-link" onClick={this.onHide}>{t('info.link')}</Link>.
         </p>
         <p>
-          Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an,
-          um Herstellung von Ersatzteilen zusagen zu können.
+          {t('info.text2')}
         </p>
       </Modal.Body>
       <Modal.Footer>
         <input type="submit"
                className="btn btn-light"
-               value="Schließen"
+               value={t('info.button')}
                onClick={this.onHide} />
       </Modal.Footer>
     </>;
@@ -130,6 +132,7 @@ class CommitModal extends React.Component {
 
   render() {
     const { show, thing } = this.state;
+    const { t, i18n } = this.props;
     return (
       <Modal show={show}
              onHide={this.onHide}
@@ -138,7 +141,7 @@ class CommitModal extends React.Component {
       >
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Herstellung für &quot;{thing.name}&quot; zusagen</Modal.Title>
+            <Modal.Title>{t('title.part1')} &quot;{thing.name}&quot; {t('title.part2')}</Modal.Title>
           </Modal.Header>
           {this.context.getCurrentUserRole() === 'ROLE_MAKER' ? this.renderForm() : this.renderInfo()}
         </form>
@@ -149,4 +152,4 @@ class CommitModal extends React.Component {
 
 CommitModal.contextType = AppContext;
 
-export default CommitModal;
+export default withTranslation('commit')(CommitModal);
