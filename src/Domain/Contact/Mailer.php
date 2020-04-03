@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Contact;
 
+use App\Infrastructure\Dto\MakerRegistration\ContactRequest;
 use RuntimeException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -26,19 +27,19 @@ class Mailer
         $this->contactEmail = $contactEmail;
     }
 
-    public function send($params): void
+    public function send(ContactRequest $contactRequest): void
     {
         $mailBody = $this->twig->render(
             '/email/contact_form.html.twig',
-            $params);
+            ['contactRequest' => $contactRequest]
+        );
 
         $email = new Email();
-        $email->subject($params['subject'])
+        $email->subject($contactRequest->subject)
             ->html($mailBody)
-            ->cc($params['email'])
+            ->cc($contactRequest->email)
             ->to($this->contactEmail)
-            ->from($this->contactEmail)
-        ;
+            ->from($this->contactEmail);
 
         if (!empty($params['filePath']) && !empty($params['file'])) {
             $fileName = $params['file']->getClientOriginalName();

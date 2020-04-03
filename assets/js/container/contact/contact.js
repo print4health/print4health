@@ -78,7 +78,7 @@ class Contact extends React.Component {
   }
 
   render() {
-    const { response, selectedFile } = this.state;
+    const { response } = this.state;
 
     return (
       <div className="container">
@@ -108,15 +108,15 @@ class Contact extends React.Component {
                       <Form.Label>Betreff</Form.Label>
                       <Form.Control name="subject" type="text" placeholder="Betreff" required />
                     </Form.Group>
-                    <Form.Group>
-                      <input id="formGroupFile" ref={input => this.fileField = input} className="hide" type="file"
-                             name="file" onChange={this.onChangeHandler} />
-                      <Button className="btn btn-success" onClick={() => this.fileField.click()}>Bild anhängen</Button>
-                      <span style={selectedFile ? {
-                        marginLeft: 15,
-                        fontWeight: 500,
-                      } : { marginLeft: 15 }}>{selectedFile ? selectedFile.name : 'Max 3MB'}</span>
-                    </Form.Group>
+                    {/*<Form.Group>*/}
+                    {/*  <input id="formGroupFile" ref={input => this.fileField = input} className="hide" type="file"*/}
+                    {/*         name="file" onChange={this.onChangeHandler} />*/}
+                    {/*  <Button className="btn btn-success" onClick={() => this.fileField.click()}>Bild anhängen</Button>*/}
+                    {/*  <span style={selectedFile ? {*/}
+                    {/*    marginLeft: 15,*/}
+                    {/*    fontWeight: 500,*/}
+                    {/*  } : { marginLeft: 15 }}>{selectedFile ? selectedFile.name : 'Max 3MB'}</span>*/}
+                    {/*</Form.Group>*/}
                     <Form.Group controlId="formGroupMesg">
                       <Form.Label>Nachricht</Form.Label>
                       <Form.Control name="message" as="textarea" rows="3" required />
