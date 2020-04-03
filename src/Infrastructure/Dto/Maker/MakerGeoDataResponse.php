@@ -12,10 +12,18 @@ class MakerGeoDataResponse
 {
     /** @SWG\Property(type="string") */
     public string $id;
+
     /** @SWG\Property(type="float") */
     public ?float $latitude;
+
     /** @SWG\Property(type="float") */
     public ?float $longitude;
+
+    /** @SWG\Property(type="string") */
+    public ?string $postalCode;
+
+    /** @SWG\Property(type="string") */
+    public ?string $addressCity;
 
     public static function createFromMaker(?Maker $maker): self
     {
@@ -28,6 +36,8 @@ class MakerGeoDataResponse
         $self->id = $maker->getId();
         $self->latitude = $maker->getLatitude();
         $self->longitude = $maker->getLongitude();
+        $self->postalCode = $maker->getPostalCode();
+        $self->addressCity = $maker->getAddressCity();
 
         return $self;
     }

@@ -15,7 +15,7 @@ class MarkerRequesterHub extends React.Component {
   render() {
     const requester = this.props.requester;
     const iconMarkup = renderToStaticMarkup(
-      <i className="fab fa-hubspot text-success fa-4x" />,
+      <i className="fab fa-hubspot text-success fa-2x" />,
     );
     const customMarkerIcon = divIcon({
       html: iconMarkup,
@@ -23,12 +23,16 @@ class MarkerRequesterHub extends React.Component {
     });
     return <React.Fragment>
       <Marker
+        className="marker"
         icon={customMarkerIcon}
         position={[requester.latitude, requester.longitude]}
       >
         <Popup>
           <address>
-            <h4>{requester.name}</h4>
+            <h4>
+              <i className="fab fa-hubspot text-success fa-1x mr-1" />
+              {requester.name}
+            </h4>
             <p>
               {requester.streetAddress}<br />
               {requester.postalCode} {requester.addressCity}

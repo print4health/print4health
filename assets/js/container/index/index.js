@@ -1,5 +1,6 @@
 import React from 'react';
 import AppContext from '../../context/app-context';
+import IndexMap from '../../component/map/index-map';
 
 class Index extends React.Component {
 
@@ -114,6 +115,30 @@ class Index extends React.Component {
               Leben retten! Nimm gerne Kontakt mit uns auf oder lade hilfreiche Dokumente in unserem upload Bereich
               hoch!
             </p>
+          </section>
+          <section className="container py-4">
+            <h2>Aktuell registrierte Maker/Hubs & gesundheitliche sowie soziale Einrichtungen</h2>
+            <dl className="row">
+              <dt className="col-sm-1">
+                <i className="fas fa-clinic-medical text-primary" />
+              </dt>
+              <dd className="col-sm-11">
+                Gesundheitliche / soziale Einrichtung
+              </dd>
+              <dt className="col-sm-1">
+                <i className="fab fa-hubspot text-success" />
+              </dt>
+              <dd className="col-sm-11">
+                Maker-Hub
+              </dd>
+              <dt className="col-sm-1">
+                <i className="fas fa-tools text-secondary" />
+              </dt>
+              <dd className="col-sm-11">
+                Maker
+              </dd>
+            </dl>
+            <IndexMap />
           </section>
         </div>
       </div>

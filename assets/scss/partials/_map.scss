@@ -76,3 +76,12 @@
 
     }
 }
+
+
+.leaflet-marker-icon {
+    opacity: 0.75;
+
+    &:hover {
+        opacity: 1;
+    }
+}
