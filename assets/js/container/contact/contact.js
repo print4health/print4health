@@ -55,7 +55,7 @@ class Contact extends React.Component {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(Object.fromEntries(data)),
     });
 
     if (response.status !== 200) {
@@ -77,55 +77,65 @@ class Contact extends React.Component {
     }
   }
 
-  render() {
+  renderAlert() {
     const { response } = this.state;
+    if (response.code === 0) {
+      return null;
+    }
+    return <Alert variant={response.code === 200 ? 'success' : 'warning'}>
+      {response.error ? response.error : response.msg}
+    </Alert>;
+  }
 
+  renderForm() {
+    const { response } = this.state;
+    if (response.code === 200) {
+      return null;
+    }
+    return <Form ref={(form) => this.formEl = form} onSubmit={this.handleSubmit}>
+      <Form.Group controlId="formGroupName">
+        <Form.Label>Name</Form.Label>
+        <Form.Control name="name" type="text" placeholder="Name" required />
+      </Form.Group>
+      <Form.Group controlId="formGroupEmail">
+        <Form.Label>E-Mail Adresse</Form.Label>
+        <Form.Control name="email" type="email" placeholder="E-Mail" required />
+      </Form.Group>
+      <Form.Group controlId="formGroupTel">
+        <Form.Label>Telefon</Form.Label>
+        <Form.Control name="phone" type="text" placeholder="Telefon" />
+      </Form.Group>
+      <Form.Group controlId="formGroupSubject">
+        <Form.Label>Betreff</Form.Label>
+        <Form.Control name="subject" type="text" placeholder="Betreff" required />
+      </Form.Group>
+      {/*<Form.Group>*/}
+      {/*  <input id="formGroupFile" ref={input => this.fileField = input} className="hide" type="file"*/}
+      {/*         name="file" onChange={this.onChangeHandler} />*/}
+      {/*  <Button className="btn btn-success" onClick={() => this.fileField.click()}>Bild anhängen</Button>*/}
+      {/*  <span style={selectedFile ? {*/}
+      {/*    marginLeft: 15,*/}
+      {/*    fontWeight: 500,*/}
+      {/*  } : { marginLeft: 15 }}>{selectedFile ? selectedFile.name : 'Max 3MB'}</span>*/}
+      {/*</Form.Group>*/}
+      <Form.Group controlId="formGroupMesg">
+        <Form.Label>Nachricht</Form.Label>
+        <Form.Control name="message" as="textarea" rows="3" required />
+      </Form.Group>
+      <Button type="submit">Abschicken</Button>
+    </Form>;
+  }
+
+  render() {
     return (
       <div className="container">
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-8 col-md-12">
               <section className="container py-4">
-                <h1>Kontakt</h1>
-                <p className="mb-4">
-
-                </p>
-                {!response.code ?
-                  <Form ref={(form) => this.formEl = form} onSubmit={this.handleSubmit}>
-                    <Form.Group controlId="formGroupName">
-                      <Form.Label>Name</Form.Label>
-                      <Form.Control name="name" type="text" placeholder="Name" required />
-                    </Form.Group>
-                    <Form.Group controlId="formGroupEmail">
-                      <Form.Label>E-Mail Adresse</Form.Label>
-                      <Form.Control name="email" type="email" placeholder="E-Mail" required />
-                    </Form.Group>
-                    <Form.Group controlId="formGroupTel">
-                      <Form.Label>Telefon</Form.Label>
-                      <Form.Control name="tel" type="text" placeholder="Telefon" />
-                    </Form.Group>
-                    <Form.Group controlId="formGroupSubject">
-                      <Form.Label>Betreff</Form.Label>
-                      <Form.Control name="subject" type="text" placeholder="Betreff" required />
-                    </Form.Group>
-                    {/*<Form.Group>*/}
-                    {/*  <input id="formGroupFile" ref={input => this.fileField = input} className="hide" type="file"*/}
-                    {/*         name="file" onChange={this.onChangeHandler} />*/}
-                    {/*  <Button className="btn btn-success" onClick={() => this.fileField.click()}>Bild anhängen</Button>*/}
-                    {/*  <span style={selectedFile ? {*/}
-                    {/*    marginLeft: 15,*/}
-                    {/*    fontWeight: 500,*/}
-                    {/*  } : { marginLeft: 15 }}>{selectedFile ? selectedFile.name : 'Max 3MB'}</span>*/}
-                    {/*</Form.Group>*/}
-                    <Form.Group controlId="formGroupMesg">
-                      <Form.Label>Nachricht</Form.Label>
-                      <Form.Control name="message" as="textarea" rows="3" required />
-                    </Form.Group>
-                    <Button type="submit">Abschicken</Button>
-                  </Form>
-                  : <Alert variant={response.code === 200 ? 'success' : 'warning'}>
-                    {response.error ? response.error : response.msg}
-                  </Alert>}
+                <h1 className="mb-4">Kontakt</h1>
+                {this.renderAlert()}
+                {this.renderForm()}
               </section>
             </div>
           </div>

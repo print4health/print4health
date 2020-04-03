@@ -57,23 +57,24 @@ class ContactController
         Request $request,
         ContactMailer $contactMailer
     ): JsonResponse {
+
         try {
-            try {
-                /** @var ContactRequest $contactRequest */
-                $contactRequest = $this->serializer->deserialize(
-                    $request->getContent(),
-                    ContactRequest::class,
-                    JsonEncoder::FORMAT
-                );
-            } catch (NotEncodableValueException $notEncodableValueException) {
-                throw new BadRequestHttpException('No valid json', $notEncodableValueException);
-            }
+            /** @var ContactRequest $contactRequest */
+            $contactRequest = $this->serializer->deserialize(
+                $request->getContent(),
+                ContactRequest::class,
+                JsonEncoder::FORMAT
+            );
+        } catch (NotEncodableValueException $notEncodableValueException) {
+            throw new BadRequestHttpException('No valid json', $notEncodableValueException);
+        }
 
-            $errors = $this->validator->validate($contactRequest);
-            if ($errors->count() > 0) {
-                throw new ValidationErrorException($errors, 'MakerRegistrationValidationError');
-            }
+        $errors = $this->validator->validate($contactRequest);
+        if ($errors->count() > 0) {
+            throw new ValidationErrorException($errors, 'MakerRegistrationValidationError');
+        }
 
+        try {
 //            $file = $request->files->get('file');
 //            $params['filePath'] = null;
 //            $params['file'] = null;

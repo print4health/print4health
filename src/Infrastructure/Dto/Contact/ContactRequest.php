@@ -24,6 +24,12 @@ class ContactRequest
      * @Assert\NotBlank
      * @Assert\Length(min=5, max=255)
      */
+    public string $phone;
+
+    /**
+     * @Assert\NotBlank
+     * @Assert\Length(min=5, max=255)
+     */
     public string $subject;
 
     /**
