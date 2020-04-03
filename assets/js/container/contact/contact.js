@@ -1,39 +1,40 @@
 import React from 'react';
-import axios from 'axios';
 import { Config } from '../../config';
-import { Alert,
-         Button,
-         Form } from 'react-bootstrap';
+import {
+  Alert,
+  Button,
+  Form,
+} from 'react-bootstrap';
 
 class Contact extends React.Component {
 
   constructor(props) {
     super(props);
-      this.state = {
-        selectedFile: null,
-        loaded: null,
-        response: {
-          code: 0,
-          error: null,
-          msg: ""
-        }
-      };
+    this.state = {
+      selectedFile: null,
+      loaded: null,
+      response: {
+        code: 0,
+        error: null,
+        msg: '',
+      },
+    };
 
-      this.fileField = React.createRef();
-      this.onChangeHandler = this.onChangeHandler.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
+    this.fileField = React.createRef();
+    this.onChangeHandler = this.onChangeHandler.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   onChangeHandler(event) {
     const file = event.target.files[0];
 
-    if(file.size <= 3000000) {
-        this.setState({
-            selectedFile: event.target.files[0],
-            loaded: 0,
-        });
+    if (file.size <= 3000000) {
+      this.setState({
+        selectedFile: event.target.files[0],
+        loaded: 0,
+      });
     } else {
-        window.alert("file to large");
+      window.alert('file to large');
     }
   }
 
@@ -47,21 +48,36 @@ class Contact extends React.Component {
     this.postForm(data);
   }
 
-  postForm(data) {
-    axios.post(Config.apiBasePath + '/contact-form', data)
-      .then(() => {
-        this.setState({
-          response: { code: 200, msg: "Thank you for your message! We will get back to you as soon as possible." },
-        });
-      })
-      .catch(() => {
-        this.setState({
-          response: { code: 500, error: "Something went wrong, please send us an email directly at contact@print4health.org." },
-        });
+  async postForm(data) {
+
+    const response = await fetch(Config.apiBasePath + '/contact-form', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.status !== 200) {
+      this.setState({
+        response: {
+          code: 500,
+          error: 'Es ist ein Fehler aufgetreten, bitte sende uns doch direkt eine E-Mail contact@print4health.org.',
+        },
       });
+    }
+
+    if (response.status === 200) {
+      this.setState({
+        response: {
+          code: 200,
+          error: 'Danke für die Nachricht! Wir melden uns sobald wie möglich.',
+        },
+      });
+    }
   }
 
-  render () {
+  render() {
     const { response, selectedFile } = this.state;
 
     return (
@@ -70,42 +86,46 @@ class Contact extends React.Component {
           <div className="row">
             <div className="col-lg-8 col-md-12">
               <section className="container py-4">
-                <h1>Contact form</h1>
+                <h1>Kontakt</h1>
                 <p className="mb-4">
-                  
+
                 </p>
-                { !response.code?
+                {!response.code ?
                   <Form ref={(form) => this.formEl = form} onSubmit={this.handleSubmit}>
                     <Form.Group controlId="formGroupName">
                       <Form.Label>Name</Form.Label>
-                      <Form.Control name="name" type="text" placeholder="Enter name" required/>
+                      <Form.Control name="name" type="text" placeholder="Name" required />
                     </Form.Group>
                     <Form.Group controlId="formGroupEmail">
-                      <Form.Label>Email address</Form.Label>
-                      <Form.Control name="email" type="email" placeholder="Enter email" required/>
+                      <Form.Label>E-Mail Adresse</Form.Label>
+                      <Form.Control name="email" type="email" placeholder="E-Mail" required />
                     </Form.Group>
                     <Form.Group controlId="formGroupTel">
-                      <Form.Label>Telephone</Form.Label>
-                      <Form.Control name="tel"  type="text" placeholder="Enter phone number" />
+                      <Form.Label>Telefon</Form.Label>
+                      <Form.Control name="tel" type="text" placeholder="Telefon" />
                     </Form.Group>
                     <Form.Group controlId="formGroupSubject">
-                      <Form.Label>Subject</Form.Label>
-                      <Form.Control name="subject" type="text" placeholder="Enter subject" required/>
+                      <Form.Label>Betreff</Form.Label>
+                      <Form.Control name="subject" type="text" placeholder="Betreff" required />
                     </Form.Group>
                     <Form.Group>
-                     <input id="formGroupFile" ref={input => this.fileField = input} className="hide" type="file" name="file" onChange={this.onChangeHandler}/>
-                     <Button className="btn btn-success" onClick={() => this.fileField.click()}>Upload Image</Button>
-                     <span style={selectedFile? {marginLeft: 15, fontWeight: 500} : {marginLeft: 15}}>{selectedFile? selectedFile.name : 'Max 3MB'}</span>
+                      <input id="formGroupFile" ref={input => this.fileField = input} className="hide" type="file"
+                             name="file" onChange={this.onChangeHandler} />
+                      <Button className="btn btn-success" onClick={() => this.fileField.click()}>Bild anhängen</Button>
+                      <span style={selectedFile ? {
+                        marginLeft: 15,
+                        fontWeight: 500,
+                      } : { marginLeft: 15 }}>{selectedFile ? selectedFile.name : 'Max 3MB'}</span>
                     </Form.Group>
-                     <Form.Group controlId="formGroupMesg">
-                      <Form.Label>Your message</Form.Label>
-                      <Form.Control name="message" as="textarea" rows="3" required/>
+                    <Form.Group controlId="formGroupMesg">
+                      <Form.Label>Nachricht</Form.Label>
+                      <Form.Control name="message" as="textarea" rows="3" required />
                     </Form.Group>
-                    <Button type="submit">Submit form</Button>
+                    <Button type="submit">Abschicken</Button>
                   </Form>
-                : <Alert variant={response.code === 200? 'success' : 'warning'}>
-                    { response.error? response.error : response.msg }
-                  </Alert> }
+                  : <Alert variant={response.code === 200 ? 'success' : 'warning'}>
+                    {response.error ? response.error : response.msg}
+                  </Alert>}
               </section>
             </div>
           </div>
@@ -114,4 +134,5 @@ class Contact extends React.Component {
     );
   }
 }
+
 export default Contact;
