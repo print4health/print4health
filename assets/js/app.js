@@ -27,6 +27,7 @@ import { Config } from './config';
 import { Nav, Navbar } from 'react-bootstrap';
 import RegisterMaker from './container/register-maker/register-maker';
 import {ROLE_USER, ROLE_MAKER, ROLE_REQUESTER} from './constants/UserRoles';
+import Contact from './container/contact/contact';
 
 class App extends React.Component {
 
@@ -151,6 +152,7 @@ class App extends React.Component {
                 <Route path="/thing/:id" component={ThingDetailContainer} />
                 <Route path="/thing/:id/create-order" component={Index} />
                 <Route path="/faq" component={Faq} />
+                <Route path="/contact" component={Contact} />
                 <Route path="/imprint" component={Imprint} />
                 <Route path="/data-privacy-statement" component={DataPrivacyStatement} />
                 <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
