@@ -23,10 +23,6 @@ class Contact extends React.Component {
     const { data } = this.state;
     const { role, orderId } = this.props.match.params;
 
-    console.log(this.props.match.params);
-
-    console.log('fetch', data, role, orderId);
-
     if (data !== null || !role || !orderId) {
       return;
     }
@@ -39,18 +35,11 @@ class Contact extends React.Component {
 
       const orderData = await response.json();
 
-      console.log(orderData);
-
       if (role === ROLE_REQUESTER) {
-
-        console.log('role requester', orderData);
-
         this.setState({ data: [orderData.requester] })
       }
 
       if (role === ROLE_MAKER) {
-        console.log('role maker', orderData);
-
         const makersData = await Promise.all(
           orderData.makers.map(async makerId => {
             const maker = await this.fetchMaker(makerId);
@@ -94,8 +83,6 @@ class Contact extends React.Component {
     if (!data) {
       return (<p>laden...</p>)
     }
-
-    console.log(data);
 
     return (
       <div className="container Dashboard">
