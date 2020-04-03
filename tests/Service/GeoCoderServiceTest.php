@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Service;
 
-use App\Infrastructure\Dto\Coordinates\Coordinates;
+use App\Infrastructure\Dto\Coordinates\CoordinatesRequest;
 use App\Infrastructure\Services\GeoCoder;
 
 class GeoCoderServiceTest extends AbstractServiceTest
@@ -22,7 +22,7 @@ class GeoCoderServiceTest extends AbstractServiceTest
         foreach ($this->testPairs as $pair) {
             $coords = $geoCoder->geoEncodePostalCountry($pair[0][0], $pair[0][1]);
 
-            $this->assertTrue($coords instanceof Coordinates);
+            $this->assertTrue($coords instanceof CoordinatesRequest);
             $this->assertEquals($pair[1][0], $coords->getLatitude());
             $this->assertEquals($pair[1][1], $coords->getLongitude());
         }

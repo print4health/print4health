@@ -4,27 +4,15 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Dto\Coordinates;
 
-class Coordinates
+use App\Infrastructure\Exception\Coordinates\CoordinatesRequestException;
+
+class CoordinatesRequest
 {
-    /**
-     * @var float
-     */
-    private $latitude;
+    private float $latitude;
+    private float $longitude;
 
-    /**
-     * @var float
-     */
-    private $longitude;
-
-    /**
-     * @param float $latitude
-     * @param float $longitude
-     */
-    public function __construct($latitude, $longitude)
+    public function __construct(float $latitude, float $longitude)
     {
-        $latitude = (float) $latitude;
-        $longitude = (float) $longitude;
-
         $this->validateLat($latitude);
         $this->validateLng($longitude);
 
@@ -49,22 +37,22 @@ class Coordinates
     }
 
     /**
-     * @throws \Exception
+     * @throws CoordinatesRequestException
      */
     private function validateLat(float $value): void
     {
         if ($value < -90 || $value > 90) {
-            throw new \Exception(sprintf('Latitude should be between -90 and 90. Got: %s', $value));
+            throw new CoordinatesRequestException(sprintf('Latitude should be between -90 and 90. Got: %s', $value));
         }
     }
 
     /**
-     * @throws \Exception
+     * @throws CoordinatesRequestException
      */
     private function validateLng(float $value): void
     {
         if ($value < -180 || $value > 180) {
-            throw new \Exception(sprintf('Longitude should be between -180 and 180. Got: %s', $value));
+            throw new CoordinatesRequestException(sprintf('Longitude should be between -180 and 180. Got: %s', $value));
         }
     }
 }

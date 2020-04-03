@@ -49,9 +49,6 @@ class MakerRegistrationController
 
     private GeoCoder $geoCoder;
 
-    /**
-     * @var ValidatorInterface
-     */
     private ValidatorInterface $validator;
 
     public function __construct(
@@ -69,8 +66,8 @@ class MakerRegistrationController
     }
 
     /**
-     * @throws \Exception
      * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \Exception
      *
      * @return JsonResponse
      *
@@ -147,13 +144,16 @@ class MakerRegistrationController
         $maker->setAddressState($makerRegistrationRequest->addressState);
 
         try {
-            $geoLocation = $this->geoCoder->geoEncodePostalCountry(
-                (string) $makerRegistrationRequest->postalCode,
-                (string) $makerRegistrationRequest->addressState
-            );
+            // prevent a geocode request if we don't have the necessary data
+            if ($makerRegistrationRequest->hasPostalCodeAndCity()) {
+                $geoLocation = $this->geoCoder->geoEncodePostalCountry(
+                    (string) $makerRegistrationRequest->addressState,
+                    (string) $makerRegistrationRequest->postalCode
+                );
 
-            $maker->setLatitude($geoLocation->getLatitude());
-            $maker->setLongitude($geoLocation->getLongitude());
+                $maker->setLatitude($geoLocation->getLatitude());
+                $maker->setLongitude($geoLocation->getLongitude());
+            }
         } catch (\Exception $err) {
             // TODO: add sentry message on error?
         }
