@@ -40,18 +40,17 @@ class OrderControllerTest extends AbstractControllerTest
                     [
                         'message' => 'Es gibt kein Teil mit dieser ID',
                         'propertyPath' => 'thingId',
-                        'invalidValue' => 'e2856d83-f2d0-4400-a73f-f24defafcb72'
+                        'invalidValue' => 'e2856d83-f2d0-4400-a73f-f24defafcb72',
                     ],
                     [
                         'message' => 'This value should be greater than "0".',
                         'propertyPath' => 'quantity',
-                        'invalidValue' => -1
-                    ]
-                ]
+                        'invalidValue' => -1,
+                    ],
+                ],
             ],
             [
                 [
-
                     'thingId' => 'e2856d83-f2d0-4400-a73f-f24defafcb72',
                     'quantity' => 0,
                 ],
@@ -59,14 +58,14 @@ class OrderControllerTest extends AbstractControllerTest
                     [
                         'message' => 'Es gibt kein Teil mit dieser ID',
                         'propertyPath' => 'thingId',
-                        'invalidValue' => 'e2856d83-f2d0-4400-a73f-f24defafcb72'
+                        'invalidValue' => 'e2856d83-f2d0-4400-a73f-f24defafcb72',
                     ],
                     [
                         'message' => 'This value should be greater than "0".',
                         'propertyPath' => 'quantity',
-                        'invalidValue' => 0
-                    ]
-                ]
+                        'invalidValue' => 0,
+                    ],
+                ],
             ],
             [
                 [
@@ -77,9 +76,9 @@ class OrderControllerTest extends AbstractControllerTest
                     [
                         'message' => 'Es gibt kein Teil mit dieser ID',
                         'propertyPath' => 'thingId',
-                        'invalidValue' => 'e2856d83-f2d0-4400-a73f-f24defafcb72'
-                    ]
-                ]
+                        'invalidValue' => 'e2856d83-f2d0-4400-a73f-f24defafcb72',
+                    ],
+                ],
             ],
         ];
     }
