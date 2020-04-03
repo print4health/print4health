@@ -31,7 +31,7 @@ class MarkerRequesterHub extends React.Component {
             <h4>{requester.name}</h4>
             <p>
               {requester.streetAddress}<br />
-              {requester.postalCode} {requester.city}
+              {requester.postalCode} {requester.addressCity}
             </p>
           </address>
         </Popup>
