@@ -16,6 +16,7 @@ class GeoCoderServiceTest extends AbstractServiceTest
 
     public function testGeoCodeToCoords(): void
     {
+        $this->markTestSkipped('test geocoder without sharing google maps api key');
         $geoCoder = new GeoCoder();
 
         foreach ($this->testPairs as $pair) {
