@@ -127,11 +127,10 @@ class MakerController
      * @Route(
      *     "/maker/{uuid}",
      *     name="maker_show",
-     *     methods={"GET"},
+     *     methods={"GET", "POST"},
      *     format="json"
      * )
      *
-     * @IsGranted("ROLE_ADMIN")
      */
     public function showAction(string $uuid): JsonResponse
     {
@@ -143,6 +142,6 @@ class MakerController
 
         $makerResponse = MakerResponse::createFromMaker($maker);
 
-        return new JsonResponse(['maker' => $makerResponse]);
+        return new JsonResponse($makerResponse);
     }
 }

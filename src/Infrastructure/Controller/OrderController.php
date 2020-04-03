@@ -312,6 +312,6 @@ class OrderController
 
         $orderDto = OrderResponse::createFromOrder($order);
 
-        return new JsonResponse(['order' => $orderDto]);
+        return new JsonResponse($orderDto);
     }
 }

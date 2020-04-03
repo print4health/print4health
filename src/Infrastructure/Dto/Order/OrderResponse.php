@@ -37,6 +37,9 @@ class OrderResponse
     /** @SWG\Property(type="string", example="Y-m-d\TH:i:sP") */
     public ?string $updatedDate;
 
+    /** @SWG\Property(type="array") */
+    public array $makers;
+
     public static function createFromOrder(Order $order): self
     {
         $self = new self();
@@ -48,6 +51,7 @@ class OrderResponse
         $self->quantity = $order->getQuantity();
         $self->remaining = $order->getRemaining();
         $self->printed = 0;
+        $self->makers = [];
 
         $self->createdDate = $order->getCreatedDate()->format(DateTimeImmutable::ATOM);
         $updatedDate = $order->getUpdatedDate();
@@ -59,6 +63,7 @@ class OrderResponse
         foreach ($commitments as $commitment) {
             $self->printed += $commitment->getQuantity();
             $self->remaining -= $commitment->getQuantity();
+            $self->makers[] = $commitment->getMaker()->getId();
         }
 
         return $self;

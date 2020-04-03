@@ -158,6 +158,6 @@ class RequesterController
 
         $RequesterResponse = RequesterResponse::createFromRequester($requester);
 
-        return new JsonResponse(['requester' => $RequesterResponse]);
+        return new JsonResponse($RequesterResponse);
     }
 }
