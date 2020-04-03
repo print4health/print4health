@@ -33,21 +33,19 @@ class OrderControllerTest extends AbstractControllerTest
         return [
             [
                 [
-                    'thingId' => '12345-12345-12345-12345',
                     'quantity' => -1,
                 ],
                 'Quantity must be greater than zero',
             ],
             [
                 [
-                    'thingId' => '12345-12345-12345-12345',
                     'quantity' => 0,
                 ],
                 'Quantity must be greater than zero',
             ],
             [
                 [
-                    'thingId' => '12345-12345-12345-12345',
+                    'thingId' => 'e2856d83-f2d0-4400-a73f-f24defafcb72',
                     'quantity' => 123,
                 ],
                 'No thing was found',
@@ -66,11 +64,11 @@ class OrderControllerTest extends AbstractControllerTest
         $this->logInRequester($client);
 
         $client->request('POST', '/orders', [], [], [], json_encode($requestContent));
-
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertEquals(422, $client->getResponse()->getStatusCode());
         $data = json_decode($client->getResponse()->getContent(), true);
-
-        $this->assertEquals($errorMessage, $data['detail']);
+        $this->assertArrayHasKey('message', $data);
+        $this->assertArrayHasKey('errors', $data);
+        $this->assertGreaterThan(0, $data['errors']);
     }
 
     /**

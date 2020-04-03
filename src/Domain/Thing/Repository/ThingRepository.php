@@ -4,31 +4,27 @@ declare(strict_types=1);
 
 namespace App\Domain\Thing\Repository;
 
+use App\Domain\Exception\Thing\ThingNotFoundException;
 use App\Domain\Thing\Entity\Thing;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Ramsey\Uuid\UuidInterface;
+use RuntimeException;
 
-/**
- * @method Thing|null find($id, $lockMode = null, $lockVersion = null)
- * @method Thing|null findOneBy(array $criteria, array $orderBy = null)
- * @method Thing[]    findAll()
- * @method Thing[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- */
-class ThingRepository extends ServiceEntityRepository
+class ThingRepository
 {
     private ManagerRegistry $registry;
 
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Thing::class);
         $this->registry = $registry;
     }
 
     /**
      * @return array<Thing>
      */
-    public function searchNameDescription(string $searchstring): array
+    public function searchByNameAndDescription(string $searchstring): array
     {
         $builder = $this->getRepository()->createQueryBuilder('th');
         $builder->where('th.name LIKE :searchstring');
@@ -38,21 +34,51 @@ class ThingRepository extends ServiceEntityRepository
         return $builder->getQuery()->getResult();
     }
 
-    private function getRepository(): EntityRepository
+    public function find(UuidInterface $id): Thing
     {
-        $repository = $this->registry->getRepository(Thing::class);
+        $maker = $this->getRepository()->find($id);
 
-        if (!$repository instanceof EntityRepository) {
-            throw new \RuntimeException();
+        if (!$maker instanceof Thing) {
+            throw new ThingNotFoundException($id->toString());
         }
 
-        return $repository;
+        return $maker;
+    }
+
+    /**
+     * @return array|Thing[]
+     */
+    public function findAll()
+    {
+        return $this->getRepository()->findAll();
     }
 
     public function save(Thing $thing): void
     {
         $thing->updateUpdatedDate();
-        $this->getEntityManager()->persist($thing);
-        $this->getEntityManager()->flush();
+        $this->getManager()->persist($thing);
+        $this->getManager()->flush();
+    }
+
+    private function getManager(): EntityManager
+    {
+        $manager = $this->registry->getManagerForClass(Thing::class);
+
+        if (!$manager instanceof EntityManager) {
+            throw new RuntimeException();
+        }
+
+        return $manager;
+    }
+
+    private function getRepository(): EntityRepository
+    {
+        $repository = $this->registry->getRepository(Thing::class);
+
+        if (!$repository instanceof EntityRepository) {
+            throw new RuntimeException();
+        }
+
+        return $repository;
     }
 }

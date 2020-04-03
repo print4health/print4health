@@ -6,7 +6,6 @@ namespace App\Infrastructure\Dto\Thing;
 
 use App\Domain\Thing\Entity\Thing;
 use DateTimeImmutable;
-use Doctrine\ORM\EntityNotFoundException;
 use Swagger\Annotations as SWG;
 
 class ThingResponse
@@ -41,12 +40,8 @@ class ThingResponse
     /** @SWG\Property(type="string", example="Y-m-d\TH:i:sP") */
     public ?string $updatedDate;
 
-    public static function createFromThing(?Thing $thing): self
+    public static function createFromThing(Thing $thing): self
     {
-        if (!$thing instanceof Thing) {
-            throw new EntityNotFoundException('Thing is empty');
-        }
-
         $self = new self();
 
         $self->id = $thing->getId();

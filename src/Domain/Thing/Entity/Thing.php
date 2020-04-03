@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @ORM\Entity(repositoryClass="App\Domain\Thing\Repository\ThingRepository")
+ * @ORM\Entity
  */
 class Thing
 {
@@ -79,6 +79,20 @@ class Thing
         $this->description = $description;
         $this->specification = $specification;
         $this->createdDate = DateHelper::create();
+    }
+
+    public function update(
+        string $name,
+        string $imageUrl,
+        string $url,
+        string $description,
+        string $specification
+    ): void {
+        $this->name = $name;
+        $this->imageUrl = $imageUrl;
+        $this->url = $url;
+        $this->description = $description;
+        $this->specification = $specification;
     }
 
     public function getId(): string

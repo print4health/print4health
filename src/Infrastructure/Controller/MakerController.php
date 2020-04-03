@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Domain\Exception\Maker\MakerNotFoundException;
+use App\Domain\Exception\NotFoundException;
 use App\Domain\User\Entity\Maker;
 use App\Domain\User\Repository\MakerRepository;
 use App\Infrastructure\Dto\Maker\MakerGeoDataResponse;
@@ -137,7 +137,7 @@ class MakerController
     {
         try {
             $maker = $this->makerRepository->find(Uuid::fromString($uuid));
-        } catch (MakerNotFoundException $exception) {
+        } catch (NotFoundException $exception) {
             throw new NotFoundHttpException('Maker not found');
         }
 
