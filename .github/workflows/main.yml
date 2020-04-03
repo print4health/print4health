@@ -45,6 +45,25 @@ jobs:
           args: --diff --dry-run --allow-risky=yes
           secrets: "GITHUB_TOKEN"
 
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+          tools: composer
+
+      - name: composer install
+        run: "composer install --no-progress --no-suggest --no-interaction --prefer-dist --optimize-autoloader"
+
+      - name: run tests
+        run: "php vendor/bin/phpunit"
+
 #  phpunit:
 #      name: PHPUnit
 #      runs-on: ubuntu-18.04
