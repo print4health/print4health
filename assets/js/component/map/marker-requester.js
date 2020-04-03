@@ -15,19 +15,23 @@ class MarkerRequester extends React.Component {
   render() {
     const requester = this.props.requester;
     const iconMarkup = renderToStaticMarkup(
-      <i className="fas fa-clinic-medical text-primary fa-3x" />,
+      <i className="fas fa-clinic-medical text-primary fa-2x" />,
     );
     const customMarkerIcon = divIcon({
       html: iconMarkup,
       popupAnchor: [10, 0],
     });
     return <Marker
+      className="marker"
       icon={customMarkerIcon}
       position={[requester.latitude, requester.longitude]}
     >
       <Popup>
         <address>
-          <h4>{requester.name}</h4>
+          <h4>
+            <i className="fas fa-clinic-medical text-primary fa-1x mr-1" />
+            {requester.name}
+          </h4>
           <p>
             {requester.streetAddress}<br />
             {requester.postalCode} {requester.addressCity}
