@@ -89,7 +89,6 @@ class ContactController
 
             $contactMailer->send($contactRequest);
         } catch (\Exception $err) {
-            throw $err;
             throw new \Exception($err->getMessage());
         }
 

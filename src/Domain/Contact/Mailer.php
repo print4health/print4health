@@ -27,7 +27,7 @@ class Mailer
         $this->contactEmail = $contactEmail;
     }
 
-    public function send(ContactRequest $contactRequest): void
+    public function send(ContactRequest $contactRequest, string $filePath = null, string $fileName = null): void
     {
         $mailBody = $this->twig->render(
             '/email/contact_form.html.twig',
@@ -42,10 +42,11 @@ class Mailer
             ->from($this->contactEmail)
         ;
 
-        if (!empty($params['filePath']) && !empty($params['file'])) {
-            $fileName = $params['file']->getClientOriginalName();
-            $fileContent = file_get_contents($params['filePath']);
-            $email->attach($fileContent, $fileName);
+        if (null !== $filePath && null !== $fileName) {
+            $fileContent = file_get_contents($filePath);
+            if (false !== $fileContent) {
+                $email->attach($fileContent, $fileName);
+            }
         }
 
         try {
