@@ -57,7 +57,6 @@ class ContactController
         Request $request,
         ContactMailer $contactMailer
     ): JsonResponse {
-
         try {
             /** @var ContactRequest $contactRequest */
             $contactRequest = $this->serializer->deserialize(
