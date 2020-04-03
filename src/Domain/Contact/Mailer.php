@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\Contact;
 
-use App\Infrastructure\Dto\MakerRegistration\ContactRequest;
+use App\Infrastructure\Dto\Contact\ContactRequest;
 use RuntimeException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -39,7 +39,8 @@ class Mailer
             ->html($mailBody)
             ->cc($contactRequest->email)
             ->to($this->contactEmail)
-            ->from($this->contactEmail);
+            ->from($this->contactEmail)
+        ;
 
         if (!empty($params['filePath']) && !empty($params['file'])) {
             $fileName = $params['file']->getClientOriginalName();

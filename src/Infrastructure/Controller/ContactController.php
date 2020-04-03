@@ -31,8 +31,7 @@ class ContactController
         Environment $twig,
         SerializerInterface $serializer,
         ValidatorInterface $validator
-    )
-    {
+    ) {
         $this->mailer = $mailer;
         $this->twig = $twig;
         $this->serializer = $serializer;
@@ -59,7 +58,6 @@ class ContactController
         ContactMailer $contactMailer
     ): JsonResponse {
         try {
-
             try {
                 /** @var ContactRequest $contactRequest */
                 $contactRequest = $this->serializer->deserialize(
@@ -75,7 +73,6 @@ class ContactController
             if ($errors->count() > 0) {
                 throw new ValidationErrorException($errors, 'MakerRegistrationValidationError');
             }
-
 
 //            $file = $request->files->get('file');
 //            $params['filePath'] = null;
