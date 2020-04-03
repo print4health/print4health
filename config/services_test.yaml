@@ -4,3 +4,7 @@ services:
         autoconfigure: true
 
     App\Domain\Alice\Processor\PasswordProcessor: ~
+
+    App\Infrastructure\Services\GeoCoder:
+        arguments:
+            $googleApiKey: '%env(GOOGLE_MAPS_API_KEY)%'
