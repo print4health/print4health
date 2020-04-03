@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Controller;
 
 use App\Domain\Commitment\Repository\CommitmentRepository;
+use App\Domain\Exception\NotFoundException;
 use App\Domain\Order\Entity\Order;
 use App\Domain\Order\Repository\OrderRepository;
 use App\Domain\Thing\Entity\Thing;
@@ -15,6 +16,7 @@ use App\Domain\User\Repository\RequesterRepository;
 use App\Domain\User\RequesterNotFoundException;
 use App\Infrastructure\Dto\Order\OrderRequest;
 use App\Infrastructure\Dto\Order\OrderResponse;
+use App\Infrastructure\Exception\ValidationErrorException;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -28,6 +30,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class OrderController
 {
@@ -190,9 +193,10 @@ class OrderController
      */
     public function listByThingAction(string $thingId): JsonResponse
     {
-        $thing = $this->thingRepository->find($thingId);
-        if (!$thing instanceof Thing) {
-            throw new NotFoundHttpException('Thing not found');
+        try {
+            $thing = $this->thingRepository->find(Uuid::fromString($thingId));
+        } catch (NotFoundException $exception) {
+            throw new NotFoundHttpException($exception->getMessage());
         }
         $orders = $thing->getOrders();
 
@@ -243,7 +247,7 @@ class OrderController
      *
      * @IsGranted("ROLE_REQUESTER")
      */
-    public function createAction(Request $request): JsonResponse
+    public function createAction(Request $request, ValidatorInterface $validator): JsonResponse
     {
         /** @var Requester $requester */
         $requester = $this->security->getUser();
@@ -255,13 +259,15 @@ class OrderController
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
 
-        if ($orderRequest->quantity < 1) {
-            throw new BadRequestHttpException('Quantity must be greater than zero');
+        $errors = $validator->validate($orderRequest);
+        if ($errors->count() > 0) {
+            throw new ValidationErrorException($errors);
         }
 
-        $thing = $this->thingRepository->find($orderRequest->thingId);
-        if (null === $thing) {
-            throw new BadRequestHttpException('No thing was found');
+        try {
+            $thing = $this->thingRepository->find(Uuid::fromString($orderRequest->thingId));
+        } catch (NotFoundException $exception) {
+            throw new NotFoundHttpException($exception->getMessage());
         }
 
         $order = $this->orderRepository->findOneBy(['requester' => $requester, 'thing' => $thing]);
