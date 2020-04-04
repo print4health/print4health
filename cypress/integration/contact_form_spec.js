@@ -3,7 +3,7 @@ describe('contact form workflow', function () {
     cy.visit('/');
   });
   it('clear email inbox', () => {
-    cy.request('DELETE', process.env.CYPRESS_MAILER_BASE_URL + '/email/all');
+    cy.request('DELETE',  'http://localhost:1080/email/all');
   });
   it('send contact form', () => {
     cy.get('footer a:contains("Kontakt")').click();
@@ -17,7 +17,7 @@ describe('contact form workflow', function () {
     cy.contains('Danke für die Nachricht! Wir melden uns sobald wie möglich');
   });
   it('check email', () => {
-    cy.request('GET', process.env.CYPRESS_MAILER_BASE_URL + '/email').then(res => {
+    cy.request('GET', 'http://localhost:1080/email').then(res => {
       const email = res.body[0];
       expect(email.subject).to.equal('Betreff XYZ');
       expect(email.html).to.contain('some more message');

@@ -65,7 +65,7 @@ Cypress.Commands.add('resetPassword', (email, newPassword) => {
   cy.visit('/');
 
   //clear maildev inbox
-  cy.request('DELETE', process.env.CYPRESS_MAILER_BASE_URL + '/email/all');
+  cy.request('DELETE', 'http://localhost:1080/email/all');
 
   cy.get('a.nav-link:contains("Anmelden")').click();
   cy.contains('Anmeldung bei print4health');
@@ -74,7 +74,7 @@ Cypress.Commands.add('resetPassword', (email, newPassword) => {
   cy.get('input[name=email]').type(email);
   cy.get('input[type=submit]').click();
   cy.contains('Ein Link zum Zurücksetzen des Passworts wurde per email verschickt');
-  cy.request('GET', process.env.CYPRESS_MAILER_BASE_URL + '/email').then(res => {
+  cy.request('GET', 'http://localhost:1080/email').then(res => {
     const email = res.body[0];
     expect(email.subject).to.equal('print4health - Passwort zurücksetzen');
     expect(email.html).to.contain('Bitte nutzen Sie folgende URL um ein neues Passwort zu vergeben');
