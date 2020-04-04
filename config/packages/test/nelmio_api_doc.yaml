@@ -1,0 +1,16 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title: print4health
+            description: ~
+            version: 1.0.0
+    areas:
+        default:
+            path_patterns:
+                - ^/(login|logout|request-password-reset|reset-password)
+                - ^/(user)
+                - ^/(orders)
+                - ^/(things)
+                - ^/(requester)
+                - ^/(commitments)
+                - ^/(maker/registration)
