@@ -45,6 +45,64 @@ jobs:
           args: --diff --dry-run --allow-risky=yes
           secrets: "GITHUB_TOKEN"
 
+  cypress:
+      name: cypress
+      runs-on: ubuntu-18.04
+      services:
+          mysql:
+              image: mysql:5.7
+              env:
+                  MYSQL_ROOT_PASSWORD: password
+              ports:
+                  - 3306
+              options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+          maildev:
+              image: maildev/maildev:1.2.0-beta1
+              ports:
+                  - "1080:80"
+                  - "1025:25"
+
+      steps:
+          - name: Checkout
+            uses: actions/checkout@v2
+
+          - name: Setup PHP
+            uses: shivammathur/setup-php@v2
+            with:
+                php-version: '7.4'
+                tools: composer
+
+          - name: Run make init
+            run: "make init"
+            env:
+                DATABASE_URL: mysql://root:password@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/app_test?serverVersion=5.7
+
+          - name: Install symfony cli
+            run: "curl -sS https://get.symfony.com/cli/installer | bash"
+
+          - name: run symfony web-server
+            run: "/home/runner/.symfony/bin/symfony server:start -d"
+            env:
+                DATABASE_URL: mysql://root:password@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/app_test?serverVersion=5.7
+
+          - name: Cypress run
+            uses: cypress-io/github-action@v1
+            env:
+                CYPRESS_BASE_URL: http://127.0.0.1:8000
+
+          - uses: actions/upload-artifact@v1
+            if: always()
+            with:
+                name: cypress-videos
+                path: cypress/videos
+
+          - uses: actions/upload-artifact@v1
+            if: failure()
+            with:
+                name: sf-logs
+                path: var/log
+
   phpunit:
     name: PHPUnit
     runs-on: ubuntu-18.04
