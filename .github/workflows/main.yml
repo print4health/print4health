@@ -89,10 +89,9 @@ jobs:
 
           - name: Cypress run
             uses: cypress-io/github-action@v1
-            with:
-                env:
-                    CYPRESS_MAILER_BASE_URL: http://127.0.0.1:${{ job.services.maildev.ports['1080'] }}
-                    CYPRESS_BASE_URL: http://127.0.0.1:8000
+            env:
+                CYPRESS_MAILER_BASE_URL: http://127.0.0.1:${{ job.services.maildev.ports['1080'] }}
+                CYPRESS_BASE_URL: http://127.0.0.1:8000
 
           - uses: actions/upload-artifact@v1
             if: always()
