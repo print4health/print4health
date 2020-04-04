@@ -62,7 +62,8 @@ jobs:
               ports:
                   - "1080:80"
                   - "1025:25"
-              options: --hide-extensions STARTTLS
+              with:
+                command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
 
       steps:
           - name: Checkout
