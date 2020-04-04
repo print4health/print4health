@@ -35,6 +35,8 @@ make init
 - ```yarn encore dev```
 - ```yarn encore dev --watch```
 
+## code quality & testing
+
 ### check Javascript
 
 - ```yarn eslint```
