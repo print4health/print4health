@@ -1,6 +1,6 @@
 describe('maker registration workflow', function () {
   it('go to homepage', function () {
-    cy.visit('http://192.168.222.12');
+    cy.visit('http://localhost');
   });
   it('register as maker', () => {
     cy.get('a.nav-link:contains("Registrieren")').click();

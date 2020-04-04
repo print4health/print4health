@@ -45,6 +45,49 @@ jobs:
           args: --diff --dry-run --allow-risky=yes
           secrets: "GITHUB_TOKEN"
 
+  cypress:
+      name: cypress
+      runs-on: ubuntu-18.04
+      services:
+          mysql:
+              image: mysql:5.7
+              env:
+                  MYSQL_ROOT_PASSWORD: password
+              ports:
+                  - 3306
+              options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+          maildev:
+              image: djfarrelly/maildev
+              restart_policy: 'unless-stopped'
+              ports:
+                  - "1080:80"
+                  - "1025:25"
+              command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+              
+      steps:
+          - name: Checkout
+            uses: actions/checkout@v2
+
+          - name: Setup PHP
+            uses: shivammathur/setup-php@v2
+            with:
+                php-version: '7.4'
+                tools: composer
+
+          - name: Install
+            uses: CultureHQ/actions-yarn@master
+            with:
+                args: install
+
+          - name: make init
+            run: "make init"
+
+          - name: Install
+            uses: CultureHQ/actions-yarn@master
+            with:
+                args: run cypress
+
   phpunit:
     name: PHPUnit
     runs-on: ubuntu-18.04

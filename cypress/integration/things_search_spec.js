@@ -1,6 +1,6 @@
 describe('search thing list', function () {
   it('go to homepage', function () {
-    cy.visit('http://192.168.222.12');
+    cy.visit('http://localhost');
   });
   it('filter things', () => {
     cy.server().route('GET', '/things').as('thingsList');
