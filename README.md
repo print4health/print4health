@@ -44,6 +44,14 @@ make init
 
  -   ```make dev```
 
+### run phpunit
+
+ -   ```make phpunit```
+ 
+### run cypress tests
+
+-   ```make cypress```
+
 ### Lokaler Aufruf
 
 http://192.168.222.12  
