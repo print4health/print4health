@@ -82,7 +82,7 @@ jobs:
             run: "curl -sS https://get.symfony.com/cli/installer | bash"
 
           - name: run symfony web-server
-            run: "symfony server:start -d"
+            run: "/home/runner/.symfony/bin/symfony server:start -d"
 
           - name: Cypress run
             uses: cypress-io/github-action@v1
