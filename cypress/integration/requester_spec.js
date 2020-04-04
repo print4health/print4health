@@ -3,7 +3,7 @@ describe('requester workflow', function () {
     Cypress.Cookies.preserveOnce('PHPSESSID');
   });
   it('go to homepage', function () {
-    cy.visit(Cypress.env().baseUrl);
+    cy.visit(Cypress.env('BASE_URL'));
   });
   it('login as requester', function () {
     cy.login('requester@print4health.org', 'test');

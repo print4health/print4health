@@ -1,6 +1,2 @@
 {
-  "env": {
-    "baseUrl": "http://127.0.0.1:8000",
-    "mailerBaseUrl": "http://127.0.0.1:1080"
-  }
 }

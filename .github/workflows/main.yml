@@ -60,8 +60,8 @@ jobs:
           maildev:
               image: djfarrelly/maildev
               ports:
-                  - "1080:80"
-                  - "1025:25"
+                  - 1080
+                  - 1025
 
       steps:
           - name: Checkout
@@ -85,9 +85,13 @@ jobs:
             run: "/home/runner/.symfony/bin/symfony server:start -d"
             env:
                 DATABASE_URL: mysql://root:password@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/app_test?serverVersion=5.7
+                MAILER_DSN: smtp://127.0.0.1:${{ job.services.maildev.ports['1025'] }}
 
           - name: Cypress run
             uses: cypress-io/github-action@v1
+            env:
+                CYPRESS_MAILER_BASE_URL: http://127.0.0.1:${{ job.services.maildev.ports['1080'] }}
+                CYPRESS_BASE_URL: http://127.0.0.1:8000
 
           - uses: actions/upload-artifact@v1
             if: always()
