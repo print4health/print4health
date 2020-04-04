@@ -109,7 +109,7 @@ const RegistrationForm = (props) => {
                 </Form.Text>
               </Col>
             </Form.Group>
-            <Form.Group as={Row} controlId="registerMakerPassword">
+            <Form.Group as={Row} controlId="registerMakerPasswordRepet">
               <Form.Label column sm="2">Passwort wiederholen*</Form.Label>
               <Col sm="10">
                 <Form.Control type="password"
@@ -302,7 +302,7 @@ class RegisterMaker extends React.Component {
   }
 
   getCountryList(lang) {
-    const url = `https://restcountries.eu/rest/v2/all?fields=alpha2Code;name;translations`;
+    const url = `/build/meta/country-codes.json`;
     const langIsSupported = ["de", "es", "fr", "ja", "it", "br", "pt"].includes(lang);
 
     axios.get(url)
