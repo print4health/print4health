@@ -3,7 +3,7 @@ describe('maker workflow', function () {
     Cypress.Cookies.preserveOnce('PHPSESSID');
   });
   it('go to homepage', function () {
-    cy.visit('http://localhost');
+    cy.visit(Cypress.env().baseUrl);
   });
   it('login as maker', function () {
     cy.login('maker@print4health.org', 'test');

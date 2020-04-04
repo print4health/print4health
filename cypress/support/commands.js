@@ -62,7 +62,7 @@ Cypress.Commands.add('openOrderModal', (email, pw) => {
 });
 
 Cypress.Commands.add('resetPassword', (email, newPassword) => {
-  cy.visit('http://localhost');
+  cy.visit(Cypress.env().baseUrl);
 
   //clear maildev inbox
   cy.request('DELETE', 'http://localhost:1080/email/all');

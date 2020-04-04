@@ -1,6 +1,6 @@
 describe('search thing list', function () {
   it('go to homepage', function () {
-    cy.visit('http://localhost');
+    cy.visit(Cypress.env().baseUrl);
   });
   it('filter things', () => {
     cy.server().route('GET', '/things').as('thingsList');

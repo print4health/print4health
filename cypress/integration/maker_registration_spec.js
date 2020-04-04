@@ -1,6 +1,6 @@
 describe('maker registration workflow', function () {
   it('go to homepage', function () {
-    cy.visit('http://localhost');
+    cy.visit(Cypress.env().baseUrl);
   });
   it('register as maker', () => {
     cy.get('a.nav-link:contains("Registrieren")').click();

@@ -1,6 +1,6 @@
 describe('contact form workflow', function () {
   it('go to homepage', function () {
-    cy.visit('http://localhost');
+    cy.visit(Cypress.env().baseUrl);
   });
   it('clear email inbox', () => {
     cy.request('DELETE', 'http://localhost:1080/email/all');
