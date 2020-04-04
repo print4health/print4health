@@ -3,7 +3,7 @@ describe('anonymous workflow', function () {
     Cypress.Cookies.preserveOnce('PHPSESSID');
   });
   it('go to homepage', function () {
-    cy.visit(Cypress.env('BASE_URL'));
+    cy.visit('/');
   });
   it('check that commit-modal only displays infotext', function () {
     cy.openCommitModal();

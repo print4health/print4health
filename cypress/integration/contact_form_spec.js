@@ -1,6 +1,6 @@
 describe('contact form workflow', function () {
   it('go to homepage', function () {
-    cy.visit(Cypress.env('BASE_URL'));
+    cy.visit('/');
   });
   it('clear email inbox', () => {
     cy.request('DELETE', Cypress.env('MAILER_BASE_URL') + '/email/all');
