@@ -86,12 +86,12 @@ class Requester implements UserInterface
     /**
      * @ORM\Column(name="latitude", type="decimal", precision=20, scale=16, nullable=true)
      */
-    private ?string $latitude = null;
+    private ?float $latitude = null;
 
     /**
      * @ORM\Column(name="longitude", type="decimal", precision=20, scale=16, nullable=true)
      */
-    private ?string $longitude = null;
+    private ?float $longitude = null;
 
     /**
      * @ORM\Column(name="hub", type="boolean", nullable=true)
@@ -99,7 +99,7 @@ class Requester implements UserInterface
     private ?bool $hub = false;
 
     /**
-     * @var array[]
+     * @var float[]
      * @ORM\Column(name="area", type="json_array", nullable=true)
      */
     private ?array $area = null;
@@ -283,22 +283,22 @@ class Requester implements UserInterface
         $this->addressState = $addressState;
     }
 
-    public function getLatitude(): ?string
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
 
-    public function setLatitude(?string $latitude): void
+    public function setLatitude(?float $latitude): void
     {
         $this->latitude = $latitude;
     }
 
-    public function getLongitude(): ?string
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
 
-    public function setLongitude(?string $longitude): void
+    public function setLongitude(?float $longitude): void
     {
         $this->longitude = $longitude;
     }
@@ -322,7 +322,7 @@ class Requester implements UserInterface
     }
 
     /**
-     * @param array[] $area
+     * @param float[] $area
      */
     public function setArea(?array $area): void
     {

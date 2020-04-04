@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
-class MakerUniqueEmailValidator extends ConstraintValidator
+class UserUniqueEmailValidator extends ConstraintValidator
 {
     private UserRepositoryWrapper $userRepositoryWrapper;
 
@@ -21,8 +21,8 @@ class MakerUniqueEmailValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint): void
     {
-        if (!$constraint instanceof MakerUniqueEmail) {
-            throw new UnexpectedTypeException($constraint, MakerUniqueEmail::class);
+        if (!$constraint instanceof UserUniqueEmail) {
+            throw new UnexpectedTypeException($constraint, UserUniqueEmail::class);
         }
 
         if (null === $value || '' === $value) {

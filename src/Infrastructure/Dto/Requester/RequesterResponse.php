@@ -6,7 +6,6 @@ namespace App\Infrastructure\Dto\Requester;
 
 use App\Domain\User\Entity\Requester;
 use DateTimeImmutable;
-use Doctrine\ORM\EntityNotFoundException;
 use Swagger\Annotations as SWG;
 
 class RequesterResponse
@@ -21,7 +20,7 @@ class RequesterResponse
     public ?string $name;
 
     /** @SWG\Property(type="string") */
-    public ?string $streetAddress;
+    public ?string $addressStreet;
 
     /** @SWG\Property(type="string") */
     public ?string $postalCode;
@@ -53,18 +52,14 @@ class RequesterResponse
     /** @SWG\Property(type="string", example="Y-m-d\TH:i:sP") */
     public string $createdDate;
 
-    public static function createFromRequester(?Requester $requester): self
+    public static function createFromRequester(Requester $requester): self
     {
-        if (!$requester instanceof Requester) {
-            throw new EntityNotFoundException('User is empty');
-        }
-
         $self = new self();
 
         $self->id = $requester->getId();
         $self->email = $requester->getEmail();
         $self->name = $requester->getName();
-        $self->streetAddress = $requester->getStreetAddress();
+        $self->addressStreet = $requester->getAddressStreet();
         $self->postalCode = $requester->getPostalCode();
         $self->addressCity = $requester->getAddressCity();
         $self->addressState = $requester->getAddressState();

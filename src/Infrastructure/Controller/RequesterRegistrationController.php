@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Domain\User\Entity\Maker;
-use App\Domain\User\Repository\MakerRepository;
-use App\Infrastructure\Dto\MakerRegistration\MakerRegistrationRequest;
-use App\Infrastructure\Dto\MakerRegistration\MakerRegistrationResponse;
+use App\Domain\User\Entity\Requester;
+use App\Domain\User\Repository\RequesterRepository;
+use App\Infrastructure\Dto\RequesterRegistration\RequesterRegistrationRequest;
+use App\Infrastructure\Dto\RequesterRegistration\RequesterRegistrationResponse;
 use App\Infrastructure\Dto\ValidationError\ValidationErrorResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
 use App\Infrastructure\Services\GeoCoder;
@@ -26,21 +26,19 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Class MakerRegistrationController.
+ * Class RequesterRegistrationController.
  *
  * @Route(
- *     "/maker/registration",
- *     name="maker_registration",
+ *     "/requester/registration",
+ *     name="requester_registration",
  *     methods={"POST"},
  *     format="json"
  * )
  * @IsGranted("IS_AUTHENTICATED_ANONYMOUSLY")
  */
-class MakerRegistrationController
+class RequesterRegistrationController
 {
     private SerializerInterface $serializer;
-
-    private MakerRepository $makerRepository;
 
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
@@ -48,15 +46,20 @@ class MakerRegistrationController
 
     private ValidatorInterface $validator;
 
+    /**
+     * @var RequesterRepository
+     */
+    private RequesterRepository $requesterRepository;
+
     public function __construct(
         SerializerInterface $serializer,
-        MakerRepository $makerRepository,
+        RequesterRepository $requesterRepository,
         UserPasswordEncoderInterface $userPasswordEncoder,
         ValidatorInterface $validator,
         GeoCoder $geoCoder
     ) {
         $this->serializer = $serializer;
-        $this->makerRepository = $makerRepository;
+        $this->requesterRepository = $requesterRepository;
         $this->userPasswordEncoder = $userPasswordEncoder;
         $this->validator = $validator;
         $this->geoCoder = $geoCoder;
@@ -68,17 +71,17 @@ class MakerRegistrationController
      *
      * @return JsonResponse
      *
-     * @SWG\Tag(name="Maker")
+     * @SWG\Tag(name="Requester")
      * @SWG\Parameter(
-     *     name="maker-registration",
+     *     name="requester-registration",
      *     in="body",
      *     type="json",
-     *     @Model(type=MakerRegistrationRequest::class)
+     *     @Model(type=RequesterRegistrationRequest::class)
      * )
      * @SWG\Response(
      *     response=201,
-     *     description="Maker created successfully",
-     *     @Model(type=MakerRegistrationResponse::class)
+     *     description="Requester created successfully",
+     *     @Model(type=RequesterRegistrationResponse::class)
      * )
      * @SWG\Response(
      *     response=400,
@@ -93,51 +96,54 @@ class MakerRegistrationController
     public function __invoke(Request $request)
     {
         try {
-            /** @var MakerRegistrationRequest $makerRegistrationRequest */
-            $makerRegistrationRequest = $this->serializer->deserialize(
+            /** @var RequesterRegistrationRequest $requesterRegistrationRequest */
+            $requesterRegistrationRequest = $this->serializer->deserialize(
                 $request->getContent(),
-                MakerRegistrationRequest::class,
+                RequesterRegistrationRequest::class,
                 JsonEncoder::FORMAT
             );
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
 
-        $errors = $this->validator->validate($makerRegistrationRequest);
+        $errors = $this->validator->validate($requesterRegistrationRequest);
         if ($errors->count() > 0) {
-            throw new ValidationErrorException($errors, 'MakerRegistrationValidationError');
+            throw new ValidationErrorException($errors, 'RequesterRegistrationValidationError');
         }
 
-        $maker = new Maker($makerRegistrationRequest->email, $makerRegistrationRequest->name);
-        $maker->setPassword($this->userPasswordEncoder->encodePassword($maker, $makerRegistrationRequest->password));
-        $maker->setPostalCode($makerRegistrationRequest->postalCode);
-        $maker->setAddressCity($makerRegistrationRequest->addressCity);
-        $maker->setAddressState($makerRegistrationRequest->addressState);
+        $requester = new Requester($requesterRegistrationRequest->email, $requesterRegistrationRequest->name);
+        $requester->setPassword(
+            $this->userPasswordEncoder->encodePassword($requester,
+                $requesterRegistrationRequest->password)
+        );
+        $requester->setPostalCode($requesterRegistrationRequest->postalCode);
+        $requester->setAddressCity($requesterRegistrationRequest->addressCity);
+        $requester->setAddressState($requesterRegistrationRequest->addressState);
 
         try {
             // prevent a geocode request if we don't have the necessary data
             if (
-                $makerRegistrationRequest->hasPostalCodeAndCountryCode() &&
-                false === $makerRegistrationRequest->hasLatLng()
+                $requesterRegistrationRequest->hasPostalCodeAndCountry() &&
+                false === $requesterRegistrationRequest->hasLatLng()
             ) {
                 $geoLocation = $this->geoCoder->geoEncodePostalCountry(
-                    (string) $makerRegistrationRequest->addressState,
-                    (string) $makerRegistrationRequest->postalCode
+                    (string) $requesterRegistrationRequest->addressState,
+                    (string) $requesterRegistrationRequest->postalCode
                 );
 
-                $maker->setLatitude($geoLocation->getLatitude());
-                $maker->setLongitude($geoLocation->getLongitude());
+                $requester->setLatitude($geoLocation->getLatitude());
+                $requester->setLongitude($geoLocation->getLongitude());
             }
         } catch (\Exception $err) {
             // TODO: add sentry message on error?
         }
 
-        $this->makerRepository->save($maker);
+        $this->requesterRepository->save($requester);
 
         // todo send email for activation ?
 
-        $makerResponse = MakerRegistrationResponse::createFromMaker($maker);
+        $requesteResponse = RequesterRegistrationResponse::createFromRequester($requester);
 
-        return new JsonResponse(['maker' => $makerResponse], Response::HTTP_CREATED);
+        return new JsonResponse(['requester' => $requesteResponse], Response::HTTP_CREATED);
     }
 }

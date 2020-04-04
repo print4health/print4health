@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Dto\Requester;
+namespace App\Infrastructure\Dto\RequesterRegistration;
 
 use App\Infrastructure\Validator\UserUniqueEmail;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class RequesterRequest
+class RequesterRegistrationRequest
 {
     /**
      * @SWG\Property(type="string")
@@ -21,6 +21,7 @@ class RequesterRequest
     /**
      * @SWG\Property(type="string")
      * @Assert\NotBlank
+     * @Assert\Length(min=8)
      */
     public string $password;
 
@@ -60,14 +61,63 @@ class RequesterRequest
     public ?string $addressState = null;
 
     /**
-     * @SWG\Property(type="float")
+     * @SWG\Property(type="boolean")
+     * @Assert\Type(type="boolean")
+     */
+    public ?bool $hub = null;
+
+    /**
+     * @SWG\Property(type="number")
      * @Assert\Type(type="numeric")
      */
     public ?float $latitude = null;
 
     /**
-     * @SWG\Property(type="float")
+     * @SWG\Property(type="number")
      * @Assert\Type(type="numeric")
      */
     public ?float $longitude = null;
+
+    /**
+     * @SWG\Property(type="boolean")
+     * @Assert\IsTrue()
+     */
+    public bool $confirmedPlattformIsContactOnly = false;
+
+    /**
+     * @SWG\Property(type="boolean")
+     * @Assert\IsTrue()
+     */
+    public bool $confirmedNoAccountability = false;
+
+    /**
+     * @SWG\Property(type="boolean")
+     * @Assert\IsTrue()
+     */
+    public bool $confirmedNoCertification = false;
+
+    /**
+     * @SWG\Property(type="boolean")
+     * @Assert\IsTrue()
+     */
+    public bool $confirmedNoAccountabiltyForMediation = false;
+
+    /**
+     * @SWG\Property(type="boolean")
+     * @Assert\IsTrue()
+     */
+    public bool $confirmedRuleMaterialAndTransport = false;
+
+    public function hasPostalCodeAndCountry(): bool
+    {
+        return null !== $this->postalCode &&
+            '' !== $this->postalCode &&
+            null !== $this->addressState &&
+            '' !== $this->addressState;
+    }
+
+    public function hasLatLng(): bool
+    {
+        return null !== $this->latitude && null !== $this->longitude;
+    }
 }
