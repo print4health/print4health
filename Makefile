@@ -22,7 +22,7 @@ cache:                                                                          
 	bin/console cache:clear && bin/console cache:warmup
 
 phpunit:                                                                        ## run phpunit tests
-	bin/phpunit --testdox -v --colors="always" $(OPTIONS)
+	vendor/bin/phpunit --testdox -v --colors="always" $(OPTIONS)
 
 coverage:                                                                       ## run phpunit tests with coverage
 	xdebug bin/phpunit --testdox -v --colors="always" --coverage-html coverage $(OPTIONS)
