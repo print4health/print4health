@@ -10,6 +10,7 @@ use App\Infrastructure\Dto\MakerRegistration\MakerRegistrationRequest;
 use App\Infrastructure\Dto\MakerRegistration\MakerRegistrationResponse;
 use App\Infrastructure\Dto\ValidationError\ValidationErrorResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
+use App\Infrastructure\Services\GeoCoder;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -46,25 +47,27 @@ class MakerRegistrationController
 
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
-    /**
-     * @var ValidatorInterface
-     */
+    private GeoCoder $geoCoder;
+
     private ValidatorInterface $validator;
 
     public function __construct(
         SerializerInterface $serializer,
         MakerRepository $makerRepository,
         UserPasswordEncoderInterface $userPasswordEncoder,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        GeoCoder $geoCoder
     ) {
         $this->serializer = $serializer;
         $this->makerRepository = $makerRepository;
         $this->userPasswordEncoder = $userPasswordEncoder;
         $this->validator = $validator;
+        $this->geoCoder = $geoCoder;
     }
 
     /**
      * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \Exception
      *
      * @return JsonResponse
      *
@@ -139,8 +142,21 @@ class MakerRegistrationController
         $maker->setPostalCode($makerRegistrationRequest->postalCode);
         $maker->setAddressCity($makerRegistrationRequest->addressCity);
         $maker->setAddressState($makerRegistrationRequest->addressState);
-        $maker->setLatitude($makerRegistrationRequest->latitude);
-        $maker->setLongitude($makerRegistrationRequest->longitude);
+
+        try {
+            // prevent a geocode request if we don't have the necessary data
+            if ($makerRegistrationRequest->hasPostalCodeAndCity()) {
+                $geoLocation = $this->geoCoder->geoEncodePostalCountry(
+                    (string) $makerRegistrationRequest->addressState,
+                    (string) $makerRegistrationRequest->postalCode
+                );
+
+                $maker->setLatitude($geoLocation->getLatitude());
+                $maker->setLongitude($geoLocation->getLongitude());
+            }
+        } catch (\Exception $err) {
+            // TODO: add sentry message on error?
+        }
 
         $this->makerRepository->save($maker);
 

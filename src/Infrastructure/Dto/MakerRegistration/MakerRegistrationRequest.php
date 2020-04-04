@@ -78,4 +78,12 @@ class MakerRegistrationRequest
      * @Assert\IsTrue()
      */
     public bool $confirmedPersonalDataTransferToRequester = false;
+
+    public function hasPostalCodeAndCity(): bool
+    {
+        return null !== $this->postalCode &&
+            '' !== $this->postalCode &&
+            null !== $this->addressCity &&
+            '' !== $this->addressCity;
+    }
 }
