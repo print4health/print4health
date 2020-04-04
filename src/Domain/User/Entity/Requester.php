@@ -66,7 +66,7 @@ class Requester implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $streetAddress = null;
+    private ?string $addressStreet = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -237,14 +237,14 @@ class Requester implements UserInterface
         return $this;
     }
 
-    public function getStreetAddress(): ?string
+    public function getAddressStreet(): ?string
     {
-        return $this->streetAddress;
+        return $this->addressStreet;
     }
 
-    public function setStreetAddress(?string $streetAddress): self
+    public function setAddressStreet(?string $addressStreet): self
     {
-        $this->streetAddress = $streetAddress;
+        $this->addressStreet = $addressStreet;
 
         return $this;
     }
