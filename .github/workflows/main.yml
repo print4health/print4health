@@ -59,12 +59,11 @@ jobs:
 
           maildev:
               image: djfarrelly/maildev
-              restart_policy: 'unless-stopped'
               ports:
                   - "1080:80"
                   - "1025:25"
               command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
-              
+
       steps:
           - name: Checkout
             uses: actions/checkout@v2
