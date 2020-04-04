@@ -33,7 +33,7 @@
   with_dict:
     security-checker: http://get.sensiolabs.org/security-checker.phar
     phpstan: https://github.com/phpstan/phpstan/releases/download/0.12.18/phpstan.phar
-    deptrac: hhttps://github.com/sensiolabs-de/deptrac/releases/download/0.6.0/deptrac.phar
+    deptrac: https://github.com/sensiolabs-de/deptrac/releases/download/0.6.0/deptrac.phar
     php-cs-fixer: https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.16.1/php-cs-fixer.phar
     psalm: https://github.com/vimeo/psalm/releases/download/3.10.1/psalm.phar
 
