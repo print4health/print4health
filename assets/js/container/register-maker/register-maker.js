@@ -128,7 +128,7 @@ const RegistrationForm = (props) => {
                 <Form.Control type="text"
                               name="postalCode"
                               placeholder="Postleitzahl"
-                              ref={register({ validate: (val) => validatePostalCode(val) })}/>
+                              ref={register({ validate: (val) => validatePostalCode(val) })} />
                 <Form.Text className="text-muted">
                   Deine Postleitzahl wird verwendet um dich bei einer nächsten Version auf einer Karte anzuzeigen, damit
                   eine Einrichtung in deiner Nähe sehen kann, dass du zur Verfügung stehst.
@@ -142,14 +142,15 @@ const RegistrationForm = (props) => {
               <Col sm="10">
                 <Form.Control type="text"
                               name="addressState"
-                              placeholder="Land"
+                              placeholder="Land*"
                               as="select"
-                              ref={register({ required: true })} >
-                  { countries.map(({name, code}) => <option key={code} value={code}>{name}</option>)}
+                              ref={register({ required: true, minLength: 2 })}>
+                  {countries.map(({ name, code }) => <option key={code} value={code}>{name}</option>)}
                 </Form.Control>
                 <Form.Text className="text-muted">
-                  Das Land in dem du Wohnst (kein Pflichtfeld)
-                  {printError(errors.addressState, 'Der Name deines Landes darf max. 255 Zeichen lang sein.')}
+                  Das Land in dem du Wohnst (Pflichtfeld da dieses mit der Postleitzahl verwendet wird um deine
+                  ungefähre Position zu speichern)
+                  {printError(errors.addressState, 'Bitte wähle dein Land aus der Liste aus.')}
                   {printError(serverErrors.addressState, serverErrors.addressState)}
                 </Form.Text>
               </Col>
@@ -298,24 +299,39 @@ class RegisterMaker extends React.Component {
       // todo redirect to home?
     }
 
-    this.getCountryList("de");
+    this.getCountryList('de');
   }
 
   getCountryList(lang) {
     const url = `/build/meta/country-codes.json`;
-    const langIsSupported = ["de", "es", "fr", "ja", "it", "br", "pt"].includes(lang);
+    const langIsSupported = ['de', 'es', 'fr', 'ja', 'it', 'br', 'pt'].includes(lang);
 
     axios.get(url)
       .then((result) => {
-        const data = result.data.map(({name, translations, alpha2Code}) => (
-          { name: lang === "en" || !langIsSupported? name : translations[lang],
-            code: alpha2Code,
-          }));
+        const data = result.data.map((
+          { name, translations, alpha2Code }) => {
+            name = lang === 'en' || !langIsSupported ? name : translations[lang];
+            name = `${name} (${alpha2Code})`;
+            return {
+              name: name,
+              code: alpha2Code,
+            };
+          },
+        );
 
-        this.setState({countries: data});
-    }).catch(()=> {
-      console.log("error");
-    })
+        data.sort((a, b) => {
+          if (a.name === b.name) {
+            return 0;
+          }
+          return a.name > b.name ? 1 : -1;
+        });
+
+        data.unshift({ name: 'Bitte wählen', code: '' });
+
+        this.setState({ countries: data });
+      }).catch(() => {
+      console.log('error');
+    });
   }
 
   onSubmit = (data) => {
@@ -365,7 +381,12 @@ class RegisterMaker extends React.Component {
 
   render() {
     const { showForm, alert, serverErrors, countries } = this.state;
-    return <RegistrationForm callback={this.onSubmit} alert={alert} serverErrors={serverErrors} showForm={showForm} countries={countries} />;
+    return <RegistrationForm
+      callback={this.onSubmit}
+      alert={alert}
+      serverErrors={serverErrors}
+      showForm={showForm}
+      countries={countries} />;
   }
 }
 

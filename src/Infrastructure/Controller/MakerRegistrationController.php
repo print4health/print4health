@@ -145,7 +145,7 @@ class MakerRegistrationController
 
         try {
             // prevent a geocode request if we don't have the necessary data
-            if ($makerRegistrationRequest->hasPostalCodeAndCity()) {
+            if ($makerRegistrationRequest->hasPostalCodeAndCountryCode()) {
                 $geoLocation = $this->geoCoder->geoEncodePostalCountry(
                     (string) $makerRegistrationRequest->addressState,
                     (string) $makerRegistrationRequest->postalCode
