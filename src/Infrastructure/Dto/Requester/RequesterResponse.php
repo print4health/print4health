@@ -20,7 +20,7 @@ class RequesterResponse
     public ?string $name;
 
     /** @SWG\Property(type="string") */
-    public ?string $addressStreet;
+    public ?string $streetAddress;
 
     /** @SWG\Property(type="string") */
     public ?string $postalCode;
@@ -31,11 +31,11 @@ class RequesterResponse
     /** @SWG\Property(type="string") */
     public ?string $addressState;
 
-    /** @SWG\Property(type="string") */
-    public ?string $latitude;
+    /** @SWG\Property(type="number") */
+    public ?float $latitude;
 
-    /** @SWG\Property(type="string") */
-    public ?string $longitude;
+    /** @SWG\Property(type="number") */
+    public ?float $longitude;
 
     /** @SWG\Property(type="bool") */
     public ?bool $isHub;
@@ -59,7 +59,7 @@ class RequesterResponse
         $self->id = $requester->getId();
         $self->email = $requester->getEmail();
         $self->name = $requester->getName();
-        $self->addressStreet = $requester->getAddressStreet();
+        $self->streetAddress = $requester->getAddressStreet();
         $self->postalCode = $requester->getPostalCode();
         $self->addressCity = $requester->getAddressCity();
         $self->addressState = $requester->getAddressState();

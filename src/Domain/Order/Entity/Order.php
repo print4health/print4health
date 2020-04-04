@@ -74,7 +74,7 @@ class Order
         return $this->id;
     }
 
-    public function getRequester(): ?Requester
+    public function getRequester(): Requester
     {
         return $this->requester;
     }

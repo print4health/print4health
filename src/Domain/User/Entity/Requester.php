@@ -99,7 +99,7 @@ class Requester implements UserInterface
     private ?bool $hub = false;
 
     /**
-     * @var float[]
+     * @var array[]
      * @ORM\Column(name="area", type="json_array", nullable=true)
      */
     private ?array $area = null;
@@ -322,7 +322,7 @@ class Requester implements UserInterface
     }
 
     /**
-     * @param float[] $area
+     * @param array[] $area
      */
     public function setArea(?array $area): void
     {

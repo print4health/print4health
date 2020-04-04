@@ -35,7 +35,6 @@ class RequesterRegistrationRequest
     /**
      * @SWG\Property(type="string")
      * @Assert\NotBlank
-     * @Assert\Type(type="numeric")
      * @Assert\Length(max=255)
      */
     public ?string $addressStreet = null;
@@ -43,7 +42,6 @@ class RequesterRegistrationRequest
     /**
      * @SWG\Property(type="string")
      * @Assert\NotBlank
-     * @Assert\Type(type="numeric")
      * @Assert\Length(max=255)
      */
     public ?string $postalCode = null;
