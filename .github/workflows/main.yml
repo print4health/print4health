@@ -58,11 +58,10 @@ jobs:
               options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
           maildev:
-              image: djfarrelly/maildev
+              image: maildev/maildev:1.2.0-beta1
               ports:
                   - "1080:80"
                   - "1025:25"
-              options: --entrypoint="bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS"
 
       steps:
           - name: Checkout
