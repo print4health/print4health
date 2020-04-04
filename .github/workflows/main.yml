@@ -73,20 +73,13 @@ jobs:
                 php-version: '7.4'
                 tools: composer
 
-          - name: make init
+          - name: Run make init
             run: "make init"
             env:
                 DATABASE_URL: mysql://root:password@127.0.0.1:${{ job.services.mysql.ports['3306'] }}/app_test?serverVersion=5.7
 
-          - name: install cypress
-            uses: CultureHQ/actions-yarn@master
-            with:
-                args: cypress install
-
-          - name: run cypress
-            uses: CultureHQ/actions-yarn@master
-            with:
-                args: cypress run
+          - name: Cypress run
+            uses: cypress-io/github-action@v1
 
   phpunit:
     name: PHPUnit
