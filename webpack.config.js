@@ -62,6 +62,11 @@ Encore
     .enableSassLoader()
     .addStyleEntry('styles', './assets/scss/app.scss')
 
+    .copyFiles({
+      from: './assets/meta',
+      to: '/meta/[path][name].[ext]'
+    })
+
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()
 

@@ -79,11 +79,11 @@ class MakerRegistrationRequest
      */
     public bool $confirmedPersonalDataTransferToRequester = false;
 
-    public function hasPostalCodeAndCity(): bool
+    public function hasPostalCodeAndCountryCode(): bool
     {
         return null !== $this->postalCode &&
             '' !== $this->postalCode &&
-            null !== $this->addressCity &&
-            '' !== $this->addressCity;
+            null !== $this->addressState &&
+            '' !== $this->addressState;
     }
 }

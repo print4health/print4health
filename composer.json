@@ -55,7 +55,8 @@
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "src/",
+            "DataProvider\\" : "tests/data-provider/"
         }
     },
     "autoload-dev": {

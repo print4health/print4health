@@ -6,7 +6,7 @@ App\Domain\User\Entity\Requester:
         streetAddress: '<streetAddress()>'
         postalCode: '<postCode()>'
         addressCity: 'Berlin'
-        addressState: '<state()>'
+        addressState: 'DE'
         password: 'test'
         latitude: 52.5170365
         longitude: 13.3888599
@@ -24,7 +24,7 @@ App\Domain\User\Entity\Requester:
         streetAddress: '<streetAddress()>'
         postalCode: '<postCode()>'
         addressCity: '<city()>'
-        addressState: '<state()>'
+        addressState: 'DE'
         password: 'test'
         latitude: '<latitude(48.5, 54)>'
         longitude: '<longitude(8.5, 13)>'
@@ -36,7 +36,7 @@ App\Domain\User\Entity\Requester:
         streetAddress: '<streetAddress()>'
         postalCode: '<postCode()>'
         addressCity: 'Bremen'
-        addressState: '<state()>'
+        addressState: 'DE'
         password: 'test'
         latitude: 53.095831720337145
         longitude: 8.815992937273837
@@ -55,7 +55,7 @@ App\Domain\User\Entity\Requester:
         streetAddress: '<streetAddress()>'
         postalCode: '<postCode()>'
         addressCity: 'Köln'
-        addressState: '<state()>'
+        addressState: 'DE'
         password: 'test'
         latitude: 50.93336083207188
         longitude: 6.951462563588646
