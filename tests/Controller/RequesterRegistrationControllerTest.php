@@ -42,8 +42,6 @@ class RequesterRegistrationControllerTest extends AbstractControllerTest
 
         $client->request('POST', '/requester/registration', [], [], [], json_encode($requestContent));
 
-//        dump($client->getResponse()->getContent()); die();
-
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $data = json_decode($client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
