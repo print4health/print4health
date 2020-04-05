@@ -28,7 +28,7 @@ import { Nav, Navbar } from 'react-bootstrap';
 import RegisterMaker from './container/register-maker/register-maker';
 import { ROLE_USER, ROLE_MAKER, ROLE_REQUESTER } from './constants/UserRoles';
 import Contact from './container/contact/contact';
-import { Contact as DashboardContact } from './container/dashboard/contact';
+import { default as DashboardContact } from './container/dashboard/contact';
 
 class App extends React.Component {
 
