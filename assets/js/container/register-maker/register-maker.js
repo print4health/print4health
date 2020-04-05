@@ -337,7 +337,7 @@ class RegisterMaker extends React.Component {
   onSubmit = (data) => {
     const alert = {};
 
-    axios.post(Config.apiBasePath + '/maker/registration', data)
+    axios.post(Config.apiBasePath + '/maker_registration', data)
       .then((res) => {
         if (res.data && res.data.maker && res.data.maker.id) {
           this.setState({
