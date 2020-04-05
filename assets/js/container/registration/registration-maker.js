@@ -271,7 +271,7 @@ RegistrationForm.propTypes = () => {
   return {};
 };
 
-class RegisterMaker extends React.Component {
+class RegistrationMaker extends React.Component {
 
   constructor(props) {
     super(props);
@@ -390,6 +390,6 @@ class RegisterMaker extends React.Component {
   }
 }
 
-RegisterMaker.contextType = AppContext;
+RegistrationMaker.contextType = AppContext;
 
-export default RegisterMaker;
+export default RegistrationMaker;

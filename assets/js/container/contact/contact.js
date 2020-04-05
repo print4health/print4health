@@ -131,7 +131,7 @@ class Contact extends React.Component {
       <div className="container">
         <div className="container-fluid">
           <div className="row">
-            <div className="col-lg-8 col-md-12">
+            <div className="col-lg-8 col-md-8 offset-md-2">
               <section className="container py-4">
                 <h1 className="mb-4">Kontakt</h1>
                 {this.renderAlert()}
