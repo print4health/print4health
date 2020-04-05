@@ -161,7 +161,7 @@ class App extends React.Component {
               <Route path="/data-privacy-statement" component={DataPrivacyStatement} />
               <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
               <Route path="/registration/maker" component={RegistrationMaker} />
-              <Route path="/registration/requester" component={RegistrationRequester} />
+              <Route path="/registration/requedster" component={RegistrationRequester} />
               <Route path="/registration" component={RegistrationIndex} />
               <Route path="/" component={Index} />
             </Switch>

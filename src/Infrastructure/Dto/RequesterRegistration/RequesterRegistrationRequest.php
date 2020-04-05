@@ -13,6 +13,13 @@ class RequesterRegistrationRequest
     /**
      * @SWG\Property(type="string")
      * @Assert\NotBlank
+     * @Assert\Length(min=5, max=255)
+     */
+
+    public string $name;
+    /**
+     * @SWG\Property(type="string")
+     * @Assert\NotBlank
      * @Assert\Email
      * @UserUniqueEmail
      */
@@ -24,13 +31,6 @@ class RequesterRegistrationRequest
      * @Assert\Length(min=8)
      */
     public string $password;
-
-    /**
-     * @SWG\Property(type="string")
-     * @Assert\NotBlank
-     * @Assert\Length(min=5, max=255)
-     */
-    public string $name;
 
     /**
      * @SWG\Property(type="string")
