@@ -66,8 +66,8 @@ class RequesterRegistrationController
     }
 
     /**
-     * @throws \Exception
      * @throws \Doctrine\ORM\EntityNotFoundException
+     * @throws \Exception
      *
      * @return JsonResponse
      *
@@ -113,12 +113,16 @@ class RequesterRegistrationController
 
         $requester = new Requester($requesterRegistrationRequest->email, $requesterRegistrationRequest->name);
         $requester->setPassword(
-            $this->userPasswordEncoder->encodePassword($requester,
-                $requesterRegistrationRequest->password)
+            $this->userPasswordEncoder->encodePassword($requester, $requesterRegistrationRequest->password)
         );
+        $requester->setName($requesterRegistrationRequest->name);
+        $requester->setInstitutionType($requesterRegistrationRequest->institutionType);
+        $requester->setDescription($requesterRegistrationRequest->description);
+        $requester->setAddressStreet($requesterRegistrationRequest->addressStreet);
         $requester->setPostalCode($requesterRegistrationRequest->postalCode);
         $requester->setAddressCity($requesterRegistrationRequest->addressCity);
         $requester->setAddressState($requesterRegistrationRequest->addressState);
+        $requester->setHub($requesterRegistrationRequest->isHub());
 
         try {
             // prevent a geocode request if we don't have the necessary data

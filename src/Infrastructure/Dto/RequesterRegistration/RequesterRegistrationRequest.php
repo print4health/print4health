@@ -35,6 +35,19 @@ class RequesterRegistrationRequest
     /**
      * @SWG\Property(type="string")
      * @Assert\NotBlank
+     * @Assert\Choice(callback="getInstitutionTypes")
+     */
+    public string $institutionType;
+
+    /**
+     * @SWG\Property(type="string")
+     * @Assert\Length(min=5, max=1000)
+     */
+    public ?string $description = null;
+
+    /**
+     * @SWG\Property(type="string")
+     * @Assert\NotBlank
      * @Assert\Length(max=255)
      */
     public ?string $addressStreet = null;
@@ -117,5 +130,26 @@ class RequesterRegistrationRequest
     public function hasLatLng(): bool
     {
         return null !== $this->latitude && null !== $this->longitude;
+    }
+
+    public function isHub(): bool
+    {
+        return true === $this->hub && 'MAKER_HUB' === $this->institutionType;
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function getInstitutionTypes(): array
+    {
+        return [
+            'HOSPITAL',
+            'DOCTOR_LOCAL',
+            'NURSING_SERVICE',
+            'HEALTHCARE_INSTITUTION',
+            'SOCIAL_INSTITUION',
+            'MAKER_HUB',
+            'OTHER',
+        ];
     }
 }

@@ -19,6 +19,9 @@ class RequesterRegistrationControllerTest extends AbstractControllerTest
                     'postalCode' => '48155',
                     'addressCity' => 'Münster',
                     'addressState' => 'NRW',
+                    'hub' => false,
+                    'institutionType' => 'HOSPITAL',
+                    'descrption' => 'Lorem ipsum dolor sid amed',
                     'confirmedPlattformIsContactOnly' => true,
                     'confirmedNoAccountability' => true,
                     'confirmedNoCertification' => true,
@@ -38,6 +41,9 @@ class RequesterRegistrationControllerTest extends AbstractControllerTest
         $client = static::createClient();
 
         $client->request('POST', '/requester/registration', [], [], [], json_encode($requestContent));
+
+//        dump($client->getResponse()->getContent()); die();
+
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
 
         $data = json_decode($client->getResponse()->getContent(), true, 512, JSON_THROW_ON_ERROR);
@@ -58,6 +64,9 @@ class RequesterRegistrationControllerTest extends AbstractControllerTest
                     'postalCode' => '',
                     'addressCity' => '',
                     'addressState' => '',
+                    'hub' => false,
+                    'institutionType' => '',
+                    'descrption' => '',
                     'confirmedPlattformIsContactOnly' => false,
                     'confirmedNoAccountability' => false,
                     'confirmedNoCertification' => false,
@@ -86,6 +95,6 @@ class RequesterRegistrationControllerTest extends AbstractControllerTest
         $this->assertArrayHasKey('type', $data);
         $this->assertArrayHasKey('message', $data);
         $this->assertArrayHasKey('errors', $data);
-        $this->assertCount(12, $data['errors']);
+        $this->assertCount(14, $data['errors']);
     }
 }

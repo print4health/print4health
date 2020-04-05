@@ -66,6 +66,16 @@ class Requester implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
+    private string $institutionType;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $description = null;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
     private ?string $addressStreet = null;
 
     /**
@@ -177,6 +187,26 @@ class Requester implements UserInterface
         $this->password = $password;
 
         return $this;
+    }
+
+    public function getInstitutionType(): string
+    {
+        return $this->institutionType;
+    }
+
+    public function setInstitutionType(string $type): void
+    {
+        $this->institutionType = $type;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
     }
 
     public function getSalt(): string
@@ -308,7 +338,7 @@ class Requester implements UserInterface
         return $this->hub;
     }
 
-    public function setHub(?bool $hub): void
+    public function setHub(bool $hub): void
     {
         $this->hub = $hub;
     }
