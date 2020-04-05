@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
  * Class MakerRegistrationController.
  *
  * @Route(
- *     "/maker_registration",
+ *     "/maker/registration",
  *     name="maker_registration",
  *     methods={"POST"},
  *     format="json"

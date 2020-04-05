@@ -125,9 +125,9 @@ class MakerController
 
     /**
      * @Route(
-     *     "/maker/{uuid}",
+     *     "/maker/detail/{uuid}",
      *     name="maker_show",
-     *     methods={"GET", "POST"},
+     *     methods={"GET"},
      *     format="json"
      * )
      */

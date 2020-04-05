@@ -55,7 +55,7 @@ class Contact extends React.Component {
 
   async fetchMaker(makerId) {
     try {
-      const response = await fetch(`/maker/${makerId}`);
+      const response = await fetch(`/maker/detail/${makerId}`);
 
       if (response.status !== 200) {
         throw new Error();
