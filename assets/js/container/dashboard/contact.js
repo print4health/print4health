@@ -49,7 +49,7 @@ class Contact extends React.Component {
         this.setState({ data: makersData })
       }
 
-    }  catch (e) {
+    }  catch () {
       throw new Error();
     }
 

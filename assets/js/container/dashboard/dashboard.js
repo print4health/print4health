@@ -90,7 +90,6 @@ class Dashboard extends React.Component {
 
   renderTable() {
     const { data } = this.state;
-    const { user } = this.context;
 
     if (!data || !data.orders) {
       return;
