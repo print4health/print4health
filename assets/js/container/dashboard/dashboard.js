@@ -32,7 +32,7 @@ class Dashboard extends React.Component {
     }
 
     try {
-      const response = await fetch(`/orders/maker/${user.id}`);
+      const response = await fetch(`/orders/my`);
 
       if (response.status !== 200) {
         throw new Error();
@@ -55,7 +55,7 @@ class Dashboard extends React.Component {
     }
 
     try {
-      const response = await fetch(`/orders/requester/${user.id}`);
+      const response = await fetch(`/orders/my`);
 
       if (response.status !== 200) {
         throw new Error();
