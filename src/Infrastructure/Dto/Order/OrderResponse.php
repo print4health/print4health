@@ -37,7 +37,11 @@ class OrderResponse
     /** @SWG\Property(type="string", example="Y-m-d\TH:i:sP") */
     public ?string $updatedDate;
 
-    /** @SWG\Property(type="array") */
+    /**
+     * @SWG\Property(type="array")
+     *
+     * @var string[]
+     */
     public array $makers;
 
     public static function createFromOrder(Order $order): self

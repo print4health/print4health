@@ -130,7 +130,6 @@ class MakerController
      *     methods={"GET", "POST"},
      *     format="json"
      * )
-     *
      */
     public function showAction(string $uuid): JsonResponse
     {
