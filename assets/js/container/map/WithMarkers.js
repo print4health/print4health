@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from "prop-types";
 import Marker from "../../component/map/Marker";
 import {
-    HUB,
+    // HUB,
     MAKER,
     ORDERM,
     REQUESTER
