@@ -18,6 +18,8 @@ use Ramsey\Uuid\Uuid;
  */
 class Requester implements UserInterface
 {
+    public const ROLE_REQUESTER = 'ROLE_REQUESTER';
+
     /**
      * @ORM\Column(type="guid")
      * @ORM\Id
@@ -147,8 +149,8 @@ class Requester implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-        $roles[] = 'ROLE_REQUESTER';
+        $roles[] = User::ROLE_USER;
+        $roles[] = self::ROLE_REQUESTER;
 
         return array_unique($roles);
     }

@@ -10,7 +10,10 @@ use App\Domain\Order\Entity\Order;
 use App\Domain\Order\Repository\OrderRepository;
 use App\Domain\Thing\Entity\Thing;
 use App\Domain\Thing\Repository\ThingRepository;
+use App\Domain\User\Entity\Maker;
 use App\Domain\User\Entity\Requester;
+use App\Domain\User\Entity\User;
+use App\Domain\User\MakerNotFoundException;
 use App\Domain\User\Repository\MakerRepository;
 use App\Domain\User\Repository\RequesterRepository;
 use App\Domain\User\RequesterNotFoundException;
@@ -18,6 +21,7 @@ use App\Infrastructure\Dto\Order\OrderRequest;
 use App\Infrastructure\Dto\Order\OrderResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
@@ -35,11 +39,17 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class OrderController
 {
     private SerializerInterface $serializer;
+
     private Security $security;
+
     private OrderRepository $orderRepository;
+
     private ThingRepository $thingRepository;
+
     private RequesterRepository $requesterRepository;
+
     private MakerRepository $makerRepository;
+
     private CommitmentRepository $commitmentRepository;
 
     public function __construct(
@@ -114,10 +124,17 @@ class OrderController
      *         @SWG\Items(ref=@Model(type=OrderResponse::class))
      *     )
      * )
+     * @IsGranted("ROLE_ADMIN")
      */
     public function listByRequesterAction(string $requesterId): JsonResponse
     {
-        $requester = $this->requesterRepository->find($requesterId);
+        try {
+            $uuid = Uuid::fromString($requesterId);
+        } catch (InvalidUuidStringException $exception) {
+            throw new BadRequestHttpException(sprintf('Invalid Uuid [%s]', $requesterId));
+        }
+
+        $requester = $this->requesterRepository->find($uuid->toString());
 
         if (!$requester instanceof Requester) {
             throw new RequesterNotFoundException($requesterId);
@@ -154,10 +171,21 @@ class OrderController
      *         @SWG\Items(ref=@Model(type=OrderResponse::class))
      *     )
      * )
+     * @IsGranted("ROLE_ADMIN")
      */
     public function listByMakerAction(string $makerId): JsonResponse
     {
-        $maker = $this->makerRepository->find(Uuid::fromString($makerId));
+        try {
+            $uuid = Uuid::fromString($makerId);
+        } catch (InvalidUuidStringException $exception) {
+            throw new BadRequestHttpException(sprintf('Invalid Uuid [%s]', $makerId));
+        }
+
+        try {
+            $maker = $this->makerRepository->find($uuid);
+        } catch (MakerNotFoundException $exception) {
+            throw new NotFoundHttpException($exception->getMessage());
+        }
 
         $commitments = $this->commitmentRepository->findBy(['maker' => $maker]);
 
@@ -168,6 +196,45 @@ class OrderController
         }
 
         return new JsonResponse($response);
+    }
+
+    /**
+     * Retrieves the collection of Order resources.
+     *
+     * @Route(
+     *     "/orders/user",
+     *     name="order_list_for_current_user",
+     *     methods={"GET"},
+     *     format="json"
+     * )
+     *
+     * @SWG\Tag(name="Maker")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="Order collection response",
+     *     @SWG\Schema(
+     *         type="array",
+     *         @SWG\Items(ref=@Model(type=OrderResponse::class))
+     *     )
+     * )
+     * @IsGranted("ROLE_USER")
+     */
+    public function listUserAction(): JsonResponse
+    {
+        /** @var User $user */
+        $user = $this->security->getUser();
+        $userRoles = $user->getRoles();
+
+        if (\in_array(Maker::ROLE_MAKER, $userRoles)) {
+            return $this->listByMakerAction($user->getId());
+        }
+
+        if (\in_array(Requester::ROLE_REQUESTER, $userRoles)) {
+            return $this->listByRequesterAction($user->getId());
+        }
+
+        throw new BadRequestHttpException('The user is neither a maker nor a requester');
     }
 
     /**
@@ -254,7 +321,11 @@ class OrderController
 
         try {
             /** @var OrderRequest $orderRequest */
-            $orderRequest = $this->serializer->deserialize($request->getContent(), OrderRequest::class, JsonEncoder::FORMAT);
+            $orderRequest = $this->serializer->deserialize(
+                $request->getContent(),
+                OrderRequest::class,
+                JsonEncoder::FORMAT
+            );
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
@@ -304,7 +375,13 @@ class OrderController
      */
     public function showAction(string $id): JsonResponse
     {
-        $order = $this->orderRepository->find($id);
+        try {
+            $uuid = Uuid::fromString($id);
+        } catch (InvalidUuidStringException $exception) {
+            throw new BadRequestHttpException(sprintf('Invalid Uuid [%s]', $id));
+        }
+
+        $order = $this->orderRepository->find($uuid->toString());
 
         if (null === $order) {
             throw new NotFoundHttpException('Order not found');
@@ -312,6 +389,6 @@ class OrderController
 
         $orderDto = OrderResponse::createFromOrder($order);
 
-        return new JsonResponse(['order' => $orderDto]);
+        return new JsonResponse($orderDto);
     }
 }

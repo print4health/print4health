@@ -139,6 +139,19 @@
     }
 }
 
+.Contact{
+    &__card-row {
+        margin-bottom: 1rem;
+    }
+}
+
+.fa-id-card{
+    height: 112px;
+    line-height: 112px;
+    text-align: center;
+    font-size: 3rem;
+}
+
 .bg-primary {
     background-color: $gray-bg;
 }

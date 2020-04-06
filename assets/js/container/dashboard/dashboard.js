@@ -1,6 +1,7 @@
 import React from 'react';
 import AppContext from "../../context/app-context";
-import {ROLE_MAKER, ROLE_REQUESTER} from '../../constants/UserRoles';
+import { ROLE_MAKER, ROLE_REQUESTER } from '../../constants/UserRoles';
+import { Link } from 'react-router-dom';
 
 
 class Dashboard extends React.Component {
@@ -12,7 +13,6 @@ class Dashboard extends React.Component {
     };
   }
 
-
   async fetchData() {
     const { user } = this.context;
     if (user.roles.includes(ROLE_REQUESTER)) {
@@ -21,12 +21,9 @@ class Dashboard extends React.Component {
     if (user.roles.includes(ROLE_MAKER)) {
       this.fetchDataMaker();
     }
-
-
   }
 
   async fetchDataMaker() {
-    const { user } = this.context;
     const { data } = this.state;
 
     if (data !== null) {
@@ -34,7 +31,7 @@ class Dashboard extends React.Component {
     }
 
     try {
-      const response = await fetch(`/orders/maker/${user.id}`);
+      const response = await fetch(`/orders/user`);
 
       if (response.status !== 200) {
         throw new Error();
@@ -49,7 +46,6 @@ class Dashboard extends React.Component {
   }
 
   async fetchDataByRequester() {
-    const { user } = this.context;
     const { data } = this.state;
 
     if (data !== null) {
@@ -57,7 +53,7 @@ class Dashboard extends React.Component {
     }
 
     try {
-      const response = await fetch(`/orders/requester/${user.id}`);
+      const response = await fetch(`/orders/user`);
 
       if (response.status !== 200) {
         throw new Error();
@@ -79,6 +75,17 @@ class Dashboard extends React.Component {
     this.fetchData();
   }
 
+  getContactLink(order) {
+    const { user } = this.context;
+    if (user.roles.includes(ROLE_REQUESTER)) {
+      return `/contact/${ROLE_MAKER}/${order.id}`;
+    }
+
+    if (user.roles.includes(ROLE_MAKER)) {
+      return `/contact/${ROLE_REQUESTER}/${order.id}`;
+    }
+  }
+
   renderTable() {
     const { data } = this.state;
 
@@ -96,9 +103,6 @@ class Dashboard extends React.Component {
             <h6>Produkt Name</h6>
           </div>
           <div className="col-md-2 Dashboard__headline">
-            <h6>Priorität Bestellung</h6>
-          </div>
-          <div className="col-md-2 Dashboard__headline">
             <h6>Bedarf</h6>
           </div>
           <div className="col-md-2 Dashboard__headline">
@@ -106,6 +110,9 @@ class Dashboard extends React.Component {
           </div>
           <div className="col-md-2 Dashboard__headline">
             <h6>Bereits gedruckt</h6>
+          </div>
+          <div className="col-md-2 Dashboard__headline">
+            <h6>Kontakt</h6>
           </div>
         </div>
         {data.orders.map((order, i) => {
@@ -129,14 +136,6 @@ class Dashboard extends React.Component {
               </div>
               <div className="col-md-2">
                 <div className='Dashboard__value'>
-                  {
-                    // @TODO replace dummy value
-                  }
-                  <p>Normal</p>
-                </div>
-              </div>
-              <div className="col-md-2">
-                <div className='Dashboard__value'>
                   <p>{order.thing.needed}</p>
                 </div>
               </div>
@@ -148,6 +147,13 @@ class Dashboard extends React.Component {
               <div className="col-md-2">
                 <div className='Dashboard__value'>
                   <p>{order.thing.printed}</p>
+                </div>
+              </div>
+              <div className="col-md-2">
+                <div className='Dashboard__value'>
+                  <Link to={this.getContactLink(order)}>
+                    <i className="fas fa-id-card"></i>
+                  </Link>
                 </div>
               </div>
             </div>
