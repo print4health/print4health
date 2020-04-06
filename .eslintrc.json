@@ -10,7 +10,8 @@
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly",
-        "Microsoft": true
+        "Microsoft": true,
+        "process": true
     },
     "parser": "babel-eslint",
     "parserOptions": {

@@ -5,7 +5,7 @@ App\Domain\User\Entity\Maker:
             - 'print4health Test Maker'
         postalCode: '<postCode()>'
         addressCity: 'Berlin'
-        addressState: '<state()>'
+        addressState: '<randomCountryCode()>'
         password: 'test'
         latitude: 52.5170365
         longitude: 13.3888599
@@ -22,7 +22,7 @@ App\Domain\User\Entity\Maker:
             - '<company()>'
         postalCode: '<postCode()>'
         addressCity: '<city()>'
-        addressState: '<state()>'
+        addressState: '<randomCountryCode()>'
         password: 'test'
         latitude: '<latitude(48.5, 54)>'
         longitude: '<longitude(8.5, 13)>'
