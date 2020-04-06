@@ -12,6 +12,7 @@ use App\Domain\Thing\Entity\Thing;
 use App\Domain\Thing\Repository\ThingRepository;
 use App\Domain\User\Entity\Maker;
 use App\Domain\User\Entity\Requester;
+use App\Domain\User\Entity\User;
 use App\Domain\User\MakerNotFoundException;
 use App\Domain\User\Repository\MakerRepository;
 use App\Domain\User\Repository\RequesterRepository;
@@ -201,8 +202,8 @@ class OrderController
      * Retrieves the collection of Order resources.
      *
      * @Route(
-     *     "/orders/my",
-     *     name="order_my_list",
+     *     "/orders/user",
+     *     name="order_user_list",
      *     methods={"GET"},
      *     format="json"
      * )
@@ -219,18 +220,26 @@ class OrderController
      * )
      * @IsGranted("ROLE_USER")
      */
-    public function listMyAction(): JsonResponse
+    public function listUserAction(): JsonResponse
     {
-        /** @var Maker $maker */
-        $maker = $this->security->getUser();
-        $commitments = $this->commitmentRepository->findBy(['maker' => $maker]);
-        $response = ['orders' => []];
+        /** @var User $user */
+        $user = $this->security->getUser();
 
-        foreach ($commitments as $commitment) {
-            $response['orders'][] = OrderResponse::createFromOrder($commitment->getOrder());
+        if (!$user instanceof User) {
+            throw new \App\Domain\User\NotFoundException('');
         }
 
-        return new JsonResponse($response);
+        $userRoles = $user->getRoles();
+
+        if (\in_array(Maker::ROLE_MAKER, $userRoles)) {
+            return $this->listByMakerAction($user->getId());
+        }
+
+        if (\in_array(Requester::ROLE_REQUESTER, $userRoles)) {
+            return $this->listByRequesterAction($user->getId());
+        }
+
+        throw new BadRequestHttpException('The user is neither a maker nor a requester');
     }
 
     /**

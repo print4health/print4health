@@ -24,7 +24,6 @@ class Dashboard extends React.Component {
   }
 
   async fetchDataMaker() {
-    const { user } = this.context;
     const { data } = this.state;
 
     if (data !== null) {
@@ -32,7 +31,7 @@ class Dashboard extends React.Component {
     }
 
     try {
-      const response = await fetch(`/orders/my`);
+      const response = await fetch(`/orders/user`);
 
       if (response.status !== 200) {
         throw new Error();
@@ -47,7 +46,6 @@ class Dashboard extends React.Component {
   }
 
   async fetchDataByRequester() {
-    const { user } = this.context;
     const { data } = this.state;
 
     if (data !== null) {
@@ -55,7 +53,7 @@ class Dashboard extends React.Component {
     }
 
     try {
-      const response = await fetch(`/orders/my`);
+      const response = await fetch(`/orders/user`);
 
       if (response.status !== 200) {
         throw new Error();

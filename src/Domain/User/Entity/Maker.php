@@ -17,7 +17,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Maker implements UserInterface
 {
-    const ROLE_MAKER = 'ROLE_MAKER';
+    public const ROLE_MAKER = 'ROLE_MAKER';
 
     /**
      * @ORM\Column(type="guid")

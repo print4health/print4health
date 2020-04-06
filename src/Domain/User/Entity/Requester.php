@@ -18,7 +18,7 @@ use Ramsey\Uuid\Uuid;
  */
 class Requester implements UserInterface
 {
-    const ROLE_REQUESTER = 'ROLE_REQUESTER';
+    public const ROLE_REQUESTER = 'ROLE_REQUESTER';
 
     /**
      * @ORM\Column(type="guid")
