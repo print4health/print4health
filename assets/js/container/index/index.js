@@ -1,14 +1,48 @@
 import React from 'react';
 import AppContext from '../../context/app-context';
-import IndexMap from '../../component/map/index-map';
+import Map from '../../component/map/index-map';
+import {MAKER, REQUESTER} from "../../constants/MapTypes";
+import FilterSelect from "../../component/map/FilterSelect";
 
 class Index extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      mapTypes: {
+        [REQUESTER]: false,
+        [MAKER]: false
+      }
+    };
+
+    this.getActiveMapTypes = this.getActiveMapTypes.bind(this);
+    this.updateMap = this.updateMap.bind(this);
+  }
 
   componentDidMount() {
     this.context.setPageTitle('Helfen mit 3D-Druck');
   }
 
+  updateMap(type) {
+    const nextMapTypes = this.state.mapTypes;
+    nextMapTypes[type] = !nextMapTypes[type];
+
+    this.setState({mapTypes: nextMapTypes})
+  }
+
+  getActiveMapTypes() {
+    console.log("update:", this.state.mapTypes);
+
+    return Object.keys(this.state.mapTypes)
+      .filter((mapTypeKey) => !!this.state.mapTypes[mapTypeKey])
+      .map((mapTypeKey) => mapTypeKey);
+  }
+
   render() {
+    const activeMapTypes = this.getActiveMapTypes();
+    console.log(activeMapTypes);
+
+    const mapTypes = this.state.mapTypes;
     return (
       <div className="row">
         <div className="col-md-8 offset-md-2">
@@ -138,7 +172,8 @@ class Index extends React.Component {
                 Maker
               </dd>
             </dl>
-            <IndexMap />
+            <FilterSelect changeCallback={this.updateMap} mapTypesStatus={mapTypes}/>
+            <Map types={activeMapTypes}/>
           </section>
         </div>
       </div>
