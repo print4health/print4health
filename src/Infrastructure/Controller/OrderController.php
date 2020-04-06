@@ -203,7 +203,7 @@ class OrderController
      *
      * @Route(
      *     "/orders/user",
-     *     name="order_user_list",
+     *     name="order_list_for_current_user",
      *     methods={"GET"},
      *     format="json"
      * )
@@ -224,11 +224,6 @@ class OrderController
     {
         /** @var User $user */
         $user = $this->security->getUser();
-
-        if (!$user instanceof User) {
-            throw new \App\Domain\User\NotFoundException('');
-        }
-
         $userRoles = $user->getRoles();
 
         if (\in_array(Maker::ROLE_MAKER, $userRoles)) {
