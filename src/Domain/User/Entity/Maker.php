@@ -17,6 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Maker implements UserInterface
 {
+    const ROLE_MAKER = 'ROLE_MAKER';
+
     /**
      * @ORM\Column(type="guid")
      * @ORM\Id
@@ -123,8 +125,8 @@ class Maker implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-        $roles[] = 'ROLE_MAKER';
+        $roles[] = User::ROLE_USER;
+        $roles[] = self::ROLE_MAKER;
 
         return array_unique($roles);
     }
