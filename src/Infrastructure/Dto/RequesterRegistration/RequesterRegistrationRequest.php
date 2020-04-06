@@ -61,12 +61,14 @@ class RequesterRegistrationRequest
 
     /**
      * @SWG\Property(type="string")
+     * @Assert\NotBlank
      * @Assert\Length(max=255)
      */
     public ?string $addressCity = null;
 
     /**
      * @SWG\Property(type="string")
+     * @Assert\NotBlank
      * @Assert\Length(max=255)
      */
     public ?string $addressState = null;
@@ -134,7 +136,7 @@ class RequesterRegistrationRequest
 
     public function isHub(): bool
     {
-        return true === $this->hub && 'MAKER_HUB' === $this->institutionType;
+        return 'MAKER_HUB' === $this->institutionType;
     }
 
     /**

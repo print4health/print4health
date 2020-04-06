@@ -66,9 +66,6 @@ class RequesterRegistrationController
     }
 
     /**
-     * @throws \Doctrine\ORM\EntityNotFoundException
-     * @throws \Exception
-     *
      * @return JsonResponse
      *
      * @SWG\Tag(name="Requester")
@@ -92,6 +89,9 @@ class RequesterRegistrationController
      *     description="Validation failed due to missing mandatory fields or invalid field data",
      *     @Model(type=ValidationErrorResponse::class)
      * )
+     * @throws \Exception
+     *
+     * @throws \Doctrine\ORM\EntityNotFoundException
      */
     public function __invoke(Request $request)
     {
@@ -126,13 +126,13 @@ class RequesterRegistrationController
 
         try {
             // prevent a geocode request if we don't have the necessary data
-            if (
-                $requesterRegistrationRequest->hasPostalCodeAndCountry() &&
-                false === $requesterRegistrationRequest->hasLatLng()
-            ) {
-                $geoLocation = $this->geoCoder->geoEncodePostalCountry(
-                    (string) $requesterRegistrationRequest->addressState,
-                    (string) $requesterRegistrationRequest->postalCode
+            if (false === $requesterRegistrationRequest->hasLatLng()) {
+
+                $geoLocation = $this->geoCoder->geoEncodeByAddress(
+                    (string)$requesterRegistrationRequest->addressStreet,
+                    (string)$requesterRegistrationRequest->postalCode,
+                    (string)$requesterRegistrationRequest->addressCity,
+                    (string)$requesterRegistrationRequest->addressState
                 );
 
                 $requester->setLatitude($geoLocation->getLatitude());

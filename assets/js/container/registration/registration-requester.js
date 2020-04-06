@@ -22,8 +22,6 @@ const RegistrationForm = (props) => {
   const institutionType = useRef({});
   institutionType.current = watch('institutionTypes', '');
 
-  console.log(institutionTypes);
-
   const validatePostalCode = (postalCode) => {
     return postalCodes.validate(country.current, postalCode);
   };
@@ -50,9 +48,13 @@ const RegistrationForm = (props) => {
           {showForm &&
           <form onSubmit={handleSubmit(callback)} className="mt-5 registration-form">
             <p>
-              Hier könnt ihr euch als bei <span className="text-primary">print4health.org</span> registrieren und Bedarf
+              Hier könnt ihr euch als bei <Link to="/">print4health.org</Link> registrieren und Bedarf
               an 3D gedruckten Gegenständen anmelden. Bitte füllt das Formular gewissenhaft aus, denn schließlich geht
               es darum, Menschen zu helfen.
+            </p>
+            <p>
+              Solltet ihr ein Maker mit direktem Zugang zu einem 3D-Drucker sein, dann könnt ihr euch <Link
+              to="/registration/maker">hier registrieren</Link>.
             </p>
             <Alert variant="info">
               Bei unserer Plattform handelt es sich um eine gemeinnützige Non-Profit Website, deren Mitglieder
@@ -66,7 +68,7 @@ const RegistrationForm = (props) => {
               <Col sm="10">
                 <Form.Control type="text"
                               name="name"
-                              placeholder="Dein Name"
+                              placeholder="Name der Einrichtung / dein Name"
                               ref={register({ required: 'Pflichtfeld', minLength: 5, maxLength: 255 })} />
                 <Form.Text className="text-muted">
                   Bitte trage den Namen deiner Organisation/Einrichtung ein. Er wird bei Bestellungen und auf unserer
@@ -219,14 +221,14 @@ const RegistrationForm = (props) => {
                 </Form.Text>
               </Col>
             </Form.Group>
+            <h3>Einverständniserklärungen</h3>
             <Row>
               <Col sm={{ offset: 2 }}>
-                <h3>Einverständniserklärungen</h3>
-                <Form.Group className="d-flex" controlId="confirmedPlattformIsContactOnly ">
+                <Form.Group className="d-flex" controlId="confirmedPlattformIsContactOnly">
                   <Form.Check
                     type="checkbox"
-                    id="confirmedPlattformIsContactOnly "
-                    name="confirmedPlattformIsContactOnly "
+                    id="confirmedPlattformIsContactOnly"
+                    name="confirmedPlattformIsContactOnly"
                     ref={register({ required: true })}
                   />
                   <Form.Text className="col-sm-11 flex-grow-1">
@@ -313,6 +315,10 @@ const RegistrationForm = (props) => {
                     {printError(serverErrors.confirmedRuleMaterialAndTransport, serverErrors.confirmedRuleMaterialAndTransport)}
                   </Form.Text>
                 </Form.Group>
+                {alert.show &&
+                <Alert variant="danger">
+                  <strong>Fehler {alert.status}</strong>: {alert.message}
+                </Alert>}
                 <Button variant="primary" type="submit">Als Einrichtung Registrieren</Button>
               </Col>
             </Row>
@@ -321,8 +327,9 @@ const RegistrationForm = (props) => {
           {showForm === false &&
           <Alert variant="success">
             <strong>Registrierung erfolgreich!</strong>
-            <p className="mb-0">Nun kannst du dich Anmelden und zum <Link to="/thing/list">Bedarf</Link> wechseln wo
-              du Bedarf an 3D gedruckten Teilen anzeigen kannst.
+            <p className="mb-0">
+              Wir haben über deine Anmeldung eine E-Mail erhalten. Bitte warte noch unsere Bestätigung ab. Danach
+              kannst du unter <Link to="/thing/list">Bedarf</Link> die Teile anfragen, die du benötigst.
             </p>
           </Alert>
           }
@@ -423,11 +430,12 @@ class RegistrationRequester extends React.Component {
 
     const alert = {};
 
-    axios.post(Config.apiBasePath + '/maker/registration', data)
+    axios.post(Config.apiBasePath + '/requester/registration', data)
       .then((res) => {
-        if (res.data && res.data.maker && res.data.maker.id) {
+        if (res.data && res.data.requester && res.data.requester.id) {
           this.setState({
             showForm: false,
+            alert: { show: false },
           });
         }
       })
