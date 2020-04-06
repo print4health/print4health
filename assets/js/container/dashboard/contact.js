@@ -2,7 +2,7 @@ import React from 'react';
 import AppContext from "../../context/app-context";
 import { ROLE_MAKER, ROLE_REQUESTER } from '../../constants/UserRoles';
 import PropTypes from "prop-types";
-
+import { Alert } from 'react-bootstrap';
 
 class Contact extends React.Component {
   constructor(props) {
@@ -10,6 +10,7 @@ class Contact extends React.Component {
 
     this.state = {
       data: null,
+      userRole: null,
     };
   }
 
@@ -36,10 +37,12 @@ class Contact extends React.Component {
       const orderData = await response.json();
 
       if (role === ROLE_REQUESTER) {
+        this.setState({ userRole: ROLE_REQUESTER });
         this.setState({ data: [orderData.requester] })
       }
 
       if (role === ROLE_MAKER) {
+        this.setState({ userRole: ROLE_MAKER });
         const makersData = await Promise.all(
           orderData.makers.map(async makerId => {
             const maker = await this.fetchMaker(makerId);
@@ -84,11 +87,16 @@ class Contact extends React.Component {
       return (<p>laden...</p>)
     }
 
+    const { userRole } = this.state;
+
     return (
       <div className="container Dashboard">
         <div className="row">
           <div className="col">
-            <h1>Kontakt</h1>
+            <h1>{userRole === ROLE_REQUESTER ? 'Einrichtung-' : userRole === ROLE_MAKER ? 'Maker-' : ''}Kontakt</h1>
+            <Alert variant="info">
+              <h6>Diese Kontakt Seite ist eine temporäre Lösung. Wir arbeiten aktuell mit hochdruck an an einem Nachrichten-Modul. Mit diesem habt Ihr hier bald die Möglichkeit direkt mit dem Maker/Anfragendem zu kommunizieren. Wir bitten um Verständniss das dies aktuell leider noch nicht möglich ist.</h6>
+            </Alert>
           </div>
         </div>
           {data.map(
@@ -101,12 +109,14 @@ class Contact extends React.Component {
   }
 
   renderCard(data) {
+    const { userRole } = this.state;
+
     return (
       <div className="row Contact__card-row">
         <div className="col">
           <div className="card">
             <div className="card-body">
-              <h5 className="card-title">{data.name}</h5>
+              <h5 className="card-title">{userRole === ROLE_REQUESTER ? 'Einrichtung:' : userRole === ROLE_MAKER ? 'Maker:' : ''} {data.name}</h5>
               <h6 className="card-subtitle mb-2 text-muted"><a href={`mailto=${data.email}`} className="card-link">{data.email}</a></h6>
               <p className="card-text">{data.streetAddress}</p>
               <p className="card-text">{data.postalCode}</p>
