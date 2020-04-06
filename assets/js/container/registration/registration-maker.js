@@ -148,7 +148,7 @@ const RegistrationForm = (props) => {
                   {countries.map(({ name, code }) => <option key={code} value={code}>{name}</option>)}
                 </Form.Control>
                 <Form.Text className="text-muted">
-                  Das Land in dem du Wohnst (Pflichtfeld da dieses mit der Postleitzahl verwendet wird um deine
+                  Das Land in dem du Wohnst (Pflichtfeld, da dieses mit der Postleitzahl verwendet wird um deine
                   ungefähre Position zu speichern)
                   {printError(errors.addressState, 'Bitte wähle dein Land aus der Liste aus.')}
                   {printError(serverErrors.addressState, serverErrors.addressState)}
@@ -299,7 +299,8 @@ class RegistrationMaker extends React.Component {
       // todo redirect to home?
     }
 
-    this.getCountryList('de');
+    const lang = navigator.language || navigator.userLanguage;
+    this.getCountryList(lang.split('-')[0].toLocaleLowerCase());
   }
 
   getCountryList(lang) {

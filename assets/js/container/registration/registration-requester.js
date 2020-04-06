@@ -6,14 +6,22 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import postalCodes from 'postal-codes-js';
 
 const RegistrationForm = (props) => {
 
-  const { callback, alert, serverErrors, showForm } = props;
+  const { callback, alert, serverErrors, showForm, countries } = props;
   const { register, errors, watch, handleSubmit } = useForm();
 
   const password = useRef({});
   password.current = watch('password', '');
+
+  const country = useRef({});
+  country.current = watch('addressState', '');
+
+  const validatePostalCode = (postalCode) => {
+    return postalCodes.validate(country.current, postalCode);
+  };
 
   const printError = (error, message) => {
     if (!error) {
@@ -43,8 +51,8 @@ const RegistrationForm = (props) => {
             <Alert variant="info">
               Bei unserer Plattform handelt es sich um eine gemeinnützige Non-Profit Website, deren Mitglieder
               freiwillig und auf eigene Kosten 3D Druck-Aufträge übernehmen. Um Betrügern vorzubeugen, wird daher jede
-              eurer Anmeldungen über dieses Formular manuell nach Prüfung der Daten freigeschaltet. Anschließend könnt
-              ihr ohne Hürden 3D gedruckte Gegenstände "bestellen."
+              eurer Anmeldungen über dieses Formular <strong>manuell nach Prüfung der Daten freigeschaltet.</strong>
+              Anschließend könnt ihr ohne Hürden 3D gedruckte Gegenstände "bestellen."
             </Alert>
             <Form.Group as={Row} controlId='registerMakerName'>
               <Form.Label column sm='2'>Name*</Form.Label>
@@ -114,10 +122,10 @@ const RegistrationForm = (props) => {
             <Form.Group as={Row} controlId="registerMakerPostalCode">
               <Form.Label column sm="2">Postleitzahl*</Form.Label>
               <Col sm="10">
-                <Form.Control type="number"
+                <Form.Control type="text"
                               name="postalCode"
                               placeholder="Postleitzahl"
-                              ref={register({ required: true, minLength: 4, maxLength: 5 })} />
+                              ref={register({ validate: (val) => validatePostalCode(val) })} />
                 <Form.Text className="text-muted">
                   Deine Postleitzahl wird verwendet um dich bei einer nächsten Version auf einer Karte anzuzeigen, damit
                   eine Einrichtung in deiner Nähe sehen kann, dass du zur Verfügung stehst.
@@ -131,11 +139,15 @@ const RegistrationForm = (props) => {
               <Col sm="10">
                 <Form.Control type="text"
                               name="addressState"
-                              placeholder="Land"
-                              ref={register({ required: false, maxLength: 255 })} />
+                              placeholder="Land*"
+                              as="select"
+                              ref={register({ required: true, minLength: 2 })}>
+                  {countries.map(({ name, code }) => <option key={code} value={code}>{name}</option>)}
+                </Form.Control>
                 <Form.Text className="text-muted">
-                  Das Land in dem du Wohnst (kein Pflichtfeld)
-                  {printError(errors.addressState, 'Der Name deines Landes darf max. 255 Zeichen lang sein.')}
+                  Das Land in dem du Wohnst (Pflichtfeld, da dieses mit der Postleitzahl verwendet wird um deine
+                  ungefähre Position zu speichern)
+                  {printError(errors.addressState, 'Bitte wähle dein Land aus der Liste aus.')}
                   {printError(serverErrors.addressState, serverErrors.addressState)}
                 </Form.Text>
               </Col>
@@ -262,6 +274,7 @@ class RegistrationRequester extends React.Component {
     super(props);
     this.state = {
       showForm: true,
+      countries: [],
       alert: {
         show: false,
         status: null,
@@ -282,6 +295,41 @@ class RegistrationRequester extends React.Component {
     if (this.context.user && this.context.user.id) {
       // todo redirect to home?
     }
+
+    const lang = navigator.language || navigator.userLanguage;
+    this.getCountryList(lang.split('-')[0].toLocaleLowerCase());
+  }
+
+  getCountryList(lang) {
+    const url = `/build/meta/country-codes.json`;
+    const langIsSupported = ['de', 'es', 'fr', 'ja', 'it', 'br', 'pt'].includes(lang);
+
+    axios.get(url)
+      .then((result) => {
+        const data = result.data.map((
+          { name, translations, alpha2Code }) => {
+            name = lang === 'en' || !langIsSupported ? name : translations[lang];
+            name = `${name} (${alpha2Code})`;
+            return {
+              name: name,
+              code: alpha2Code,
+            };
+          },
+        );
+
+        data.sort((a, b) => {
+          if (a.name === b.name) {
+            return 0;
+          }
+          return a.name > b.name ? 1 : -1;
+        });
+
+        data.unshift({ name: 'Bitte wählen', code: '' });
+
+        this.setState({ countries: data });
+      }).catch(() => {
+      console.log('error');
+    });
   }
 
   onSubmit = (data) => {
@@ -332,8 +380,14 @@ class RegistrationRequester extends React.Component {
   };
 
   render() {
-    const { showForm, alert, serverErrors } = this.state;
-    return <RegistrationForm callback={this.onSubmit} alert={alert} serverErrors={serverErrors} showForm={showForm} />;
+    const { showForm, alert, serverErrors, countries } = this.state;
+    return <RegistrationForm
+      callback={this.onSubmit}
+      alert={alert}
+      serverErrors={serverErrors}
+      showForm={showForm}
+      countries={countries}
+    />;
   }
 }
 
