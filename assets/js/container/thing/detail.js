@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import AppContext from '../../context/app-context';
 import OrderModal from '../../component/modal/order';
 import CommitModal from '../../component/modal/commit';
-import RequirementMap from '../../component/map/requirement-map';
+import Map from '../../component/map/index-map';
+import { ORDERM} from "../../constants/MapTypes";
 import ReactGA from 'react-ga';
 
 class ThingDetailContainer extends React.Component {
@@ -14,7 +15,6 @@ class ThingDetailContainer extends React.Component {
     super(props);
 
     this.state = {
-      orders: [],
       error: null,
       currentOrder: null,
       isLoaded: false,
@@ -40,7 +40,6 @@ class ThingDetailContainer extends React.Component {
 
   componentDidMount() {
     this.loadThing(true);
-    this.loadOrders();
   }
 
   loadThing(sendGa) {
@@ -61,22 +60,6 @@ class ThingDetailContainer extends React.Component {
         this.setState({
           isLoaded: true,
           error,
-        });
-      });
-  }
-
-  loadOrders() {
-    const { id } = this.props.match.params;
-    axios.get(Config.apiBasePath + '/things/' + id + '/orders')
-      .then((res) => {
-        if (!Array.isArray(res.data.orders)) {
-          return;
-        }
-        this.setState({ orders: res.data.orders });
-      })
-      .catch((error) => {
-        this.setState({
-          error: error.response.data.error,
         });
       });
   }
@@ -125,7 +108,6 @@ class ThingDetailContainer extends React.Component {
         });
         this.onCloseCommitModal();
         this.loadThing(false);
-        this.loadOrders();
         this.context.setAlert('Danke für Deinen Beitrag -  ist notiert.', 'success');
       })
       .catch(error => {
@@ -151,7 +133,6 @@ class ThingDetailContainer extends React.Component {
         });
         this.onCloseOrderModal();
         this.loadThing(false);
-        this.loadOrders();
         this.context.setAlert('Danke, der Bedarf wurde eingetragen', 'success');
       })
       .catch(error => {
@@ -177,9 +158,9 @@ class ThingDetailContainer extends React.Component {
   }
 
   render() {
+    const { id } = this.props.match.params;
     const {
       error,
-      orders,
       isLoaded,
       showSpecs,
       currentOrder,
@@ -213,14 +194,14 @@ class ThingDetailContainer extends React.Component {
                 <strong className="text-uppercase">Spezifikationen:</strong>
               </div>
               <a className="btn btn-link">
-                {showSpecs && <i className="fas fa-chevron-up fa-fw"></i>}
-                {!showSpecs && <i className="fas fa-chevron-down fa-fw"></i>}
+                {showSpecs && <i className="fas fa-chevron-up fa-fw"/>}
+                {!showSpecs && <i className="fas fa-chevron-down fa-fw"/>}
               </a>
             </div>
             {showSpecs && this.renderSpecification()}
           </div>
           <div className="col-md-6 col-map">
-            <RequirementMap thing={thing} orders={orders} openModal={this.openCommitModal} />
+            <Map types={[ORDERM]} filters={[{key: "thing", value: id}]} />
           </div>
           <div className="col-md-3 col-order">
             <div className="media requests">
@@ -233,7 +214,7 @@ class ThingDetailContainer extends React.Component {
               <div className="media-body">
                 <button className="btn btn-outline-primary" onClick={this.openOrderModal}>
                   Bedarf anmelden
-                  <i className="ml-2 fas fa-plus-circle fa-fw"></i>
+                  <i className="ml-2 fas fa-plus-circle fa-fw"/>
                 </button>
               </div>
             </div>
@@ -257,7 +238,7 @@ class ThingDetailContainer extends React.Component {
                 <strong className="text-uppercase">Downloads</strong>
               </div>
               <span className="btn btn-link btn-large">
-                <i className="fas fa-arrow-alt-circle-down fa-fw"></i>
+                <i className="fas fa-arrow-alt-circle-down fa-fw"/>
               </span>
             </a>
           </div>
