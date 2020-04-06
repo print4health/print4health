@@ -4,8 +4,7 @@ import WithGeoLocation from '../../container/map/WithGeoLocation';
 import WithMarkers from '../../container/map/WithMarkers';
 import PropTypes from "prop-types";
 
-const IndexMap = ({types = [], filters = {}}) => {
-
+const IndexMap = ({types = [], filters = []}) => {
   return (
     <WithMarkers types={types} filters={filters}>
       <WithGeoLocation>
@@ -17,7 +16,7 @@ const IndexMap = ({types = [], filters = {}}) => {
 
 IndexMap.propTypes = {
   types: PropTypes.array,
-  filters: PropTypes.object
+  filters: PropTypes.array
 };
 
 export default IndexMap;

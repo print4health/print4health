@@ -10,7 +10,7 @@ import {
 
 class WithMarkers extends React.Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             markerLists: [],
@@ -27,17 +27,41 @@ class WithMarkers extends React.Component {
         this.fetchEntities(types);
     }
 
+    componentDidUpdate(prevProps) {
+      if(this.props.types !== prevProps.types) {
+        let nextMarkerList = this.state.markerLists;
+        nextMarkerList = nextMarkerList.filter(({type}) => {
+          return this.props.types.includes(type);
+        });
+
+        this.setState({markerLists: nextMarkerList});
+        this.fetchEntities(this.props.types);
+      }
+    }
+
+  generateParams(){
+      let suffix = "/";
+      const { filters } = this.props;
+
+      if(filters && filters.length) {
+        if("key" in filters[0]) {
+          suffix += filters[0].value + "/orders";
+        }
+      }
+
+      return suffix;
+    }
+
     generateUri(type) {
-        // TODO add filters
         switch (type) {
             case MAKER:
                 return "/maker/geodata";
             case REQUESTER:
                 return "/requester";
-            case HUB:
-                return null;
+            // case HUB:
+            //     return null;
             case ORDERM:
-                return null;
+                return "/things";
             default:
                 return "/404";
         }
@@ -55,8 +79,9 @@ class WithMarkers extends React.Component {
         return new Promise((resolve) => {
             try {
                 const uri = this.generateUri(type);
+                const params = this.generateParams();
                 if(uri && uri.length) {
-                    fetch(uri).then((response) => {
+                    fetch(uri + params).then((response) => {
                         response.json().then(data => {
                             if (response.status !== 200) {
                                 throw new Error();
@@ -87,7 +112,7 @@ class WithMarkers extends React.Component {
 
     renderMarkers({type, data}) {
         return data
-            .filter((marker) => (!!marker.id && !!marker.latitude))
+            .filter((marker) => (!!marker.latitude || (!!marker.requester && !!marker.requester.latitude)))
             .map((marker) => <Marker key={marker.id} type={type} data={marker} />);
     }
 
@@ -106,7 +131,8 @@ class WithMarkers extends React.Component {
 WithMarkers.propTypes = {
     children: PropTypes.object,
     markers: PropTypes.array,
-    types: PropTypes.array
+    types: PropTypes.array,
+    filters: PropTypes.array
 };
 
 export default WithMarkers;
