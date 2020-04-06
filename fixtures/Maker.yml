@@ -3,6 +3,7 @@ App\Domain\User\Entity\Maker:
         __construct:
             - 'maker@print4health.org'
             - 'print4health Test Maker'
+            - false
         postalCode: '<postCode()>'
         addressCity: 'Berlin'
         addressState: '<randomCountryCode()>'
@@ -14,12 +15,14 @@ App\Domain\User\Entity\Maker:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
+            - false
         password: 'test'
 
     maker_address_{1..20}:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
+            - false
         postalCode: '<postCode()>'
         addressCity: '<city()>'
         addressState: '<randomCountryCode()>'

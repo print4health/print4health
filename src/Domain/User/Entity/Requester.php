@@ -32,6 +32,11 @@ class Requester implements UserInterface
     private string $email;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $enabled;
+
+    /**
      * @var string[]
      * @ORM\Column(type="json")
      */
@@ -124,10 +129,11 @@ class Requester implements UserInterface
      */
     private ?DateTimeImmutable $updatedDate;
 
-    public function __construct(string $email, string $name)
+    public function __construct(string $email, string $name, bool $enabled)
     {
         $this->email = $email;
         $this->name = $name;
+        $this->enabled = $enabled;
         $this->id = Uuid::uuid4()->toString();
         $this->orders = new ArrayCollection();
         $this->createdDate = DateHelper::create();
@@ -140,12 +146,27 @@ class Requester implements UserInterface
 
     public function getEmail(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     public function getUsername(): string
     {
         return $this->email;
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function enable(): void
+    {
+        $this->enabled = true;
+    }
+
+    public function disable(): void
+    {
+        $this->enabled = false;
     }
 
     public function setEmail(string $email): self
@@ -179,7 +200,7 @@ class Requester implements UserInterface
 
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self

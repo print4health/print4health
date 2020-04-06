@@ -41,7 +41,7 @@ class RequesterRegistrationRequest
 
     /**
      * @SWG\Property(type="string")
-     * @Assert\Length(min=5, max=1000)
+     * @Assert\Length(min=5, max=3000)
      */
     public ?string $description = null;
 

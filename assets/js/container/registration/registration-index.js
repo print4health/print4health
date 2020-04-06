@@ -14,20 +14,29 @@ class RegistrationIndex extends React.Component {
   render() {
     return (
       <div className="row">
-        <div className="col-md-8 offset-md-2">
+        <div className="col-md-10 offset-md-1">
           <h1>Bei print4health registrieren</h1>
-          <p>
-            Hier könnt ihr euch auf unserer Plattform registrieren und danach entweder
-            <strong>Bedarf an 3D gedruckten Gegenständen</strong> anmelden <i>("bestellen")</i> oder das
+          <p className="mt-5">
+            Hier könnt ihr euch auf unserer Plattform registrieren und danach entweder <strong>Bedarf an 3D gedruckten
+            Gegenständen</strong> anmelden <i>("bestellen")</i> oder das
             <strong>Drucken von Gegenständen</strong> bestätigen.
           </p>
 
           <div className="row">
             <div className="col text-right">
-              <Link className="btn btn-block btn-lg btn-outline-primary" to="/registration/requester">Ich habe Bedarf</Link>
+              <Link className="btn btn-block btn-lg btn-outline-primary" to="/registration/requester">
+                Ich habe Bedarf
+              </Link>
+            </div>
+            <div className="col text-right">
+              <Link className="btn btn-block btn-lg btn-outline-primary" to="/registration/requester">
+                Ich bin ein Maker-Hub
+              </Link>
             </div>
             <div className="col">
-              <Link className="btn btn-block btn-lg btn-outline-primary" to="/registration/maker">Ich kann produzieren</Link>
+              <Link className="btn btn-block btn-lg btn-outline-primary" to="/registration/maker">
+                Ich bin Maker
+              </Link>
             </div>
           </div>
         </div>

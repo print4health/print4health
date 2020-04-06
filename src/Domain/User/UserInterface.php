@@ -8,6 +8,12 @@ use Symfony\Component\Security\Core\User\UserInterface as CoreUserInterface;
 
 interface UserInterface extends CoreUserInterface
 {
+    public function isEnabled(): bool;
+
+    public function enable(): void;
+
+    public function disable(): void;
+
     public function getId(): string;
 
     public function getEmail(): string;

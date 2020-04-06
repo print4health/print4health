@@ -32,6 +32,11 @@ class User implements UserInterface
     private string $email;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $enabled;
+
+    /**
      * @var string[]
      * @ORM\Column(type="json")
      */
@@ -68,8 +73,10 @@ class User implements UserInterface
      */
     private ?DateTimeImmutable $updatedDate;
 
-    public function __construct()
+    public function __construct(string $email, bool $enabled)
     {
+        $this->email = $email;
+        $this->enabled = $enabled;
         $this->id = Uuid::uuid4()->toString();
         $this->orders = new ArrayCollection();
         $this->createdDate = DateHelper::create();
@@ -82,12 +89,27 @@ class User implements UserInterface
 
     public function getEmail(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     public function getUsername(): string
     {
         return $this->email;
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function enable(): void
+    {
+        $this->enabled = true;
+    }
+
+    public function disable(): void
+    {
+        $this->enabled = false;
     }
 
     public function setEmail(string $email): self
@@ -120,7 +142,7 @@ class User implements UserInterface
 
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return (string)$this->password;
     }
 
     public function setPassword(string $password): self
