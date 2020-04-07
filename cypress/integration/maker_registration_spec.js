@@ -4,13 +4,15 @@ describe('maker registration workflow', function () {
   });
   it('register as maker', () => {
     cy.get('a.nav-link:contains("Registrieren")').click();
+    cy.contains('Bei print4health registrieren');
+    cy.get('a.btn:contains("Ich bin Maker")').click();
     cy.contains('Maker Registrierung');
     cy.get('input[name=name]').type('Maky McMaker');
     cy.get('input[name=email]').type('maky@example.org');
     cy.get('input[name=password]').type('my very secure pw');
     cy.get('input[name=passwordRepeat]').type('my very secure pw');
     cy.get('input[name=postalCode]').type('12345');
-    cy.get('[name=addressState]').select('Deutschland (DE)');
+    cy.get('[name=addressState]').select('DE');
     cy.get('label[for=confirmedRuleForFree]').click();
     cy.get('label[for=confirmedRuleMaterialAndTransport]').click();
     cy.get('label[for=confirmedPlattformIsContactOnly]').click();
