@@ -18,7 +18,7 @@ class RegistrationIndex extends React.Component {
           <h1>Bei print4health registrieren</h1>
           <p className="mt-5">
             Hier könnt ihr euch auf unserer Plattform registrieren und danach entweder <strong>Bedarf an 3D gedruckten
-            Gegenständen</strong> anmelden <i>("bestellen")</i> oder das
+            Gegenständen</strong> anmelden <i>(&quot;bestellen&quot;)</i> oder das
             <strong>Drucken von Gegenständen</strong> bestätigen.
           </p>
 

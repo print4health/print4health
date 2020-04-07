@@ -60,7 +60,7 @@ const RegistrationForm = (props) => {
               Bei unserer Plattform handelt es sich um eine gemeinnützige Non-Profit Website, deren Mitglieder
               freiwillig und auf eigene Kosten 3D Druck-Aufträge übernehmen. Um Betrügern vorzubeugen, wird daher jede
               eurer Anmeldungen über dieses Formular <strong>manuell nach Prüfung der Daten freigeschaltet.</strong>
-              Anschließend könnt ihr ohne Hürden 3D gedruckte Gegenstände "bestellen."
+              Anschließend könnt ihr ohne Hürden 3D gedruckte Gegenstände &quot;bestellen.&quot;
             </Alert>
             <h3>Allgemeine Daten</h3>
             <Form.Group as={Row} controlId='registerRequesterName'>
