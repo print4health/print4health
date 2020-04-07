@@ -3,28 +3,91 @@ App\Domain\User\Entity\Requester:
         __construct:
             - 'requester@print4health.org'
             - 'print4health Test Requester'
-        streetAddress: '<streetAddress()>'
+            - true
+        addressStreet: '<streetAddress()>'
         postalCode: '<postCode()>'
         addressCity: 'Berlin'
-        addressState: '<state()>'
+        addressState: 'DE'
         password: 'test'
+        institutionType: 'HOSPITAL'
+        description: '<text()>'
+        contactInfo: '<text()>'
         latitude: 52.5170365
         longitude: 13.3888599
+
+    requester_not_enabled:
+        __construct:
+            - 'requester-not-enabled@print4health.org'
+            - 'print4health Test Requester Not Enabled'
+            - false
+        password: 'test'
 
     requester_empty_address:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
+            - true
         password: 'test'
 
-    requester_address_{1..100}:
+    requester_address_{1..50}:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
-        streetAddress: '<streetAddress()>'
+            - false
+        addressStreet: '<streetAddress()>'
         postalCode: '<postCode()>'
         addressCity: '<city()>'
-        addressState: '<state()>'
+        addressState: 'DE'
         password: 'test'
+        institutionType: 'OTHER'
+        description: '<text()>'
+        contactInfo: '<text()>'
         latitude: '<latitude(48.5, 54)>'
         longitude: '<longitude(8.5, 13)>'
+
+    requester_hub_bremen:
+        __construct:
+            - '<safeEmail()>'
+            - '<company()>'
+            - true
+        addressStreet: '<streetAddress()>'
+        postalCode: '<postCode()>'
+        addressCity: 'Bremen'
+        addressState: 'DE'
+        password: 'test'
+        institutionType: 'MAKER_HUB'
+        description: '<text()>'
+        contactInfo: '<text()>'
+        latitude: 53.095831720337145
+        longitude: 8.815992937273837
+        hub: true
+        area:
+            - [53.059532629110166, 8.361433611101962]
+            - [52.70983511374458, 8.820112810320712]
+            - [53.023202928141174, 9.822615251726962]
+            - [53.4963725863187, 8.931349382586337]
+            - [53.312984094940276, 8.431471452898837]
+
+    requester_hub_koeln:
+        __construct:
+            - '<safeEmail()>'
+            - '<company()>'
+            - true
+        addressStreet: '<streetAddress()>'
+        postalCode: '<postCode()>'
+        addressCity: 'Köln'
+        addressState: 'DE'
+        password: 'test'
+        institutionType: 'MAKER_HUB'
+        description: '<text()>'
+        contactInfo: '<text()>'
+        latitude: 50.93336083207188
+        longitude: 6.951462563588646
+        hub: true
+        area:
+            - [51.02587509291266, 6.863571938588646]
+            - [51.03019368160585, 7.406021889760521]
+            - [50.864070824575364, 7.202774819448021]
+            - [50.841529369234514, 6.881424721791771]
+            - [50.974020639475455, 6.569687661244896]
+            - [51.043147033551726, 6.723496254994896]

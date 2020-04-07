@@ -3,7 +3,7 @@ describe('maker workflow', function () {
     Cypress.Cookies.preserveOnce('PHPSESSID');
   });
   it('go to homepage', function () {
-    cy.visit('http://192.168.222.12');
+    cy.visit('/');
   });
   it('login as maker', function () {
     cy.login('maker@print4health.org', 'test');
@@ -17,9 +17,12 @@ describe('maker workflow', function () {
   });
   it('check that order-modal only displays infotext', function () {
     cy.openOrderModal();
-    cy.get('input[value=OK]').click();
+    cy.get('input[value=Schließen]').click();
   });
   it('logout', function () {
     cy.logout();
+  });
+  it('reset password', () => {
+    cy.resetPassword('maker@print4health.org', 'my new password');
   });
 });

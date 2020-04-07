@@ -4,6 +4,7 @@ import axios from 'axios';
 import LoginModal from './../modal/login';
 import { NavLink } from 'react-router-dom';
 import AppContext from '../../context/app-context';
+import {ROLE_MAKER, ROLE_REQUESTER} from '../../constants/UserRoles';
 
 class UserNav extends React.Component {
   constructor(props) {
@@ -38,11 +39,12 @@ class UserNav extends React.Component {
 
   render() {
     const { user } = this.context;
+    const userRole = this.context.getCurrentUserRole();
 
     if (user && user.email) {
       return (
         <React.Fragment>
-          {this.context.getCurrentUserRole() === 'ROLE_REQUESTER' &&
+          {(userRole === ROLE_REQUESTER || userRole === ROLE_MAKER) &&
           <li className="nav-item">
             <NavLink className="nav-link" activeClassName="text-primary" to="/dashboard">Dashboard</NavLink>
           </li>
@@ -70,7 +72,7 @@ class UserNav extends React.Component {
          </span>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" activeClassName="text-primary" exact to="/register/maker">Registrieren</NavLink>
+          <NavLink className="nav-link" activeClassName="text-primary" exact to="/registration">Registrieren</NavLink>
         </li>
         {this.state.loginModal && <LoginModal onClose={() => this.setState({ loginModal: false })} />}
       </React.Fragment>

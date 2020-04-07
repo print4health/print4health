@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Domain\Exception\Maker\MakerNotFoundException;
+use App\Domain\Exception\NotFoundException;
 use App\Domain\User\Entity\Maker;
 use App\Domain\User\Repository\MakerRepository;
+use App\Infrastructure\Dto\Maker\MakerGeoDataResponse;
 use App\Infrastructure\Dto\Maker\MakerRequest;
 use App\Infrastructure\Dto\Maker\MakerResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
-use Doctrine\ORM\EntityManagerInterface;
+use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,19 +28,18 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class MakerController
 {
     private SerializerInterface $serializer;
+
     private MakerRepository $makerRepository;
-    private EntityManagerInterface $entityManager;
+
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
     public function __construct(
         SerializerInterface $serializer,
         MakerRepository $makerRepository,
-        EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $userPasswordEncoder
     ) {
         $this->serializer = $serializer;
         $this->makerRepository = $makerRepository;
-        $this->entityManager = $entityManager;
         $this->userPasswordEncoder = $userPasswordEncoder;
     }
 
@@ -68,6 +68,27 @@ class MakerController
 
     /**
      * @Route(
+     *     "/maker/geodata",
+     *     name="maker_list_geo_data",
+     *     methods={"GET"},
+     *     format="json"
+     * )
+     */
+    public function listGeoDataAction(): JsonResponse
+    {
+        $allMaker = $this->makerRepository->findAll();
+
+        $response = ['maker' => []];
+
+        foreach ($allMaker as $maker) {
+            $response['maker'][] = MakerGeoDataResponse::createFromMaker($maker);
+        }
+
+        return new JsonResponse($response);
+    }
+
+    /**
+     * @Route(
      *     "/maker",
      *     name="maker_create",
      *     methods={"POST"},
@@ -80,7 +101,8 @@ class MakerController
     {
         try {
             /** @var MakerRequest $makerRequest */
-            $makerRequest = $this->serializer->deserialize($request->getContent(), MakerRequest::class, JsonEncoder::FORMAT);
+            $makerRequest = $this->serializer->deserialize($request->getContent(), MakerRequest::class,
+                JsonEncoder::FORMAT);
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
@@ -90,7 +112,7 @@ class MakerController
             throw new ValidationErrorException($errors, 'MakerCreateValidationError');
         }
 
-        $maker = new Maker($makerRequest->email, $makerRequest->name);
+        $maker = new Maker($makerRequest->email, $makerRequest->name, true);
         $maker->setPassword($this->userPasswordEncoder->encodePassword($maker, $makerRequest->password));
         $maker->setPostalCode($makerRequest->postalCode);
         $maker->setAddressCity($makerRequest->addressCity);
@@ -98,8 +120,7 @@ class MakerController
         $maker->setLatitude($makerRequest->latitude);
         $maker->setLongitude($makerRequest->longitude);
 
-        $this->entityManager->persist($maker);
-        $this->entityManager->flush();
+        $this->makerRepository->save($maker);
 
         $makerResponse = MakerResponse::createFromMaker($maker);
 
@@ -108,24 +129,24 @@ class MakerController
 
     /**
      * @Route(
-     *     "/maker/{uuid}",
+     *     "/maker/detail/{uuid}",
      *     name="maker_show",
      *     methods={"GET"},
      *     format="json"
      * )
-     *
-     * @IsGranted("ROLE_ADMIN")
      */
     public function showAction(string $uuid): JsonResponse
     {
         try {
             $maker = $this->makerRepository->find(Uuid::fromString($uuid));
-        } catch (MakerNotFoundException $exception) {
+        } catch (NotFoundException $exception) {
             throw new NotFoundHttpException('Maker not found');
+        } catch (InvalidUuidStringException $exception) {
+            throw new BadRequestHttpException($exception->getMessage());
         }
 
         $makerResponse = MakerResponse::createFromMaker($maker);
 
-        return new JsonResponse(['maker' => $makerResponse]);
+        return new JsonResponse($makerResponse);
     }
 }

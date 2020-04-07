@@ -1,0 +1,15 @@
+{% extends 'email/email-base.html.twig' %}
+{# @var requester \App\Domain\User\Entity\Requester #}
+
+{% block content %}
+    <p>Lieber print4health Nutzer {{ requester.name }},</p>
+    <br />
+    <p>
+        dein Account auf <a href="https://print4health.org" target="_blank">print4health.org</a>
+        wurde soeben freigeschaltet. Du kannst dich nun mit deiner E-Mail Adresse und deinem Passwort einloggen und
+        Bedarf anmelden.
+    </p>
+    <p>
+        Unsere Community bemüht sich nach Kräften, dich zu Unterstützen.
+    </p>
+{% endblock %}

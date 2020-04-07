@@ -35,6 +35,8 @@ make init
 - ```yarn encore dev```
 - ```yarn encore dev --watch```
 
+## code quality & testing
+
 ### check Javascript
 
 - ```yarn eslint```
@@ -43,6 +45,14 @@ make init
 ### check PHP
 
  -   ```make dev```
+
+### run phpunit
+
+ -   ```make phpunit```
+ 
+### run cypress tests
+
+-   ```make cypress```
 
 ### Lokaler Aufruf
 

@@ -3,7 +3,7 @@ describe('requester workflow', function () {
     Cypress.Cookies.preserveOnce('PHPSESSID');
   });
   it('go to homepage', function () {
-    cy.visit('http://192.168.222.12');
+    cy.visit('/');
   });
   it('login as requester', function () {
     cy.login('requester@print4health.org', 'test');
@@ -17,9 +17,12 @@ describe('requester workflow', function () {
   });
   it('check that commit modal only displays info text', function () {
     cy.openCommitModal();
-    cy.get('input[value=OK]').click();
+    cy.get('input[value=Schließen]').click();
   });
   it('logout', function () {
     cy.logout();
+  });
+  it('reset password', () => {
+    cy.resetPassword('requester@print4health.org', 'my new password');
   });
 });

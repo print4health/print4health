@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace App\Domain\Thing\Entity;
 
+use App\Domain\DateHelper;
 use App\Domain\Order\Entity\Order;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @ORM\Entity(repositoryClass="App\Domain\Thing\Repository\ThingRepository")
+ * @ORM\Entity
  */
 class Thing
 {
@@ -52,6 +54,16 @@ class Thing
      */
     private $orders;
 
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private DateTimeImmutable $createdDate;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private ?DateTimeImmutable $updatedDate;
+
     public function __construct(
         string $name,
         string $imageUrl,
@@ -62,6 +74,21 @@ class Thing
         $this->name = $name;
         $this->id = Uuid::uuid4()->toString();
         $this->orders = new ArrayCollection();
+        $this->imageUrl = $imageUrl;
+        $this->url = $url;
+        $this->description = $description;
+        $this->specification = $specification;
+        $this->createdDate = DateHelper::create();
+    }
+
+    public function update(
+        string $name,
+        string $imageUrl,
+        string $url,
+        string $description,
+        string $specification
+    ): void {
+        $this->name = $name;
         $this->imageUrl = $imageUrl;
         $this->url = $url;
         $this->description = $description;
@@ -121,5 +148,20 @@ class Thing
     public function getSpecification(): string
     {
         return $this->specification;
+    }
+
+    public function updateUpdatedDate(): void
+    {
+        $this->updatedDate = DateHelper::create();
+    }
+
+    public function getCreatedDate(): DateTimeImmutable
+    {
+        return $this->createdDate;
+    }
+
+    public function getUpdatedDate(): ?DateTimeImmutable
+    {
+        return $this->updatedDate;
     }
 }

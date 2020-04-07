@@ -10,7 +10,7 @@ use App\Infrastructure\Dto\MakerRegistration\MakerRegistrationRequest;
 use App\Infrastructure\Dto\MakerRegistration\MakerRegistrationResponse;
 use App\Infrastructure\Dto\ValidationError\ValidationErrorResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Infrastructure\Services\GeoCoder;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
@@ -42,30 +42,28 @@ class MakerRegistrationController
 
     private MakerRepository $makerRepository;
 
-    private EntityManagerInterface $entityManager;
-
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
-    /**
-     * @var ValidatorInterface
-     */
+    private GeoCoder $geoCoder;
+
     private ValidatorInterface $validator;
 
     public function __construct(
         SerializerInterface $serializer,
         MakerRepository $makerRepository,
-        EntityManagerInterface $entityManager,
         UserPasswordEncoderInterface $userPasswordEncoder,
-        ValidatorInterface $validator
+        ValidatorInterface $validator,
+        GeoCoder $geoCoder
     ) {
         $this->serializer = $serializer;
         $this->makerRepository = $makerRepository;
-        $this->entityManager = $entityManager;
         $this->userPasswordEncoder = $userPasswordEncoder;
         $this->validator = $validator;
+        $this->geoCoder = $geoCoder;
     }
 
     /**
+     * @throws \Exception
      * @throws \Doctrine\ORM\EntityNotFoundException
      *
      * @return JsonResponse
@@ -75,33 +73,7 @@ class MakerRegistrationController
      *     name="maker-registration",
      *     in="body",
      *     type="json",
-     *     @SWG\Schema(
-     *         type="object",
-     *         required={
-     *             "email",
-     *             "password",
-     *             "name",
-     *             "postalCode",
-     *             "confirmedRuleForFree",
-     *             "confirmedRuleMaterialAndTransport",
-     *             "confirmedPlattformIsContactOnly",
-     *             "confirmedNoAccountability",
-     *             "confirmedPersonalDataTransferToRequester"
-     *         },
-     *         @SWG\Property(property="email", type="string"),
-     *         @SWG\Property(property="password", type="string"),
-     *         @SWG\Property(property="name", type="string"),
-     *         @SWG\Property(property="postalCode", type="integer"),
-     *         @SWG\Property(property="addressCity", type="string", default=""),
-     *         @SWG\Property(property="addressState", type="string", default=""),
-     *         @SWG\Property(property="latitude", type="number", default="0"),
-     *         @SWG\Property(property="longitude", type="number", default="0"),
-     *         @SWG\Property(property="confirmedRuleForFree", type="boolean", default=false),
-     *         @SWG\Property(property="confirmedRuleMaterialAndTransport", type="boolean", default=false),
-     *         @SWG\Property(property="confirmedPlattformIsContactOnly", type="boolean", default=false),
-     *         @SWG\Property(property="confirmedNoAccountability", type="boolean", default=false),
-     *         @SWG\Property(property="confirmedPersonalDataTransferToRequester", type="boolean", default=false)
-     *     )
+     *     @Model(type=MakerRegistrationRequest::class)
      * )
      * @SWG\Response(
      *     response=201,
@@ -136,16 +108,31 @@ class MakerRegistrationController
             throw new ValidationErrorException($errors, 'MakerRegistrationValidationError');
         }
 
-        $maker = new Maker($makerRegistrationRequest->email, $makerRegistrationRequest->name);
+        $maker = new Maker($makerRegistrationRequest->email, $makerRegistrationRequest->name, true);
         $maker->setPassword($this->userPasswordEncoder->encodePassword($maker, $makerRegistrationRequest->password));
         $maker->setPostalCode($makerRegistrationRequest->postalCode);
         $maker->setAddressCity($makerRegistrationRequest->addressCity);
         $maker->setAddressState($makerRegistrationRequest->addressState);
-        $maker->setLatitude($makerRegistrationRequest->latitude);
-        $maker->setLongitude($makerRegistrationRequest->longitude);
 
-        $this->entityManager->persist($maker);
-        $this->entityManager->flush();
+        try {
+            // prevent a geocode request if we don't have the necessary data
+            if (
+                $makerRegistrationRequest->hasPostalCodeAndCountryCode() &&
+                false === $makerRegistrationRequest->hasLatLng()
+            ) {
+                $geoLocation = $this->geoCoder->geoEncodePostalCountry(
+                    (string) $makerRegistrationRequest->addressState,
+                    (string) $makerRegistrationRequest->postalCode
+                );
+
+                $maker->setLatitude($geoLocation->getLatitude());
+                $maker->setLongitude($geoLocation->getLongitude());
+            }
+        } catch (\Exception $err) {
+            // TODO: add sentry message on error?
+        }
+
+        $this->makerRepository->save($maker);
 
         // todo send email for activation ?
 

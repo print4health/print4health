@@ -31,3 +31,8 @@ yarn-error.log
 
 cypress/screenshots
 cypress/videos
+
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###

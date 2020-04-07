@@ -11,7 +11,6 @@ use App\Domain\Order\Repository\OrderRepository;
 use App\Domain\User\Entity\Maker;
 use App\Infrastructure\Dto\Commitment\CommitmentRequest;
 use App\Infrastructure\Dto\Commitment\CommitmentResponse;
-use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
@@ -30,21 +29,21 @@ use Symfony\Component\Serializer\SerializerInterface;
 class CommitmentController
 {
     private OrderRepository $orderRepository;
+
     private SerializerInterface $serializer;
-    private EntityManagerInterface $entityManager;
+
     private CommitmentRepository $commitmentRepository;
+
     private Security $security;
 
     public function __construct(
         OrderRepository $orderRepository,
         SerializerInterface $serializer,
-        EntityManagerInterface $entityManager,
         CommitmentRepository $commitmentRepository,
         Security $security
     ) {
         $this->orderRepository = $orderRepository;
         $this->serializer = $serializer;
-        $this->entityManager = $entityManager;
         $this->commitmentRepository = $commitmentRepository;
         $this->security = $security;
     }
@@ -153,7 +152,8 @@ class CommitmentController
     {
         try {
             /** @var CommitmentRequest $commitmentRequest */
-            $commitmentRequest = $this->serializer->deserialize($request->getContent(), CommitmentRequest::class, JsonEncoder::FORMAT);
+            $commitmentRequest = $this->serializer->deserialize($request->getContent(), CommitmentRequest::class,
+                JsonEncoder::FORMAT);
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
@@ -161,7 +161,7 @@ class CommitmentController
         $order = $this->orderRepository->find($commitmentRequest->orderId);
 
         if (!$order instanceof Order) {
-            throw new BadRequestHttpException('Order not found');
+            throw new NotFoundHttpException('Order not found');
         }
 
         $maker = $this->security->getUser();
@@ -170,9 +170,7 @@ class CommitmentController
         }
 
         $commitment = new Commitment($order, $maker, $commitmentRequest->quantity);
-
-        $this->entityManager->persist($commitment);
-        $this->entityManager->flush();
+        $this->commitmentRepository->save($commitment);
 
         $commitmentResponse = CommitmentResponse::createFromCommitment($commitment);
 

@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace App\Domain\Order\Entity;
 
 use App\Domain\Commitment\Entity\Commitment;
+use App\Domain\DateHelper;
 use App\Domain\Thing\Entity\Thing;
 use App\Domain\User\Entity\Requester;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -50,7 +52,12 @@ class Order
     /**
      * @ORM\Column(type="datetime_immutable")
      */
-    private \DateTimeImmutable $createdAt;
+    private DateTimeImmutable $createdDate;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private ?DateTimeImmutable $updatedDate;
 
     public function __construct(Requester $requester, Thing $thing, int $quantity)
     {
@@ -59,7 +66,7 @@ class Order
         $this->requester = $requester;
         $this->thing = $thing;
         $this->quantity = $quantity;
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdDate = new \DateTimeImmutable();
     }
 
     public function getId(): string
@@ -67,7 +74,7 @@ class Order
         return $this->id;
     }
 
-    public function getRequester(): ?Requester
+    public function getRequester(): Requester
     {
         return $this->requester;
     }
@@ -119,8 +126,18 @@ class Order
         return $this->quantity - $commitmentCounts;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function updateUpdatedDate(): void
     {
-        return $this->createdAt;
+        $this->updatedDate = DateHelper::create();
+    }
+
+    public function getCreatedDate(): DateTimeImmutable
+    {
+        return $this->createdDate;
+    }
+
+    public function getUpdatedDate(): ?DateTimeImmutable
+    {
+        return $this->updatedDate;
     }
 }

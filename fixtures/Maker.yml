@@ -3,26 +3,36 @@ App\Domain\User\Entity\Maker:
         __construct:
             - 'maker@print4health.org'
             - 'print4health Test Maker'
+            - true
         postalCode: '<postCode()>'
         addressCity: 'Berlin'
-        addressState: '<state()>'
+        addressState: '<randomCountryCode()>'
         password: 'test'
         latitude: 52.5170365
         longitude: 13.3888599
+
+    maker_not_enabled:
+        __construct:
+            - 'maker-not-enabled@print4health.org'
+            - 'print4health Test Maker Not Enabled'
+            - false
+        password: 'test'
 
     maker_empty_address:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
+            - true
         password: 'test'
 
-    maker_address_{1..10}:
+    maker_address_{1..20}:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
+            - true
         postalCode: '<postCode()>'
         addressCity: '<city()>'
-        addressState: '<state()>'
+        addressState: '<randomCountryCode()>'
         password: 'test'
         latitude: '<latitude(48.5, 54)>'
         longitude: '<longitude(8.5, 13)>'

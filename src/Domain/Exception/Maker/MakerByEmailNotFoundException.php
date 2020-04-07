@@ -11,7 +11,7 @@ class MakerByEmailNotFoundException extends NotFoundException
     public function __construct(string $email, int $code = 0)
     {
         parent::__construct(
-            sprintf('No maker found for email %s', $email),
+            sprintf('No maker found for email [%s]', $email),
             $code
         );
     }

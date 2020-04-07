@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Controller;
 
 use App\Domain\User\Entity\User;
-use App\Infrastructure\Dto\User\User as UserDto;
+use App\Infrastructure\Dto\User\UserResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
@@ -29,10 +29,11 @@ class UserController
      *     methods={"GET"},
      *     format="json"
      * )
+     * @SWG\Tag(name="User")
      * @SWG\Response(
      *     response=200,
      *     description="Current authenticated user",
-     *     @Model(type=UserDto::class)
+     *     @Model(type=UserResponse::class)
      * )
      * @SWG\Response(
      *     response=401,
@@ -46,7 +47,7 @@ class UserController
         /** @var User $user */
         $user = $this->security->getUser();
 
-        $userDto = UserDto::createFromUser($user);
+        $userDto = UserResponse::createFromUser($user);
 
         return new JsonResponse($userDto);
     }

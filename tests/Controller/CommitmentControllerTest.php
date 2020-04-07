@@ -71,7 +71,7 @@ class CommitmentControllerTest extends AbstractControllerTest
 
         $client->request('POST', '/commitments', [], [], [], json_encode($requestContent));
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
 
         $data = json_decode($client->getResponse()->getContent(), true);
         $this->assertEquals('Order not found', $data['detail']);

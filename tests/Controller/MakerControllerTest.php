@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Controller;
 
 // TODO: Add test for showAction
+
 class MakerControllerTest extends AbstractControllerTest
 {
     /**
@@ -28,16 +29,42 @@ class MakerControllerTest extends AbstractControllerTest
         }
     }
 
-    private function singleMaker(array $requester): void
+    /**
+     * @group functional
+     */
+    public function testGeoDataListActionWithAdminLogin(): void
     {
-        $this->assertIsString($requester['id']);
-        $this->assertIsString($requester['email']);
-        $this->assertArrayHasKey('name', $requester);
-        $this->assertArrayHasKey('postalCode', $requester);
-        $this->assertArrayHasKey('addressCity', $requester);
-        $this->assertArrayHasKey('addressState', $requester);
-        $this->assertArrayHasKey('latitude', $requester);
-        $this->assertArrayHasKey('longitude', $requester);
+        $client = static::createClient();
+
+        $client->request('GET', '/maker/geodata');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+
+        $data = json_decode($client->getResponse()->getContent(), true);
+        $this->assertArrayHasKey('maker', $data);
+
+        foreach ($data['maker'] as $maker) {
+            $this->assertIsString($maker['id']);
+            $this->assertArrayNotHasKey('email', $maker);
+            $this->assertArrayNotHasKey('name', $maker);
+            $this->assertArrayNotHasKey('postalCode', $maker);
+            $this->assertArrayNotHasKey('addressCity', $maker);
+            $this->assertArrayNotHasKey('addressState', $maker);
+            $this->assertArrayHasKey('latitude', $maker);
+            $this->assertArrayHasKey('longitude', $maker);
+        }
+    }
+
+    private function singleMaker(array $maker): void
+    {
+        $this->assertIsString($maker['id']);
+        $this->assertIsString($maker['email']);
+        $this->assertArrayHasKey('name', $maker);
+        $this->assertArrayHasKey('postalCode', $maker);
+        $this->assertArrayHasKey('addressCity', $maker);
+        $this->assertArrayHasKey('addressState', $maker);
+        $this->assertArrayHasKey('latitude', $maker);
+        $this->assertArrayHasKey('longitude', $maker);
     }
 
     /**

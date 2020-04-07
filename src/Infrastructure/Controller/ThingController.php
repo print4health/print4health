@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
+use App\Domain\Exception\NotFoundException;
 use App\Domain\Thing\Entity\Thing;
 use App\Domain\Thing\Repository\ThingRepository;
 use App\Infrastructure\Dto\Thing\ThingRequest;
 use App\Infrastructure\Dto\Thing\ThingResponse;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Infrastructure\Exception\ValidationErrorException;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -20,22 +22,19 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class ThingController
 {
     private SerializerInterface $serializer;
 
-    private EntityManagerInterface $entityManager;
-
     private ThingRepository $thingRepository;
 
     public function __construct(
         SerializerInterface $serializer,
-        EntityManagerInterface $entityManager,
         ThingRepository $thingRepository
     ) {
         $this->serializer = $serializer;
-        $this->entityManager = $entityManager;
         $this->thingRepository = $thingRepository;
     }
 
@@ -96,7 +95,7 @@ class ThingController
      */
     public function searchAction(string $searchstring): JsonResponse
     {
-        $things = $this->thingRepository->searchNameDescription($searchstring);
+        $things = $this->thingRepository->searchByNameAndDescription($searchstring);
 
         $response = ['things' => []];
 
@@ -141,29 +140,104 @@ class ThingController
      *
      * @IsGranted("ROLE_ADMIN")
      */
-    public function createAction(Request $request): JsonResponse
+    public function createAction(Request $request, ValidatorInterface $validator): JsonResponse
     {
         try {
-            /** @var ThingRequest $ThingRequest */
-            $ThingRequest = $this->serializer->deserialize($request->getContent(), ThingRequest::class, JsonEncoder::FORMAT);
+            /** @var ThingRequest $thingRequest */
+            $thingRequest = $this->serializer->deserialize($request->getContent(), ThingRequest::class,
+                JsonEncoder::FORMAT);
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
 
+        $errors = $validator->validate($thingRequest);
+        if ($errors->count() > 0) {
+            throw new ValidationErrorException($errors);
+        }
+
         $thing = new Thing(
-            $ThingRequest->name,
-            $ThingRequest->imageUrl,
-            $ThingRequest->url,
-            $ThingRequest->description,
-            $ThingRequest->specification
+            $thingRequest->name,
+            $thingRequest->imageUrl,
+            $thingRequest->url,
+            $thingRequest->description,
+            $thingRequest->specification
         );
 
-        $this->entityManager->persist($thing);
-        $this->entityManager->flush();
+        $this->thingRepository->save($thing);
 
         $ThingResponse = ThingResponse::createFromThing($thing);
 
         return new JsonResponse(['thing' => $ThingResponse], 201);
+    }
+
+    /**
+     * Updates a Thing Resource.
+     *
+     * @Route(
+     *     "/things/{id}",
+     *     name="thing_update",
+     *     methods={"POST"},
+     *     format="json"
+     * )
+     *
+     * @SWG\Tag(name="Things")
+     *
+     * @SWG\Parameter(
+     *     name="thing",
+     *     in="body",
+     *     type="json",
+     *     @Model(type=ThingRequest::class)
+     * )
+     * @SWG\Response(
+     *     response=201,
+     *     description="Thing successfully created",
+     *     @Model(type=ThingResponse::class)
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed request"
+     * )
+     * @SWG\Response(
+     *     response=401,
+     *     description="Unauthorized"
+     * )
+     *
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function updateAction(Request $request, ValidatorInterface $validator): JsonResponse
+    {
+        try {
+            $thingById = $this->thingRepository->find($request->get('id'));
+        } catch (NotFoundException $exception) {
+            throw new NotFoundHttpException($exception->getMessage());
+        }
+
+        try {
+            /** @var ThingRequest $thingRequest */
+            $thingRequest = $this->serializer->deserialize($request->getContent(), ThingRequest::class,
+                JsonEncoder::FORMAT);
+        } catch (NotEncodableValueException $notEncodableValueException) {
+            throw new BadRequestHttpException('No valid json', $notEncodableValueException);
+        }
+
+        $errors = $validator->validate($thingRequest);
+        if ($errors->count() > 0) {
+            throw new ValidationErrorException($errors);
+        }
+
+        $thingById->update(
+            $thingRequest->name,
+            $thingRequest->imageUrl,
+            $thingRequest->url,
+            $thingRequest->description,
+            $thingRequest->specification
+        );
+
+        $this->thingRepository->save($thingById);
+
+        $thingResponse = ThingResponse::createFromThing($thingById);
+
+        return new JsonResponse(['thing' => $thingResponse], 201);
     }
 
     /**
@@ -186,14 +260,14 @@ class ThingController
      */
     public function showAction(string $uuid): JsonResponse
     {
-        $thing = $this->thingRepository->find($uuid);
-
-        if (null === $thing) {
-            throw new NotFoundHttpException('Thing not found');
+        try {
+            $thing = $this->thingRepository->find(Uuid::fromString($uuid));
+        } catch (NotFoundException $exception) {
+            throw new NotFoundHttpException($exception->getMessage());
         }
 
-        $ThingResponse = ThingResponse::createFromThing($thing);
+        $thingResponse = ThingResponse::createFromThing($thing);
 
-        return new JsonResponse(['thing' => $ThingResponse]);
+        return new JsonResponse(['thing' => $thingResponse]);
     }
 }

@@ -13,7 +13,7 @@ import UserNav from './component/user/user-nav';
 import ThingListContainer from './container/thing/list';
 import ThingDetailContainer from './container/thing/detail';
 import RequestPasswordResetModal from './component/modal/request-password-reset';
-import logo from '../logo-print4health-org.svg';
+import logo from '../images/logo-print4health-org.svg';
 import Dashboard from './container/dashboard/dashboard';
 import Faq from './container/faq/faq';
 import AppContext from './context/app-context';
@@ -25,11 +25,12 @@ import DataPrivacyStatement from './container/data-privacy-statement/data-privac
 import PageView from './component/page-view/page-view.js';
 import { Config } from './config';
 import { Nav, Navbar } from 'react-bootstrap';
-import RegisterMaker from './container/register-maker/register-maker';
-
-const ROLE_USER = 'ROLE_USER';
-const ROLE_MAKER = 'ROLE_MAKER';
-const ROLE_REQUESTER = 'ROLE_REQUESTER';
+import RegistrationIndex from './container/registration/registration-index';
+import RegistrationMaker from './container/registration/registration-maker';
+import RegistrationRequester from './container/registration/registration-requester';
+import { ROLE_USER, ROLE_MAKER, ROLE_REQUESTER } from './constants/UserRoles';
+import Contact from './container/contact/contact';
+import { default as DashboardContact } from './container/dashboard/contact';
 
 class App extends React.Component {
 
@@ -57,7 +58,7 @@ class App extends React.Component {
   setUser(user) {
     this.setState({
       user,
-      initalUserCheck: true
+      initalUserCheck: true,
     });
   }
 
@@ -67,7 +68,7 @@ class App extends React.Component {
     try {
       if (user.roles.includes(ROLE_MAKER)) {
         return ROLE_MAKER;
-      }else if (user.roles.includes(ROLE_REQUESTER)) {
+      } else if (user.roles.includes(ROLE_REQUESTER)) {
         return ROLE_REQUESTER;
       } else if (user.roles.includes(ROLE_USER)) {
         return ROLE_USER;
@@ -143,25 +144,29 @@ class App extends React.Component {
             </Navbar>
           </header>
           {initalUserCheck &&
-            <main className="container py-5">
-              <DismissableAlert message={alertMessage} variant={alertClass} />
-              <Switch>
-                <PrivateRoute path="/dashboard" component={Dashboard} authed={user && Object.keys(user).length !== 0 && this.getCurrentUserRole() === "ROLE_REQUESTER"} setAlert={this.setAlert} user={user}/>
-                <Route path="/order/list" component={Index} />
-                <Route path="/order/map" component={Index} />
-                <Route path="/order/{id}" component={Index} />
-                <Route path="/thing/list" component={ThingListContainer} />
-                <Route path="/thing/:id" component={ThingDetailContainer} />
-                <Route path="/thing/:id/create-order" component={Index} />
-                <Route path="/faq" component={Faq} />
-                <Route path="/imprint" component={Imprint} />
-                <Route path="/data-privacy-statement" component={DataPrivacyStatement} />
-                <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
-                <Route path="/register/maker" component={RegisterMaker} />
-                <Route path="/" component={Index} />
-              </Switch>
-              <PageView />
-            </main>
+          <main className="container py-5">
+            <DismissableAlert message={alertMessage} variant={alertClass} />
+            <Switch>
+              <PrivateRoute path="/contact/:role/:orderId" component={DashboardContact} authed={user && Object.keys(user).length !== 0} setAlert={this.setAlert} user={user}/>
+              <PrivateRoute path="/dashboard" component={Dashboard} authed={user && Object.keys(user).length !== 0} setAlert={this.setAlert} user={user}/>
+              <Route path="/order/list" component={Index} />
+              <Route path="/order/map" component={Index} />
+              <Route path="/order/{id}" component={Index} />
+              <Route path="/thing/list" component={ThingListContainer} />
+              <Route path="/thing/:id" component={ThingDetailContainer} />
+              <Route path="/thing/:id/create-order" component={Index} />
+              <Route path="/faq" component={Faq} />
+              <Route path="/contact" component={Contact} />
+              <Route path="/imprint" component={Imprint} />
+              <Route path="/data-privacy-statement" component={DataPrivacyStatement} />
+              <Route path="/reset-password/:passwordResetToken" component={ResetPassword} />
+              <Route path="/registration/maker" component={RegistrationMaker} />
+              <Route path="/registration/requester" component={RegistrationRequester} />
+              <Route path="/registration" component={RegistrationIndex} />
+              <Route path="/" component={Index} />
+            </Switch>
+            <PageView />
+          </main>
           }
           <Footer />
           <RequestPasswordResetModal />
