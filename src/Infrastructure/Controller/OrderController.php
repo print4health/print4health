@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Controller;
 
 use App\Domain\Commitment\Repository\CommitmentRepository;
-use App\Domain\Exception\Maker\MakerNotFoundException;
+use App\Domain\Exception\Maker\MakerByIdNotFoundException;
 use App\Domain\Exception\NotFoundException;
 use App\Domain\Exception\Requester\RequesterByIdNotFoundException;
 use App\Domain\Order\Entity\Order;
@@ -182,7 +182,7 @@ class OrderController
 
         try {
             $maker = $this->makerRepository->find($uuid);
-        } catch (MakerNotFoundException $exception) {
+        } catch (MakerByIdNotFoundException $exception) {
             throw new NotFoundHttpException($exception->getMessage());
         }
 
