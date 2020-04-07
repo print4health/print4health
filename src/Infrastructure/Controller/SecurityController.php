@@ -6,6 +6,8 @@ namespace App\Infrastructure\Controller;
 
 use App\Domain\Exception\NotFoundException;
 use App\Domain\PasswordRecovery\Mailer as PasswordRecoveryMailer;
+use App\Domain\Requester\Mailer;
+use App\Domain\User\Entity\Requester;
 use App\Domain\User\Repository\UserRepository;
 use App\Domain\User\UserInterface;
 use App\Domain\User\UserInterfaceRepository;
@@ -298,8 +300,11 @@ class SecurityController
      * )
      * @IsGranted("ROLE_ADMIN")
      */
-    public function enableUser(Request $request, UserInterfaceRepository $userRepositoryWrapper): JsonResponse
-    {
+    public function enableUser(
+        Request $request,
+        UserInterfaceRepository $userRepositoryWrapper,
+        Mailer $mailer
+    ): JsonResponse {
         $uuid = $request->get('uuid');
         try {
             $user = $userRepositoryWrapper->find(Uuid::fromString($uuid));
@@ -320,6 +325,10 @@ class SecurityController
 
         $user->enable();
         $userRepositoryWrapper->save($user);
+
+        if ($user instanceof Requester) {
+            $mailer->sendEnabledNotificationToRequester($user);
+        }
 
         return new JsonResponse([
             'user' => [

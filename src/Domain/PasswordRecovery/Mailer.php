@@ -47,13 +47,12 @@ class Mailer
 
         $url = $this->router->generate('home', [], Router::ABSOLUTE_URL);
         $url .= '#/reset-password/' . $user->getPasswordResetToken();
-        $body = $this->twig->render('email/password_reset.txt.twig', ['url' => $url]);
+        $body = $this->twig->render('email/password_reset.html.twig', ['url' => $url]);
         $email = new Email();
         $email->from($this->from)
             ->to($user->getEmail())
             ->subject('print4health - Passwort zurücksetzen')
-            ->html($body)
-        ;
+            ->html($body);
 
         try {
             $this->mailer->send($email);

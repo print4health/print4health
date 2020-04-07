@@ -35,6 +35,10 @@ services:
         arguments:
             $from: '%env(EMAIL_CONTACT)%'
 
+    App\Domain\Requester\Mailer:
+        arguments:
+            $contactEmail: '%env(EMAIL_CONTACT)%'
+
     App\Infrastructure\Services\GeoCoder:
         arguments:
             $googleApiKey: '%env(GOOGLE_MAPS_API_KEY)%'

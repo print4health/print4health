@@ -66,6 +66,11 @@ Encore
       from: './assets/meta',
       to: '/meta/[path][name].[ext]'
     })
+    .copyFiles({
+      from: './assets/images',
+      to: '/images/[path][name].[ext]',
+      pattern: /\.(png|jpg|jpeg)$/
+    })
 
     // uncomment if you use TypeScript
     //.enableTypeScriptLoader()

@@ -1,12 +1,21 @@
-Hallo {{ contactRequest.name }},<br>
-<br>
-Wir haben folgende Nachricht von Dir erhalten:<br>
-<br>
-{{ contactRequest.message }}<br>
-<br>
-Kontaktdaten:<br>
-{{ contactRequest.name }}<br>
-{{ contactRequest.phone }}<br>
-{{ contactRequest.email }}<br>
-<br>
-Wir melden uns so bald wie möglich bei Dir!
+{% extends 'email/email-base.html.twig' %}
+{# @var contactRequest \App\Infrastructure\Dto\Contact\ContactRequest #}
+
+{% block content %}
+    <p>
+        Hallo {{ contactRequest.name }},
+    </p>
+    <br />
+    <p>
+        Wir haben folgende Nachricht von Dir erhalten:<br />
+        <br />
+        {{ contactRequest.message }}<br />
+        <br />
+        Kontaktdaten:<br />
+        {{ contactRequest.name }}<br />
+        {{ contactRequest.phone }}<br />
+        {{ contactRequest.email }}<br />
+        <br />
+        Wir melden uns so bald wie möglich bei Dir!
+    </p>
+{% endblock %}

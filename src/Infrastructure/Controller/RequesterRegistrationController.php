@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
+use App\Domain\Requester\Mailer;
 use App\Domain\User\Entity\Requester;
 use App\Domain\User\Repository\RequesterRepository;
 use App\Infrastructure\Dto\RequesterRegistration\RequesterRegistrationRequest;
@@ -46,23 +47,24 @@ class RequesterRegistrationController
 
     private ValidatorInterface $validator;
 
-    /**
-     * @var RequesterRepository
-     */
     private RequesterRepository $requesterRepository;
+
+    private Mailer $mailer;
 
     public function __construct(
         SerializerInterface $serializer,
         RequesterRepository $requesterRepository,
         UserPasswordEncoderInterface $userPasswordEncoder,
         ValidatorInterface $validator,
-        GeoCoder $geoCoder
+        GeoCoder $geoCoder,
+        Mailer $mailer
     ) {
         $this->serializer = $serializer;
         $this->requesterRepository = $requesterRepository;
         $this->userPasswordEncoder = $userPasswordEncoder;
         $this->validator = $validator;
         $this->geoCoder = $geoCoder;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -144,10 +146,10 @@ class RequesterRegistrationController
 
         $this->requesterRepository->save($requester);
 
-        // todo send email for activation ?
+        $this->mailer->sendNewRegistrationNotificationToAdmins($requester);
 
-        $requesteResponse = RequesterRegistrationResponse::createFromRequester($requester);
+        $requesterResponse = RequesterRegistrationResponse::createFromRequester($requester);
 
-        return new JsonResponse(['requester' => $requesteResponse], Response::HTTP_CREATED);
+        return new JsonResponse(['requester' => $requesterResponse], Response::HTTP_CREATED);
     }
 }
