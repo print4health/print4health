@@ -79,6 +79,11 @@ class Requester implements UserInterface
     private ?string $description = null;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $contactInfo = null;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private ?string $addressStreet = null;
@@ -146,7 +151,7 @@ class Requester implements UserInterface
 
     public function getEmail(): string
     {
-        return (string)$this->email;
+        return (string) $this->email;
     }
 
     public function getUsername(): string
@@ -200,7 +205,7 @@ class Requester implements UserInterface
 
     public function getPassword(): string
     {
-        return (string)$this->password;
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self
@@ -228,6 +233,16 @@ class Requester implements UserInterface
     public function setDescription(?string $description): void
     {
         $this->description = $description;
+    }
+
+    public function getContactInfo(): ?string
+    {
+        return $this->contactInfo;
+    }
+
+    public function setContactInfo(?string $contactInfo): void
+    {
+        $this->contactInfo = $contactInfo;
     }
 
     public function getSalt(): string

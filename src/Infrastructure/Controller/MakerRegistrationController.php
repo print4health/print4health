@@ -108,7 +108,7 @@ class MakerRegistrationController
             throw new ValidationErrorException($errors, 'MakerRegistrationValidationError');
         }
 
-        $maker = new Maker($makerRegistrationRequest->email, $makerRegistrationRequest->name);
+        $maker = new Maker($makerRegistrationRequest->email, $makerRegistrationRequest->name, true);
         $maker->setPassword($this->userPasswordEncoder->encodePassword($maker, $makerRegistrationRequest->password));
         $maker->setPostalCode($makerRegistrationRequest->postalCode);
         $maker->setAddressCity($makerRegistrationRequest->addressCity);

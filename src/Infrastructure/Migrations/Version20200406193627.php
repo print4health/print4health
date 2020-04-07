@@ -25,7 +25,7 @@ final class Version20200406193627 extends AbstractMigration
             'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE maker ADD enabled TINYINT(1) NOT NULL DEFAULT 0');
-        $this->addSql('ALTER TABLE requester ADD enabled TINYINT(1) NOT NULL DEFAULT 0');
+        $this->addSql('ALTER TABLE requester ADD enabled TINYINT(1) NOT NULL DEFAULT 0, ADD contact_info LONGTEXT DEFAULT NULL');
         $this->addSql('ALTER TABLE user ADD enabled TINYINT(1) NOT NULL DEFAULT 0');
     }
 
@@ -36,7 +36,7 @@ final class Version20200406193627 extends AbstractMigration
             'Migration can only be executed safely on \'mysql\'.');
 
         $this->addSql('ALTER TABLE maker DROP enabled');
-        $this->addSql('ALTER TABLE requester DROP enabled');
+        $this->addSql('ALTER TABLE requester DROP enabled, DROP contact_info');
         $this->addSql('ALTER TABLE user DROP enabled');
     }
 }

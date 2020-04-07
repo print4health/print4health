@@ -186,6 +186,24 @@ const RegistrationForm = (props) => {
                 </Form.Text>
               </Col>
             </Form.Group>
+            <Form.Group as={Row} controlId="registerRequesterContactInfo">
+              <Form.Label column sm="2">Kontakt-Info</Form.Label>
+              <Col sm="10">
+                <Form.Control type="text"
+                              name="contactInfo"
+                              placeholder="Beschreibung"
+                              as="textarea"
+                              ref={register({ required: false, maxLength: 3000 })}>
+                </Form.Control>
+                <Form.Text className="text-muted">
+                  Hier kannst du Informationen die Maker hinterlegen, wo gedruckte Teile abgegeben werden können.
+                  Z.B. Gebäude/Abteilung oder Warenanlieferung. Auch eine eigene Telefonnummer/E-Mail oder ähnliches
+                  macht Sinn.
+                  {printError(errors.contactInfo, 'Maximal 3000 Zeichen sind erlaubt.')}
+                  {printError(serverErrors.contactInfo, serverErrors.contactInfo)}
+                </Form.Text>
+              </Col>
+            </Form.Group>
             <h3>Was macht ihr?</h3>
             <Form.Group as={Row} controlId="registerRequesterInstitutionType">
               <Form.Label column sm="2">Typ</Form.Label>
@@ -217,7 +235,8 @@ const RegistrationForm = (props) => {
                   Hier kannst du etwas über deine Einrichtung erzählen was uns hilft euch einzuordnen.
                   Aktuell wird dieser Wert noch nicht öffentlich angezeigt. <br />
                   <br />
-                  <strong>Maker-Hubs:</strong> Unsere Datenbank + Kartenansicht unterstützen bereits Polygone für eure Zone. Falls
+                  <strong>Maker-Hubs:</strong> Unsere Datenbank + Kartenansicht unterstützen bereits Polygone für eure
+                  Zone. Falls
                   ihr diese zur Hand habt, schreibt sie hier in die Beschreibung oder woher wir sie bekommen können.
                   Es war jetzt nur noch keine Zeit, das hier im Formular zu ergänzen.
                   {printError(errors.addressState, 'Bitte wähle dein Land aus der Liste aus.')}
@@ -327,169 +346,169 @@ const RegistrationForm = (props) => {
               </Col>
             </Row>
           </form>
-            }
-            {showForm === false &&
-            <Alert variant="success">
-              <strong>Registrierung erfolgreich!</strong>
-              <p className="mb-0">
-                Wir haben über deine Anmeldung eine E-Mail erhalten. Bitte warte noch unsere Bestätigung ab. Danach
-                kannst du unter <Link to="/thing/list">Bedarf</Link> die Teile anfragen, die du benötigst.
-              </p>
-            </Alert>
-            }
-            </div>
-            </div>
-            </div>
-            );
-            };
+          }
+          {showForm === false &&
+          <Alert variant="success">
+            <strong>Registrierung erfolgreich!</strong>
+            <p className="mb-0">
+              Wir haben über deine Anmeldung eine E-Mail erhalten. Bitte warte noch unsere Bestätigung ab. Danach
+              kannst du unter <Link to="/thing/list">Bedarf</Link> die Teile anfragen, die du benötigst.
+            </p>
+          </Alert>
+          }
+        </div>
+      </div>
+    </div>
+  );
+};
 
-            // satisfies eslint.. hmm
-            RegistrationForm.propTypes = () => {
-            return {};
-            };
+// satisfies eslint.. hmm
+RegistrationForm.propTypes = () => {
+  return {};
+};
 
-            class RegistrationRequester extends React.Component {
+class RegistrationRequester extends React.Component {
 
-            constructor(props) {
-            super(props);
-            this.state = {
-            showForm: true,
-            countries: [],
-            institutionTypes: [],
-            alert: {
-            show: false,
-            status: null,
-            message: '',
-            },
-            serverErrors: {},
-            };
-            }
+  constructor(props) {
+    super(props);
+    this.state = {
+      showForm: true,
+      countries: [],
+      institutionTypes: [],
+      alert: {
+        show: false,
+        status: null,
+        message: '',
+      },
+      serverErrors: {},
+    };
+  }
 
-            static get propTypes() {
-            return {
-            match: PropTypes.object,
-            passwordResetToken: PropTypes.string,
-            };
-            }
+  static get propTypes() {
+    return {
+      match: PropTypes.object,
+      passwordResetToken: PropTypes.string,
+    };
+  }
 
-            componentDidMount() {
-            if (this.context.user && this.context.user.id) {
-            // todo redirect to home?
-            }
+  componentDidMount() {
+    if (this.context.user && this.context.user.id) {
+      // todo redirect to home?
+    }
 
-            const lang = navigator.language || navigator.userLanguage;
-            this.getCountryList(lang.split('-')[0].toLocaleLowerCase());
-            this.initInstitutionTypes();
-            }
+    const lang = navigator.language || navigator.userLanguage;
+    this.getCountryList(lang.split('-')[0].toLocaleLowerCase());
+    this.initInstitutionTypes();
+  }
 
-            getCountryList(lang) {
-            const url = `/build/meta/country-codes.json`;
-            const langIsSupported = ['de', 'es', 'fr', 'ja', 'it', 'br', 'pt'].includes(lang);
+  getCountryList(lang) {
+    const url = `/build/meta/country-codes.json`;
+    const langIsSupported = ['de', 'es', 'fr', 'ja', 'it', 'br', 'pt'].includes(lang);
 
-            axios.get(url)
-            .then((result) => {
-            const data = result.data.map((
-            { name, translations, alpha2Code }) => {
+    axios.get(url)
+      .then((result) => {
+        const data = result.data.map((
+          { name, translations, alpha2Code }) => {
             name = lang === 'en' || !langIsSupported ? name : translations[lang];
             name = `${name} (${alpha2Code})`;
             return {
-            name: name,
-            code: alpha2Code,
+              name: name,
+              code: alpha2Code,
             };
-            },
-            );
+          },
+        );
 
-            data.sort((a, b) => {
-            if (a.name === b.name) {
+        data.sort((a, b) => {
+          if (a.name === b.name) {
             return 0;
-            }
-            return a.name > b.name ? 1 : -1;
-            });
+          }
+          return a.name > b.name ? 1 : -1;
+        });
 
-            data.unshift({ name: 'Bitte wählen', code: '' });
+        data.unshift({ name: 'Bitte wählen', code: '' });
 
-            this.setState({ countries: data });
-            }).catch(() => {
-            console.log('error');
-            });
-            }
+        this.setState({ countries: data });
+      }).catch(() => {
+      console.log('error');
+    });
+  }
 
-            initInstitutionTypes() {
-            const institutionTypes = [
-            { key: '', value: 'Bitte wählen' },
-            { key: 'HOSPITAL', value: 'Krankenhaus' },
-            { key: 'DOCTOR_LOCAL', value: 'niedergelassener Arzt' },
-            { key: 'NURSING_SERVICE', value: 'Alten/Krankenpflege' },
-            { key: 'HEALTHCARE_INSTITUTION', value: 'sonst. Gesundheitliche Einrichtung' },
-            { key: 'SOCIAL_INSTITUION', value: 'Soziale Einrichtung' },
-            { key: 'MAKER_HUB', value: 'Maker HUB (MakerVsVirus)' },
-            { key: 'OTHER', value: 'Sonstiges (bitte beschreiben)' },
-            ];
+  initInstitutionTypes() {
+    const institutionTypes = [
+      { key: '', value: 'Bitte wählen' },
+      { key: 'HOSPITAL', value: 'Krankenhaus' },
+      { key: 'DOCTOR_LOCAL', value: 'niedergelassener Arzt' },
+      { key: 'NURSING_SERVICE', value: 'Alten/Krankenpflege' },
+      { key: 'HEALTHCARE_INSTITUTION', value: 'sonst. Gesundheitliche Einrichtung' },
+      { key: 'SOCIAL_INSTITUION', value: 'Soziale Einrichtung' },
+      { key: 'MAKER_HUB', value: 'Maker HUB (MakerVsVirus)' },
+      { key: 'OTHER', value: 'Sonstiges (bitte beschreiben)' },
+    ];
 
-            this.setState({ institutionTypes: institutionTypes });
-            }
+    this.setState({ institutionTypes: institutionTypes });
+  }
 
-            onSubmit = (data) => {
-            console.log(data);
+  onSubmit = (data) => {
+    console.log(data);
 
-            const alert = {};
+    const alert = {};
 
-            axios.post(Config.apiBasePath + '/requester/registration', data)
-            .then((res) => {
-            if (res.data && res.data.requester && res.data.requester.id) {
-            this.setState({
+    axios.post(Config.apiBasePath + '/requester/registration', data)
+      .then((res) => {
+        if (res.data && res.data.requester && res.data.requester.id) {
+          this.setState({
             showForm: false,
             alert: { show: false },
-            });
-            }
-            })
-            .catch((srvErr) => {
-            if (typeof (srvErr.response) === 'undefined') {
-            console.log(srvErr);
-            return;
-            }
-            const response = srvErr.response;
-            if (response.status === 422) {
+          });
+        }
+      })
+      .catch((srvErr) => {
+        if (typeof (srvErr.response) === 'undefined') {
+          console.log(srvErr);
+          return;
+        }
+        const response = srvErr.response;
+        if (response.status === 422) {
 
-            alert.show = true;
-            alert.status = response.status;
-            alert.message = 'Die Registrierung konnte nicht abgeschlossen werden. Bitte überprüfe die Daten in den Eingabefeldern.';
+          alert.show = true;
+          alert.status = response.status;
+          alert.message = 'Die Registrierung konnte nicht abgeschlossen werden. Bitte überprüfe die Daten in den Eingabefeldern.';
 
-            let errors = {};
-            // todo make hook or component for this for validation errors and more sophisticated? ;)
-            if (response.data.errors) {
+          let errors = {};
+          // todo make hook or component for this for validation errors and more sophisticated? ;)
+          if (response.data.errors) {
             for (const error of response.data.errors) {
-            if (error && typeof (error.propertyPath) === 'string') {
-            errors[error.propertyPath] = error.message;
+              if (error && typeof (error.propertyPath) === 'string') {
+                errors[error.propertyPath] = error.message;
+              }
             }
-            }
-            }
-            this.setState({
+          }
+          this.setState({
             alert: alert,
             serverErrors: errors,
-            });
+          });
 
-            } else {
-            alert.show = true;
-            alert.status = response.status;
-            alert.message = response.statusText;
-            }
-            });
-            };
+        } else {
+          alert.show = true;
+          alert.status = response.status;
+          alert.message = response.statusText;
+        }
+      });
+  };
 
-            render() {
-            const { showForm, alert, serverErrors, countries, institutionTypes } = this.state;
-            return <RegistrationForm
-            callback={this.onSubmit}
-            alert={alert}
-            serverErrors={serverErrors}
-            showForm={showForm}
-            countries={countries}
-            institutionTypes={institutionTypes}
-            />;
-            }
-            }
+  render() {
+    const { showForm, alert, serverErrors, countries, institutionTypes } = this.state;
+    return <RegistrationForm
+      callback={this.onSubmit}
+      alert={alert}
+      serverErrors={serverErrors}
+      showForm={showForm}
+      countries={countries}
+      institutionTypes={institutionTypes}
+    />;
+  }
+}
 
-            RegistrationRequester.contextType = AppContext;
+RegistrationRequester.contextType = AppContext;
 
-            export default RegistrationRequester;
+export default RegistrationRequester;

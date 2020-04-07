@@ -112,7 +112,7 @@ class Maker implements UserInterface
 
     public function getEmail(): string
     {
-        return (string)$this->email;
+        return (string) $this->email;
     }
 
     public function isEnabled(): bool
@@ -166,7 +166,7 @@ class Maker implements UserInterface
 
     public function getPassword(): string
     {
-        return (string)$this->password;
+        return (string) $this->password;
     }
 
     public function setPassword(string $password): self

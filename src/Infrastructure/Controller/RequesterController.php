@@ -137,7 +137,7 @@ class RequesterController
             throw new ValidationErrorException($errors, 'RequesterValidationError');
         }
 
-        $requester = new Requester($requesterRequest->email, $requesterRequest->name);
+        $requester = new Requester($requesterRequest->email, $requesterRequest->name, false);
         $requester->setPassword($this->userPasswordEncoder->encodePassword($requester, $requesterRequest->password));
         $requester->setAddressStreet($requesterRequest->addressStreet);
         $requester->setPostalCode($requesterRequest->postalCode);

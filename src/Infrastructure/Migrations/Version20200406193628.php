@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Statement;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
@@ -39,6 +40,7 @@ final class Version20200406193628 extends AbstractMigration
     {
         $qb = $this->connection->createQueryBuilder();
         $statement = $qb->select('m.id')->from($tableName, 'm')->execute();
+        /** @var Statement $statement */
         $dataSets = $statement->fetchAll();
         foreach ($dataSets as $dataSet) {
             $this->connection->update(

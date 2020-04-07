@@ -66,6 +66,9 @@ class RequesterRegistrationController
     }
 
     /**
+     * @throws \Exception
+     * @throws \Doctrine\ORM\EntityNotFoundException
+     *
      * @return JsonResponse
      *
      * @SWG\Tag(name="Requester")
@@ -89,9 +92,6 @@ class RequesterRegistrationController
      *     description="Validation failed due to missing mandatory fields or invalid field data",
      *     @Model(type=ValidationErrorResponse::class)
      * )
-     * @throws \Exception
-     *
-     * @throws \Doctrine\ORM\EntityNotFoundException
      */
     public function __invoke(Request $request)
     {
@@ -111,13 +111,14 @@ class RequesterRegistrationController
             throw new ValidationErrorException($errors, 'RequesterRegistrationValidationError');
         }
 
-        $requester = new Requester($requesterRegistrationRequest->email, $requesterRegistrationRequest->name);
+        $requester = new Requester($requesterRegistrationRequest->email, $requesterRegistrationRequest->name, false);
         $requester->setPassword(
             $this->userPasswordEncoder->encodePassword($requester, $requesterRegistrationRequest->password)
         );
         $requester->setName($requesterRegistrationRequest->name);
         $requester->setInstitutionType($requesterRegistrationRequest->institutionType);
         $requester->setDescription($requesterRegistrationRequest->description);
+        $requester->setContactInfo($requesterRegistrationRequest->contactInfo);
         $requester->setAddressStreet($requesterRegistrationRequest->addressStreet);
         $requester->setPostalCode($requesterRegistrationRequest->postalCode);
         $requester->setAddressCity($requesterRegistrationRequest->addressCity);
@@ -127,12 +128,11 @@ class RequesterRegistrationController
         try {
             // prevent a geocode request if we don't have the necessary data
             if (false === $requesterRegistrationRequest->hasLatLng()) {
-
                 $geoLocation = $this->geoCoder->geoEncodeByAddress(
-                    (string)$requesterRegistrationRequest->addressStreet,
-                    (string)$requesterRegistrationRequest->postalCode,
-                    (string)$requesterRegistrationRequest->addressCity,
-                    (string)$requesterRegistrationRequest->addressState
+                    (string) $requesterRegistrationRequest->addressStreet,
+                    (string) $requesterRegistrationRequest->postalCode,
+                    (string) $requesterRegistrationRequest->addressCity,
+                    (string) $requesterRegistrationRequest->addressState
                 );
 
                 $requester->setLatitude($geoLocation->getLatitude());

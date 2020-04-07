@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace DoctrineMigrations;
 
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Statement;
 use Doctrine\Migrations\AbstractMigration;
 use Ramsey\Uuid\Uuid;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20200401192701 extends AbstractMigration
+final class Version20200401192702 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -42,6 +43,7 @@ final class Version20200401192701 extends AbstractMigration
     private function updateTimestamps(string $tableName)
     {
         $qb = $this->connection->createQueryBuilder();
+        /** @var Statement $statement */
         $statement = $qb->select('t.id')->from($tableName, 't')->execute();
         $dataSets = $statement->fetchAll();
         foreach ($dataSets as $dataSet) {

@@ -31,6 +31,9 @@ class RequesterResponse
     /** @SWG\Property(type="string") */
     public ?string $addressState;
 
+    /** @SWG\Property(type="string") */
+    public ?string $contactInfo;
+
     /** @SWG\Property(type="number") */
     public ?float $latitude;
 
@@ -65,6 +68,7 @@ class RequesterResponse
         $self->addressState = $requester->getAddressState();
         $self->latitude = $requester->getLatitude();
         $self->longitude = $requester->getLongitude();
+        $self->contactInfo = $requester->getContactInfo();
         $self->isHub = $requester->isHub();
         $self->area = $requester->getArea();
         $self->createdDate = $requester->getCreatedDate()->format(DateTimeImmutable::ATOM);

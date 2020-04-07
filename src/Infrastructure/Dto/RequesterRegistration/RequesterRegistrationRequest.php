@@ -15,7 +15,6 @@ class RequesterRegistrationRequest
      * @Assert\NotBlank
      * @Assert\Length(min=5, max=255)
      */
-
     public string $name;
     /**
      * @SWG\Property(type="string")
@@ -44,6 +43,12 @@ class RequesterRegistrationRequest
      * @Assert\Length(min=5, max=3000)
      */
     public ?string $description = null;
+
+    /**
+     * @SWG\Property(type="string")
+     * @Assert\Length(min=0, max=3000)
+     */
+    public ?string $contactInfo = null;
 
     /**
      * @SWG\Property(type="string")

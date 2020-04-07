@@ -8,7 +8,6 @@ use App\Domain\Exception\Security\UserNotEnabledException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Throwable;
 
 class UserNotEnabledExceptionListener

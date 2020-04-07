@@ -25,7 +25,6 @@ class GeoCoder
         string $city,
         string $countryCode
     ): CoordinatesRequest {
-
         $components = [
             'country:' . $countryCode,
             'postal_code:' . $postalCode,
@@ -54,17 +53,15 @@ class GeoCoder
             ) {
                 $location = $responseArray['results'][0]['geometry']['location'];
 
-                return new CoordinatesRequest((float)$location['lat'], (float)$location['lng']);
+                return new CoordinatesRequest((float) $location['lat'], (float) $location['lng']);
             }
 
-            throw new CoordinatesRequestException(sprintf('Invalid data from Map Request [%s]',
-                json_encode($responseArray, JSON_THROW_ON_ERROR)));
+            throw new CoordinatesRequestException(sprintf('Invalid data from Map Request [%s]', json_encode($responseArray, JSON_THROW_ON_ERROR)));
         } catch (CoordinatesRequestException $exception) {
             throw $exception;
         } catch (\Throwable $exception) {
-            throw new CoordinatesRequestException($exception->getMessage(), (int)$exception->getCode(), $exception);
+            throw new CoordinatesRequestException($exception->getMessage(), (int) $exception->getCode(), $exception);
         }
-
     }
 
     public function geoEncodePostalCountry(
@@ -98,15 +95,14 @@ class GeoCoder
             ) {
                 $location = $responseArray['results'][0]['geometry']['location'];
 
-                return new CoordinatesRequest((float)$location['lat'], (float)$location['lng']);
+                return new CoordinatesRequest((float) $location['lat'], (float) $location['lng']);
             }
 
-            throw new CoordinatesRequestException(sprintf('Invalid data from Map Request [%s]',
-                json_encode($responseArray, JSON_THROW_ON_ERROR)));
+            throw new CoordinatesRequestException(sprintf('Invalid data from Map Request [%s]', json_encode($responseArray, JSON_THROW_ON_ERROR)));
         } catch (CoordinatesRequestException $exception) {
             throw $exception;
         } catch (\Throwable $exception) {
-            throw new CoordinatesRequestException($exception->getMessage(), (int)$exception->getCode(), $exception);
+            throw new CoordinatesRequestException($exception->getMessage(), (int) $exception->getCode(), $exception);
         }
     }
 }
