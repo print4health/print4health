@@ -11,6 +11,7 @@ use App\Infrastructure\Dto\Maker\MakerGeoDataResponse;
 use App\Infrastructure\Dto\Maker\MakerRequest;
 use App\Infrastructure\Dto\Maker\MakerResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
+use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -27,7 +28,9 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 class MakerController
 {
     private SerializerInterface $serializer;
+
     private MakerRepository $makerRepository;
+
     private UserPasswordEncoderInterface $userPasswordEncoder;
 
     public function __construct(
@@ -98,7 +101,8 @@ class MakerController
     {
         try {
             /** @var MakerRequest $makerRequest */
-            $makerRequest = $this->serializer->deserialize($request->getContent(), MakerRequest::class, JsonEncoder::FORMAT);
+            $makerRequest = $this->serializer->deserialize($request->getContent(), MakerRequest::class,
+                JsonEncoder::FORMAT);
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
@@ -137,6 +141,8 @@ class MakerController
             $maker = $this->makerRepository->find(Uuid::fromString($uuid));
         } catch (NotFoundException $exception) {
             throw new NotFoundHttpException('Maker not found');
+        } catch (InvalidUuidStringException $exception) {
+            throw new BadRequestHttpException($exception->getMessage());
         }
 
         $makerResponse = MakerResponse::createFromMaker($maker);

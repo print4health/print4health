@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
+use App\Domain\Exception\Requester\RequesterNotFoundException;
 use App\Domain\User\Entity\Requester;
 use App\Domain\User\Repository\RequesterRepository;
 use App\Infrastructure\Dto\Requester\RequesterRequest;
@@ -11,6 +12,8 @@ use App\Infrastructure\Dto\Requester\RequesterResponse;
 use App\Infrastructure\Dto\ValidationError\ValidationErrorResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Ramsey\Uuid\Exception\InvalidUuidStringException;
+use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -173,10 +176,12 @@ class RequesterController
      */
     public function showAction(string $uuid): JsonResponse
     {
-        $requester = $this->requesterRepository->find($uuid);
-
-        if (null === $requester) {
-            throw new NotFoundHttpException('Requester not found');
+        try {
+            $requester = $this->requesterRepository->find(Uuid::fromString($uuid));
+        } catch (RequesterNotFoundException $exception) {
+            throw new NotFoundHttpException($exception->getMessage());
+        } catch (InvalidUuidStringException $exception) {
+            throw new BadRequestHttpException($exception->getMessage());
         }
 
         $RequesterResponse = RequesterResponse::createFromRequester($requester);

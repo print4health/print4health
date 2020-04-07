@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @ORM\Entity(repositoryClass="App\Domain\User\Repository\UserRepository")
+ * @ORM\Entity
  */
 class User implements UserInterface
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
+use App\Domain\Exception\NotFoundException;
 use App\Domain\PasswordRecovery\Mailer as PasswordRecoveryMailer;
-use App\Domain\User\NotFoundException;
 use App\Domain\User\Repository\UserRepository;
 use App\Domain\User\UserInterface;
 use App\Domain\User\UserRepositoryWrapper;
@@ -13,10 +13,15 @@ use App\Infrastructure\Dto\User\ResetPassword;
 use App\Infrastructure\Dto\User\ResetPasswordTokenRequest;
 use App\Infrastructure\Dto\User\UserResponse;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use PHPUnit\Util\Json;
+use Ramsey\Uuid\Exception\InvalidUuidStringException;
+use Ramsey\Uuid\Uuid;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
@@ -267,5 +272,85 @@ class SecurityController
         $userRepositoryWrapper->save($user);
 
         return new JsonResponse(['status' => 'ok']);
+    }
+
+    /**
+     * @Route(
+     *     "/user/{uuid}/enable",
+     *     name="security_user_enable",
+     *     methods={"PATCH"},
+     *     format="json"
+     * )
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function enableUser(Request $request, UserRepositoryWrapper $userRepositoryWrapper): JsonResponse
+    {
+        $uuid = $request->get('uuid');
+        try {
+            $user = $userRepositoryWrapper->find(Uuid::fromString($uuid));
+        } catch (NotFoundException $exception) {
+            throw new NotFoundHttpException(sprintf('User with id [%s] not found', $uuid));
+        } catch (InvalidUuidStringException $exception) {
+            throw new BadRequestHttpException(sprintf('Parameter [%s] is not a valid uuid', $uuid));
+        }
+
+        if ($user->isEnabled()) {
+            return new JsonResponse([
+                'user' => [
+                    'id' => $uuid,
+                    'enabled' => $user->isEnabled(),
+                ],
+            ], Response::HTTP_NOT_MODIFIED);
+        }
+
+        $user->enable();
+        $userRepositoryWrapper->save($user);
+
+        return new JsonResponse([
+            'user' => [
+                'id' => $uuid,
+                'enabled' => $user->isEnabled(),
+            ],
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/user/{uuid}/disable",
+     *     name="security_user_enable",
+     *     methods={"PATCH"},
+     *     format="json"
+     * )
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function disableUser(Request $request, UserRepositoryWrapper $userRepositoryWrapper): JsonResponse
+    {
+        $uuid = $request->get('uuid');
+        try {
+            $user = $userRepositoryWrapper->find(Uuid::fromString($uuid));
+        } catch (NotFoundException $exception) {
+            throw new NotFoundHttpException(sprintf('User with id [%s] not found', $uuid));
+        } catch (InvalidUuidStringException $exception) {
+            throw new BadRequestHttpException(sprintf('Parameter [%s] is not a valid uuid', $uuid));
+        }
+
+        if (false === $user->isEnabled()) {
+            return new JsonResponse([
+                'user' => [
+                    'id' => $uuid,
+                    'enabled' => $user->isEnabled(),
+                ],
+            ], Response::HTTP_NOT_MODIFIED);
+        }
+
+        $user->disable();
+        $userRepositoryWrapper->save($user);
+
+        return new JsonResponse([
+            'user' => [
+                'id' => $uuid,
+                'enabled' => $user->isEnabled(),
+            ],
+        ]);
     }
 }
