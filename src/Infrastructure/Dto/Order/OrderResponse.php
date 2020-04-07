@@ -38,7 +38,10 @@ class OrderResponse
     public ?string $updatedDate;
 
     /**
-     * @SWG\Property(type="array")
+     * @SWG\Property(
+     *   type="array",
+     *   @SWG\Items(type="string")
+     * )
      *
      * @var string[]
      */

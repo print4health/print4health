@@ -5,18 +5,17 @@ declare(strict_types=1);
 namespace App\Infrastructure\Controller;
 
 use App\Domain\Commitment\Repository\CommitmentRepository;
+use App\Domain\Exception\Maker\MakerByIdNotFoundException;
 use App\Domain\Exception\NotFoundException;
+use App\Domain\Exception\Requester\RequesterByIdNotFoundException;
 use App\Domain\Order\Entity\Order;
 use App\Domain\Order\Repository\OrderRepository;
-use App\Domain\Thing\Entity\Thing;
 use App\Domain\Thing\Repository\ThingRepository;
 use App\Domain\User\Entity\Maker;
 use App\Domain\User\Entity\Requester;
 use App\Domain\User\Entity\User;
-use App\Domain\User\MakerNotFoundException;
 use App\Domain\User\Repository\MakerRepository;
 use App\Domain\User\Repository\RequesterRepository;
-use App\Domain\User\RequesterNotFoundException;
 use App\Infrastructure\Dto\Order\OrderRequest;
 use App\Infrastructure\Dto\Order\OrderResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
@@ -134,10 +133,10 @@ class OrderController
             throw new BadRequestHttpException(sprintf('Invalid Uuid [%s]', $requesterId));
         }
 
-        $requester = $this->requesterRepository->find($uuid->toString());
-
-        if (!$requester instanceof Requester) {
-            throw new RequesterNotFoundException($requesterId);
+        try {
+            $requester = $this->requesterRepository->find($uuid);
+        } catch (RequesterByIdNotFoundException $exception) {
+            throw new NotFoundHttpException($exception->getMessage());
         }
 
         $orders = $this->orderRepository->findBy(['requester' => $requester]);
@@ -183,7 +182,7 @@ class OrderController
 
         try {
             $maker = $this->makerRepository->find($uuid);
-        } catch (MakerNotFoundException $exception) {
+        } catch (MakerByIdNotFoundException $exception) {
             throw new NotFoundHttpException($exception->getMessage());
         }
 

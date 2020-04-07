@@ -35,11 +35,16 @@ services:
         arguments:
             $from: '%env(EMAIL_CONTACT)%'
 
+    App\Domain\Requester\Mailer:
+        arguments:
+            $contactEmail: '%env(EMAIL_CONTACT)%'
+
     App\Infrastructure\Services\GeoCoder:
         arguments:
             $googleApiKey: '%env(GOOGLE_MAPS_API_KEY)%'
 
-    App\Infrastructure\EventListener\ValidationErrorExceptionListener:
+    App\Infrastructure\EventListener\Exception\:
+        resource: '../src/Infrastructure/EventListener/Exception'
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
 

@@ -4,26 +4,32 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
+use App\Domain\Exception\NotFoundException;
 use App\Domain\PasswordRecovery\Mailer as PasswordRecoveryMailer;
-use App\Domain\User\NotFoundException;
+use App\Domain\Requester\Mailer;
+use App\Domain\User\Entity\Requester;
 use App\Domain\User\Repository\UserRepository;
 use App\Domain\User\UserInterface;
-use App\Domain\User\UserRepositoryWrapper;
+use App\Domain\User\UserInterfaceRepository;
 use App\Infrastructure\Dto\User\ResetPassword;
 use App\Infrastructure\Dto\User\ResetPasswordTokenRequest;
 use App\Infrastructure\Dto\User\UserResponse;
+use App\Infrastructure\Exception\ValidationErrorException;
 use Nelmio\ApiDocBundle\Annotation\Model;
+use Ramsey\Uuid\Exception\InvalidUuidStringException;
+use Ramsey\Uuid\Uuid;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validation;
 use Twig\Environment;
 
@@ -151,7 +157,7 @@ class SecurityController
     public function requestPasswordReset(
         Request $request,
         PasswordRecoveryMailer $mailer,
-        UserRepositoryWrapper $userRepositoryWrapper
+        UserInterfaceRepository $userRepositoryWrapper
     ): JsonResponse {
         if ('json' !== $request->getContentType()) {
             throw new BadRequestHttpException();
@@ -173,15 +179,7 @@ class SecurityController
         $violations = $validator->validate($resetPasswordTokenRequest);
 
         if ($violations->count() > 0) {
-            $errors = [];
-            foreach ($violations as $violation) {
-                /** @var ConstraintViolation $violation */
-                if (\is_string($violation->getMessage())) {
-                    $errors[] = sprintf('%s', $violation->getMessage());
-                }
-            }
-
-            return new JsonResponse(['errors' => $errors], 400);
+            throw new ValidationErrorException($violations, 'RequestPasswordResetValidationError');
         }
 
         try {
@@ -221,7 +219,7 @@ class SecurityController
      *     description="Malformed request, wrong content type or token expired"
      * )
      */
-    public function resetPassword(Request $request, UserRepositoryWrapper $userRepositoryWrapper): JsonResponse
+    public function resetPassword(Request $request, UserInterfaceRepository $userRepositoryWrapper): JsonResponse
     {
         if ('json' !== $request->getContentType()) {
             throw new BadRequestHttpException();
@@ -244,21 +242,13 @@ class SecurityController
         $violations = $validator->validate($resetPassword);
 
         if ($violations->count() > 0) {
-            $errors = [];
-            foreach ($violations as $violation) {
-                /** @var ConstraintViolation $violation */
-                if (\is_string($violation->getMessage())) {
-                    $errors[] = sprintf('%s', $violation->getMessage());
-                }
-            }
-
-            return new JsonResponse(['errors' => $errors], 400);
+            throw new ValidationErrorException($violations, 'ResetPasswordResetValidationError');
         }
 
-        /** @var UserInterface|null $user */
-        $user = $userRepositoryWrapper->findByPasswordResetToken($resetPassword->token);
-        if (null === $user) {
-            return new JsonResponse(['errors' => ['Invalid Token']], 400);
+        try {
+            $user = $userRepositoryWrapper->findByPasswordResetToken($resetPassword->token);
+        } catch (NotFoundException $exception) {
+            return new JsonResponse(['errors' => [$exception->getMessage()]], 404);
         }
 
         $user->setPassword($this->passwordEncoder->encodePassword($user, $resetPassword->password));
@@ -267,5 +257,125 @@ class SecurityController
         $userRepositoryWrapper->save($user);
 
         return new JsonResponse(['status' => 'ok']);
+    }
+
+    /**
+     * @Route(
+     *     "/user/{uuid}/enable",
+     *     name="security_user_enable",
+     *     methods={"PATCH"},
+     *     format="json"
+     * )
+     * @SWG\Tag(name="User")
+     * @SWG\Response(
+     *     response=200,
+     *     description="User enabled successfully"
+     * )
+     * @SWG\Response(
+     *     response=304,
+     *     description="User was already enabled"
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed Uuid"
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="User not found"
+     * )
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function enableUser(
+        Request $request,
+        UserInterfaceRepository $userRepositoryWrapper,
+        Mailer $mailer
+    ): JsonResponse {
+        $uuid = $request->get('uuid');
+        try {
+            $user = $userRepositoryWrapper->find(Uuid::fromString($uuid));
+        } catch (NotFoundException $exception) {
+            throw new NotFoundHttpException(sprintf('User with id [%s] not found', $uuid));
+        } catch (InvalidUuidStringException $exception) {
+            throw new BadRequestHttpException(sprintf('Parameter [%s] is not a valid uuid', $uuid));
+        }
+
+        if ($user->isEnabled()) {
+            return new JsonResponse([
+                'user' => [
+                    'id' => $uuid,
+                    'enabled' => $user->isEnabled(),
+                ],
+            ], Response::HTTP_NOT_MODIFIED);
+        }
+
+        $user->enable();
+        $userRepositoryWrapper->save($user);
+
+        if ($user instanceof Requester) {
+            $mailer->sendEnabledNotificationToRequester($user);
+        }
+
+        return new JsonResponse([
+            'user' => [
+                'id' => $uuid,
+                'enabled' => $user->isEnabled(),
+            ],
+        ]);
+    }
+
+    /**
+     * @Route(
+     *     "/user/{uuid}/disable",
+     *     name="security_user_disable",
+     *     methods={"PATCH"},
+     *     format="json"
+     * )
+     * @SWG\Tag(name="User")
+     * @SWG\Response(
+     *     response=200,
+     *     description="User disabled successfully"
+     * )
+     * @SWG\Response(
+     *     response=304,
+     *     description="User was already disabled"
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed Uuid"
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="User not found"
+     * )
+     * @IsGranted("ROLE_ADMIN")
+     */
+    public function disableUser(string $uuid, UserInterfaceRepository $userRepositoryWrapper): JsonResponse
+    {
+        try {
+            $user = $userRepositoryWrapper->find(Uuid::fromString($uuid));
+        } catch (NotFoundException $exception) {
+            throw new NotFoundHttpException(sprintf('User with id [%s] not found', $uuid));
+        } catch (InvalidUuidStringException $exception) {
+            throw new BadRequestHttpException(sprintf('Parameter [%s] is not a valid uuid', $uuid));
+        }
+
+        if (false === $user->isEnabled()) {
+            return new JsonResponse([
+                'user' => [
+                    'id' => $uuid,
+                    'enabled' => $user->isEnabled(),
+                ],
+            ], Response::HTTP_NOT_MODIFIED);
+        }
+
+        $user->disable();
+        $userRepositoryWrapper->save($user);
+
+        return new JsonResponse([
+            'user' => [
+                'id' => $uuid,
+                'enabled' => $user->isEnabled(),
+            ],
+        ]);
     }
 }

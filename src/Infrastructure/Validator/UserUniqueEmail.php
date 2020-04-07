@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-class MakerUniqueEmail extends Constraint
+class UserUniqueEmail extends Constraint
 {
     public string $message = 'Die E-Mail "{{ email }}" ist bereits vergeben.';
 }

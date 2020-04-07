@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\PasswordRecovery;
 
 use App\Domain\User\UserInterface;
-use App\Domain\User\UserRepositoryWrapper;
+use App\Domain\User\UserInterfaceRepository;
 use RuntimeException;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
@@ -22,7 +22,7 @@ class Mailer
 
     private RouterInterface $router;
 
-    private UserRepositoryWrapper $userRepositoryWrapper;
+    private UserInterfaceRepository $userRepositoryWrapper;
 
     private string $from;
 
@@ -30,7 +30,7 @@ class Mailer
         MailerInterface $mailer,
         Environment $twig,
         RouterInterface $router,
-        UserRepositoryWrapper $userRepositoryWrapper,
+        UserInterfaceRepository $userRepositoryWrapper,
         string $from
     ) {
         $this->mailer = $mailer;
@@ -47,7 +47,7 @@ class Mailer
 
         $url = $this->router->generate('home', [], Router::ABSOLUTE_URL);
         $url .= '#/reset-password/' . $user->getPasswordResetToken();
-        $body = $this->twig->render('email/password_reset.txt.twig', ['url' => $url]);
+        $body = $this->twig->render('email/password_reset.html.twig', ['url' => $url]);
         $email = new Email();
         $email->from($this->from)
             ->to($user->getEmail())

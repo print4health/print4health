@@ -14,7 +14,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @ORM\Entity(repositoryClass="App\Domain\User\Repository\UserRepository")
+ * @ORM\Entity
  */
 class User implements UserInterface
 {
@@ -30,6 +30,11 @@ class User implements UserInterface
      * @ORM\Column(unique=true)
      */
     private string $email;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $enabled;
 
     /**
      * @var string[]
@@ -68,8 +73,10 @@ class User implements UserInterface
      */
     private ?DateTimeImmutable $updatedDate;
 
-    public function __construct()
+    public function __construct(string $email, bool $enabled)
     {
+        $this->email = $email;
+        $this->enabled = $enabled;
         $this->id = Uuid::uuid4()->toString();
         $this->orders = new ArrayCollection();
         $this->createdDate = DateHelper::create();
@@ -88,6 +95,21 @@ class User implements UserInterface
     public function getUsername(): string
     {
         return $this->email;
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function enable(): void
+    {
+        $this->enabled = true;
+    }
+
+    public function disable(): void
+    {
+        $this->enabled = false;
     }
 
     public function setEmail(string $email): self

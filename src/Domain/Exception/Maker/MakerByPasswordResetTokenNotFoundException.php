@@ -10,6 +10,6 @@ class MakerByPasswordResetTokenNotFoundException extends NotFoundException
 {
     public function __construct(string $recoveryToken)
     {
-        parent::__construct(sprintf('Maker by recovery token %s not found.', $recoveryToken));
+        parent::__construct(sprintf('Maker by recovery token [%s] not found.', $recoveryToken));
     }
 }

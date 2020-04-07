@@ -72,7 +72,7 @@ class UserNav extends React.Component {
          </span>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" activeClassName="text-primary" exact to="/register/maker">Registrieren</NavLink>
+          <NavLink className="nav-link" activeClassName="text-primary" exact to="/registration">Registrieren</NavLink>
         </li>
         {this.state.loginModal && <LoginModal onClose={() => this.setState({ loginModal: false })} />}
       </React.Fragment>

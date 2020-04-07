@@ -77,8 +77,8 @@ Cypress.Commands.add('resetPassword', (email, newPassword) => {
   cy.request('GET', 'http://localhost:1080/email').then(res => {
     const email = res.body[0];
     expect(email.subject).to.equal('print4health - Passwort zurücksetzen');
-    expect(email.html).to.contain('Bitte nutzen Sie folgende URL um ein neues Passwort zu vergeben');
-    const url = email.html.match(/(https?:\/\/[^\s]+)/g)[0];
+    expect(email.html).to.contain('Bitte nutze folgenden Link um ein neues Passwort zu vergeben:');
+    const url = email.html.match(/(https?:\/\/[^\s]+\/reset-password\/[0-9a-f\-]+)/g)[0];
     cy.visit(url);
     cy.get('input[name=password]').type(newPassword);
     cy.get('input[name=repeatPassword]').type(newPassword);
