@@ -40,7 +40,8 @@ class Mailer
         $email->subject('Neue Requester Registrierung')
             ->html($mailBody)
             ->to($this->contactEmail)
-            ->from($this->contactEmail);
+            ->from($this->contactEmail)
+        ;
 
         try {
             $this->mailer->send($email);
@@ -60,7 +61,8 @@ class Mailer
         $email->subject('print4health - Dein Account wurde freigeschaltet.')
             ->html($mailBody)
             ->to($requester->getEmail())
-            ->from($this->contactEmail);
+            ->from($this->contactEmail)
+        ;
 
         try {
             $this->mailer->send($email);

@@ -164,7 +164,7 @@ class SecurityController
             throw new BadRequestHttpException();
         }
 
-        $content = (string)$request->getContent();
+        $content = (string) $request->getContent();
         $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         if (null === $data) {
             throw new BadRequestHttpException();
@@ -175,7 +175,8 @@ class SecurityController
 
         $validator = Validation::createValidatorBuilder()
             ->enableAnnotationMapping()
-            ->getValidator();
+            ->getValidator()
+        ;
         $violations = $validator->validate($resetPasswordTokenRequest);
 
         if ($violations->count() > 0) {
@@ -233,7 +234,7 @@ class SecurityController
             throw new BadRequestHttpException();
         }
 
-        $content = (string)$request->getContent();
+        $content = (string) $request->getContent();
         $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         if (null === $data) {
             throw new BadRequestHttpException();
@@ -245,7 +246,8 @@ class SecurityController
 
         $validator = Validation::createValidatorBuilder()
             ->enableAnnotationMapping()
-            ->getValidator();
+            ->getValidator()
+        ;
         $violations = $validator->validate($resetPassword);
 
         if ($violations->count() > 0) {

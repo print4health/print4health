@@ -52,7 +52,8 @@ class Mailer
         $email->from($this->from)
             ->to($user->getEmail())
             ->subject('print4health - Passwort zurücksetzen')
-            ->html($body);
+            ->html($body)
+        ;
 
         try {
             $this->mailer->send($email);
