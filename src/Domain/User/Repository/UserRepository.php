@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\User\Repository;
 
 use App\Domain\Exception\User\UserByEmailNotFoundException;
+use App\Domain\Exception\User\UserByIdNotFoundException;
 use App\Domain\Exception\User\UserByPasswordResetTokenNotFoundException;
-use App\Domain\Exception\User\UserNotFoundException;
 use App\Domain\User\Entity\User;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
@@ -36,7 +36,7 @@ class UserRepository
         $user = $this->getRepository()->find($id);
 
         if (false === $user instanceof User) {
-            throw new UserNotFoundException($id);
+            throw new UserByIdNotFoundException($id);
         }
 
         return $user;

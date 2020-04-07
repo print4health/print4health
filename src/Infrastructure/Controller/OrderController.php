@@ -7,7 +7,7 @@ namespace App\Infrastructure\Controller;
 use App\Domain\Commitment\Repository\CommitmentRepository;
 use App\Domain\Exception\Maker\MakerNotFoundException;
 use App\Domain\Exception\NotFoundException;
-use App\Domain\Exception\Requester\RequesterNotFoundException;
+use App\Domain\Exception\Requester\RequesterByIdNotFoundException;
 use App\Domain\Order\Entity\Order;
 use App\Domain\Order\Repository\OrderRepository;
 use App\Domain\Thing\Repository\ThingRepository;
@@ -135,7 +135,7 @@ class OrderController
 
         try {
             $requester = $this->requesterRepository->find($uuid);
-        } catch (RequesterNotFoundException $exception) {
+        } catch (RequesterByIdNotFoundException $exception) {
             throw new NotFoundHttpException($exception->getMessage());
         }
 

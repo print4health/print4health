@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Controller;
 
-use App\Domain\Exception\Requester\RequesterNotFoundException;
+use App\Domain\Exception\Requester\RequesterByIdNotFoundException;
 use App\Domain\User\Entity\Requester;
 use App\Domain\User\Repository\RequesterRepository;
 use App\Infrastructure\Dto\Requester\RequesterRequest;
@@ -178,7 +178,7 @@ class RequesterController
     {
         try {
             $requester = $this->requesterRepository->find(Uuid::fromString($uuid));
-        } catch (RequesterNotFoundException $exception) {
+        } catch (RequesterByIdNotFoundException $exception) {
             throw new NotFoundHttpException($exception->getMessage());
         } catch (InvalidUuidStringException $exception) {
             throw new BadRequestHttpException($exception->getMessage());

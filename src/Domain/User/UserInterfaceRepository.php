@@ -19,7 +19,7 @@ use App\Domain\User\Repository\RequesterRepository;
 use App\Domain\User\Repository\UserRepository;
 use Ramsey\Uuid\UuidInterface;
 
-class UserRepositoryWrapper
+class UserInterfaceRepository
 {
     private UserRepository $userRepository;
 

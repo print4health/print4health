@@ -8,7 +8,7 @@ use App\Domain\Exception\NotFoundException;
 use App\Domain\PasswordRecovery\Mailer as PasswordRecoveryMailer;
 use App\Domain\User\Repository\UserRepository;
 use App\Domain\User\UserInterface;
-use App\Domain\User\UserRepositoryWrapper;
+use App\Domain\User\UserInterfaceRepository;
 use App\Infrastructure\Dto\User\ResetPassword;
 use App\Infrastructure\Dto\User\ResetPasswordTokenRequest;
 use App\Infrastructure\Dto\User\UserResponse;
@@ -156,7 +156,7 @@ class SecurityController
     public function requestPasswordReset(
         Request $request,
         PasswordRecoveryMailer $mailer,
-        UserRepositoryWrapper $userRepositoryWrapper
+        UserInterfaceRepository $userRepositoryWrapper
     ): JsonResponse {
         if ('json' !== $request->getContentType()) {
             throw new BadRequestHttpException();
@@ -226,7 +226,7 @@ class SecurityController
      *     description="Malformed request, wrong content type or token expired"
      * )
      */
-    public function resetPassword(Request $request, UserRepositoryWrapper $userRepositoryWrapper): JsonResponse
+    public function resetPassword(Request $request, UserInterfaceRepository $userRepositoryWrapper): JsonResponse
     {
         if ('json' !== $request->getContentType()) {
             throw new BadRequestHttpException();
@@ -283,7 +283,7 @@ class SecurityController
      * )
      * @IsGranted("ROLE_ADMIN")
      */
-    public function enableUser(Request $request, UserRepositoryWrapper $userRepositoryWrapper): JsonResponse
+    public function enableUser(Request $request, UserInterfaceRepository $userRepositoryWrapper): JsonResponse
     {
         $uuid = $request->get('uuid');
         try {
@@ -323,7 +323,7 @@ class SecurityController
      * )
      * @IsGranted("ROLE_ADMIN")
      */
-    public function disableUser(Request $request, UserRepositoryWrapper $userRepositoryWrapper): JsonResponse
+    public function disableUser(Request $request, UserInterfaceRepository $userRepositoryWrapper): JsonResponse
     {
         $uuid = $request->get('uuid');
         try {

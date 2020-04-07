@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\User\Repository;
 
 use App\Domain\Exception\Maker\MakerByEmailNotFoundException;
+use App\Domain\Exception\Maker\MakerByIdNotFoundException;
 use App\Domain\Exception\Maker\MakerByPasswordResetTokenNotFoundException;
-use App\Domain\Exception\Maker\MakerNotFoundException;
 use App\Domain\User\Entity\Maker;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
@@ -28,7 +28,7 @@ class MakerRepository
         $maker = $this->getRepository()->find($id);
 
         if (!$maker instanceof Maker) {
-            throw new MakerNotFoundException($id);
+            throw new MakerByIdNotFoundException($id);
         }
 
         return $maker;

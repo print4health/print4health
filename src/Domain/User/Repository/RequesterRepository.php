@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Domain\User\Repository;
 
 use App\Domain\Exception\Requester\RequesterByEmailNotFoundException;
+use App\Domain\Exception\Requester\RequesterByIdNotFoundException;
 use App\Domain\Exception\Requester\RequesterByPasswordResetTokenNotFoundException;
-use App\Domain\Exception\Requester\RequesterNotFoundException;
 use App\Domain\User\Entity\Requester;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
@@ -44,7 +44,7 @@ class RequesterRepository
         $requester = $this->getRepository()->find($id);
 
         if (false === $requester instanceof Requester) {
-            throw new RequesterNotFoundException($id);
+            throw new RequesterByIdNotFoundException($id);
         }
 
         return $requester;
