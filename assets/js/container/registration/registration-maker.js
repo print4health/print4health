@@ -151,6 +151,9 @@ const RegistrationForm = (props) => {
               </Col>
             </Form.Group>
             <h3>Einverständniserklärungen</h3>
+            <Alert variant="info">
+              Es gibt kein Kleingedrucktes, aber nimm dir bitte kurz Zeit, die folgenden Bedingungen zu bestätigen:
+            </Alert>
             <Row>
               <Col sm={{ offset: 2 }}>
                 <Form.Group className="d-flex" controlId="confirmedRuleForFree">
