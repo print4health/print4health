@@ -14,8 +14,8 @@ use App\Domain\User\UserInterfaceRepository;
 use App\Infrastructure\Dto\User\ResetPassword;
 use App\Infrastructure\Dto\User\ResetPasswordTokenRequest;
 use App\Infrastructure\Dto\User\UserResponse;
+use App\Infrastructure\Exception\ValidationErrorException;
 use Nelmio\ApiDocBundle\Annotation\Model;
-use PHPUnit\Util\Json;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Ramsey\Uuid\Uuid;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -30,7 +30,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
-use Symfony\Component\Validator\ConstraintViolation;
 use Symfony\Component\Validator\Validation;
 use Twig\Environment;
 
@@ -180,15 +179,7 @@ class SecurityController
         $violations = $validator->validate($resetPasswordTokenRequest);
 
         if ($violations->count() > 0) {
-            $errors = [];
-            foreach ($violations as $violation) {
-                /** @var ConstraintViolation $violation */
-                if (\is_string($violation->getMessage())) {
-                    $errors[] = sprintf('%s', $violation->getMessage());
-                }
-            }
-
-            return new JsonResponse(['errors' => $errors], 400);
+            throw new ValidationErrorException($violations, 'RequestPasswordResetValidationError');
         }
 
         try {
@@ -251,21 +242,13 @@ class SecurityController
         $violations = $validator->validate($resetPassword);
 
         if ($violations->count() > 0) {
-            $errors = [];
-            foreach ($violations as $violation) {
-                /** @var ConstraintViolation $violation */
-                if (\is_string($violation->getMessage())) {
-                    $errors[] = sprintf('%s', $violation->getMessage());
-                }
-            }
-
-            return new JsonResponse(['errors' => $errors], 400);
+            throw new ValidationErrorException($violations, 'ResetPasswordResetValidationError');
         }
 
-        /** @var UserInterface|null $user */
-        $user = $userRepositoryWrapper->findByPasswordResetToken($resetPassword->token);
-        if (null === $user) {
-            return new JsonResponse(['errors' => ['Invalid Token']], 400);
+        try {
+            $user = $userRepositoryWrapper->findByPasswordResetToken($resetPassword->token);
+        } catch (NotFoundException $exception) {
+            return new JsonResponse(['errors' => [$exception->getMessage()]], 404);
         }
 
         $user->setPassword($this->passwordEncoder->encodePassword($user, $resetPassword->password));
