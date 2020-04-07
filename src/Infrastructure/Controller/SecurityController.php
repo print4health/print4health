@@ -162,7 +162,7 @@ class SecurityController
             throw new BadRequestHttpException();
         }
 
-        $content = (string) $request->getContent();
+        $content = (string)$request->getContent();
         $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         if (null === $data) {
             throw new BadRequestHttpException();
@@ -173,8 +173,7 @@ class SecurityController
 
         $validator = Validation::createValidatorBuilder()
             ->enableAnnotationMapping()
-            ->getValidator()
-        ;
+            ->getValidator();
         $violations = $validator->validate($resetPasswordTokenRequest);
 
         if ($violations->count() > 0) {
@@ -232,7 +231,7 @@ class SecurityController
             throw new BadRequestHttpException();
         }
 
-        $content = (string) $request->getContent();
+        $content = (string)$request->getContent();
         $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
         if (null === $data) {
             throw new BadRequestHttpException();
@@ -244,8 +243,7 @@ class SecurityController
 
         $validator = Validation::createValidatorBuilder()
             ->enableAnnotationMapping()
-            ->getValidator()
-        ;
+            ->getValidator();
         $violations = $validator->validate($resetPassword);
 
         if ($violations->count() > 0) {
@@ -280,6 +278,23 @@ class SecurityController
      *     name="security_user_enable",
      *     methods={"PATCH"},
      *     format="json"
+     * )
+     * @SWG\Tag(name="User")
+     * @SWG\Response(
+     *     response=200,
+     *     description="User enabled successfully"
+     * )
+     * @SWG\Response(
+     *     response=304,
+     *     description="User was already enabled"
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed Uuid"
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="User not found"
      * )
      * @IsGranted("ROLE_ADMIN")
      */
@@ -317,15 +332,31 @@ class SecurityController
     /**
      * @Route(
      *     "/user/{uuid}/disable",
-     *     name="security_user_enable",
+     *     name="security_user_disable",
      *     methods={"PATCH"},
      *     format="json"
      * )
+     * @SWG\Tag(name="User")
+     * @SWG\Response(
+     *     response=200,
+     *     description="User disabled successfully"
+     * )
+     * @SWG\Response(
+     *     response=304,
+     *     description="User was already disabled"
+     * )
+     * @SWG\Response(
+     *     response=400,
+     *     description="Malformed Uuid"
+     * )
+     * @SWG\Response(
+     *     response=404,
+     *     description="User not found"
+     * )
      * @IsGranted("ROLE_ADMIN")
      */
-    public function disableUser(Request $request, UserInterfaceRepository $userRepositoryWrapper): JsonResponse
+    public function disableUser(string $uuid, UserInterfaceRepository $userRepositoryWrapper): JsonResponse
     {
-        $uuid = $request->get('uuid');
         try {
             $user = $userRepositoryWrapper->find(Uuid::fromString($uuid));
         } catch (NotFoundException $exception) {
