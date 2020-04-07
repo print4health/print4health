@@ -21,7 +21,8 @@ class RequesterRegistrationControllerTest extends AbstractControllerTest
                     'addressState' => 'NRW',
                     'hub' => false,
                     'institutionType' => 'HOSPITAL',
-                    'descrption' => 'Lorem ipsum dolor sid amed',
+                    'descrption' => 'Description / Lorem ipsum dolor sid amed',
+                    'contactInfo' => 'ContactInfo / Lorem ipsum dolor sid amed',
                     'confirmedPlattformIsContactOnly' => true,
                     'confirmedNoAccountability' => true,
                     'confirmedNoCertification' => true,
@@ -65,6 +66,7 @@ class RequesterRegistrationControllerTest extends AbstractControllerTest
                     'hub' => false,
                     'institutionType' => '',
                     'descrption' => '',
+                    'contactInfo' => '',
                     'confirmedPlattformIsContactOnly' => false,
                     'confirmedNoAccountability' => false,
                     'confirmedNoCertification' => false,
@@ -93,6 +95,6 @@ class RequesterRegistrationControllerTest extends AbstractControllerTest
         $this->assertArrayHasKey('type', $data);
         $this->assertArrayHasKey('message', $data);
         $this->assertArrayHasKey('errors', $data);
-        $this->assertCount(14, $data['errors']);
+        $this->assertCount(16, $data['errors']);
     }
 }

@@ -26,6 +26,7 @@ security:
         main:
             anonymous: lazy
             provider: all_users
+            # https://symfony.com/doc/current/security/user_checkers.html
             user_checker: App\Domain\Security\UserChecker
             # https://symfony.com/doc/current/security/json_login_setup.html
             json_login:

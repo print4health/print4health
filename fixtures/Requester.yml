@@ -3,7 +3,7 @@ App\Domain\User\Entity\Requester:
         __construct:
             - 'requester@print4health.org'
             - 'print4health Test Requester'
-            - false
+            - true
         addressStreet: '<streetAddress()>'
         postalCode: '<postCode()>'
         addressCity: 'Berlin'
@@ -15,11 +15,18 @@ App\Domain\User\Entity\Requester:
         latitude: 52.5170365
         longitude: 13.3888599
 
+    requester_not_enabled:
+        __construct:
+            - 'requester-not-enabled@print4health.org'
+            - 'print4health Test Requester Not Enabled'
+            - false
+        password: 'test'
+
     requester_empty_address:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
-            - false
+            - true
         password: 'test'
 
     requester_address_{1..50}:
@@ -42,7 +49,7 @@ App\Domain\User\Entity\Requester:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
-            - false
+            - true
         addressStreet: '<streetAddress()>'
         postalCode: '<postCode()>'
         addressCity: 'Bremen'
@@ -65,7 +72,7 @@ App\Domain\User\Entity\Requester:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
-            - false
+            - true
         addressStreet: '<streetAddress()>'
         postalCode: '<postCode()>'
         addressCity: 'Köln'
