@@ -17,6 +17,7 @@ class ThingListItem extends React.Component {
   static get propTypes() {
     return {
       thing: PropTypes.object,
+      t: PropTypes.func
     };
   }
 
@@ -38,7 +39,7 @@ class ThingListItem extends React.Component {
   renderImage() {
     const { thing } = this.props;
     const { image } = this.state;
-    const { t, i18n } = this.props;
+    const { t } = this.props;
 
     if (image === 'loading') {
       return (
@@ -67,7 +68,7 @@ class ThingListItem extends React.Component {
 
   render() {
     const { thing } = this.props;
-    const { t, i18n } = this.props;
+    const { t } = this.props;
 
     if (thing === undefined) {
       return (<div className="alert alert-danger">{t('item.fail')}Something went wrong</div>);

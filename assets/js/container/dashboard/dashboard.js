@@ -3,6 +3,7 @@ import AppContext from "../../context/app-context";
 import {ROLE_MAKER, ROLE_REQUESTER} from '../../constants/UserRoles';
 import { withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 
 class Dashboard extends React.Component {
@@ -11,6 +12,12 @@ class Dashboard extends React.Component {
 
     this.state = {
       data: null,
+    };
+  }
+
+  static get propTypes() {
+    return {
+      t: PropTypes.func
     };
   }
 
@@ -89,7 +96,7 @@ class Dashboard extends React.Component {
 
   renderTable() {
     const { data } = this.state;
-    const { t, i18n } = this.props;
+    const { t } = this.props;
 
     if (!data || !data.orders) {
       return;
@@ -170,7 +177,7 @@ class Dashboard extends React.Component {
 
   render() {
     const { user } = this.context;
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
       <div className="container Dashboard">
         <div className="row">

@@ -14,7 +14,7 @@ const RegistrationForm = (props) => {
   const { callback, alert, serverErrors, showForm, countries } = props;
   const { register, errors, watch, handleSubmit } = useForm();
 
-  const { t, i18n } = useTranslation('registration');
+  const { t } = useTranslation('registration');
 
   const password = useRef({});
   password.current = watch('password', '');
@@ -133,7 +133,7 @@ const RegistrationForm = (props) => {
                 <Form.Control type="text"
                               name="postalCode"
                               placeholder={t('plz.placeholder')}
-                              ref={register({ required: true, minLength: 4, maxLength: 5 })} />
+                              ref={register({ validate: (val) => validatePostalCode(val) })} />
                 <Form.Text className="text-muted">
                   {t('plz.info')}
                   {printError(errors.postalCode, t('plz.errorrequired'))}
@@ -296,6 +296,7 @@ class RegistrationMaker extends React.Component {
     return {
       match: PropTypes.object,
       passwordResetToken: PropTypes.string,
+      t: PropTypes.func
     };
   }
 
@@ -353,7 +354,7 @@ class RegistrationMaker extends React.Component {
         }
       })
       .catch((srvErr) => {
-        const { t, i18n } = this.props;
+        const { t } = this.props;
         if (typeof (srvErr.response) === 'undefined') {
           console.log(srvErr);
           return;

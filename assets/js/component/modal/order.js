@@ -20,6 +20,7 @@ class OrderModal extends React.Component {
       thing: PropTypes.object,
       onExited: PropTypes.func,
       onSubmit: PropTypes.func,
+      t: PropTypes.func
     };
   }
 
@@ -65,7 +66,7 @@ class OrderModal extends React.Component {
   };
 
   renderForm() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return <>
       <Modal.Body>
         <p>
@@ -103,7 +104,7 @@ class OrderModal extends React.Component {
   }
 
   renderInfo() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return <>
       <Modal.Body>
         <Alert variant="info">
@@ -126,7 +127,7 @@ class OrderModal extends React.Component {
 
   render() {
     const { show, thing } = this.state;
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
       <Modal
         show={show}

@@ -29,6 +29,7 @@ class ThingDetailContainer extends React.Component {
     return {
       match: PropTypes.object,
       id: PropTypes.string,
+      t: PropTypes.func
     };
   }
 
@@ -111,7 +112,7 @@ class ThingDetailContainer extends React.Component {
   };
 
   createCommitment = (quantity) => {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     axios.post(
       Config.apiBasePath + '/commitments',
       {
@@ -138,7 +139,7 @@ class ThingDetailContainer extends React.Component {
   };
 
   createOrder = (quantity) => {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     axios.post(
       Config.apiBasePath + '/orders',
       {
@@ -166,7 +167,7 @@ class ThingDetailContainer extends React.Component {
 
   renderSpecification() {
     const thing = this.context.currentThing;
-    const { t, i18n } = this.props;
+    const { t } = this.props;
 
     if (thing.specification.length > 0) {
       return (
@@ -191,7 +192,7 @@ class ThingDetailContainer extends React.Component {
       showOrderModal,
     } = this.state;
     const thing = this.context.currentThing;
-    const { t, i18n } = this.props;
+    const { t } = this.props;
 
     if (error) {
       return <div className="alert alert-danger">{t('error')}: {error.message}</div>;

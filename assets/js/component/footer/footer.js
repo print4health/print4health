@@ -1,14 +1,22 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 class Footer extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  static get propTypes() {
+    return {
+      t: PropTypes.func,
+      i18n: PropTypes.object,
+    };
+  }
+
   render() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
       <footer className="Footer bg-gray">
         <div className="container py-4">

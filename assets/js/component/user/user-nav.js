@@ -6,6 +6,7 @@ import { NavLink } from 'react-router-dom';
 import AppContext from '../../context/app-context';
 import { withTranslation } from 'react-i18next';
 import {ROLE_MAKER, ROLE_REQUESTER} from '../../constants/UserRoles';
+import PropTypes from 'prop-types';
 
 class UserNav extends React.Component {
   constructor(props) {
@@ -15,6 +16,12 @@ class UserNav extends React.Component {
     };
 
     this.handleLogout = this.handleLogout.bind(this);
+  }
+
+  static get propTypes() {
+    return {
+      t: PropTypes.func
+    };
   }
 
   componentDidMount() {
@@ -41,7 +48,7 @@ class UserNav extends React.Component {
   render() {
     const { user } = this.context;
     const userRole = this.context.getCurrentUserRole();
-    const { t, i18n } = this.props;
+    const { t } = this.props;
 
     if (user && user.email) {
       return (

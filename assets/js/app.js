@@ -25,13 +25,14 @@ import DataPrivacyStatement from './container/data-privacy-statement/data-privac
 import PageView from './component/page-view/page-view.js';
 import { Config } from './config';
 import { Nav, Navbar } from 'react-bootstrap';
-import { withTranslation, changeLanguage } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import RegistrationIndex from './container/registration/registration-index';
 import RegistrationMaker from './container/registration/registration-maker';
 import RegistrationRequester from './container/registration/registration-requester';
 import Contact from './container/contact/contact';
 import { default as DashboardContact } from './container/dashboard/contact';
 import { ROLE_USER, ROLE_MAKER, ROLE_REQUESTER } from './constants/UserRoles';
+import PropTypes from 'prop-types';
 
 class App extends React.Component {
 
@@ -97,6 +98,13 @@ class App extends React.Component {
 
   setPageTitle(title, prefix = 'print4health') {
     document.title = prefix + ' - ' + title;
+  }
+
+  static get propTypes() {
+    return {
+      t: PropTypes.func,
+      i18n: PropTypes.object,
+    };
   }
 
   render() {

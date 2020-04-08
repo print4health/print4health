@@ -3,11 +3,6 @@ import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
 import { withTranslation } from 'react-i18next';
 
-function SearchPlaceholder() {
-  const { t, i18n } = useTranslation('searchbar');
-  return(t('searchbar'));
-}
-
 class Search extends React.Component {
   constructor(props) {
     super(props);
@@ -18,6 +13,7 @@ class Search extends React.Component {
   static get propTypes() {
     return {
       executeSearch: PropTypes.func,
+      t: PropTypes.func
     };
   }
 
@@ -30,7 +26,7 @@ class Search extends React.Component {
   }
 
   render() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
       <div className="Search input-group">
         <input

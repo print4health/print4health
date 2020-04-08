@@ -11,12 +11,13 @@ class MarkerOrder extends React.Component {
   static get propTypes() {
     return {
       order: PropTypes.object,
-      openModal: PropTypes.func
+      openModal: PropTypes.func,
+      t: PropTypes.func
     };
   }
 
   render() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     const requester = this.props.order.requester;
     const iconMarkup = renderToStaticMarkup(
       <div className="map-marker-order">

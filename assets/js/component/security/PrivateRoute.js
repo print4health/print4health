@@ -10,11 +10,12 @@ PrivateRoute.propTypes = {
   setAlert: PropTypes.func,
   user: PropTypes.object,
   path: PropTypes.string,
+  t: PropTypes.func
 };
 
 function PrivateRoute({component: Component, setAlert, user, path}) {
   const authed = user && Object.keys(user).length !== 0;
-  const { t, i18n } = useTranslation('private');
+  const { t } = useTranslation('private');
 
   {authed !== true && setAlert(t('unauthorized'), 'danger') }
 

@@ -4,6 +4,7 @@ import axios from 'axios';
 import AppContext from '../../context/app-context';
 import { Modal } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 class RequestPasswordResetModal extends React.Component {
   constructor(props) {
@@ -17,11 +18,17 @@ class RequestPasswordResetModal extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  static get propTypes() {
+    return {
+      t: PropTypes.func
+    };
+  }
+
   handleSubmit(e) {
     this.setState({ error: '' });
     const self = this;
     const context = this.context;
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     e.preventDefault();
     axios.post(Config.apiBasePath + '/request-password-reset', { email: this.state.email })
       .then(function () {
@@ -42,7 +49,7 @@ class RequestPasswordResetModal extends React.Component {
   }
 
   render() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
       <Modal show={this.context.showRequestPasswordResetModal}
              onHide={() => this.context.setShowRequestPasswordResetModal(false)}

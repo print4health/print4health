@@ -1,9 +1,17 @@
 import React from 'react';
 import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 class About extends React.Component {
+
+  static get propTypes() {
+    return {
+      t: PropTypes.func
+    };
+  }
+
   render () {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
       <div className="container">
         <h2>{t('title')}</h2>
