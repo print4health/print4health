@@ -47,12 +47,12 @@ final class Version20200401192702 extends AbstractMigration
         $statement = $qb->select('t.id')->from($tableName, 't')->execute();
         $dataSets = $statement->fetchAll();
         foreach ($dataSets as $dataSet) {
-            $uuid = Uuid::fromString($dataSet['id']);
+            $date = new \DateTimeImmutable();
             $this->connection->update(
                 $tableName,
                 [
-                    'created_date' => $uuid->getDateTime()->format('Y-m-d H:i:s'),
-                    'updated_date' => $uuid->getDateTime()->format('Y-m-d H:i:s'),
+                    'created_date' => $date->format('Y-m-d H:i:s'),
+                    'updated_date' => $date->format('Y-m-d H:i:s'),
                 ],
                 ['id' => $dataSet['id']]
             );
