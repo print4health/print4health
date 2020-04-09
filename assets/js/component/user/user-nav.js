@@ -38,10 +38,11 @@ class UserNav extends React.Component {
   handleLogout(e) {
     e.preventDefault();
     const context = this.context;
+    const { t } = this.props;
     axios.get(Config.apiBasePath + '/logout')
       .then(function () {
         context.setUser({});
-        context.setAlert('erfolgreich abgemeldet.', 'success');
+        context.setAlert(t('logoutok'), 'success');
       });
   }
 

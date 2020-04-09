@@ -8,7 +8,9 @@
     "need": "Bedarf"
   },
   "list": {
+    "pagetitle": "Bedarf & Ersatzteile",
     "error": "Fehler",
+    "loading": "Bitte warten",
     "nothing": "Keine Ergebnisse gefunden"
   }
 }

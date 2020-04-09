@@ -397,4 +397,4 @@ class RegistrationMaker extends React.Component {
 
 RegistrationMaker.contextType = AppContext;
 
-export default withTranslation('registration')(RegistrationMaker);
+export default withTranslation('makerregistration')(RegistrationMaker);

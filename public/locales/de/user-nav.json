@@ -2,5 +2,6 @@
   "dashboard": "Dashboard",
   "logout": "Abmelden",
   "login": "Anmelden",
-  "register": "Registrieren"
+  "register": "Registrieren",
+  "logoutok": "Erfolgreich abgemeldet."
 }

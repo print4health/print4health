@@ -38,11 +38,12 @@ class LoginModal extends React.Component {
     e.preventDefault();
     const context = this.context;
     const self = this;
+    const { t } = this.props;
     axios.post(Config.apiBasePath + '/login', this.state)
       .then(function (res) {
         context.setUser(res.data);
         onClose();
-        context.setAlert('Herzlich Willkommen ' + res.data.email, 'success');
+        context.setAlert(t('welcome') + ' ' + res.data.email, 'success');
       })
       .catch(function (error) {
         self.setState({

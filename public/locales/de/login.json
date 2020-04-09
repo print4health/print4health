@@ -11,5 +11,6 @@
   "email": "E-Mail-Adresse",
   "pass": "Passwort",
   "forgot": "Passwort vergessen?",
-  "button": " Login"
+  "button": " Login",
+  "welcome": "Herzlich Willkommen"
 }

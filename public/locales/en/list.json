@@ -8,7 +8,9 @@
     "need": "Needed"
   },
   "list": {
+    "pagetitle": "Need & Spareparts",
     "error": "Error",
+    "loading": "Please wait",
     "nothing": "Nothing found"
   }
 }
