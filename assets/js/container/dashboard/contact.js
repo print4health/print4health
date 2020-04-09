@@ -18,6 +18,7 @@ class Contact extends React.Component {
   static get propTypes() {
     return {
       match: PropTypes.object,
+      t: PropTypes.func
     };
   }
 
