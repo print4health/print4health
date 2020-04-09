@@ -1,0 +1,121 @@
+{
+  "title": "Registrierung für Einrichtungen",
+  "subtitle": "Krankenhäuser, Ärzte, gesundheitliche oder soziale Einrichtunge sowie Maker-Hubs",
+  "error": "Fehler",
+  "info": {
+    "part1": "Hier könnt ihr euch als bei",
+    "part2": "registrieren und Bedarf an 3D gedruckten Gegenständen anmelden. Bitte füllt das Formular gewissenhaft aus, denn schließlich geht es darum, Menschen zu helfen.",
+    "part3": "Solltet ihr ein Maker mit direktem Zugang zu einem 3D-Drucker sein, dann könnt ihr euch",
+    "link": "hier registrieren"
+  },
+  "nonprofit": {
+    "part1": "Bei unserer Plattform handelt es sich um eine gemeinnützige Non-Profit Website, deren Mitglieder freiwillig und auf eigene Kosten 3D Druck-Aufträge übernehmen. Um Betrügern vorzubeugen, wird daher jede eurer Anmeldungen über dieses Formular",
+    "strong": "manuell nach Prüfung der Daten freigeschaltet.",
+    "part2": "Anschließend könnt ihr ohne Hürden 3D gedruckte Gegenstände"
+  },
+  "data": "Allgemeine Daten",
+  "name": {
+    "label": "Name",
+    "placeholder": "Name der Einrichtung / dein Name",
+    "text": "Bitte trage den Namen deiner Organisation/Einrichtung ein. Er wird bei Bestellungen und auf unserer Karte öffentlich angezeigt. Mindestens fünf Zeichen sind erforderlich.",
+    "error": "Dies ist ein Pflichtfeld. Bitte gib min. 5 Zeichen ein."
+  },
+  "mail": {
+    "label": "E-Mail",
+    "placeholder": "Deine E-Mail Adresse",
+    "text": "Bitte trage deine E-Mail Adresse ein. Sie wird verwendet um dein Passwort zurück zu setzen oder damit Maker Kontakt mit dir aufnehmen können.",
+    "error": "Dies ist ein Pflichtfeld. Bitte gib deine E-Mail Adresse ein.",
+    "invalid": "Ungültige E-Mail Adresse"
+  },
+  "pass1": {
+    "label": "Passwort",
+    "placeholder": "Dein Passwort",
+    "text": "Dein Passwort für print4health.org. Am besten du wählst ein langes mit vielen Sonderzeichen und es steht nirgendwo im Wörterbuch oder ist leicht zu erraten.",
+    "error": "Dies ist ein Pflichtfeld. Dein Passwort sollte min. 8 Zeichen lang sein."
+  },
+  "pass2": {
+    "label": "Passwort wiederholen",
+    "placeholder": "Wiederhole dein Passwort",
+    "text": "Bitte gib zur Sicherheit dein Passwort zwei mal ein.",
+    "error": "Die Passwörter stimmen nicht überein",
+    "nomatch": "Die Passwörter stimmen nicht überein"
+  },
+  "adr": "Adresse",
+  "street": {
+    "label": "Straße",
+    "placeholder": "Deine Straße + Hausnr.",
+    "text": "Deine Straße + Hausnummer wird von den Makern benötigt um gedruckte Dinge vorbei zu bringen (je nachdem worauf ihr euch geeinigt habt)",
+    "error": "Dies ist ein Pflichtfeld. Bitte gib min. 1 Zeichen ein."
+  },
+  "plz": {
+    "label": "Postleitzahl",
+    "placeholder": "Postleitzahl",
+    "error": "Dies ist ein Pflichtfeld."
+  },
+  "city": {
+    "label": "Stadt",
+    "placeholder": "Deine Stadt.",
+    "error": "Dies ist ein Pflichtfeld."
+  },
+  "country": {
+    "label": "Land",
+    "placeholder": "Land",
+    "error": "Bitte wähle dein Land aus der Liste aus."
+  },
+  "contact": {
+    "label": "Kontakt-Info",
+    "placeholder": "Beschreibung",
+    "text": "Hier kannst du Informationen die Maker hinterlegen, wo gedruckte Teile abgegeben werden können. Z.B. Gebäude/Abteilung oder Warenanlieferung. Auch eine eigene Telefonnummer/E-Mail oder ähnliches macht Sinn.",
+    "error": "Maximal 3000 Zeichen sind erlaubt."
+  },
+  "about": "Was macht ihr?",
+  "type": {
+    "label": "Typ",
+    "placeholder": "Typ",
+    "text": "Wähle den Typ deiner Einrichtung aus.",
+    "error": "Bitte wähle den Typ deiner Einrichtung aus."
+  },
+  "description": {
+    "label": "Beschreibung",
+    "placeholder": "Beschreibung",
+    "text": {
+      "part1": "Hier kannst du etwas über deine Einrichtung erzählen was uns hilft euch einzuordnen. Aktuell wird dieser Wert noch nicht öffentlich angezeigt.",
+      "strong": "Maker-Hubs",
+      "part2": "Unsere Datenbank + Kartenansicht unterstützen bereits Polygone für eure Zone. Falls ihr diese zur Hand habt, schreibt sie hier in die Beschreibung oder woher wir sie bekommen können. Es war jetzt nur noch keine Zeit, das hier im Formular zu ergänzen."
+    },
+    "error": "Bitte wähle dein Land aus der Liste aus."
+  },
+  "accept": {
+    "title": "Einverständniserklärungen",
+    "info": "Es gibt kein Kleingedrucktes, aber nimm dir bitte kurz Zeit, die folgenden Bedingungen zu bestätigen:",
+    "condition1": "Mir/unserer Einrichtung ist bekannt, dass print4health ausschließlich Kontakte zwischen Krankenhäusern und sonstige medizinischen und sozialen Einrichtungen sowie medizinischem Personal einerseits und privaten 3D-Druckern und Designern von 3D-Druck-Bauplänen andererseits herstellt.",
+    "condition2": "Mir/unserer Einrichtung ist entsprechend bewusst, dass print4health keinerlei Haftung für das Zustandekommen von 3D-Druck-Design-Aufträgen bzw. 3D-Druck-Aufträgen übernimmt.",
+    "condition3": "Mir/unserer Einrichtung ist ferner bewusst, dass es sich vorliegend um die Vermittlung ehrenamtlichen Engagements von Privatpersonen handelt und die hier angebotenen 3D-Produkte und 3D-Druck-Designs daher keine etwaig erforderlichen Zertifizierungsprozesse durchlaufen haben und/oder etwaig bestehenden behördlichen und/oder gesetzlichen Regeln, Auflagen und/oder Beschränkungen entsprechen.",
+    "condition4": {
+      "head": "Es besteht Einverständnis damit,",
+      "item1": "dass print4health keinerlei Haftung für die erfolgreiche Vermittlung von 3D-Druck-Design-Aufträgen bzw. 3D-Druck-Aufträgen, für die Qualität der Produkte und deren Eignung für den angegebenen Zweck übernimmt und",
+      "item2": "dass die Vermittlung frei von Rechten Dritter erfolgt."
+    },
+    "condition5": "Regelungen zu etwaigen Materialkostenübernahmen sowie für etwaig anfallende Transportkosten werde ich/wird unsere Einrichtung mit dem vermittelten 3D-Drucker unmittelbar treffen.",
+    "error": "Bitte akzeptiere alle unsere Bedingungen für die Plattform."
+  },
+  "button": "Als Einrichtung Registrieren",
+  "success": "Registrierung erfolgreich!",
+  "confirmation": {
+    "part1": "Wir haben über deine Anmeldung eine E-Mail erhalten. Bitte warte noch unsere Bestätigung ab. Danach kannst du unter",
+    "link": "Bedarf",
+    "part2": "die Teile anfragen, die du benötigst."
+  },
+  "choose": "Bitte wählen",
+  "institution": {
+    "choose": "Bitte wählen",
+    "hosp": "Krankenhaus",
+    "doc": "niedergelassener Arzt",
+    "nurse": "Alten/Krankenpflege",
+    "healthcare": "sonst. Gesundheitliche Einrichtung",
+    "social": "Soziale Einrichtung",
+    "hub": "Maker HUB (MakerVsVirus)",
+    "other": "Sonstiges (bitte beschreiben)"
+  },
+  "fail": "Die Registrierung konnte nicht abgeschlossen werden. Bitte überprüfe die Daten in den Eingabefeldern."
+}
