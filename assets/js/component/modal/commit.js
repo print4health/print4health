@@ -1,6 +1,6 @@
 import React from 'react';
 import AppContext from '../../context/app-context';
-import { Modal } from 'react-bootstrap';
+import { Alert, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { FormControl, InputGroup, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -110,16 +110,21 @@ class CommitModal extends React.Component {
   renderInfo() {
     return <>
       <Modal.Body>
-        <p>
+        <Alert variant="info">
           Um als Maker Herstellung von Ersatzteilen zusagen zu können, könnt ihr euch
-          <Link to="/register/maker" className="btn btn-link" onClick={this.onHide}>hier registrieren.</Link>
-        </p>
+          <Link to="/registration/maker" className="btn btn-link" onClick={this.onHide}>hier registrieren.</Link>
+        </Alert>
         <p>
           Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an,
           um Herstellung von Ersatzteilen zusagen zu können.
         </p>
       </Modal.Body>
       <Modal.Footer>
+        <Link className="btn btn-outline-primary"
+              to="/registration"
+              onClick={this.onHide}>
+          Registrieren
+        </Link>
         <input type="submit"
                className="btn btn-light"
                value="Schließen"
