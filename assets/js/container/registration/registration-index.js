@@ -29,8 +29,8 @@ class RegistrationIndex extends React.Component {
           <h1>{t('title')}</h1>
           <p className="mt-5">
             {t('text.part1')} <strong>{t('text.strong1')}
-            </strong> {t('text.part2')} <i>(&quot;bestellen&quot;)</i> {t('text.part3')}
-            <strong>{t('text.strong2')}</strong> {t('text.part4')}
+            </strong> {t('text.part2')} <i>(&quot;bestellen&quot;)</i> {t('text.part3')} <strong>
+            {t('text.strong2')}</strong> {t('text.part4')}
           </p>
 
           <div className="row">
