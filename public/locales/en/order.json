@@ -1,16 +1,20 @@
 {
   "title": {
     "part1": "Hand in Need for",
-    "part2": "",
+    "part2": ""
   },
   "info": {
     "part1": "translation needed",
+    "link1": "",
     "part2": "",
     "part3": "",
+    "part4": "",
+    "link2": "",
+    "part5": "",
     "button": "OK"
   },
   "form": {
-    "part1": "translation needed"",
+    "part1": "translation needed",
     "part2": "",
     "input": "Amount",
     "label": "Amount of needed parts",

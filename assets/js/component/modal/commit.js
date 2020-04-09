@@ -1,6 +1,6 @@
 import React from 'react';
 import AppContext from '../../context/app-context';
-import { Modal } from 'react-bootstrap';
+import { Alert, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { FormControl, InputGroup, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
@@ -115,15 +115,20 @@ class CommitModal extends React.Component {
     const { t } = this.props;
     return <>
       <Modal.Body>
-        <p>
+        <Alert variant="info">
           {t('info.text1')}
-          <Link to="/register/maker" className="btn btn-link" onClick={this.onHide}>{t('info.link')}</Link>.
-        </p>
+          <Link to="/registration/maker" className="btn btn-link" onClick={this.onHide}>{t('info.link')}</Link>.
+        </Alert>
         <p>
           {t('info.text2')}
         </p>
       </Modal.Body>
       <Modal.Footer>
+        <Link className="btn btn-outline-primary"
+              to="/registration"
+              onClick={this.onHide}>
+          Registrieren
+        </Link>
         <input type="submit"
                className="btn btn-light"
                value={t('info.button')}

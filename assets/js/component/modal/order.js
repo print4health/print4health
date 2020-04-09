@@ -3,6 +3,7 @@ import AppContext from '../../context/app-context';
 import { Alert, Button, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 class OrderModal extends React.Component {
   constructor(props) {
@@ -108,15 +109,20 @@ class OrderModal extends React.Component {
     return <>
       <Modal.Body>
         <Alert variant="info">
-          <p>
-            {t('info.part1')}
-            <a href="mailto: contact@print4health.org">contact@print4health.org</a>
-            {t('info.part2')}
-          </p>
+          {t('info.part1')} <Link
+          to="/registration" onClick={this.onHide}>{t('info.link1')}</Link>.
+          {t('info.part2')}<br />
+          <br />
+          {t('info.part3')} <a href="mailto: contact@print4health.org">contact@print4health.org</a> {t('info.part4')} <Link to="/contact" onClick={this.onHide}>{t('info.link2')}</Link>.
         </Alert>
-        <p>{t('info.part3')}</p>
+        <p>{t('info.part5')}</p>
       </Modal.Body>
       <Modal.Footer>
+        <Link className="btn btn-outline-primary"
+              to="/registration"
+              onClick={this.onHide}>
+          Registrieren
+        </Link>
         <input type="submit"
                className="btn btn-primary"
                value={t('info.button')}

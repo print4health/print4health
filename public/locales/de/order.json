@@ -1,12 +1,16 @@
 {
   "title": {
     "part1": "Bedarf für",
-    "part2": "eintragen",
+    "part2": "eintragen"
   },
   "info": {
-    "part1": "Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, meldet euch unter",
-    "part2": "und wir erstellen euch einen Zugang. Daraufhin könnt ihr euer Passwort setzen und Bestellungen anzeigen.",
-    "part3": "Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an um Bedarf einzutragen.",
+    "part1": "Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, müsst ihr euch",
+    "link1": "registrieren",
+    "part2": "Euer Account wird manuell freigeschaltet und dann könnt ihr hier euren Bedarf anmelden.",
+    "part3": "Bei Fragen, wendet euch an",
+    "part4": "oder verwendet das",
+    "link2": "Kontaktformular",
+    "part5": "Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an um Bedarf einzutragen.",
     "button": "OK"
   },
   "form": {
