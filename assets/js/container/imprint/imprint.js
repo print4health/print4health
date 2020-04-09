@@ -1,19 +1,28 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
 import AppContext from '../../context/app-context';
+import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 class Imprint extends React.Component {
+  static get propTypes() {
+    return {
+      t: PropTypes.func
+    };
+  }
 
   componentDidMount() {
-    this.context.setPageTitle('Impressum')
+    const { t } = this.props;
+    this.context.setPageTitle(t('pagetitle'));
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div className="container imprint">
         <div className="row">
           <div className="col">
-            <h1>Impressum</h1>
+            <h1>{t('title')}</h1>
             <Alert variant="info">
               print4health.org ist ein gemeinschaftliches Projekt, dass im Rahmen des <a
               href="https://www.bundesregierung.de/breg-de/themen/coronavirus/wir-vs-virus-1731968"
@@ -71,4 +80,4 @@ class Imprint extends React.Component {
 
 Imprint.contextType = AppContext;
 
-export default Imprint;
+export default withTranslation('imprint')(Imprint);

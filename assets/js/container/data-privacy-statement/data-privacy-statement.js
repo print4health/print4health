@@ -1,12 +1,26 @@
 import React from 'react';
+import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 class DataPrivacyStatement extends React.Component {
+  static get propTypes() {
+    return {
+      t: PropTypes.func
+    };
+  }
+
+  componentDidMount() {
+    const { t } = this.props;
+    this.context.setPageTitle(t('pagetitle'));
+  }
+
   render() {
+    const { t } = this.props;
     return (
       <div className="container imprint">
         <div className="row">
           <div className="col">
-            <h1>Datenschutzerklärung</h1>
+            <h1>{t('title')}</h1>
             <h2>1. Datenschutz auf einen Blick</h2>
             <h3>Allgemeine Hinweise</h3>
             <p>Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit
@@ -234,4 +248,4 @@ class DataPrivacyStatement extends React.Component {
   }
 }
 
-export default DataPrivacyStatement;
+export default withTranslation('privacy')(DataPrivacyStatement);

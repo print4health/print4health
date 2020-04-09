@@ -17,6 +17,8 @@ class RegistrationIndex extends React.Component {
   }
 
   componentDidMount() {
+    const { t } = this.props;
+    this.context.setPageTitle(t('pagetitle'));
   }
 
   render() {

@@ -12,7 +12,8 @@ class Index extends React.Component {
   }
 
   componentDidMount() {
-    this.context.setPageTitle('Helfen mit 3D-Druck');
+    const { t } = this.props;
+    this.context.setPageTitle(t('pagetitle'));
   }
 
   render() {
