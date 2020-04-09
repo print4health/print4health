@@ -3,6 +3,7 @@ import AppContext from "../../context/app-context";
 import { ROLE_MAKER, ROLE_REQUESTER } from '../../constants/UserRoles';
 import PropTypes from "prop-types";
 import { Alert } from 'react-bootstrap';
+import { withTranslation } from 'react-i18next';
 
 class Contact extends React.Component {
   constructor(props) {
@@ -82,9 +83,10 @@ class Contact extends React.Component {
 
   render() {
     const { data } = this.state;
+    const { t } = this.props;
 
     if (!data) {
-      return (<p>laden...</p>)
+      return (<p>{t('loading')}...</p>)
     }
 
     const { userRole } = this.state;
@@ -93,9 +95,9 @@ class Contact extends React.Component {
       <div className="container Dashboard">
         <div className="row">
           <div className="col">
-            <h1>{userRole === ROLE_REQUESTER ? 'Einrichtung-' : userRole === ROLE_MAKER ? 'Maker-' : ''}Kontakt</h1>
+            <h1>{userRole === ROLE_REQUESTER ? (t('role.institute')+'-') : userRole === ROLE_MAKER ? (t('role.maker')+'-') : ''}{t('title')}</h1>
             <Alert variant="info">
-              <h6>Diese Kontakt Seite ist eine temporäre Lösung. Wir arbeiten aktuell mit hochdruck an an einem Nachrichten-Modul. Mit diesem habt Ihr hier bald die Möglichkeit direkt mit dem Maker/Anfragendem zu kommunizieren. Wir bitten um Verständniss das dies aktuell leider noch nicht möglich ist.</h6>
+              <h6>{t('info')}</h6>
             </Alert>
           </div>
         </div>
@@ -110,13 +112,14 @@ class Contact extends React.Component {
 
   renderCard(data) {
     const { userRole } = this.state;
+    const { t } = this.props;
 
     return (
       <div className="row Contact__card-row">
         <div className="col">
           <div className="card">
             <div className="card-body">
-              <h5 className="card-title">{userRole === ROLE_REQUESTER ? 'Einrichtung:' : userRole === ROLE_MAKER ? 'Maker:' : ''} {data.name}</h5>
+              <h5 className="card-title">{userRole === ROLE_REQUESTER ? (t('role.institute')+':') : userRole === ROLE_MAKER ? (t('role.maker')+':') : ''} {data.name}</h5>
               <h6 className="card-subtitle mb-2 text-muted"><a href={`mailto=${data.email}`} className="card-link">{data.email}</a></h6>
               <p className="card-text">{data.streetAddress}</p>
               <p className="card-text">{data.postalCode}</p>
@@ -131,4 +134,4 @@ class Contact extends React.Component {
 
 Contact.contextType = AppContext;
 
-export default Contact;
+export default withTranslation('contactboard')(Contact);
