@@ -27,6 +27,12 @@ class Contact extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  static get propTypes() {
+    return {
+      t: PropTypes.func
+    };
+  }
+
   onChangeHandler(event) {
     const file = event.target.files[0];
     const { t } = this.props;
