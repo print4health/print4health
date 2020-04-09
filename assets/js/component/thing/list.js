@@ -11,11 +11,12 @@ class ThingList extends React.Component {
   static get propTypes() {
     return {
       things: PropTypes.array,
+      t: PropTypes.func
     };
   }
 
   render() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     if (this.props.things === undefined) {
       return (<div className="alert alert-danger">{t('list.error')}</div>);
     }

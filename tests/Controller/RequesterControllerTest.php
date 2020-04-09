@@ -34,7 +34,7 @@ class RequesterControllerTest extends AbstractControllerTest
                     'email' => 'unittester-requester@print4health.org',
                     'password' => '123465789',
                     'name' => 'Unit Tester Requester',
-                    'streetAddress' => 'Salzstraße 123',
+                    'addressStreet' => 'Salzstraße 123',
                     'postalCode' => '48155',
                     'addressCity' => 'Münster',
                     'addressState' => 'NRW',

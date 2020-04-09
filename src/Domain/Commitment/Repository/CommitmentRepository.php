@@ -20,4 +20,11 @@ class CommitmentRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Commitment::class);
     }
+
+    public function save(Commitment $commitment): void
+    {
+        $commitment->updateUpdatedDate();
+        $this->getEntityManager()->persist($commitment);
+        $this->getEntityManager()->flush();
+    }
 }

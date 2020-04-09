@@ -21,6 +21,12 @@ logs:                                                                           
 cache:                                                                          ## remove and warmup cache
 	bin/console cache:clear && bin/console cache:warmup
 
+phpunit:                                                                        ## run phpunit tests
+	vendor/bin/phpunit --testdox -v --colors="always" $(OPTIONS)
+
+coverage:                                                                       ## run phpunit tests with coverage
+	xdebug bin/phpunit --testdox -v --colors="always" --coverage-html coverage $(OPTIONS)
+
 php-cs-check:                                                                   ## run cs fixer (dry-run)
 	PHP_CS_FIXER_FUTURE_MODE=1 php-cs-fixer fix --allow-risky=yes --diff --dry-run
 
@@ -33,9 +39,12 @@ phpstan:                                                                        
 psalm:                                                                          ## run psalm static code analyser
 	psalm $(OPTIONS) --show-info=false
 
-static: php-cs-fix phpstan psalm                                                ## run static analyser
+eslint:
+	yarn eslint --fix
 
-dev: static                                                                     ## run dev tools
+static: php-cs-fix phpstan psalm eslint                                          ## run static analyser
+
+dev: static phpunit                                                              ## run dev tools
 
 mysql:                                                                          ## go in mysql
 	sudo docker exec -it mysql /usr/bin/mysql print4health

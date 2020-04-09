@@ -6,14 +6,20 @@ namespace App\Domain\User;
 
 use App\Domain\Exception\Maker\MakerByEmailNotFoundException;
 use App\Domain\Exception\Maker\MakerByPasswordResetTokenNotFoundException;
+use App\Domain\Exception\NotFoundException;
+use App\Domain\Exception\Requester\RequesterByEmailNotFoundException;
+use App\Domain\Exception\Requester\RequesterByPasswordResetTokenNotFoundException;
+use App\Domain\Exception\User\UserByEmailNotFoundException;
+use App\Domain\Exception\User\UserByPasswordResetTokenNotFoundException;
 use App\Domain\User\Entity\Maker;
 use App\Domain\User\Entity\Requester;
 use App\Domain\User\Entity\User;
 use App\Domain\User\Repository\MakerRepository;
 use App\Domain\User\Repository\RequesterRepository;
 use App\Domain\User\Repository\UserRepository;
+use Ramsey\Uuid\UuidInterface;
 
-class UserRepositoryWrapper
+class UserInterfaceRepository
 {
     private UserRepository $userRepository;
 
@@ -39,15 +45,16 @@ class UserRepositoryWrapper
         } catch (MakerByEmailNotFoundException $exception) {
         }
 
-        $user = $this->userRepository->findOneByEmail($email);
-        if ($user instanceof UserInterface) {
-            return $user;
+        try {
+            return $this->userRepository->findOneByEmail($email);
+        } catch (UserByEmailNotFoundException $exception) {
         }
 
-        $user = $this->requesterRepository->findOneByEmail($email);
-        if ($user instanceof UserInterface) {
-            return $user;
+        try {
+            return $this->requesterRepository->findOneByEmail($email);
+        } catch (RequesterByEmailNotFoundException $exception) {
         }
+
         throw new NotFoundException(sprintf('User with email [%s] not found', $email));
     }
 
@@ -59,16 +66,36 @@ class UserRepositoryWrapper
         } catch (MakerByPasswordResetTokenNotFoundException $exception) {
         }
 
-        $user = $this->userRepository->findOneByPasswordResetToken($token);
-        if ($user instanceof UserInterface) {
-            return $user;
+        try {
+            return $this->userRepository->findOneByPasswordResetToken($token);
+        } catch (UserByPasswordResetTokenNotFoundException $exception) {
         }
 
-        $user = $this->requesterRepository->findOneByPasswordResetToken($token);
-        if ($user instanceof UserInterface) {
-            return $user;
+        try {
+            return $this->requesterRepository->findOneByPasswordResetToken($token);
+        } catch (RequesterByPasswordResetTokenNotFoundException $exception) {
         }
         throw new NotFoundException(sprintf('User with token [%s] not found', $token));
+    }
+
+    public function find(UuidInterface $uuid): UserInterface
+    {
+        try {
+            return $this->makerRepository->find($uuid);
+        } catch (NotFoundException $exception) {
+        }
+
+        try {
+            return $this->requesterRepository->find($uuid);
+        } catch (NotFoundException $exception) {
+        }
+
+        try {
+            return $this->userRepository->find($uuid);
+        } catch (NotFoundException $exception) {
+        }
+
+        throw new NotFoundException(sprintf('User with id [%s] not found', $uuid->toString()));
     }
 
     public function save(UserInterface $user): void
@@ -87,6 +114,10 @@ class UserRepositoryWrapper
 
         if ($user instanceof Requester) {
             $this->requesterRepository->save($user);
+
+            return;
         }
+
+        throw new \RuntimeException(sprintf('Unknown UserInterface [%s]', \get_class($user)));
     }
 }

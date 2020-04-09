@@ -8,15 +8,19 @@ PrivateRoute.propTypes = {
   location: PropTypes.any,
   authed: PropTypes.bool,
   setAlert: PropTypes.func,
+  user: PropTypes.object,
+  path: PropTypes.string,
+  t: PropTypes.func
 };
 
-function PrivateRoute({component: Component, authed, setAlert}) {
-  const { t, i18n } = useTranslation('private');
+function PrivateRoute({component: Component, setAlert, user, path}) {
+  const authed = user && Object.keys(user).length !== 0;
+  const { t } = useTranslation('private');
 
   {authed !== true && setAlert(t('unauthorized'), 'danger') }
 
   return (
-    <Route
+    <Route path={path}
       render={(props) => authed === true
         ? <Component {...props} />
         //@TODO change redirect to Login when we have a Login Page

@@ -2,15 +2,22 @@ import React from 'react';
 import { Accordion, Card } from 'react-bootstrap';
 import AppContext from '../../context/app-context';
 import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 class Faq extends React.Component {
+
+  static get propTypes() {
+    return {
+      t: PropTypes.func
+    };
+  }
 
   componentDidMount() {
     this.context.setPageTitle('FAQ')
   }
 
   render() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
       <div className="container Faq">
         <div className="row">

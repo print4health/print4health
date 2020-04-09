@@ -1,13 +1,25 @@
 App\Domain\User\Entity\User:
     user_admin_default:
-        email: 'admin@print4health.org'
+        __construct:
+            - 'admin@print4health.org'
+            - true
         password: 'test'
         roles: ['ROLE_ADMIN']
 
     user_default:
-        email: 'user@print4health.org'
+        __construct:
+            - 'user@print4health.org'
+            - true
+        password: 'test'
+
+    user_not_enabled:
+        __construct:
+            - 'user-not-enabled@print4health.org'
+            - false
         password: 'test'
 
     user_{1..5}:
-        email: '<safeEmail()>'
+        __construct:
+            - '<safeEmail()>'
+            - true
         password: 'test'

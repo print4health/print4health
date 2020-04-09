@@ -1,15 +1,22 @@
 import React from 'react';
 import AppContext from '../../context/app-context';
 import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 class Index extends React.Component {
+
+  static get propTypes() {
+    return {
+      t: PropTypes.func
+    };
+  }
 
   componentDidMount() {
     this.context.setPageTitle('Helfen mit 3D-Druck');
   }
 
   render() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
       <div className="row">
         <div className="col-md-8 offset-md-2">

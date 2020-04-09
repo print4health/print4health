@@ -62,10 +62,10 @@ Cypress.Commands.add('openOrderModal', (email, pw) => {
 });
 
 Cypress.Commands.add('resetPassword', (email, newPassword) => {
-  cy.visit('http://192.168.222.12');
+  cy.visit('/');
 
   //clear maildev inbox
-  cy.request('DELETE', 'http://192.168.222.12:1080/email/all');
+  cy.request('DELETE', 'http://localhost:1080/email/all');
 
   cy.get('a.nav-link:contains("Anmelden")').click();
   cy.contains('Anmeldung bei print4health');
@@ -74,11 +74,11 @@ Cypress.Commands.add('resetPassword', (email, newPassword) => {
   cy.get('input[name=email]').type(email);
   cy.get('input[type=submit]').click();
   cy.contains('Ein Link zum Zurücksetzen des Passworts wurde per email verschickt');
-  cy.request('GET', 'http://192.168.222.12:1080/email').then(res => {
+  cy.request('GET', 'http://localhost:1080/email').then(res => {
     const email = res.body[0];
     expect(email.subject).to.equal('print4health - Passwort zurücksetzen');
-    expect(email.html).to.contain('Bitte nutzen Sie folgende URL um ein neues Passwort zu vergeben');
-    const url = email.html.match(/(https?:\/\/[^\s]+)/g)[0];
+    expect(email.html).to.contain('Bitte nutze folgenden Link um ein neues Passwort zu vergeben:');
+    const url = email.html.match(/(https?:\/\/[^\s]+\/reset-password\/[0-9a-f\-]+)/g)[0];
     cy.visit(url);
     cy.get('input[name=password]').type(newPassword);
     cy.get('input[name=repeatPassword]').type(newPassword);

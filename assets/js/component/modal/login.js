@@ -23,6 +23,7 @@ class LoginModal extends React.Component {
   static get propTypes() {
     return {
       onClose: PropTypes.func,
+      t: PropTypes.func
     };
   }
 
@@ -57,7 +58,7 @@ class LoginModal extends React.Component {
   }
 
   render() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
 
       <Modal show onHide={this.props.onClose} animation={false}>

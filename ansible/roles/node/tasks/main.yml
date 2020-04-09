@@ -12,7 +12,7 @@
 - name: install node
   become: false
   shell: >
-    . {{ ansible_env.HOME }}/.nvm/nvm.sh && nvm install v8
+    . {{ ansible_env.HOME }}/.nvm/nvm.sh && cd /srv/share && nvm install && nvm use
   args:
     executable: /bin/bash
     chdir: "{{ ansible_env.HOME }}"

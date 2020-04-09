@@ -7,16 +7,24 @@ import { useForm } from 'react-hook-form';
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { withTranslation, useTranslation } from 'react-i18next';
+import postalCodes from 'postal-codes-js';
 
 const RegistrationForm = (props) => {
 
-  const { callback, alert, serverErrors, showForm } = props;
+  const { callback, alert, serverErrors, showForm, countries } = props;
   const { register, errors, watch, handleSubmit } = useForm();
 
-  const { t, i18n } = useTranslation('registration');
+  const { t } = useTranslation('registration');
 
   const password = useRef({});
   password.current = watch('password', '');
+
+  const country = useRef({});
+  country.current = watch('addressState', '');
+
+  const validatePostalCode = (postalCode) => {
+    return postalCodes.validate(country.current, postalCode);
+  };
 
   const printError = (error, message) => {
     if (!error) {
@@ -33,10 +41,13 @@ const RegistrationForm = (props) => {
         <div className="col-md-8 offset-md-2">
           <h1>{t('title')}</h1>
           <Alert variant="info" className="mt-3">
-            {t('infohospital.part1')} <strong>{t('infohospital.strong')} (<a href="https://www.makervsvirus.org/" target="_blank"
-                          rel="noopener noreferrer">MakerVsVirus</a>)</strong> {t('infohospital.part2')}
+            {t('infohospital.part1')}
+            <strong>{t('infohospital.strong')} (<a href="https://www.makervsvirus.org/" target="_blank"
+                                                   rel="noopener noreferrer">MakerVsVirus</a>)</strong>
+            {t('infohospital.part2')}
             <br />
-            {t('infohospital.part3')} <a href="mailto:contact@print4health.org">contact@print4health.org</a> {t('infohospital.part4')}
+            {t('infohospital.part3')}
+            <a href="mailto:contact@print4health.org">contact@print4health.org</a> {t('infohospital.part4')}
           </Alert>
           {alert.show &&
           <Alert variant="danger">
@@ -45,8 +56,14 @@ const RegistrationForm = (props) => {
           {showForm &&
           <form onSubmit={handleSubmit(callback)} className="mt-5 registration-form">
             <p>
-              {t('info.part1')} <span className="text-primary">print4health.org</span> {t('info.part2')}
+              {t('info.part1')}
+              <span className="text-primary">print4health.org</span>
+              {t('info.part2')}
             </p>
+            <p>Solltet ihr ein Krankenhäuser, Arzt, eine gesundheitliche oder soziale Einrichtunge oder ein Maker-Hub
+              sein, dann könnt ihr euch <Link to="/registration/requester">hier registrieren</Link>.
+            </p>
+            <h3>Allgemeine Daten</h3>
             <Form.Group as={Row} controlId="registerMakerName">
               <Form.Label column sm="2">{t('namefield.label')}*</Form.Label>
               <Col sm="10">
@@ -109,16 +126,16 @@ const RegistrationForm = (props) => {
                 </Form.Text>
               </Col>
             </Form.Group>
+            <h3>Ort</h3>
             <Form.Group as={Row} controlId="registerMakerPostalCode">
               <Form.Label column sm="2">{t('plz.label')}*</Form.Label>
               <Col sm="10">
-                <Form.Control type="number"
+                <Form.Control type="text"
                               name="postalCode"
                               placeholder={t('plz.placeholder')}
-                              ref={register({ required: true, minLength: 4, maxLength: 5 })} />
+                              ref={register({ validate: (val) => validatePostalCode(val) })} />
                 <Form.Text className="text-muted">
                   {t('plz.info')}
-
                   {printError(errors.postalCode, t('plz.errorrequired'))}
                   {printError(serverErrors.postalCode, serverErrors.postalCode)}
                 </Form.Text>
@@ -130,14 +147,21 @@ const RegistrationForm = (props) => {
                 <Form.Control type="text"
                               name="addressState"
                               placeholder={t('country.placeholder')}
-                              ref={register({ required: false, maxLength: 255 })} />
-                <Form.Text className="text-muted">
-                  {t('country.info')}
-                  {printError(errors.addressState, t('country.label'))}
-                  {printError(serverErrors.addressState, serverErrors.addressState)}
-                </Form.Text>
+                              as="select"
+                              ref={register({ required: true, minLength: 2 })}>
+                  {countries.map(({ name, code }) => <option key={code} value={code}>{name}</option>)}
+                  <Form.Text className="text-muted">
+                    {t('country.info')}
+                    {printError(errors.addressState, t('country.label'))}
+                    {printError(serverErrors.addressState, serverErrors.addressState)}
+                  </Form.Text>
+                </Form.Control>
               </Col>
             </Form.Group>
+            <h3>Einverständniserklärungen</h3>
+            <Alert variant="info">
+              Es gibt kein Kleingedrucktes, aber nimm dir bitte kurz Zeit, die folgenden Bedingungen zu bestätigen:
+            </Alert>
             <Row>
               <Col sm={{ offset: 2 }}>
                 <h3>{t('accept.label')}</h3>
@@ -222,6 +246,10 @@ const RegistrationForm = (props) => {
                     {printError(serverErrors.confirmedPersonalDataTransferToRequester, serverErrors.confirmedPersonalDataTransferToRequester)}
                   </Form.Text>
                 </Form.Group>
+                {alert.show &&
+                <Alert variant="danger">
+                  <strong>Fehler {alert.status}</strong>: {alert.message}
+                </Alert>}
                 <Button variant="primary" type="submit">{t('button')}</Button>
               </Col>
             </Row>
@@ -230,7 +258,10 @@ const RegistrationForm = (props) => {
           {showForm === false &&
           <Alert variant="success">
             <strong>{t('success')}</strong>
-            <p className="mb-0">{t('successtext.part1')} <Link to="/thing/list">{t('successtext.link')}</Link> {t('successtext.part2')}
+            <p className="mb-0">
+              {t('successtext.part1')}
+              <Link to="/thing/list">{t('successtext.link')}</Link>
+              {t('successtext.part2')}
             </p>
           </Alert>
           }
@@ -245,12 +276,13 @@ RegistrationForm.propTypes = () => {
   return {};
 };
 
-class RegisterMaker extends React.Component {
+class RegistrationMaker extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       showForm: true,
+      countries: [],
       alert: {
         show: false,
         status: null,
@@ -264,6 +296,7 @@ class RegisterMaker extends React.Component {
     return {
       match: PropTypes.object,
       passwordResetToken: PropTypes.string,
+      t: PropTypes.func
     };
   }
 
@@ -271,11 +304,44 @@ class RegisterMaker extends React.Component {
     if (this.context.user && this.context.user.id) {
       // todo redirect to home?
     }
+
+    const lang = navigator.language || navigator.userLanguage;
+    this.getCountryList(lang.split('-')[0].toLocaleLowerCase());
+  }
+
+  getCountryList(lang) {
+    const url = `/build/meta/country-codes.json`;
+    const langIsSupported = ['de', 'es', 'fr', 'ja', 'it', 'br', 'pt'].includes(lang);
+
+    axios.get(url)
+      .then((result) => {
+        const data = result.data.map((
+          { name, translations, alpha2Code }) => {
+            name = lang === 'en' || !langIsSupported ? name : translations[lang];
+            name = `${name} (${alpha2Code})`;
+            return {
+              name: name,
+              code: alpha2Code,
+            };
+          },
+        );
+
+        data.sort((a, b) => {
+          if (a.name === b.name) {
+            return 0;
+          }
+          return a.name > b.name ? 1 : -1;
+        });
+
+        data.unshift({ name: 'Bitte wählen', code: '' });
+
+        this.setState({ countries: data });
+      }).catch(() => {
+      console.log('error');
+    });
   }
 
   onSubmit = (data) => {
-    console.log(data);
-
     const alert = {};
 
     axios.post(Config.apiBasePath + '/maker/registration', data)
@@ -283,11 +349,12 @@ class RegisterMaker extends React.Component {
         if (res.data && res.data.maker && res.data.maker.id) {
           this.setState({
             showForm: false,
+            alert: { show: false },
           });
         }
       })
       .catch((srvErr) => {
-        const { t, i18n } = this.props;
+        const { t } = this.props;
         if (typeof (srvErr.response) === 'undefined') {
           console.log(srvErr);
           return;
@@ -322,11 +389,16 @@ class RegisterMaker extends React.Component {
   };
 
   render() {
-    const { showForm, alert, serverErrors } = this.state;
-    return <RegistrationForm callback={this.onSubmit} alert={alert} serverErrors={serverErrors} showForm={showForm} />;
+    const { showForm, alert, serverErrors, countries } = this.state;
+    return <RegistrationForm
+      callback={this.onSubmit}
+      alert={alert}
+      serverErrors={serverErrors}
+      showForm={showForm}
+      countries={countries} />;
   }
 }
 
-RegisterMaker.contextType = AppContext;
+RegistrationMaker.contextType = AppContext;
 
-export default withTranslation('registration')(RegisterMaker);
+export default withTranslation('registration')(RegistrationMaker);

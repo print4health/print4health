@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Domain\Commitment\Entity;
 
+use App\Domain\DateHelper;
 use App\Domain\Order\Entity\Order;
 use App\Domain\User\Entity\Maker;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
@@ -34,7 +36,12 @@ class Commitment
     /**
      * @ORM\Column(type="datetime_immutable")
      */
-    private \DateTimeImmutable $createdAt;
+    private DateTimeImmutable $createdDate;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private ?DateTimeImmutable $updatedDate;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Domain\User\Entity\Maker")
@@ -48,7 +55,7 @@ class Commitment
         $this->order = $order;
         $this->maker = $maker;
         $this->quantity = $quantity;
-        $this->createdAt = new \DateTimeImmutable();
+        $this->createdDate = DateHelper::create();
     }
 
     public function getId(): string
@@ -66,9 +73,9 @@ class Commitment
         return $this->quantity;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable
+    public function getCreatedDate(): \DateTimeImmutable
     {
-        return $this->createdAt;
+        return $this->createdDate;
     }
 
     public function getMaker(): Maker
@@ -79,5 +86,15 @@ class Commitment
     public function setMaker(Maker $maker): void
     {
         $this->maker = $maker;
+    }
+
+    public function updateUpdatedDate(): void
+    {
+        $this->updatedDate = DateHelper::create();
+    }
+
+    public function getUpdatedDate(): ?DateTimeImmutable
+    {
+        return $this->updatedDate;
     }
 }

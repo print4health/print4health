@@ -3,29 +3,45 @@ App\Domain\User\Entity\Requester:
         __construct:
             - 'requester@print4health.org'
             - 'print4health Test Requester'
-        streetAddress: '<streetAddress()>'
+            - true
+        addressStreet: '<streetAddress()>'
         postalCode: '<postCode()>'
         addressCity: 'Berlin'
-        addressState: '<state()>'
+        addressState: 'DE'
         password: 'test'
+        institutionType: 'HOSPITAL'
+        description: '<text()>'
+        contactInfo: '<text()>'
         latitude: 52.5170365
         longitude: 13.3888599
+
+    requester_not_enabled:
+        __construct:
+            - 'requester-not-enabled@print4health.org'
+            - 'print4health Test Requester Not Enabled'
+            - false
+        password: 'test'
 
     requester_empty_address:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
+            - true
         password: 'test'
 
     requester_address_{1..50}:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
-        streetAddress: '<streetAddress()>'
+            - false
+        addressStreet: '<streetAddress()>'
         postalCode: '<postCode()>'
         addressCity: '<city()>'
-        addressState: '<state()>'
+        addressState: 'DE'
         password: 'test'
+        institutionType: 'OTHER'
+        description: '<text()>'
+        contactInfo: '<text()>'
         latitude: '<latitude(48.5, 54)>'
         longitude: '<longitude(8.5, 13)>'
 
@@ -33,11 +49,15 @@ App\Domain\User\Entity\Requester:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
-        streetAddress: '<streetAddress()>'
+            - true
+        addressStreet: '<streetAddress()>'
         postalCode: '<postCode()>'
         addressCity: 'Bremen'
-        addressState: '<state()>'
+        addressState: 'DE'
         password: 'test'
+        institutionType: 'MAKER_HUB'
+        description: '<text()>'
+        contactInfo: '<text()>'
         latitude: 53.095831720337145
         longitude: 8.815992937273837
         hub: true
@@ -52,11 +72,15 @@ App\Domain\User\Entity\Requester:
         __construct:
             - '<safeEmail()>'
             - '<company()>'
-        streetAddress: '<streetAddress()>'
+            - true
+        addressStreet: '<streetAddress()>'
         postalCode: '<postCode()>'
         addressCity: 'Köln'
-        addressState: '<state()>'
+        addressState: 'DE'
         password: 'test'
+        institutionType: 'MAKER_HUB'
+        description: '<text()>'
+        contactInfo: '<text()>'
         latitude: 50.93336083207188
         longitude: 6.951462563588646
         hub: true

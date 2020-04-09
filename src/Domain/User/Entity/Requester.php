@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domain\User\Entity;
 
+use App\Domain\DateHelper;
 use App\Domain\Order\Entity\Order;
 use App\Domain\User\UserInterface;
 use DateTimeImmutable;
@@ -13,10 +14,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
 /**
- * @ORM\Entity(repositoryClass="App\Domain\User\Repository\RequesterRepository")
+ * @ORM\Entity
  */
 class Requester implements UserInterface
 {
+    public const ROLE_REQUESTER = 'ROLE_REQUESTER';
+
     /**
      * @ORM\Column(type="guid")
      * @ORM\Id
@@ -27,6 +30,11 @@ class Requester implements UserInterface
      * @ORM\Column(unique=true)
      */
     private string $email;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $enabled;
 
     /**
      * @var string[]
@@ -63,7 +71,22 @@ class Requester implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $streetAddress = null;
+    private string $institutionType;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $description = null;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private ?string $contactInfo = null;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private ?string $addressStreet = null;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -83,12 +106,12 @@ class Requester implements UserInterface
     /**
      * @ORM\Column(name="latitude", type="decimal", precision=20, scale=16, nullable=true)
      */
-    private ?string $latitude = null;
+    private ?float $latitude = null;
 
     /**
      * @ORM\Column(name="longitude", type="decimal", precision=20, scale=16, nullable=true)
      */
-    private ?string $longitude = null;
+    private ?float $longitude = null;
 
     /**
      * @ORM\Column(name="hub", type="boolean", nullable=true)
@@ -101,12 +124,24 @@ class Requester implements UserInterface
      */
     private ?array $area = null;
 
-    public function __construct(string $email, string $name)
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     */
+    private DateTimeImmutable $createdDate;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     */
+    private ?DateTimeImmutable $updatedDate;
+
+    public function __construct(string $email, string $name, bool $enabled)
     {
         $this->email = $email;
         $this->name = $name;
+        $this->enabled = $enabled;
         $this->id = Uuid::uuid4()->toString();
         $this->orders = new ArrayCollection();
+        $this->createdDate = DateHelper::create();
     }
 
     public function getId(): string
@@ -124,6 +159,21 @@ class Requester implements UserInterface
         return $this->email;
     }
 
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function enable(): void
+    {
+        $this->enabled = true;
+    }
+
+    public function disable(): void
+    {
+        $this->enabled = false;
+    }
+
     public function setEmail(string $email): self
     {
         $this->email = $email;
@@ -135,8 +185,8 @@ class Requester implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-        $roles[] = 'ROLE_REQUESTER';
+        $roles[] = User::ROLE_USER;
+        $roles[] = self::ROLE_REQUESTER;
 
         return array_unique($roles);
     }
@@ -163,6 +213,36 @@ class Requester implements UserInterface
         $this->password = $password;
 
         return $this;
+    }
+
+    public function getInstitutionType(): string
+    {
+        return $this->institutionType;
+    }
+
+    public function setInstitutionType(string $type): void
+    {
+        $this->institutionType = $type;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function getContactInfo(): ?string
+    {
+        return $this->contactInfo;
+    }
+
+    public function setContactInfo(?string $contactInfo): void
+    {
+        $this->contactInfo = $contactInfo;
     }
 
     public function getSalt(): string
@@ -223,14 +303,14 @@ class Requester implements UserInterface
         return $this;
     }
 
-    public function getStreetAddress(): ?string
+    public function getAddressStreet(): ?string
     {
-        return $this->streetAddress;
+        return $this->addressStreet;
     }
 
-    public function setStreetAddress(?string $streetAddress): self
+    public function setAddressStreet(?string $addressStreet): self
     {
-        $this->streetAddress = $streetAddress;
+        $this->addressStreet = $addressStreet;
 
         return $this;
     }
@@ -269,22 +349,22 @@ class Requester implements UserInterface
         $this->addressState = $addressState;
     }
 
-    public function getLatitude(): ?string
+    public function getLatitude(): ?float
     {
         return $this->latitude;
     }
 
-    public function setLatitude(?string $latitude): void
+    public function setLatitude(?float $latitude): void
     {
         $this->latitude = $latitude;
     }
 
-    public function getLongitude(): ?string
+    public function getLongitude(): ?float
     {
         return $this->longitude;
     }
 
-    public function setLongitude(?string $longitude): void
+    public function setLongitude(?float $longitude): void
     {
         $this->longitude = $longitude;
     }
@@ -294,7 +374,7 @@ class Requester implements UserInterface
         return $this->hub;
     }
 
-    public function setHub(?bool $hub): void
+    public function setHub(bool $hub): void
     {
         $this->hub = $hub;
     }
@@ -313,5 +393,20 @@ class Requester implements UserInterface
     public function setArea(?array $area): void
     {
         $this->area = $area;
+    }
+
+    public function updateUpdatedDate(): void
+    {
+        $this->updatedDate = DateHelper::create();
+    }
+
+    public function getCreatedDate(): DateTimeImmutable
+    {
+        return $this->createdDate;
+    }
+
+    public function getUpdatedDate(): ?DateTimeImmutable
+    {
+        return $this->updatedDate;
     }
 }

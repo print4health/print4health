@@ -24,6 +24,8 @@ class CommitModal extends React.Component {
       order: PropTypes.object,
       onExited: PropTypes.func,
       onSubmit: PropTypes.func,
+      t: PropTypes.func,
+      i18n: PropTypes.object
     };
   }
 
@@ -69,7 +71,7 @@ class CommitModal extends React.Component {
   };
 
   renderForm() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return <>
       <Modal.Body>
         <h6>
@@ -110,7 +112,7 @@ class CommitModal extends React.Component {
   }
 
   renderInfo() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return <>
       <Modal.Body>
         <p>
@@ -132,7 +134,7 @@ class CommitModal extends React.Component {
 
   render() {
     const { show, thing } = this.state;
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
       <Modal show={show}
              onHide={this.onHide}

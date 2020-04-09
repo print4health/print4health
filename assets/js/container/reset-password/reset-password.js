@@ -23,6 +23,7 @@ class ResetPassword extends React.Component {
     return {
       match: PropTypes.object,
       passwordResetToken: PropTypes.string,
+      t: PropTypes.func
     };
   }
 
@@ -37,7 +38,7 @@ class ResetPassword extends React.Component {
     this.setState({ error: '' });
     const self = this;
     e.preventDefault();
-    const { t, i18n } = this.props;
+    const { t } = this.props;
 
     if (this.state.password !== this.state.repeatPassword) {
       this.setState({
@@ -64,7 +65,7 @@ class ResetPassword extends React.Component {
   }
 
   render() {
-    const { t, i18n } = this.props;
+    const { t } = this.props;
     return (
       <div className="container">
         <div className="row">
