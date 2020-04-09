@@ -1,0 +1,18 @@
+{
+  "error": "Some error occured, please contact us directly by E-Mail contact@print4health.org.",
+  "success": "Thank you, we will answer as soon as possible.",
+  "name": "Name",
+  "mail": "E-Mail Address",
+  "phone": "Telephone",
+  "subj": "Subject",
+  "msg": "Message",
+  "button": "Send",
+  "title": "Contact",
+  "placeholder": {
+    "name": "Name",
+    "mail": "E-Mail",
+    "phone": "Telephone",
+    "subj": "Subject"
+  },
+  "file": "file too large"
+}

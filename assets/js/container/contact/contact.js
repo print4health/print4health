@@ -5,6 +5,8 @@ import {
   Button,
   Form,
 } from 'react-bootstrap';
+import PropTypes from "prop-types";
+import { withTranslation } from 'react-i18next';
 
 class Contact extends React.Component {
 
@@ -27,6 +29,7 @@ class Contact extends React.Component {
 
   onChangeHandler(event) {
     const file = event.target.files[0];
+    const { t } = this.props;
 
     if (file.size <= 3000000) {
       this.setState({
@@ -34,7 +37,7 @@ class Contact extends React.Component {
         loaded: 0,
       });
     } else {
-      window.alert('file to large');
+      window.alert(t('file'));
     }
   }
 
@@ -49,6 +52,7 @@ class Contact extends React.Component {
   }
 
   async postForm(data) {
+    const { t } = this.props;
 
     const response = await fetch(Config.apiBasePath + '/contact-form', {
       method: 'POST',
@@ -62,7 +66,7 @@ class Contact extends React.Component {
       this.setState({
         response: {
           code: 500,
-          error: 'Es ist ein Fehler aufgetreten, bitte sende uns doch direkt eine E-Mail contact@print4health.org.',
+          error: t('error'),
         },
       });
     }
@@ -71,7 +75,7 @@ class Contact extends React.Component {
       this.setState({
         response: {
           code: 200,
-          error: 'Danke für die Nachricht! Wir melden uns sobald wie möglich.',
+          error: t('success'),
         },
       });
     }
@@ -89,25 +93,26 @@ class Contact extends React.Component {
 
   renderForm() {
     const { response } = this.state;
+    const { t } = this.props;
     if (response.code === 200) {
       return null;
     }
     return <Form ref={(form) => this.formEl = form} onSubmit={this.handleSubmit}>
       <Form.Group controlId="formGroupName">
-        <Form.Label>Name</Form.Label>
-        <Form.Control name="name" type="text" placeholder="Name" required />
+        <Form.Label>{t('name')}</Form.Label>
+        <Form.Control name="name" type="text" placeholder={t('placeholder.name')} required />
       </Form.Group>
       <Form.Group controlId="formGroupEmail">
-        <Form.Label>E-Mail Adresse</Form.Label>
-        <Form.Control name="email" type="email" placeholder="E-Mail" required />
+        <Form.Label>{t('mail')}</Form.Label>
+        <Form.Control name="email" type="email" placeholder={t('placeholder.mail')} required />
       </Form.Group>
       <Form.Group controlId="formGroupTel">
-        <Form.Label>Telefon</Form.Label>
-        <Form.Control name="phone" type="text" placeholder="Telefon" />
+        <Form.Label>{t('phone')}</Form.Label>
+        <Form.Control name="phone" type="text" placeholder={t('placeholder.phone')} />
       </Form.Group>
       <Form.Group controlId="formGroupSubject">
-        <Form.Label>Betreff</Form.Label>
-        <Form.Control name="subject" type="text" placeholder="Betreff" required />
+        <Form.Label>{t('subj')}</Form.Label>
+        <Form.Control name="subject" type="text" placeholder={t('placeholder.subj')} required />
       </Form.Group>
       {/*<Form.Group>*/}
       {/*  <input id="formGroupFile" ref={input => this.fileField = input} className="hide" type="file"*/}
@@ -119,21 +124,22 @@ class Contact extends React.Component {
       {/*  } : { marginLeft: 15 }}>{selectedFile ? selectedFile.name : 'Max 3MB'}</span>*/}
       {/*</Form.Group>*/}
       <Form.Group controlId="formGroupMesg">
-        <Form.Label>Nachricht</Form.Label>
+        <Form.Label>{t('msg')}</Form.Label>
         <Form.Control name="message" as="textarea" rows="3" required />
       </Form.Group>
-      <Button type="submit">Abschicken</Button>
+      <Button type="submit">{t('button')}</Button>
     </Form>;
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div className="container">
         <div className="container-fluid">
           <div className="row">
             <div className="col-lg-8 col-md-8 offset-md-2">
               <section className="container py-4">
-                <h1 className="mb-4">Kontakt</h1>
+                <h1 className="mb-4">{t('title')}</h1>
                 {this.renderAlert()}
                 {this.renderForm()}
               </section>
@@ -145,4 +151,4 @@ class Contact extends React.Component {
   }
 }
 
-export default Contact;
+export default withTranslation('contact')(Contact);

@@ -1,0 +1,18 @@
+{
+  "error": "Es ist ein Fehler aufgetreten, bitte sende uns doch direkt eine E-Mail contact@print4health.org.",
+  "success": "Danke für die Nachricht! Wir melden uns sobald wie möglich.",
+  "name": "Name",
+  "mail": "E-Mail Adresse",
+  "phone": "Telefon",
+  "subj": "Betreff",
+  "msg": "Nachricht",
+  "button": "Abschicken",
+  "title": "Kontakt",
+  "placeholder": {
+    "name": "Name",
+    "mail": "E-Mail",
+    "phone": "Telefon",
+    "subj": "Betreff"
+  },
+  "file": "Datei zu groß"
+}
