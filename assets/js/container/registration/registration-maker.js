@@ -56,14 +56,11 @@ const RegistrationForm = (props) => {
           {showForm &&
           <form onSubmit={handleSubmit(callback)} className="mt-5 registration-form">
             <p>
-              {t('info.part1')}
-              <span className="text-primary">print4health.org</span>
-              {t('info.part2')}
+              {t('info.part1')} <span className="text-primary">print4health.org</span> {t('info.part2')}
             </p>
-            <p>Solltet ihr ein Krankenhäuser, Arzt, eine gesundheitliche oder soziale Einrichtunge oder ein Maker-Hub
-              sein, dann könnt ihr euch <Link to="/registration/requester">hier registrieren</Link>.
+            <p>{t('info.part3')} <Link to="/registration/requester">{t('info.link')}</Link>.
             </p>
-            <h3>Allgemeine Daten</h3>
+            <h3>{t('data')}</h3>
             <Form.Group as={Row} controlId="registerMakerName">
               <Form.Label column sm="2">{t('namefield.label')}*</Form.Label>
               <Col sm="10">
@@ -158,13 +155,12 @@ const RegistrationForm = (props) => {
                 </Form.Control>
               </Col>
             </Form.Group>
-            <h3>Einverständniserklärungen</h3>
+            <h3>{t('accept.label')}</h3>
             <Alert variant="info">
-              Es gibt kein Kleingedrucktes, aber nimm dir bitte kurz Zeit, die folgenden Bedingungen zu bestätigen:
+              {t('accept.overview')}
             </Alert>
             <Row>
               <Col sm={{ offset: 2 }}>
-                <h3>{t('accept.label')}</h3>
                 <Form.Group className="d-flex" controlId="confirmedRuleForFree">
                   <Form.Check
                     type="checkbox"

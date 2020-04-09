@@ -10,8 +10,11 @@
   },
   "info": {
     "part1": "translation needed",
-    "part2": ""
+    "part2": "",
+    "part3": "If your a hospital or a maker-hup please",
+    "link": "sign up here"
   },
+  "data": "Personal data",
   "namefield": {
     "label": "Name",
     "placeholder": "Your Name",
@@ -51,6 +54,7 @@
   },
   "accept": {
     "label": "translation needed",
+    "overview": "Please take a moment and accept the following conditions:",
     "condition1": "translation needed",
     "condition2": "translation needed",
     "condition3": "translation needed",

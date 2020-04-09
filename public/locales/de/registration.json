@@ -10,8 +10,11 @@
   },
   "info": {
     "part1": "Hier könnt ihr euch als Maker bei",
-    "part2": "registrieren. Bitte füllt das Formular gewissenhaft aus, denn schließlich geht es darum, Menschen zu helfen."
+    "part2": "registrieren. Bitte füllt das Formular gewissenhaft aus, denn schließlich geht es darum, Menschen zu helfen.",
+    "part3": "Solltet ihr ein Krankenhäuser, Arzt, eine gesundheitliche oder soziale Einrichtunge oder ein Maker-Hub sein, dann könnt ihr euch",
+    "link": "hier registrieren"
   },
+  "data": "Allgemeine Daten",
   "namefield": {
     "label": "Name",
     "placeholder": "Dein Name",
@@ -51,6 +54,7 @@
   },
   "accept": {
     "label": "Einverständniserlkärungen",
+    "overview": "Es gibt kein Kleingedrucktes, aber nimm dir bitte kurz Zeit, die folgenden Bedingungen zu bestätigen:",
     "condition1": "Ich erkläre mich im Umfang meiner Möglichkeiten bereit, nach besten Möglichkeiten und Fähigkeiten kostenlos 3D-Drucke für Krankenhäuser und sonstige medizinische und soziale Einrichtungen sowie medizinisches Personal herzustellen, die auf dieser Internetpräsenz registriert sind.",
     "condition2": "Regelungen zu etwaigen Materialkostenübernahmen sowie für etwaig anfallende Transportkosten werde ich mit den vermittelten Krankenhäusern und sonstigen medizinischen und sozialen Einrichtungen sowie medizinischem Personal unmittelbar treffen.",
     "condition3": "Mir ist bekannt, dass print4health ausschließlich Kontakte zwischen Krankenhäusern und sonstigen medizinischen und sozialen Einrichtungen sowie medizinischem Personal einerseits und privaten 3D-Druckern und Designern von 3D-Druck-Bauplänen andererseits vermittelt.",

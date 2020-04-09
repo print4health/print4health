@@ -124,7 +124,7 @@ class Dashboard extends React.Component {
             <h6>{t('printed')}</h6>
           </div>
           <div className="col-md-2 Dashboard__headline">
-            <h6>Kontakt</h6>
+            <h6>{t('contact')}</h6>
           </div>
         </div>
         {data.orders.map((order, i) => {

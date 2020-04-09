@@ -71,7 +71,7 @@ class ThingListItem extends React.Component {
     const { t } = this.props;
 
     if (thing === undefined) {
-      return (<div className="alert alert-danger">{t('item.fail')}Something went wrong</div>);
+      return (<div className="alert alert-danger">{t('item.fail')}/div>);
     }
 
     const todo = thing.needed - thing.printed;
