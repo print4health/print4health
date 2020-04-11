@@ -357,7 +357,7 @@ class OrderController
 
         $this->orderRepository->save($order);
 
-        $messageBus->dispatch(new orderPlacedNotificationCommand($order));
+        $messageBus->dispatch(new OrderPlacedNotificationCommand($order));
 
         $OrderResponse = OrderResponse::createFromOrder($order);
 
