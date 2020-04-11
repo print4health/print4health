@@ -8,7 +8,9 @@ use App\Domain\Commitment\Repository\CommitmentRepository;
 use App\Domain\Exception\Maker\MakerByIdNotFoundException;
 use App\Domain\Exception\NotFoundException;
 use App\Domain\Exception\Requester\RequesterByIdNotFoundException;
+
 use App\Domain\Exception\User\UserByIdNotFoundException;
+use App\Domain\Order\Command\orderPlacedNotificationCommand;
 use App\Domain\Order\Entity\Order;
 use App\Domain\Order\Repository\OrderRepository;
 use App\Domain\Thing\Repository\ThingRepository;
@@ -32,6 +34,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
@@ -318,7 +321,7 @@ class OrderController
      *
      * @IsGranted("ROLE_REQUESTER")
      */
-    public function createAction(Request $request, ValidatorInterface $validator): JsonResponse
+    public function createAction(Request $request, ValidatorInterface $validator, MessageBusInterface $messageBus): JsonResponse
     {
         /** @var Requester $requester */
         $requester = $this->security->getUser();
@@ -353,6 +356,8 @@ class OrderController
         }
 
         $this->orderRepository->save($order);
+
+        $messageBus->dispatch(new orderPlacedNotificationCommand($order));
 
         $OrderResponse = OrderResponse::createFromOrder($order);
 
