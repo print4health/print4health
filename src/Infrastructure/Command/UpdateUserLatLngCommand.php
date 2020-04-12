@@ -44,7 +44,7 @@ class UpdateUserLatLngCommand extends Command
         $this->geoCoder = $geoCoder;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setName('app:user:update-latlng');
         $this->setDescription('Uses the geocoding service to update the User\'s LatLng Coordinates');
@@ -59,60 +59,59 @@ class UpdateUserLatLngCommand extends Command
         $userIds = $input->getArgument('user-ids');
         $overwrite = $input->getOption('overwrite');
 
-        if (count($userIds) > 0) {
+        if (\count($userIds) > 0) {
             $users = $this->fetchUsersByIds($userIds, $output);
         } else {
             $users = $this->findAllUsers();
         }
 
         foreach ($users as $user) {
-            /** @var Maker|Requester $user */
             if (
                 $overwrite ||
-                ($user->getLongitude() === null && $user->getLatitude() === null)
+                (null === $user->getLongitude() && null === $user->getLatitude())
             ) {
                 $this->updateUserGeoCoordinates($user, $output);
             }
         }
 
         $output->writeln('done.');
+
         return 0;
     }
 
     private function updateUserGeoCoordinates(UserInterface $user, OutputInterface $output): void
     {
-        if ($user->isEnabled() === false) {
+        if (false === $user->isEnabled()) {
             if ($output->isVerbose()) {
                 $output->writeln(sprintf('Skipping User [%s] as he is not enabled', $user->getId()));
             }
+
             return;
         }
         try {
             if ($user instanceof Maker) {
                 $latLng = $this->geoCoder->geoEncodeByPostalCodeAndCountry(
-                    $user->getPostalCode(),
-                    $user->getAddressState()
+                    (string) $user->getPostalCode(),
+                    (string) $user->getAddressState()
                 );
             } elseif ($user instanceof Requester) {
                 $latLng = $this->geoCoder->geoEncodeByAddress(
-                    $user->getAddressStreet(),
-                    $user->getPostalCode(),
-                    $user->getAddressCity(),
-                    $user->getAddressState()
+                    (string) $user->getAddressStreet(),
+                    (string) $user->getPostalCode(),
+                    (string) $user->getAddressCity(),
+                    (string) $user->getAddressState()
                 );
             } else {
-                throw new \RuntimeException(sprintf('User of class [%s] is not supported yet', get_class($user)));
+                throw new \RuntimeException(sprintf('User of class [%s] is not supported yet', \get_class($user)));
             }
             $user->setLatitude($latLng->getLatitude());
             $user->setLongitude($latLng->getLongitude());
 
             $this->userInterfaceRepository->save($user);
-            $output->writeln(sprintf('Updated %s [%s:%s]', get_class($user), $user->getName(), $user->getId()));
-
+            $output->writeln(sprintf('Updated %s [%s:%s]', \get_class($user), $user->getName(), $user->getId()));
         } catch (CoordinatesRequestException $exception) {
             $output->writeln(
-                sprintf('<error>Could not get LatLng of User [%s:%s]:</error> %s',
-                    $user->getName(),
+                sprintf('<error>Could not get LatLng of User [%s]:</error> %s',
                     $user->getId(),
                     $exception->getMessage()
                 )
@@ -130,6 +129,7 @@ class UpdateUserLatLngCommand extends Command
 
     /**
      * @param string[] $userIds
+     *
      * @return UserInterface[]
      */
     private function fetchUsersByIds(array $userIds, OutputInterface $output): array
@@ -159,6 +159,7 @@ class UpdateUserLatLngCommand extends Command
         $users = [];
         $users = array_merge($users, $this->makerRepository->findAll());
         $users = array_merge($users, $this->requesterRepository->findAll());
+
         return $users;
     }
 }
