@@ -53,20 +53,21 @@ class GeoCoder
             ) {
                 $location = $responseArray['results'][0]['geometry']['location'];
 
-                return new CoordinatesRequest((float) $location['lat'], (float) $location['lng']);
+                return new CoordinatesRequest((float)$location['lat'], (float)$location['lng']);
             }
 
-            throw new CoordinatesRequestException(sprintf('Invalid data from Map Request [%s]', json_encode($responseArray, JSON_THROW_ON_ERROR)));
+            throw new CoordinatesRequestException(sprintf('Invalid data from Map Request [%s]',
+                json_encode($responseArray, JSON_THROW_ON_ERROR)));
         } catch (CoordinatesRequestException $exception) {
             throw $exception;
         } catch (\Throwable $exception) {
-            throw new CoordinatesRequestException($exception->getMessage(), (int) $exception->getCode(), $exception);
+            throw new CoordinatesRequestException($exception->getMessage(), (int)$exception->getCode(), $exception);
         }
     }
 
-    public function geoEncodePostalCountry(
-        string $countryCode,
-        string $postalCode
+    public function geoEncodeByPostalCodeAndCountry(
+        string $postalCode,
+        string $countryCode
     ): CoordinatesRequest {
         $components = [
             'country:' . $countryCode,
@@ -75,14 +76,14 @@ class GeoCoder
 
         try {
             $client = HttpClient::create(['http_version' => '2.0']);
-
-            $response = $client->request('GET', $this->baseUrl, [
+            $params = [
                 'query' => [
                     'components' => implode('|', $components),
                     'key' => $this->googleKey,
                 ],
-            ]);
+            ];
 
+            $response = $client->request('GET', $this->baseUrl, $params);
             $responseArray = $response->toArray();
 
             if (
@@ -95,14 +96,15 @@ class GeoCoder
             ) {
                 $location = $responseArray['results'][0]['geometry']['location'];
 
-                return new CoordinatesRequest((float) $location['lat'], (float) $location['lng']);
+                return new CoordinatesRequest((float)$location['lat'], (float)$location['lng']);
             }
 
-            throw new CoordinatesRequestException(sprintf('Invalid data from Map Request [%s]', json_encode($responseArray, JSON_THROW_ON_ERROR)));
+            throw new CoordinatesRequestException(sprintf('Invalid data from Map Request [%s]',
+                json_encode($responseArray, JSON_THROW_ON_ERROR)));
         } catch (CoordinatesRequestException $exception) {
             throw $exception;
         } catch (\Throwable $exception) {
-            throw new CoordinatesRequestException($exception->getMessage(), (int) $exception->getCode(), $exception);
+            throw new CoordinatesRequestException($exception->getMessage(), (int)$exception->getCode(), $exception);
         }
     }
 }

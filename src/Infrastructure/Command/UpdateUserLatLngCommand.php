@@ -18,6 +18,7 @@ use Ramsey\Uuid\Uuid;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class UpdateUserLatLngCommand extends Command
@@ -49,12 +50,14 @@ class UpdateUserLatLngCommand extends Command
         $this->setDescription('Uses the geocoding service to update the User\'s LatLng Coordinates');
         $this->addArgument('user-ids', InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
             'Update only those users (separate uuids by space). (optional)');
+        $this->addOption('overwrite', null, InputOption::VALUE_OPTIONAL, 'Overwrite existing LatLng values');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         /** @var string[] $userIds */
         $userIds = $input->getArgument('user-ids');
+        $overwrite = $input->getOption('overwrite');
 
         if (count($userIds) > 0) {
             $users = $this->fetchUsersByIds($userIds, $output);
@@ -63,7 +66,13 @@ class UpdateUserLatLngCommand extends Command
         }
 
         foreach ($users as $user) {
-            $this->updateUserGeoCoordinates($user, $output);
+            /** @var Maker|Requester $user */
+            if (
+                $overwrite ||
+                ($user->getLongitude() === null && $user->getLatitude() === null)
+            ) {
+                $this->updateUserGeoCoordinates($user, $output);
+            }
         }
 
         $output->writeln('done.');
@@ -80,7 +89,10 @@ class UpdateUserLatLngCommand extends Command
         }
         try {
             if ($user instanceof Maker) {
-                $latLng = $this->geoCoder->geoEncodePostalCountry($user->getPostalCode(), $user->getAddressState());
+                $latLng = $this->geoCoder->geoEncodeByPostalCodeAndCountry(
+                    $user->getPostalCode(),
+                    $user->getAddressState()
+                );
             } elseif ($user instanceof Requester) {
                 $latLng = $this->geoCoder->geoEncodeByAddress(
                     $user->getAddressStreet(),
@@ -95,17 +107,19 @@ class UpdateUserLatLngCommand extends Command
             $user->setLongitude($latLng->getLongitude());
 
             $this->userInterfaceRepository->save($user);
-            $output->writeln(sprintf('Updated User [%s:%s]', $user->getName(), $user->getId()));
+            $output->writeln(sprintf('Updated %s [%s:%s]', get_class($user), $user->getName(), $user->getId()));
 
         } catch (CoordinatesRequestException $exception) {
             $output->writeln(
-                sprintf('<error>Could not get LatLng of User [%s:%s]</error>',
+                sprintf('<error>Could not get LatLng of User [%s:%s]:</error> %s',
                     $user->getName(),
-                    $user->getId()
+                    $user->getId(),
+                    $exception->getMessage()
                 )
             );
             if ($output->isVerbose()) {
-                $output->writeln($exception->getMessage());
+                $output->writeln(sprintf('File: %s', $exception->getFile()));
+                $output->writeln(sprintf('Line: %s', $exception->getLine()));
                 $output->writeln($exception->getTraceAsString());
             }
             if ($output->isVeryVerbose()) {
