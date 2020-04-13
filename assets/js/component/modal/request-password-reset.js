@@ -57,7 +57,7 @@ class RequestPasswordResetModal extends React.Component {
       >
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>{t('request.title')}</Modal.Title>
+            <Modal.Title data-cypress="modal-request-password-reset-title">{t('request.title')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}

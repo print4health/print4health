@@ -74,7 +74,7 @@ class CommitModal extends React.Component {
     const { t } = this.props;
     return <>
       <Modal.Body>
-        <h6>
+        <h6 data-cypress="modal-commitment-title-form">
           {t('form.title')}
         </h6>
 
@@ -98,7 +98,10 @@ class CommitModal extends React.Component {
         </InputGroup>
       </Modal.Body>
       <Modal.Footer>
-        <Button type="submit" variant="outline-secondary" disabled={this.state.quantity <= 0}>
+        <Button type="submit"
+                variant="outline-secondary"
+                data-cypress="modal-commitment-submit"
+                disabled={this.state.quantity <= 0}>
           {t('form.submit')}
           <i className="fas fa-plus-circle fa-fw"></i>
         </Button>
@@ -125,7 +128,7 @@ class CommitModal extends React.Component {
           {t('button.register')}
         </Link>
         <input type="submit"
-               data-cypress="button-close"
+               data-cypress="modal-commitment-close"
                className="btn btn-light"
                value={t('button.close')}
                onClick={this.onHide} />

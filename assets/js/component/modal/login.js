@@ -65,7 +65,7 @@ class LoginModal extends React.Component {
       <Modal show onHide={this.props.onClose} animation={false}>
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title data-cypress="login-modal-title">{t('title')}</Modal.Title>
+            <Modal.Title data-cypress="modal-login-title">{t('title')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
 
@@ -106,6 +106,7 @@ class LoginModal extends React.Component {
             <p>
               <a href="#"
                  data-toggle="modal"
+                 data-cypress="modal-login-reset-password"
                  onClick={(e) => {
                    e.preventDefault();
                    this.props.onClose();

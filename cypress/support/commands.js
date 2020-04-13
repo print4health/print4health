@@ -22,22 +22,27 @@ Cypress.Commands.add('checkQuantityInput', (quantity) => {
 });
 
 Cypress.Commands.add('login', (email, pw) => {
+  cy.server().route('POST', '/login').as('userLogin');
+
   cy.get('a.nav-link[data-cypress="navlink-login"]').click();
-  cy.get('[data-cypress="login-modal-title"]').should('exist');
+  cy.get('[data-cypress="modal-login-title"]').should('exist');
   cy.get('input[name=email]').type(email);
   cy.get('input[name=password]').type(pw);
   cy.get('input[type=submit]').click();
+  cy.wait('@userLogin').its('status').should('be', 200);
   cy.get('[data-cypress="navlink-dashboard"]').should('exist');
 });
 
 Cypress.Commands.add('logout', (email, pw) => {
-  cy.get('a.nav-link:contains("Abmelden")').click();
-  cy.contains('erfolgreich abgemeldet.');
+  cy.get('a.nav-link[data-cypress="navlink-logout"]').click();
+  cy.get('.alert').should('exist').should('have.class', 'alert-success');
+  cy.get('a.nav-link[data-cypress="navlink-logout"]').should('not.exist');
+  cy.get('a.nav-link[data-cypress="navlink-login"]').should('exist');
 });
 
 Cypress.Commands.add('openThingList', (email, pw) => {
-  cy.server().route('GET', '/things').as('thingsList');
-  cy.server().route('GET', '/things/**').as('thingsDetail');
+  cy.server().route({method: 'GET', url: '/things'}).as('thingsList');
+  cy.server().route({method:'GET', url: '/things/**'}).as('thingsDetail');
 
   cy.get('a.nav-link[data-cypress="thing-list"]').click();
   cy.wait('@thingsList').its('status').should('be', 200);
@@ -52,6 +57,7 @@ Cypress.Commands.add('openCommitModal', (email, pw) => {
   cy.get('.leaflet-popup-content').get('[data-cypress="thing-confirmed"]').should('exist');
   cy.get('.leaflet-popup-content').get('[data-cypress="thing-needed"]').should('exist');
   cy.get('.btn[data-cypress="confirm-commitment"]').click();
+  cy.get('[data-cypress="modal-commitment-title-form"]').should('exist')
 });
 
 Cypress.Commands.add('openOrderModal', (email, pw) => {
@@ -67,13 +73,13 @@ Cypress.Commands.add('resetPassword', (email, newPassword) => {
   //clear maildev inbox
   cy.request('DELETE', 'http://localhost:1080/email/all');
 
-  cy.get('a.nav-link:contains("Anmelden")').click();
-  cy.contains('Anmeldung bei print4health');
-  cy.get('a:contains("Passwort vergessen?")').click();
-  cy.contains('Passwort zurücksetzen');
+  cy.get('a.nav-link[data-cypress="navlink-login"]').click();
+  cy.get('[data-cypress="modal-login-title"]').should('exist');
+  cy.get('[data-cypress="modal-login-reset-password"]').click();
+  cy.get('[data-cypress="modal-request-password-reset-title"]').should('exist');
   cy.get('input[name=email]').type(email);
   cy.get('input[type=submit]').click();
-  cy.contains('Ein Link zum Zurücksetzen des Passworts wurde per email verschickt');
+  cy.get('.alert').should('exist').should('have.class', 'alert-success');
   cy.request('GET', 'http://localhost:1080/email').then(res => {
     const email = res.body[0];
     expect(email.subject).to.equal('print4health - Passwort zurücksetzen');
@@ -83,6 +89,15 @@ Cypress.Commands.add('resetPassword', (email, newPassword) => {
     cy.get('input[name=password]').type(newPassword);
     cy.get('input[name=repeatPassword]').type(newPassword);
     cy.get('input[type=submit]').click();
-    cy.contains('Das Passwort wurde erfolgreich geändert');
+    cy.get('.alert').should('exist').should('have.class', 'alert-success');
   });
+});
+
+Cypress.Commands.add('openDashboard', (email, pw) => {
+  // cypress does not allow fetch/await at the moment :/
+  // cy.server().route({method: 'GET', url: '/user/orders'}).as('orderList');
+
+  cy.get('a.nav-link[data-cypress="navlink-dashboard"]').click();
+  cy.get('h1[data-cypress="dashboard-title"]').should('exist');
+  //cy.wait('@orderList').its('status').should('be', 200);
 });

@@ -129,7 +129,7 @@ class Dashboard extends React.Component {
         </div>
         {data.orders.map((order, i) => {
           return (
-            <div key={`order_${i}`} className='row Dashboard__value-row'>
+            <div key={`order_${i}`} className='row Dashboard__value-row' data-cypress="dashboard-order-row">
               <div className="col-md-2">
                 <div className='Dashboard__value Dashboard__value-img'>
                   {/* eslint-disable-next-line react/jsx-no-target-blank */}
@@ -182,7 +182,7 @@ class Dashboard extends React.Component {
       <div className="container Dashboard">
         <div className="row">
           <div className="col">
-            <h1>{t('title')}</h1>
+            <h1 data-cypress="dashboard-title">{t('title')}</h1>
           </div>
         </div>
         <div className="row">

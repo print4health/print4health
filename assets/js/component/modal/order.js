@@ -93,7 +93,10 @@ class OrderModal extends React.Component {
 
       </Modal.Body>
       <Modal.Footer>
-        <Button type="submit" variant="outline-primary" disabled={this.state.quantity <= 0}>
+        <Button type="submit"
+                variant="outline-primary"
+                data-cypress="modal-order-submit"
+                disabled={this.state.quantity <= 0}>
           {t('form.button')}
           <i className="fas fa-plus-circle fa-fw"></i>
         </Button>
@@ -106,17 +109,19 @@ class OrderModal extends React.Component {
     return <>
       <Modal.Body>
         <Alert variant="info">
-          <Trans i18nKey="modal-order:info.alert">
-            Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, müsst ihr euch
-            <Link to="/registration" onClick={this.onHide}>hier registrieren.</Link>
-            <br/>
-            <br/>
-            Euer Account wird manuell freigeschaltet und dann könnt ihr euren Bedarf anmelden.
-            <br/>
-            <br/>
-            Bei Fragen, wendet euch an <a href="mailto: contact@print4health.org">contact@print4health.org</a>
-            oder verwendet das <Link to="/contact" onClick={this.onHide}>Kontaktformular</Link>..
-          </Trans>
+          <div data-cypress="modal-order-info">
+            <Trans i18nKey="modal-order:info.alert">
+              Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, müsst ihr euch
+              <Link to="/registration" onClick={this.onHide}>hier registrieren.</Link>
+              <br />
+              <br />
+              Euer Account wird manuell freigeschaltet und dann könnt ihr euren Bedarf anmelden.
+              <br />
+              <br />
+              Bei Fragen, wendet euch an <a href="mailto: contact@print4health.org">contact@print4health.org</a>
+              oder verwendet das <Link to="/contact" onClick={this.onHide}>Kontaktformular</Link>..
+            </Trans>
+          </div>
         </Alert>
         <p>{t('info.account_exists')}</p>
       </Modal.Body>
@@ -128,7 +133,7 @@ class OrderModal extends React.Component {
         </Link>
         <input type="submit"
                className="btn btn-primary"
-               data-cypress="button-close"
+               data-cypress="modal-order-close"
                value={t('button.close')}
                onClick={this.onHide} />
       </Modal.Footer>
