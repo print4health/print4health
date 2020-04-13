@@ -138,8 +138,6 @@ class CommitModal extends React.Component {
 
   render() {
     const { show, thing } = this.state;
-    const { title } = thing.name;
-    const { t } = this.props;
     return (
       <Modal show={show}
              onHide={this.onHide}

@@ -142,7 +142,6 @@ class OrderModal extends React.Component {
 
   render() {
     const { show, thing } = this.state;
-    const { t } = this.props;
     return (
       <Modal
         show={show}

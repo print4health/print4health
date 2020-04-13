@@ -7,7 +7,6 @@ import {
 } from 'react-bootstrap';
 import PropTypes from "prop-types";
 import { withTranslation } from 'react-i18next';
-import { NavLink } from 'react-router-dom';
 
 class Contact extends React.Component {
 
