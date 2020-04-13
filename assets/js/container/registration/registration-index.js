@@ -12,7 +12,7 @@ class RegistrationIndex extends React.Component {
 
   static get propTypes() {
     return {
-      t: PropTypes.func
+      t: PropTypes.func,
     };
   }
 
@@ -26,26 +26,29 @@ class RegistrationIndex extends React.Component {
     return (
       <div className="row">
         <div className="col-md-10 offset-md-1">
-          <h1>{t('title')}</h1>
+          <h1 data-cypress="registration-index-title">{t('title')}</h1>
           <p className="mt-5">
             {t('text.part1')} <strong>{t('text.strong1')}
-            </strong> {t('text.part2')} <i>(&quot;bestellen&quot;)</i> {t('text.part3')} <strong>
+          </strong> {t('text.part2')} <i>(&quot;bestellen&quot;)</i> {t('text.part3')} <strong>
             {t('text.strong2')}</strong> {t('text.part4')}
           </p>
 
           <div className="row">
             <div className="col text-right">
-              <Link className="btn btn-block btn-lg btn-outline-primary" to="/registration/requester">
+              <Link className="btn btn-block btn-lg btn-outline-primary" to="/registration/requester"
+                    data-cypress="registration-requester-link">
                 {t('need')}
               </Link>
             </div>
             <div className="col text-right">
-              <Link className="btn btn-block btn-lg btn-outline-primary" to="/registration/requester">
+              <Link className="btn btn-block btn-lg btn-outline-primary" to="/registration/requester"
+                    data-cypress="registration-hub-link">
                 {t('hub')}
               </Link>
             </div>
             <div className="col">
-              <Link className="btn btn-block btn-lg btn-outline-primary" to="/registration/maker">
+              <Link className="btn btn-block btn-lg btn-outline-primary" to="/registration/maker"
+                    data-cypress="registration-maker-link">
                 {t('maker')}
               </Link>
             </div>

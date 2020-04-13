@@ -39,7 +39,7 @@ const RegistrationForm = (props) => {
     <div className="container">
       <div className="row">
         <div className="col-md-8 offset-md-2">
-          <h1>{t('title')}</h1>
+          <h1 data-cypress="registration-maker-title">{t('title')}</h1>
           <Alert variant="info" className="mt-3">
             {t('infohospital.part1')}
             <strong>{t('infohospital.strong')} (<a href="https://www.makervsvirus.org/" target="_blank"
@@ -252,7 +252,7 @@ const RegistrationForm = (props) => {
           </form>
           }
           {showForm === false &&
-          <Alert variant="success">
+          <Alert variant="success" data-cypress="registration-maker-success">
             <strong>{t('success')}</strong>
             <p className="mb-0">
               {t('successtext.part1')}
