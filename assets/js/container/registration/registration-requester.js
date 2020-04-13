@@ -41,7 +41,7 @@ const RegistrationForm = (props) => {
     <div className="container">
       <div className="row">
         <div className="col-md-8 offset-md-2">
-          <h1>{t('title')}</h1>
+          <h1 data-cypress="registration-requester-title">{t('title')}</h1>
           <h2>{t('subtitle')}</h2>
           {alert.show &&
           <Alert variant="danger">
