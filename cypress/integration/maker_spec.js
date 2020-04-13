@@ -10,6 +10,7 @@ describe('maker workflow', () => {
   });
   it('commit to order', () => {
     cy.openCommitModal();
+    cy.get('[data-cypress="modal-commitment-title-form"]').should('exist');
     cy.checkQuantityInput(50);
     cy.get('[data-cypress="modal-commitment-submit"]').click();
     cy.scrollTo('top');

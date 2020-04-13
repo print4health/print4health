@@ -57,7 +57,6 @@ Cypress.Commands.add('openCommitModal', (email, pw) => {
   cy.get('.leaflet-popup-content').get('[data-cypress="thing-confirmed"]').should('exist');
   cy.get('.leaflet-popup-content').get('[data-cypress="thing-needed"]').should('exist');
   cy.get('.btn[data-cypress="confirm-commitment"]').click();
-  cy.get('[data-cypress="modal-commitment-title-form"]').should('exist')
 });
 
 Cypress.Commands.add('openOrderModal', (email, pw) => {
