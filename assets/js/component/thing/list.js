@@ -28,7 +28,7 @@ class ThingList extends React.Component {
     return (
       <div className="row">
         {this.props.things.map((thing) => (
-          <div className="col-sm-12 col-md-6 col-lg-4 mb-4" key={thing.id}>
+          <div className="col-sm-12 col-md-6 col-lg-4 mb-4" data-cypress="thing-item" key={thing.id}>
             <ThingListItem thing={thing} />
           </div>
         ))}

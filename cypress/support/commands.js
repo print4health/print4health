@@ -35,30 +35,30 @@ Cypress.Commands.add('logout', (email, pw) => {
   cy.contains('erfolgreich abgemeldet.');
 });
 
-Cypress.Commands.add('openCommitModal', (email, pw) => {
+Cypress.Commands.add('openThingList', (email, pw) => {
   cy.server().route('GET', '/things').as('thingsList');
   cy.server().route('GET', '/things/**').as('thingsDetail');
 
-  cy.get('a.nav-link:contains("Bedarf")').click();
+  cy.get('a.nav-link[data-cypress="thing-list"]').click();
   cy.wait('@thingsList').its('status').should('be', 200);
-  cy.title().should('eq', 'print4health - Bedarf & Ersatzteile');
+  cy.get('[data-cypress="thing-item"]').should('have.length.greaterThan', 10);
+});
+
+Cypress.Commands.add('openCommitModal', (email, pw) => {
+  cy.openThingList();
   cy.get('h5.card-title').first().click();
   cy.wait('@thingsDetail').its('status').should('be', 200);
   cy.get('.map-marker-order i').first().click();
-  cy.get('.leaflet-popup-content').contains('Herstellung zusagen');
-  cy.get('a.btn:contains("Herstellung zusagen")').click();
+  cy.get('.leaflet-popup-content').get('[data-cypress="thing-confirmed"]').should('exist');
+  cy.get('.leaflet-popup-content').get('[data-cypress="thing-needed"]').should('exist');
+  cy.get('.btn[data-cypress="confirm-commitment"]').click();
 });
 
 Cypress.Commands.add('openOrderModal', (email, pw) => {
-  cy.server().route('GET', '/things').as('thingsList');
-  cy.server().route('GET', '/things/**').as('thingsDetail');
-
-  cy.get('a.nav-link:contains("Bedarf")').click();
-  cy.wait('@thingsList').its('status').should('be', 200);
-  cy.title().should('eq', 'print4health - Bedarf & Ersatzteile');
+  cy.openThingList();
   cy.get('h5.card-title').first().click();
   cy.wait('@thingsDetail').its('status').should('be', 200);
-  cy.get('button:contains("Bedarf anmelden")').click();
+  cy.get('button[data-cypress="place-order"]').click();
 });
 
 Cypress.Commands.add('resetPassword', (email, newPassword) => {

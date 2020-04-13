@@ -10,8 +10,7 @@
     "part3": "Bei Fragen, wendet euch an",
     "part4": "oder verwendet das",
     "link2": "Kontaktformular",
-    "part5": "Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an um Bedarf einzutragen.",
-    "button": "OK"
+    "part5": "Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an um Bedarf einzutragen."
   },
   "form": {
     "part1": "Bitte trage die Anzahl ein, die ihr aktuell wirklich benötigt.",
@@ -19,5 +18,9 @@
     "input": "Anzahl",
     "label": "Anzahl der benötigten Teile",
     "button": "Bedarf eintragen"
+  },
+  "button": {
+    "close": "Schließen",
+    "register": "Registrieren"
   }
 }

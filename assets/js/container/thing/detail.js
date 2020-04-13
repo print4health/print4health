@@ -237,7 +237,7 @@ class ThingDetailContainer extends React.Component {
             </div>
             <div className="media requests mb-2">
               <div className="media-body">
-                <button className="btn btn-outline-primary" onClick={this.openOrderModal}>
+                <button className="btn btn-outline-primary" onClick={this.openOrderModal} data-cypress="place-order">
                   {t('order')}
                   <i className="ml-2 fas fa-plus-circle fa-fw"></i>
                 </button>

@@ -146,15 +146,15 @@ class App extends React.Component {
                       <NavLink className="nav-link" activeClassName="text-primary" exact to="/">{t('start')}</NavLink>
                     </li>
                     <li className="nav-item">
-                      <NavLink className="nav-link" activeClassName="text-primary" to="/thing/list">{t('need')}</NavLink>
+                      <NavLink className="nav-link" data-cypress="thing-list" activeClassName="text-primary" to="/thing/list">{t('need')}</NavLink>
                     </li>
                     <li className="nav-item">
                       <NavLink className="nav-link" activeClassName="text-primary" to="/faq">{t('faq')}</NavLink>
                     </li>
                     <UserNav />
                     <li className="nav-item">
-                      <button className="btn" onClick={() => changeLanguage('de')}>DE</button>
-                      <button className="btn" onClick={() => changeLanguage('en')}>EN</button>
+                      <button className="btn" data-cypress="locale-de" onClick={() => changeLanguage('de')}>DE</button>
+                      <button className="btn" data-cypress="locale-en" onClick={() => changeLanguage('en')}>EN</button>
                     </li>
                   </Nav>
                 </Navbar.Collapse>

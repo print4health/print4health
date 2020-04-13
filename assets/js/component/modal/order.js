@@ -21,7 +21,7 @@ class OrderModal extends React.Component {
       thing: PropTypes.object,
       onExited: PropTypes.func,
       onSubmit: PropTypes.func,
-      t: PropTypes.func
+      t: PropTypes.func,
     };
   }
 
@@ -113,7 +113,8 @@ class OrderModal extends React.Component {
           to="/registration" onClick={this.onHide}>{t('info.link1')}</Link>.
           {t('info.part2')}<br />
           <br />
-          {t('info.part3')} <a href="mailto: contact@print4health.org">contact@print4health.org</a> {t('info.part4')} <Link to="/contact" onClick={this.onHide}>{t('info.link2')}</Link>.
+          {t('info.part3')} <a href="mailto: contact@print4health.org">contact@print4health.org</a> {t('info.part4')}
+          <Link to="/contact" onClick={this.onHide}>{t('info.link2')}</Link>.
         </Alert>
         <p>{t('info.part5')}</p>
       </Modal.Body>
@@ -121,11 +122,12 @@ class OrderModal extends React.Component {
         <Link className="btn btn-outline-primary"
               to="/registration"
               onClick={this.onHide}>
-          Registrieren
+          {t('button.register')}
         </Link>
         <input type="submit"
                className="btn btn-primary"
-               value={t('info.button')}
+               data-cypress="button-close"
+               value={t('button.close')}
                onClick={this.onHide} />
       </Modal.Footer>
     </>;
@@ -153,4 +155,4 @@ class OrderModal extends React.Component {
 
 OrderModal.contextType = AppContext;
 
-export default withTranslation('order')(OrderModal);
+export default withTranslation('modal-order')(OrderModal);

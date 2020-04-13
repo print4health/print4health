@@ -47,13 +47,14 @@ class MarkerOrder extends React.Component {
           </p>
         </address>
         <p>
-          <span className="label">{t('need')}:</span> <strong
+          <span className="label" data-cypress="thing-needed">{t('need')}:</span> <strong
           className="text-primary">{this.props.order.quantity}</strong><br />
-          <span className="label">{t('confirmed2')}:</span> <strong
+          <span className="label" data-cypress="thing-confirmed">{t('confirmed2')}:</span> <strong
           className="text-secondary">{this.props.order.printed}</strong>
         </p>
         <a
           className="btn btn-outline-secondary btn-sm"
+          data-cypress="confirm-commitment"
           href="#"
           onClick={(e) => {
             e.preventDefault();

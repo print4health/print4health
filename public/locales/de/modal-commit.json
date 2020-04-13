@@ -10,8 +10,11 @@
   "info": {
     "text1": "Um als Maker Herstellung von Ersatzteilen zusagen zu können, könnt ihr euch",
     "text2": "Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an, um Herstellung von Ersatzteilen zusagen zu können.",
-    "link": "hier registrieren",
-    "button": "Schließen"
+    "link": "hier registrieren"
+  },
+  "button" : {
+    "close" : "Schließen",
+    "register" : "Registrieren"
   },
   "title": {
     "part1": "Herstellung für",

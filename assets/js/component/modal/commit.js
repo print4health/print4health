@@ -25,7 +25,7 @@ class CommitModal extends React.Component {
       onExited: PropTypes.func,
       onSubmit: PropTypes.func,
       t: PropTypes.func,
-      i18n: PropTypes.object
+      i18n: PropTypes.object,
     };
   }
 
@@ -127,11 +127,12 @@ class CommitModal extends React.Component {
         <Link className="btn btn-outline-primary"
               to="/registration"
               onClick={this.onHide}>
-          Registrieren
+          {t('button.register')}
         </Link>
         <input type="submit"
+               data-cypress="button-close"
                className="btn btn-light"
-               value={t('info.button')}
+               value={t('button.close')}
                onClick={this.onHide} />
       </Modal.Footer>
     </>;
@@ -159,4 +160,4 @@ class CommitModal extends React.Component {
 
 CommitModal.contextType = AppContext;
 
-export default withTranslation('commit')(CommitModal);
+export default withTranslation('modal-commit')(CommitModal);
