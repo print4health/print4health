@@ -2,7 +2,7 @@ import React from 'react';
 import AppContext from '../../context/app-context';
 import { Alert, Button, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { Trans, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 class OrderModal extends React.Component {
@@ -71,17 +71,14 @@ class OrderModal extends React.Component {
     return <>
       <Modal.Body>
         <p>
-          {t('form.part1')}
-        </p>
-        <p>
-          {t('form.part2')}
+          {t('form.description')}
         </p>
 
         <InputGroup className="mb-3">
           <FormControl
             type="number"
             name="quantity"
-            placeholder={t('form.input')}
+            placeholder={t('form.placeholder')}
             required
             aria-label={t('form.label')}
             aria-describedby="basic-addon2"
@@ -109,14 +106,19 @@ class OrderModal extends React.Component {
     return <>
       <Modal.Body>
         <Alert variant="info">
-          {t('info.part1')} <Link
-          to="/registration" onClick={this.onHide}>{t('info.link1')}</Link>.
-          {t('info.part2')}<br />
-          <br />
-          {t('info.part3')} <a href="mailto: contact@print4health.org">contact@print4health.org</a> {t('info.part4')}
-          <Link to="/contact" onClick={this.onHide}>{t('info.link2')}</Link>.
+          <Trans i18nKey="modal-order:info.alert">
+            Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, müsst ihr euch
+            <Link to="/registration" onClick={this.onHide}>hier registrieren.</Link>
+            <br/>
+            <br/>
+            Euer Account wird manuell freigeschaltet und dann könnt ihr euren Bedarf anmelden.
+            <br/>
+            <br/>
+            Bei Fragen, wendet euch an <a href="mailto: contact@print4health.org">contact@print4health.org</a>
+            oder verwendet das <Link to="/contact" onClick={this.onHide}>Kontaktformular</Link>..
+          </Trans>
         </Alert>
-        <p>{t('info.part5')}</p>
+        <p>{t('info.account_exists')}</p>
       </Modal.Body>
       <Modal.Footer>
         <Link className="btn btn-outline-primary"
@@ -144,7 +146,11 @@ class OrderModal extends React.Component {
         animation={true}>
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>{t('title.part1')} &quot;{thing.name}&quot; {t('title.part2')}</Modal.Title>
+            <Modal.Title>
+              <Trans i18nKey="modal-order:title">
+                Confirm the order of thing {{ name: thing.name }}
+              </Trans>
+            </Modal.Title>
           </Modal.Header>
           {this.context.getCurrentUserRole() === 'ROLE_REQUESTER' ? this.renderForm() : this.renderInfo()}
         </form>

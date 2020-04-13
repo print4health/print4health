@@ -1,21 +1,12 @@
 {
-  "title": {
-    "part1": "Bedarf für",
-    "part2": "eintragen"
-  },
+  "title": "Bedarf für {{name}} anmelden",
   "info": {
-    "part1": "Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, müsst ihr euch",
-    "link1": "registrieren",
-    "part2": "Euer Account wird manuell freigeschaltet und dann könnt ihr hier euren Bedarf anmelden.",
-    "part3": "Bei Fragen, wendet euch an",
-    "part4": "oder verwendet das",
-    "link2": "Kontaktformular",
-    "part5": "Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an um Bedarf einzutragen."
+    "alert" : "Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, müsst ihr euch <1>hier registrieren</1>.<2/><3/>Euer Account wird manuell freigeschaltet und dann könnt ihr euren Bedarf anmelden.<5/><6/>Bei Fragen, wendet euch an <8>contact@print4health.org</8> oder verwendet das <10>Kontaktformular<10>",
+    "account_exists" : "Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an um Bedarf einzutragen."
   },
   "form": {
-    "part1": "Bitte trage die Anzahl ein, die ihr aktuell wirklich benötigt.",
-    "part2": "Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile bestellen.",
-    "input": "Anzahl",
+    "description" : "Bitte trage die Anzahl ein, die ihr aktuell wirklich benötigt. Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile bestellen.",
+    "placeholder": "Anzahl",
     "label": "Anzahl der benötigten Teile",
     "button": "Bedarf eintragen"
   },

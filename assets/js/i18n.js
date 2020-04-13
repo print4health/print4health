@@ -10,12 +10,14 @@ i18n
   .init({
     fallbackLng: 'de',
     debug: true,
+    transSupportBasicHtmlNodes: true,
+    transKeepBasicHtmlNodesFor: ['br', 'strong', 'i', 'p'],
     interpolation: {
       escapeValue: false,
     },
     react: {
-      wait: true
-    }
+      wait: true,
+    },
   });
 
 export default i18n;

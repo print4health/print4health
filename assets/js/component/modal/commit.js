@@ -4,7 +4,7 @@ import { Alert, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { FormControl, InputGroup, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 
 class CommitModal extends React.Component {
   constructor(props) {
@@ -78,20 +78,15 @@ class CommitModal extends React.Component {
           {t('form.title')}
         </h6>
 
-        <p>
-          {t('form.text1')}
-        </p>
-        <p>
-          {t('form.text2')}
-        </p>
+        <Trans i18nKey="modal-commit:form.description" />
 
         <InputGroup className="mb-3">
           <FormControl
             type="number"
             name="quantity"
-            placeholder={t('form.placeholder')}
+            placeholder={t('form.amount.placeholder')}
             required
-            aria-label={t('form.label')}
+            aria-label={t('form.amount.label')}
             aria-describedby="basic-addon2"
             value={this.state.quantity}
             onChange={this.handleInputChange}
@@ -104,7 +99,7 @@ class CommitModal extends React.Component {
       </Modal.Body>
       <Modal.Footer>
         <Button type="submit" variant="outline-secondary" disabled={this.state.quantity <= 0}>
-          {t('form.button')}
+          {t('form.submit')}
           <i className="fas fa-plus-circle fa-fw"></i>
         </Button>
       </Modal.Footer>
@@ -117,7 +112,7 @@ class CommitModal extends React.Component {
       <Modal.Body>
         <Alert variant="info">
           {t('info.text1')}
-          <Link to="/registration/maker" className="btn btn-link" onClick={this.onHide}>{t('info.link')}</Link>.
+          <Link to="/registration/maker" className="btn btn-link" onClick={this.onHide}>{t('info.link_registration')}</Link>.
         </Alert>
         <p>
           {t('info.text2')}
@@ -140,6 +135,7 @@ class CommitModal extends React.Component {
 
   render() {
     const { show, thing } = this.state;
+    const { title } = thing.name;
     const { t } = this.props;
     return (
       <Modal show={show}
@@ -149,7 +145,11 @@ class CommitModal extends React.Component {
       >
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>{t('title.part1')} &quot;{thing.name}&quot; {t('title.part2')}</Modal.Title>
+            <Modal.Title>
+              <Trans i18nKey="modal-commit:title">
+                Confirm the creation of thing {{ name: thing.name }}
+              </Trans>
+            </Modal.Title>
           </Modal.Header>
           {this.context.getCurrentUserRole() === 'ROLE_MAKER' ? this.renderForm() : this.renderInfo()}
         </form>
