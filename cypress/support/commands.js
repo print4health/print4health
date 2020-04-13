@@ -30,7 +30,9 @@ Cypress.Commands.add('login', (email, pw) => {
   cy.get('input[name=password]').type(pw);
   cy.get('input[type=submit]').click();
   cy.wait('@userLogin').its('status').should('be', 200);
-  cy.get('[data-cypress="navlink-dashboard"]').should('exist');
+  cy.get('[data-cypress="navlink-logout"]').should('exist');
+  cy.get('[data-cypress="navlink-login"]').should('not.exist');
+  cy.get('[data-cypress="navlink-registration"]').should('not.exist');
 });
 
 Cypress.Commands.add('logout', (email, pw) => {

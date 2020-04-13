@@ -3,13 +3,13 @@ describe('requester registration workflow', function () {
     cy.visit('/');
   });
   it('register as requester', () => {
-    cy.get('a.nav-link[data-cypress="navlink-register"]').click();
+    cy.get('a.nav-link[data-cypress="navlink-registration"]').click();
     cy.get('h1[data-cypress="registration-index-title"]').should('exist');
     // check both links to requester-registration
     cy.get('a.btn[data-cypress="registration-requester-link"]').click();
     cy.get('[data-cypress="registration-requester-title"]').should('exist');
     // click on navigation again
-    cy.get('a.nav-link[data-cypress="navlink-register"]').click();
+    cy.get('a.nav-link[data-cypress="navlink-registration"]').click();
     cy.get('a.btn[data-cypress="registration-hub-link"]').click();
     cy.get('[data-cypress="registration-requester-title"]').should('exist');
     // fill form

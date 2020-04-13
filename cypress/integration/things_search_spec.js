@@ -6,7 +6,7 @@ describe('search thing list', function () {
     cy.server().route('GET', '/things').as('thingsList');
     cy.server().route('GET', '/things/search/**').as('thingsSearch');
 
-    cy.get('a.nav-link:contains("Bedarf")').click();
+    cy.get('a.nav-link[data-cypress="thing-list"]').click();
     cy.wait('@thingsList').its('status').should('be', 200);
     cy.get('.ThingListCard').should('have.length', 16);
 

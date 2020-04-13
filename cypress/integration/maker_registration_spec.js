@@ -3,7 +3,7 @@ describe('maker registration workflow', function () {
     cy.visit('/');
   });
   it('register as maker', () => {
-    cy.get('a.nav-link[data-cypress="navlink-register"]').click();
+    cy.get('a.nav-link[data-cypress="navlink-registration"]').click();
     cy.get('h1[data-cypress="registration-index-title"]').should('exist');
     cy.get('a.btn[data-cypress="registration-requester-link"]').should('exist');
     cy.get('a.btn[data-cypress="registration-hub-link"]').should('exist');
