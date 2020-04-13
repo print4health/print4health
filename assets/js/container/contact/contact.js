@@ -7,6 +7,7 @@ import {
 } from 'react-bootstrap';
 import PropTypes from "prop-types";
 import { withTranslation } from 'react-i18next';
+import { NavLink } from 'react-router-dom';
 
 class Contact extends React.Component {
 
@@ -92,7 +93,7 @@ class Contact extends React.Component {
     if (response.code === 0) {
       return null;
     }
-    return <Alert variant={response.code === 200 ? 'success' : 'warning'}>
+    return <Alert variant={response.code === 200 ? 'success' : 'warning'} data-cypress="alert-contact">
       {response.error ? response.error : response.msg}
     </Alert>;
   }
@@ -145,7 +146,7 @@ class Contact extends React.Component {
           <div className="row">
             <div className="col-lg-8 col-md-8 offset-md-2">
               <section className="container py-4">
-                <h1 className="mb-4">{t('title')}</h1>
+                <h1 className="mb-4" data-cypress="contact-title">{t('title')}</h1>
                 {this.renderAlert()}
                 {this.renderForm()}
               </section>

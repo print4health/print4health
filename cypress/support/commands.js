@@ -22,12 +22,12 @@ Cypress.Commands.add('checkQuantityInput', (quantity) => {
 });
 
 Cypress.Commands.add('login', (email, pw) => {
-  cy.get('a.nav-link:contains("Anmelden")').click();
-  cy.contains('Anmeldung bei print4health');
+  cy.get('a.nav-link[data-cypress="navlink-login"]').click();
+  cy.get('[data-cypress="login-modal-title"]').should('exist');
   cy.get('input[name=email]').type(email);
   cy.get('input[name=password]').type(pw);
   cy.get('input[type=submit]').click();
-  cy.contains('Herzlich Willkommen ' + email);
+  cy.get('[data-cypress="navlink-dashboard"]').should('exist');
 });
 
 Cypress.Commands.add('logout', (email, pw) => {
@@ -48,7 +48,7 @@ Cypress.Commands.add('openCommitModal', (email, pw) => {
   cy.openThingList();
   cy.get('h5.card-title').first().click();
   cy.wait('@thingsDetail').its('status').should('be', 200);
-  cy.get('.map-marker-order i').first().click();
+  cy.get('.map-marker-order').first().click();
   cy.get('.leaflet-popup-content').get('[data-cypress="thing-confirmed"]').should('exist');
   cy.get('.leaflet-popup-content').get('[data-cypress="thing-needed"]').should('exist');
   cy.get('.btn[data-cypress="confirm-commitment"]').click();

@@ -56,11 +56,11 @@ class UserNav extends React.Component {
         <React.Fragment>
           {(userRole === ROLE_REQUESTER || userRole === ROLE_MAKER) &&
           <li className="nav-item">
-            <NavLink className="nav-link" activeClassName="text-primary" to="/dashboard">{t('dashboard')}</NavLink>
+            <NavLink className="nav-link" data-cypress="navlink-dashboard" activeClassName="text-primary" to="/dashboard">{t('dashboard')}</NavLink>
           </li>
           }
           <li className="nav-item">
-            <a href="#" className="nav-link" onClick={this.handleLogout}>{t('logout')}</a>
+            <a href="#" className="nav-link" data-cypress="navlink-logout" onClick={this.handleLogout}>{t('logout')}</a>
           </li>
         </React.Fragment>
       );
@@ -72,6 +72,7 @@ class UserNav extends React.Component {
         <span>
           <a href="#"
              className="nav-link"
+             data-cypress="navlink-login"
              onClick={(e) => {
                e.preventDefault();
                this.setState({ loginModal: true });
@@ -82,7 +83,7 @@ class UserNav extends React.Component {
          </span>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" activeClassName="text-primary" exact to="/registration">{t('register')}</NavLink>
+          <NavLink className="nav-link" data-cypress="navlink-register" activeClassName="text-primary" exact to="/registration">{t('register')}</NavLink>
         </li>
         {this.state.loginModal && <LoginModal onClose={() => this.setState({ loginModal: false })} />}
       </React.Fragment>

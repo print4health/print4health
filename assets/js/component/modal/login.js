@@ -65,7 +65,7 @@ class LoginModal extends React.Component {
       <Modal show onHide={this.props.onClose} animation={false}>
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>{t('title')}</Modal.Title>
+            <Modal.Title data-cypress="login-modal-title">{t('title')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
 

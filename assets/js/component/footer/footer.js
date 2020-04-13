@@ -49,7 +49,7 @@ class Footer extends React.Component {
             </div>
             <ul className="list-inline mb-0">
               <li className="list-inline-item">
-                <NavLink to="/contact" activeClassName="text-primary">{t('contact')}</NavLink>
+                <NavLink to="/contact" activeClassName="text-primary" data-cypress="navlink-contact">{t('contact')}</NavLink>
               </li>
               <li className="list-inline-item">
                 <NavLink to="/imprint" activeClassName="text-primary">{t('imprint')}</NavLink>
