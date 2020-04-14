@@ -26,4 +26,4 @@ class About extends React.Component {
     );
   }
 }
-export default withTranslation('about')(About);
+export default withTranslation('page-about')(About);

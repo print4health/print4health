@@ -248,4 +248,4 @@ class DataPrivacyStatement extends React.Component {
   }
 }
 
-export default withTranslation('privacy')(DataPrivacyStatement);
+export default withTranslation('page-privacy')(DataPrivacyStatement);

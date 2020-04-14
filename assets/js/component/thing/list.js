@@ -37,4 +37,4 @@ class ThingList extends React.Component {
   }
 }
 
-export default withTranslation('list')(ThingList);
+export default withTranslation('page-thing-list')(ThingList);

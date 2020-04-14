@@ -280,4 +280,4 @@ class ThingDetailContainer extends React.Component {
 
 ThingDetailContainer.contextType = AppContext;
 
-export default withTranslation('thingdetail')(ThingDetailContainer);
+export default withTranslation('page-thing-detail')(ThingDetailContainer);

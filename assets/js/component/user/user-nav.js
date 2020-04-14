@@ -93,4 +93,4 @@ class UserNav extends React.Component {
 
 UserNav.contextType = AppContext;
 
-export default withTranslation('user-nav')(UserNav);
+export default withTranslation('component-user-nav')(UserNav);

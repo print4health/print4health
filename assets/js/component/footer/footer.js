@@ -75,4 +75,4 @@ class Footer extends React.Component {
   }
 }
 
-export default withTranslation('footer')(Footer);
+export default withTranslation('component-footer')(Footer);

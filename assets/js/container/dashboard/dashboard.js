@@ -198,4 +198,4 @@ class Dashboard extends React.Component {
 
 Dashboard.contextType = AppContext;
 
-export default withTranslation('dashboard')(Dashboard);
+export default withTranslation('page-dashboard')(Dashboard);

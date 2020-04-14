@@ -194,4 +194,4 @@ class App extends React.Component {
   }
 }
 
-export default withTranslation('navbar')(App);
+export default withTranslation('component-navbar')(App);

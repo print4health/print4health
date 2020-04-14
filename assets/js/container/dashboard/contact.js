@@ -135,4 +135,4 @@ class Contact extends React.Component {
 
 Contact.contextType = AppContext;
 
-export default withTranslation('contactboard')(Contact);
+export default withTranslation('page-dashboard-contact')(Contact);

@@ -132,4 +132,4 @@ class LoginModal extends React.Component {
 
 LoginModal.contextType = AppContext;
 
-export default withTranslation('login')(LoginModal);
+export default withTranslation('modal-login')(LoginModal);

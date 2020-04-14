@@ -157,4 +157,4 @@ class Contact extends React.Component {
   }
 }
 
-export default withTranslation('contact')(Contact);
+export default withTranslation('page-contact')(Contact);

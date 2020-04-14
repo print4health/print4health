@@ -96,4 +96,4 @@ class Index extends React.Component {
 
 Index.contextType = AppContext;
 
-export default withTranslation('startpage')(Index);
+export default withTranslation('page-index')(Index);

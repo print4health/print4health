@@ -14,7 +14,7 @@ const RegistrationForm = (props) => {
   const { callback, alert, serverErrors, showForm, countries } = props;
   const { register, errors, watch, handleSubmit } = useForm();
 
-  const { t } = useTranslation('registration');
+  const { t } = useTranslation('page-registration-maker');
 
   const password = useRef({});
   password.current = watch('password', '');
@@ -397,4 +397,4 @@ class RegistrationMaker extends React.Component {
 
 RegistrationMaker.contextType = AppContext;
 
-export default withTranslation('makerregistration')(RegistrationMaker);
+export default withTranslation('page-registration-maker')(RegistrationMaker);

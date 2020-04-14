@@ -74,4 +74,4 @@ class ThingListContainer extends React.Component {
 
 ThingListContainer.contextType = AppContext;
 
-export default withTranslation('list')(ThingListContainer);
+export default withTranslation('page-thing-list')(ThingListContainer);

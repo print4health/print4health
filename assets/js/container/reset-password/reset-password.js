@@ -103,4 +103,4 @@ class ResetPassword extends React.Component {
 
 ResetPassword.contextType = AppContext;
 
-export default withTranslation('password')(ResetPassword);
+export default withTranslation('modal-reset-password')(ResetPassword);

@@ -61,4 +61,4 @@ class RegistrationIndex extends React.Component {
 
 RegistrationIndex.contextType = AppContext;
 
-export default withTranslation('registrationindex')(RegistrationIndex);
+export default withTranslation('page-registration-index')(RegistrationIndex);

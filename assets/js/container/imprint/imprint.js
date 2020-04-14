@@ -80,4 +80,4 @@ class Imprint extends React.Component {
 
 Imprint.contextType = AppContext;
 
-export default withTranslation('imprint')(Imprint);
+export default withTranslation('page-imprint')(Imprint);

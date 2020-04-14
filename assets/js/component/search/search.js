@@ -46,4 +46,4 @@ class Search extends React.Component {
   }
 }
 
-export default withTranslation('searchbar')(Search);
+export default withTranslation('component-searchbar')(Search);

@@ -200,4 +200,4 @@ class Faq extends React.Component {
 
 Faq.contextType = AppContext;
 
-export default withTranslation('faq')(Faq);
+export default withTranslation('page-faq')(Faq);

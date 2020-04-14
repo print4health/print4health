@@ -13,7 +13,7 @@ const RegistrationForm = (props) => {
 
   const { callback, alert, serverErrors, showForm, countries, institutionTypes } = props;
   const { register, errors, watch, handleSubmit } = useForm();
-  const { t } = useTranslation('requesterregistration');
+  const { t } = useTranslation('page-registration-requester');
 
   const password = useRef({});
   password.current = watch('password', '');
@@ -494,4 +494,4 @@ class RegistrationRequester extends React.Component {
 
 RegistrationRequester.contextType = AppContext;
 
-export default withTranslation('requesterregistration')(RegistrationRequester);
+export default withTranslation('page-registration-requester')(RegistrationRequester);
