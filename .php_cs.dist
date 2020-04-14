@@ -53,7 +53,7 @@ return PhpCsFixer\Config::create()
         'no_superfluous_phpdoc_tags' => [
             'allow_mixed' => true,
             'allow_unused_params' => false,
-            'remove_inheritdoc' => true
+            'remove_inheritdoc' => true,
         ],
     ])
     ->setFinder($finder)

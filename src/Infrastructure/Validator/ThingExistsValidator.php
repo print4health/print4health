@@ -35,7 +35,8 @@ class ThingExistsValidator extends ConstraintValidator
         } catch (NotFoundException $exception) {
             $this->context->buildViolation($constraint->message)
                 ->setParameter('{{ id }}', $value)
-                ->addViolation();
+                ->addViolation()
+            ;
         }
     }
 }
