@@ -32,7 +32,7 @@ class Search extends React.Component {
         <input
           type="text"
           className="form-control"
-          placeholder={t('searchbar')}
+          placeholder={t('searchbar.placeholder')}
           aria-describedby="lupe"
           onChange={this.handleInputChange}
         />
@@ -46,4 +46,4 @@ class Search extends React.Component {
   }
 }
 
-export default withTranslation('component-searchbar')(Search);
+export default withTranslation('components')(Search);

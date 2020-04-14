@@ -49,13 +49,13 @@ class Footer extends React.Component {
             </div>
             <ul className="list-inline mb-0">
               <li className="list-inline-item">
-                <NavLink to="/contact" activeClassName="text-primary" data-cypress="navlink-contact">{t('contact')}</NavLink>
+                <NavLink to="/contact" activeClassName="text-primary" data-cypress="navlink-contact">{t('footer.contact')}</NavLink>
               </li>
               <li className="list-inline-item">
-                <NavLink to="/imprint" activeClassName="text-primary">{t('imprint')}</NavLink>
+                <NavLink to="/imprint" activeClassName="text-primary">{t('footer.imprint')}</NavLink>
               </li>
               <li className="list-inline-item">
-                <NavLink to="/data-privacy-statement" activeClassName="text-primary">{t('privacy')}</NavLink>
+                <NavLink to="/data-privacy-statement" activeClassName="text-primary">{t('footer.privacy')}</NavLink>
               </li>
               <li className="list-inline-item">
                 <a
@@ -64,7 +64,7 @@ class Footer extends React.Component {
                   rel="noopener noreferrer"
                   title="Improve me on GitHub"
                 >
-                  {t('github')}
+                  {t('footer.github')}
                 </a>
               </li>
             </ul>
@@ -75,4 +75,4 @@ class Footer extends React.Component {
   }
 }
 
-export default withTranslation('component-footer')(Footer);
+export default withTranslation('components')(Footer);

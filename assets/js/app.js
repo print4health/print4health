@@ -143,13 +143,13 @@ class App extends React.Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="mb-0 w-100 list-unstyled d-flex justify-content-around">
                     <li className="nav-item">
-                      <NavLink className="nav-link" activeClassName="text-primary" exact to="/">{t('start')}</NavLink>
+                      <NavLink className="nav-link" activeClassName="text-primary" exact to="/">{t('main-nav.start')}</NavLink>
                     </li>
                     <li className="nav-item">
-                      <NavLink className="nav-link" data-cypress="thing-list" activeClassName="text-primary" to="/thing/list">{t('need')}</NavLink>
+                      <NavLink className="nav-link" data-cypress="thing-list" activeClassName="text-primary" to="/thing/list">{t('main-nav.need')}</NavLink>
                     </li>
                     <li className="nav-item">
-                      <NavLink className="nav-link" activeClassName="text-primary" to="/faq">{t('faq')}</NavLink>
+                      <NavLink className="nav-link" activeClassName="text-primary" to="/faq">{t('main-nav.faq')}</NavLink>
                     </li>
                     <UserNav />
                     <li className="nav-item">
@@ -194,4 +194,4 @@ class App extends React.Component {
   }
 }
 
-export default withTranslation('component-navbar')(App);
+export default withTranslation('components')(App);

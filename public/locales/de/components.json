@@ -1,0 +1,21 @@
+{
+  "main-nav" : {
+    "start": "Start",
+    "need": "Bedarf",
+    "faq": "FAQ",
+    "dashboard": "Dashboard",
+    "logout": "Abmelden",
+    "login": "Anmelden",
+    "register": "Registrieren",
+    "logout-ok": "Erfolgreich abgemeldet."
+  },
+  "searchbar": {
+    "placeholder" : "Suche nach Produkten ..."
+  },
+  "footer": {
+    "contact": "Kontakt",
+    "imprint": "Impressum",
+    "privacy": "Datenschutzerklärung",
+    "github": "GitHub"
+  }
+}

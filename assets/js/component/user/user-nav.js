@@ -42,7 +42,7 @@ class UserNav extends React.Component {
     axios.get(Config.apiBasePath + '/logout')
       .then(function () {
         context.setUser({});
-        context.setAlert(t('logoutok'), 'success');
+        context.setAlert(t('main-nav.logout-ok'), 'success');
       });
   }
 
@@ -56,11 +56,11 @@ class UserNav extends React.Component {
         <React.Fragment>
           {(userRole === ROLE_REQUESTER || userRole === ROLE_MAKER) &&
           <li className="nav-item">
-            <NavLink className="nav-link" data-cypress="navlink-dashboard" activeClassName="text-primary" to="/dashboard">{t('dashboard')}</NavLink>
+            <NavLink className="nav-link" data-cypress="navlink-dashboard" activeClassName="text-primary" to="/dashboard">{t('main-nav.dashboard')}</NavLink>
           </li>
           }
           <li className="nav-item">
-            <a href="#" className="nav-link" data-cypress="navlink-logout" onClick={this.handleLogout}>{t('logout')}</a>
+            <a href="#" className="nav-link" data-cypress="navlink-logout" onClick={this.handleLogout}>{t('main-nav.logout')}</a>
           </li>
         </React.Fragment>
       );
@@ -78,12 +78,12 @@ class UserNav extends React.Component {
                this.setState({ loginModal: true });
              }}
           >
-            {t('login')}
+            {t('main-nav.login')}
           </a>
          </span>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" data-cypress="navlink-registration" activeClassName="text-primary" exact to="/registration">{t('register')}</NavLink>
+          <NavLink className="nav-link" data-cypress="navlink-registration" activeClassName="text-primary" exact to="/registration">{t('main-nav.register')}</NavLink>
         </li>
         {this.state.loginModal && <LoginModal onClose={() => this.setState({ loginModal: false })} />}
       </React.Fragment>
@@ -93,4 +93,4 @@ class UserNav extends React.Component {
 
 UserNav.contextType = AppContext;
 
-export default withTranslation('component-user-nav')(UserNav);
+export default withTranslation('components')(UserNav);

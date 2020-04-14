@@ -10,5 +10,14 @@
   "downloads": "Downloads",
   "nospecs": "Noch keine Spezifikation enthalten.",
   "ordermade": "Danke, der Bedarf wurde eingetragen",
-  "commitmentmade": "Danke für Deinen Beitrag - ist notiert."
+  "commitmentmade": "Danke für Deinen Beitrag - ist notiert.",
+  "map" : {
+    "marker" : {
+      "needed": "Benötigte Menge",
+      "confirmed1": "Zugesagte Prints",
+      "need": "Bedarf",
+      "confirmed2": "Zugesagt",
+      "make": "Herstellung zusagen123"
+    }
+  }
 }
