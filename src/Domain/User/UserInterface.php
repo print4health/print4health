@@ -27,4 +27,8 @@ interface UserInterface extends CoreUserInterface
     public function erasePasswordResetToken(): void;
 
     public function getPasswordResetToken(): ?string;
+
+    public function getLatitude(): ?float;
+
+    public function getLongitude(): ?float;
 }
