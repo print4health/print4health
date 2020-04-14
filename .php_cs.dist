@@ -50,6 +50,11 @@ return PhpCsFixer\Config::create()
         'single_blank_line_before_namespace' => true,
         'trailing_comma_in_multiline_array' => true,
         'visibility_required' => ['elements' => ['property', 'method', 'const']],
+        'no_superfluous_phpdoc_tags' => [
+            'allow_mixed' => true,
+            'allow_unused_params' => false,
+            'remove_inheritdoc' => true
+        ],
     ])
     ->setFinder($finder)
     ->setRiskyAllowed(true)
