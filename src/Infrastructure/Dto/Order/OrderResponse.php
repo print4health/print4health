@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Dto\Order;
 
+use App\Domain\Commitment\Entity\Commitment;
 use App\Domain\Order\Entity\Order;
+use App\Domain\User\Entity\Maker;
+use App\Infrastructure\Dto\Commitment\CommitmentResponse;
 use App\Infrastructure\Dto\Requester\RequesterResponse;
 use App\Infrastructure\Dto\Thing\ThingResponse;
 use DateTimeImmutable;
@@ -47,6 +50,9 @@ class OrderResponse
      */
     public array $makers;
 
+    /** @SWG\Property(ref=@Model(type=CommitmentResponse::class)) */
+    public ?CommitmentResponse $commitment;
+
     public static function createFromOrder(Order $order): self
     {
         $self = new self();
@@ -71,6 +77,39 @@ class OrderResponse
             $self->printed += $commitment->getQuantity();
             $self->remaining -= $commitment->getQuantity();
             $self->makers[] = $commitment->getMaker()->getId();
+        }
+
+        return $self;
+    }
+
+    public static function createFromOrderAndMaker(Order $order, Maker $maker)
+    {
+        $self = new self();
+
+        $self->id = $order->getId();
+        $self->requester = RequesterResponse::createFromRequester($order->getRequester());
+        $self->thing = ThingResponse::createFromThing($order->getThing());
+
+        $self->quantity = $order->getQuantity();
+        $self->remaining = $order->getRemaining();
+        $self->printed = 0;
+        $self->makers = [];
+
+        $self->createdDate = $order->getCreatedDate()->format(DateTimeImmutable::ATOM);
+        $updatedDate = $order->getUpdatedDate();
+        if ($updatedDate instanceof DateTimeImmutable) {
+            $self->updatedDate = $updatedDate->format(DateTimeImmutable::ATOM);
+        }
+
+        $commitments = $order->getCommitments();
+        foreach ($commitments as $commitment) {
+            $self->printed += $commitment->getQuantity();
+            $self->remaining -= $commitment->getQuantity();
+            $self->makers[] = $commitment->getMaker()->getId();
+
+            if ($commitment->getMaker()->getId() === $maker->getId()) {
+                $self->commitment = CommitmentResponse::createFromCommitment($commitment, false);
+            }
         }
 
         return $self;

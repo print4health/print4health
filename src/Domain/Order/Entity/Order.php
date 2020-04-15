@@ -8,6 +8,7 @@ use App\Domain\Commitment\Entity\Commitment;
 use App\Domain\DateHelper;
 use App\Domain\Thing\Entity\Thing;
 use App\Domain\User\Entity\Requester;
+use App\Domain\User\UserInterface;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -139,5 +140,21 @@ class Order
     public function getUpdatedDate(): ?DateTimeImmutable
     {
         return $this->updatedDate;
+    }
+
+    public function hasCommitmentByUser(UserInterface $user): bool
+    {
+        foreach ($this->getCommitments() as $commitment) {
+            if ($commitment->getMaker()->getId() === $user->getId()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function isOrderByUser(UserInterface $user): bool
+    {
+        return $this->getRequester()->getId() === $user->getId();
     }
 }

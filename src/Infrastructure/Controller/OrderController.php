@@ -16,6 +16,7 @@ use App\Domain\User\Entity\Requester;
 use App\Domain\User\Entity\User;
 use App\Domain\User\Repository\MakerRepository;
 use App\Domain\User\Repository\RequesterRepository;
+use App\Domain\User\UserInterface;
 use App\Infrastructure\Dto\Order\OrderRequest;
 use App\Infrastructure\Dto\Order\OrderResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
@@ -29,6 +30,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
@@ -191,7 +193,7 @@ class OrderController
         $response = ['orders' => []];
 
         foreach ($commitments as $commitment) {
-            $response['orders'][] = OrderResponse::createFromOrder($commitment->getOrder());
+            $response['orders'][] = OrderResponse::createFromOrderAndMaker($commitment->getOrder(), $maker);
         }
 
         return new JsonResponse($response);
@@ -371,6 +373,8 @@ class OrderController
      *     description="A Order",
      *     @Model(type=OrderResponse::class)
      * )
+     *
+     * @IsGranted("ROLE_USER")
      */
     public function showAction(string $id): JsonResponse
     {
@@ -384,6 +388,16 @@ class OrderController
 
         if (null === $order) {
             throw new NotFoundHttpException('Order not found');
+        }
+
+        /** @var UserInterface $user */
+        $user = $this->security->getUser();
+
+        if (
+            $order->hasCommitmentByUser($user) === false &&
+            $order->isOrderByUser($user) === false
+        ) {
+            throw new AccessDeniedException(sprintf('You are not allowed to see this order'));
         }
 
         $orderDto = OrderResponse::createFromOrder($order);

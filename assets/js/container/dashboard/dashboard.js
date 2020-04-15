@@ -1,5 +1,5 @@
 import React from 'react';
-import AppContext from "../../context/app-context";
+import AppContext from '../../context/app-context';
 import { ROLE_MAKER, ROLE_REQUESTER } from '../../constants/UserRoles';
 import { Link } from 'react-router-dom';
 
@@ -39,8 +39,8 @@ class Dashboard extends React.Component {
 
       const data = await response.json();
 
-      this.setState({ data })
-    }  catch (e) {
+      this.setState({ data });
+    } catch (e) {
       throw new Error();
     }
   }
@@ -61,8 +61,8 @@ class Dashboard extends React.Component {
 
       const data = await response.json();
 
-      this.setState({ data })
-    }  catch (e) {
+      this.setState({ data });
+    } catch (e) {
       throw new Error();
     }
   }
@@ -86,70 +86,108 @@ class Dashboard extends React.Component {
     }
   }
 
-  renderTable() {
+  renderMakerTable() {
+
+    // [Image] [ThingTitle] [Name of Requester + City] [Quantity of Order] [Quantity of my Commitment] [Total Quantity of all Orders + Total Quantity of all Committments] [Contact]
+
     const { data } = this.state;
 
     if (!data || !data.orders) {
       return;
     }
 
-    return(
+    return (
       <div className="Dashboard__table">
         <div className="row Dashboard__headline-row">
-          <div className="col-md-2 Dashboard__headline">
-            <h6>Produkt Bild</h6>
+          <div className="col-md-4 Dashboard__headline">
+            <h6>Produkt</h6>
+          </div>
+          <div className="col-md-4 Dashboard__headline">
+            <h6>
+              <span>Einrichtung</span>
+              <br />
+              <small>(Stadt)</small>
+            </h6>
           </div>
           <div className="col-md-2 Dashboard__headline">
-            <h6>Produkt Name</h6>
+            <h6>
+              Bedarf
+              <br />
+              <small>
+                <span className="text-secondary">bestätigt</span>
+                <span> / </span>
+                <span className="text-primary">benötigt</span>
+              </small>
+            </h6>
           </div>
+          {/*}
           <div className="col-md-2 Dashboard__headline">
-            <h6>Bedarf</h6>
+            <h6>
+              <span>Bedarf (insg) </span>
+              <br />
+              <small>
+                <span className="text-primary">Benötigt</span>
+                <span> / </span>
+                <span className="text-secondary">Bestätigungen</span>
+              </small>
+            </h6>
           </div>
+          */}
           <div className="col-md-2 Dashboard__headline">
-            <h6>Herstellerbestätigung</h6>
-          </div>
-          <div className="col-md-2 Dashboard__headline">
-            <h6>Bereits gedruckt</h6>
-          </div>
-          <div className="col-md-2 Dashboard__headline">
-            <h6>Kontakt</h6>
+            <h6>Kontakt zur Einrichtung</h6>
           </div>
         </div>
         {data.orders.map((order, i) => {
           return (
             <div key={`order_${i}`} className='row Dashboard__value-row'>
               <div className="col-md-2">
-                <div className='Dashboard__value Dashboard__value-img'>
+                <div className='Dashboard__value Dashboard__value-img d-flex'>
                   {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                  <a href={order.thing.url} target='_blank'>
-                    <img key={`things_image_${i}`} src={order.thing.imageUrl}/>
-                  </a>
+                  <Link to={`/thing/${order.thing.id}`} className="align-self-center">
+                    <img key={`things_image_${i}`} src={order.thing.imageUrl} />
+                  </Link>
                 </div>
               </div>
               <div className="col-md-2">
                 <div className='Dashboard__value'>
                   {/* eslint-disable-next-line react/jsx-no-target-blank */}
-                  <a href={order.thing.url} target='_blank'>
+                  <Link to={`/thing/${order.thing.id}`} target='_blank'>
                     <p>{order.thing.name}</p>
-                  </a>
+                  </Link>
                 </div>
               </div>
+              <div className="col-md-4">
+                <div className='Dashboard__value'>
+                  <p>
+                    <Link to={this.getContactLink(order)}>{order.requester.name}</Link>
+                    <br />
+                    <small>({order.requester.addressCity})</small>
+                  </p>
+                </div>
+              </div>
+              <div className="col-md-2 text-center">
+                <div className='Dashboard__value'>
+                  <span className="text-secondary" title={`Bestätigt am ${order.commitment.createdDate}`}>
+                    {order.commitment.quantity}
+                  </span>
+                  <span> / </span>
+                  <span className="text-primary" title={`Bestellt am ${order.createdDate}`}>
+                    {order.quantity}
+                  </span>
+                </div>
+              </div>
+              {/*}
               <div className="col-md-2">
                 <div className='Dashboard__value'>
-                  <p>{order.thing.needed}</p>
+                  <p>
+                    <span className="text-primary">{order.thing.quantity}</span>
+                    <span> / </span>
+                    <span className="text-secondary">{order.thing.printed}</span>
+                  </p>
                 </div>
               </div>
-              <div className="col-md-2">
-                <div className='Dashboard__value'>
-                  {order.quantity - order.remaining}
-                </div>
-              </div>
-              <div className="col-md-2">
-                <div className='Dashboard__value'>
-                  <p>{order.thing.printed}</p>
-                </div>
-              </div>
-              <div className="col-md-2">
+              */}
+              <div className="col-md-2 text-center">
                 <div className='Dashboard__value'>
                   <Link to={this.getContactLink(order)}>
                     <i className="fas fa-id-card"></i>
@@ -157,7 +195,7 @@ class Dashboard extends React.Component {
                 </div>
               </div>
             </div>
-          )
+          );
         })}
       </div>
     );
@@ -178,9 +216,9 @@ class Dashboard extends React.Component {
             <h6>{user.email}</h6>
           </div>
         </div>
-        {this.renderTable()}
+        {this.renderMakerTable()}
       </div>
-    )
+    );
   }
 }
 

@@ -121,6 +121,9 @@ class Contact extends React.Component {
               <p className="card-text">{data.streetAddress}</p>
               <p className="card-text">{data.postalCode}</p>
               <p className="card-text">{data.addressCity}</p>
+              <Alert variant="info" className="mb-0">
+                {data.contactInfo}
+              </Alert>
             </div>
           </div>
         </div>
