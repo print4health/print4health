@@ -44,13 +44,12 @@ class OrderResponse
     /**
      * @SWG\Property(
      *   type="array",
-     *   @SWG\Items(ref=@Model(type=CommitmentResponse::class)),
-     *   required="false"
+     *   @SWG\Items(ref=@Model(type=CommitmentResponse::class))
      * )
      *
      * @var CommitmentResponse[]
      */
-    public array $commitments;
+    public array $commitments = [];
 
     public static function createFromOrder(Order $order): self
     {
