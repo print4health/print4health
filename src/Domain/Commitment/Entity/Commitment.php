@@ -23,7 +23,7 @@ class Commitment
     private string $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Order\Entity\Order")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Order\Entity\Order", inversedBy="commitments")
      * @ORM\JoinColumn(nullable=false)
      */
     private Order $order;

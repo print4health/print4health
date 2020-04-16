@@ -146,7 +146,7 @@ class OrderController
         $response = ['orders' => []];
 
         foreach ($orders as $order) {
-            $response['orders'][] = OrderResponse::createFromOrder($order);
+            $response['orders'][] = OrderResponse::createFromOrderAndRequester($order, $requester);
         }
 
         return new JsonResponse($response);
@@ -221,7 +221,7 @@ class OrderController
      * )
      * @IsGranted("ROLE_USER")
      */
-    public function listUserAction(): JsonResponse
+    public function listForCurrentUserAction(): JsonResponse
     {
         /** @var User $user */
         $user = $this->security->getUser();

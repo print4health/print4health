@@ -31,12 +31,8 @@ class MakerResponse
     /** @SWG\Property(type="string", example="Y-m-d\TH:i:sP") */
     public string $createdDate;
 
-    public static function createFromMaker(?Maker $maker): self
+    public static function createFromMaker(Maker $maker): self
     {
-        if (!$maker instanceof Maker) {
-            throw new EntityNotFoundException('User is empty');
-        }
-
         $self = new self();
 
         $self->id = $maker->getId();
