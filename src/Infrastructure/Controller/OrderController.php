@@ -394,8 +394,8 @@ class OrderController
         $user = $this->security->getUser();
 
         if (
-            $order->hasCommitmentByUser($user) === false &&
-            $order->isOrderByUser($user) === false
+            false === $order->hasCommitmentByUser($user) &&
+            false === $order->isOrderByUser($user)
         ) {
             throw new AccessDeniedException(sprintf('You are not allowed to see this order'));
         }

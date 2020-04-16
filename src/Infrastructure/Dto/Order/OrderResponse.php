@@ -9,7 +9,6 @@ use App\Domain\Order\Entity\Order;
 use App\Domain\User\Entity\Maker;
 use App\Domain\User\Entity\Requester;
 use App\Infrastructure\Dto\Commitment\CommitmentResponse;
-use App\Infrastructure\Dto\Maker\MakerResponse;
 use App\Infrastructure\Dto\Requester\RequesterResponse;
 use App\Infrastructure\Dto\Thing\ThingResponse;
 use DateTimeImmutable;
@@ -80,7 +79,7 @@ class OrderResponse
         return $self;
     }
 
-    public static function createFromOrderAndMaker(Order $order, Maker $maker)
+    public static function createFromOrderAndMaker(Order $order, Maker $maker): self
     {
         $self = new self();
 
@@ -91,7 +90,6 @@ class OrderResponse
         $self->quantity = $order->getQuantity();
         $self->remaining = $order->getRemaining();
         $self->printed = 0;
-        $self->makers = [];
 
         $self->createdDate = $order->getCreatedDate()->format(DateTimeImmutable::ATOM);
         $updatedDate = $order->getUpdatedDate();
@@ -113,7 +111,7 @@ class OrderResponse
         return $self;
     }
 
-    public static function createFromOrderAndRequester(Order $order, Requester $requester)
+    public static function createFromOrderAndRequester(Order $order, Requester $requester): self
     {
         $self = new self();
 

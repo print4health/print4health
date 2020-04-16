@@ -6,7 +6,6 @@ namespace App\Infrastructure\Dto\Maker;
 
 use App\Domain\User\Entity\Maker;
 use DateTimeImmutable;
-use Doctrine\ORM\EntityNotFoundException;
 use Swagger\Annotations as SWG;
 
 class MakerResponse
