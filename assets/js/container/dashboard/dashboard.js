@@ -2,7 +2,7 @@ import React from 'react';
 import AppContext from '../../context/app-context';
 import { ROLE_MAKER, ROLE_REQUESTER } from '../../constants/UserRoles';
 import { Link } from 'react-router-dom';
-import { Alert, Table } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 
 
 class Dashboard extends React.Component {
@@ -76,14 +76,14 @@ class Dashboard extends React.Component {
     this.fetchData();
   }
 
-  getContactLink(order, maker) {
+  getContactLink(order, makerOrRequester) {
     const { user } = this.context;
     if (user.roles.includes(ROLE_REQUESTER)) {
-      return `/contact/${ROLE_MAKER}/${order.id}/${maker.id}`;
+      return `/contact/${ROLE_MAKER}/${order.id}/${makerOrRequester.id}`;
     }
 
     if (user.roles.includes(ROLE_MAKER)) {
-      return `/contact/${ROLE_REQUESTER}/${order.id}/0`;
+      return `/contact/${ROLE_REQUESTER}/${order.id}/${makerOrRequester.id}`;
     }
   }
 
@@ -251,7 +251,7 @@ class Dashboard extends React.Component {
               <div className="col-md-4">
                 <div className='Dashboard__value'>
                   <p>
-                    <Link to={this.getContactLink(order)}>{order.requester.name}</Link>
+                    <Link to={this.getContactLink(order, order.requester)}>{order.requester.name}</Link>
                     <br />
                     <small>({order.requester.addressCity})</small>
                   </p>
@@ -271,7 +271,7 @@ class Dashboard extends React.Component {
               </div>
               <div className="col-md-2 text-center">
                 <div className='Dashboard__value'>
-                  <Link to={this.getContactLink(order)}>
+                  <Link to={this.getContactLink(order, order.requester)}>
                     <i className="fas fa-id-card"></i>
                   </Link>
                 </div>

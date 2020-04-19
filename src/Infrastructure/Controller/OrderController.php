@@ -8,6 +8,7 @@ use App\Domain\Commitment\Repository\CommitmentRepository;
 use App\Domain\Exception\Maker\MakerByIdNotFoundException;
 use App\Domain\Exception\NotFoundException;
 use App\Domain\Exception\Requester\RequesterByIdNotFoundException;
+use App\Domain\Exception\User\UserByIdNotFoundException;
 use App\Domain\Order\Entity\Order;
 use App\Domain\Order\Repository\OrderRepository;
 use App\Domain\Thing\Repository\ThingRepository;
@@ -17,8 +18,10 @@ use App\Domain\User\Entity\User;
 use App\Domain\User\Repository\MakerRepository;
 use App\Domain\User\Repository\RequesterRepository;
 use App\Domain\User\UserInterface;
+use App\Domain\User\UserInterfaceRepository;
 use App\Infrastructure\Dto\Order\OrderRequest;
 use App\Infrastructure\Dto\Order\OrderResponse;
+use App\Infrastructure\Dto\User\OrderContactUserDetailResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
@@ -401,6 +404,70 @@ class OrderController
         }
 
         $orderDto = OrderResponse::createFromOrder($order);
+
+        return new JsonResponse($orderDto);
+    }
+
+    /**
+     * Retrieves a Order resource.
+     *
+     * @Route(
+     *     "/orders/{orderId}/user-details/{userId}",
+     *     name="order_show",
+     *     methods={"GET"},
+     *     format="json"
+     * )
+     *
+     * @SWG\Tag(name="Orders")
+     *
+     * @SWG\Response(
+     *     response=200,
+     *     description="A Order",
+     *     @Model(type=OrderContactUserDetailResponse::class)
+     * )
+     *
+     * @IsGranted("ROLE_USER")
+     */
+    public function showUserDetailFromOrderAction(
+        string $orderId,
+        string $userId,
+        UserInterfaceRepository $userInterfaceRepository
+    ): JsonResponse {
+        try {
+            $userDetail = $userInterfaceRepository->find(Uuid::fromString($userId));
+        } catch (InvalidUuidStringException $exception) {
+            throw new BadRequestHttpException(sprintf('Invalid Uuid [%s]', $orderId));
+        } catch (UserByIdNotFoundException $exception) {
+            throw new NotFoundHttpException(sprintf('User with id [%s] not found', $orderId));
+        }
+
+        try {
+            $order = $this->orderRepository->find(Uuid::fromString($orderId)->toString());
+        } catch (InvalidUuidStringException $exception) {
+            throw new BadRequestHttpException(sprintf('Invalid Uuid [%s]', $orderId));
+        }
+
+        if (null === $order) {
+            throw new NotFoundHttpException('Order not found');
+        }
+
+        /** @var UserInterface $currentUser */
+        $currentUser = $this->security->getUser();
+
+        if (
+            false === $order->hasCommitmentByUser($currentUser) &&
+            false === $order->isOrderByUser($currentUser)
+        ) {
+            throw new AccessDeniedException(sprintf('You are not allowed to see this user'));
+        }
+
+        if (
+            false === $order->hasCommitmentByUser($userDetail) &&
+            false === $order->isOrderByUser($userDetail)
+        ) {
+            throw new AccessDeniedException(sprintf('You are not allowed to see this user'));
+        }
+        $orderDto = OrderContactUserDetailResponse::createFromUserInterface($userDetail);
 
         return new JsonResponse($orderDto);
     }
