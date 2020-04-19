@@ -39,7 +39,7 @@ Cypress.Commands.add('openCommitModal', (email, pw) => {
   cy.server().route('GET', '/things').as('thingsList');
   cy.server().route('GET', '/things/**').as('thingsDetail');
 
-  cy.get('a.nav-link:contains("Bedarf")').click();
+  cy.get('a.nav-link:contains("Bedarf")').click({ multiple: true });
   cy.wait('@thingsList').its('status').should('be', 200);
   cy.title().should('eq', 'print4health - Bedarf & Ersatzteile');
   cy.get('h5.card-title').first().click();
@@ -53,7 +53,7 @@ Cypress.Commands.add('openOrderModal', (email, pw) => {
   cy.server().route('GET', '/things').as('thingsList');
   cy.server().route('GET', '/things/**').as('thingsDetail');
 
-  cy.get('a.nav-link:contains("Bedarf")').click();
+  cy.get('a.nav-link:contains("Bedarf")').click({ multiple: true });
   cy.wait('@thingsList').its('status').should('be', 200);
   cy.title().should('eq', 'print4health - Bedarf & Ersatzteile');
   cy.get('h5.card-title').first().click();
