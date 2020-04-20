@@ -194,4 +194,14 @@ class User implements UserInterface
     {
         return $this->updatedDate;
     }
+
+    public function getLatitude(): ?float
+    {
+        return null;
+    }
+
+    public function getLongitude(): ?float
+    {
+        return null;
+    }
 }

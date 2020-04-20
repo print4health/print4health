@@ -64,9 +64,9 @@ class GeoCoder
         }
     }
 
-    public function geoEncodePostalCountry(
-        string $countryCode,
-        string $postalCode
+    public function geoEncodeByPostalCodeAndCountry(
+        string $postalCode,
+        string $countryCode
     ): CoordinatesRequest {
         $components = [
             'country:' . $countryCode,
@@ -75,14 +75,14 @@ class GeoCoder
 
         try {
             $client = HttpClient::create(['http_version' => '2.0']);
-
-            $response = $client->request('GET', $this->baseUrl, [
+            $params = [
                 'query' => [
                     'components' => implode('|', $components),
                     'key' => $this->googleKey,
                 ],
-            ]);
+            ];
 
+            $response = $client->request('GET', $this->baseUrl, $params);
             $responseArray = $response->toArray();
 
             if (
