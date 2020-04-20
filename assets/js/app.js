@@ -25,7 +25,7 @@ import DataPrivacyStatement from './container/data-privacy-statement/data-privac
 import PageView from './component/page-view/page-view.js';
 import { Config } from './config';
 import { Nav, Navbar } from 'react-bootstrap';
-import { withTranslation, language } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import RegistrationIndex from './container/registration/registration-index';
 import RegistrationMaker from './container/registration/registration-maker';
 import RegistrationRequester from './container/registration/registration-requester';
