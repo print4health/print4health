@@ -1,10 +1,18 @@
 {
-  "picture": "Productpicture",
-  "name": "Productname",
-  "orderprio": "Orderpriority",
+  "product": "Product",
+  "maker": "Maker",
+  "need-ins": "Need (total)",
+  "confirmation": "Confirmations",
+  "needed-left": "Needed",
+  "contact": "Contact to Institution",
+  "title-maker": "My Prints",
+  "title-requester": "My Requests",
+  "nothing": "No needs claimed yet",
+  "nomaker": "no makers yet",
+  "nothingconfirmed": "No makes confirmed yet.",
+  "institution": "Institution",
+  "city": "City",
   "need": "Need",
-  "confirmation": "Maker confirmation",
-  "printed": "already printed",
-  "contact": "Contact",
-  "title": "Dashboard"
+  "confirmed": "confirmed",
+  "left": "needed"
 }

@@ -1,10 +1,18 @@
 {
-  "picture": "Produktbild",
-  "name": "Produktname",
-  "orderprio": "Bestellungspriorität",
+  "product": "Produkt",
+  "maker": "Maker",
+  "need-ins": "Bedarf (insg)",
+  "confirmation": "Bestätigungen",
+  "needed-left": "Benötigt",
+  "contact": "Kontakt zur Einrichtung",
+  "title-maker": "Meine Prints",
+  "title-requester": "Mein Bedarf",
+  "nothing": "Bisher kein Bedarf angemeldet",
+  "nomaker": "noch keine Maker",
+  "nothingconfirmed": "Bisher keine Herstellung bestätigt.",
+  "institution": "Einrichtung",
+  "city": "Stadt",
   "need": "Bedarf",
-  "confirmation": "Herstellerbestätigung",
-  "printed": "Bereits gedruckt",
-  "contact": "Kontakt",
-  "title": "Dashboard"
+  "confirmed": "bestätigt",
+  "left": "benötigt"
 }

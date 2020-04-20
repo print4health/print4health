@@ -1,7 +1,7 @@
 import React from 'react';
-import AppContext from "../../context/app-context";
+import AppContext from '../../context/app-context';
 import { ROLE_MAKER, ROLE_REQUESTER } from '../../constants/UserRoles';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import { Alert } from 'react-bootstrap';
 import { withTranslation } from 'react-i18next';
 
@@ -24,52 +24,35 @@ class Contact extends React.Component {
 
   async fetchData() {
     const { data } = this.state;
-    const { role, orderId } = this.props.match.params;
+    const { role, orderId, userId } = this.props.match.params;
 
-    if (data !== null || !role || !orderId) {
+    if (role !== ROLE_MAKER && role !== ROLE_REQUESTER) {
       return;
     }
 
-      const response = await fetch(`/orders/${orderId}`);
+    if (data !== null || !orderId || !userId) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/orders/${orderId}/user-details/${userId}`);
 
       if (response.status !== 200) {
         throw new Error();
       }
 
-      const orderData = await response.json();
+      const userDetails = await response.json();
 
       if (role === ROLE_REQUESTER) {
         this.setState({ userRole: ROLE_REQUESTER });
-        this.setState({ data: [orderData.requester] })
-      }
-
-      if (role === ROLE_MAKER) {
+        this.setState({ data: [userDetails.requester] });
+      } else if (role === ROLE_MAKER) {
         this.setState({ userRole: ROLE_MAKER });
-        const makersData = await Promise.all(
-          orderData.makers.map(async makerId => {
-            const maker = await this.fetchMaker(makerId);
-            return maker;
-          })
-        );
-        this.setState({ data: makersData })
+        this.setState({ data: [userDetails.maker] });
       }
 
-    }  catch () {
-      throw new Error();
-    }
-
-  async fetchMaker(makerId) {
-    try {
-      const response = await fetch(`/maker/detail/${makerId}`);
-
-      if (response.status !== 200) {
-        throw new Error();
-      }
-
-      const makerData = await response.json();
-
-      return makerData;
-    }  catch (e) {
+    } catch (error) {
+      console.log(error);
       throw new Error();
     }
   }
@@ -102,34 +85,60 @@ class Contact extends React.Component {
             </Alert>
           </div>
         </div>
-          {data.map(
-            (contact) => (
-              this.renderCard(contact)
-            ),
-          )}
+        {data.map(
+          (contact, idx) => (
+            this.renderCard(contact, idx)
+          ),
+        )}
       </div>
-    )
+    );
   }
 
-  renderCard(data) {
-    const { userRole } = this.state;
+  renderRequester(data) {
     const { t } = this.props;
-
     return (
-      <div className="row Contact__card-row">
+      <>
+        <h5 className="card-title">{t('role.institute')}: {data.name}</h5>
+        <h6 className="card-subtitle mb-2 text-muted">
+          <a href={`mailto=${data.email}`} className="card-link">{data.email}</a>
+        </h6>
+        <p className="card-text">{data.streetAddress}</p>
+        <p className="card-text">{data.postalCode}</p>
+        <p className="card-text">{data.addressCity}</p>
+        <Alert variant="info" className="mb-0">
+          {data.contactInfo}
+        </Alert>
+      </>
+    );
+  }
+
+  renderMaker(data) {
+    return (
+      <>
+        <h5 className="card-title">{t('role.maker')}: {data.name}</h5>
+        <h6 className="card-subtitle mb-2 text-muted">
+          <a href={`mailto=${data.email}`} className="card-link">{data.email}</a>
+        </h6>
+        <p className="card-text">{data.postalCode}</p>
+        <p className="card-text">{data.addressCity}</p>
+      </>
+    );
+  }
+
+  renderCard(data, index) {
+    const { userRole } = this.state;
+    return (
+      <div className="row Contact__card-row" key={`contact-card-${index}`}>
         <div className="col">
           <div className="card">
             <div className="card-body">
-              <h5 className="card-title">{userRole === ROLE_REQUESTER ? (t('role.institute')+':') : userRole === ROLE_MAKER ? (t('role.maker')+':') : ''} {data.name}</h5>
-              <h6 className="card-subtitle mb-2 text-muted"><a href={`mailto=${data.email}`} className="card-link">{data.email}</a></h6>
-              <p className="card-text">{data.streetAddress}</p>
-              <p className="card-text">{data.postalCode}</p>
-              <p className="card-text">{data.addressCity}</p>
+              {userRole === ROLE_REQUESTER && this.renderRequester(data)}
+              {userRole === ROLE_MAKER && this.renderMaker(data)}
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 

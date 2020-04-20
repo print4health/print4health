@@ -54,9 +54,14 @@ class UserNav extends React.Component {
     if (user && user.email) {
       return (
         <React.Fragment>
-          {(userRole === ROLE_REQUESTER || userRole === ROLE_MAKER) &&
+          {(userRole === ROLE_MAKER) &&
           <li className="nav-item">
-            <NavLink className="nav-link" data-cypress="navlink-dashboard" activeClassName="text-primary" to="/dashboard">{t('main-nav.dashboard')}</NavLink>
+            <NavLink className="nav-link" data-cypress="navlink-dashboard" activeClassName="text-primary" to="/dashboard">{t('main-nav.dashboard-maker')}</NavLink>
+          </li>
+          }
+          {(userRole === ROLE_REQUESTER) &&
+          <li className="nav-item">
+            <NavLink className="nav-link" data-cypress="navlink-dashboard" activeClassName="text-primary" to="/dashboard">{t('main-nav.dashboard-requester')}</NavLink>
           </li>
           }
           <li className="nav-item">

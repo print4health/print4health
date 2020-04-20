@@ -165,7 +165,7 @@ class App extends React.Component {
           <main className="container py-5">
             <DismissableAlert message={alertMessage} variant={alertClass} />
             <Switch>
-              <PrivateRoute path="/contact/:role/:orderId" component={DashboardContact} authed={user && Object.keys(user).length !== 0} setAlert={this.setAlert} user={user}/>
+              <PrivateRoute path="/contact/:role/:orderId/:userId" component={DashboardContact} authed={user && Object.keys(user).length !== 0} setAlert={this.setAlert} user={user}/>
               <PrivateRoute path="/dashboard" component={Dashboard} authed={user && Object.keys(user).length !== 0} setAlert={this.setAlert} user={user}/>
               <Route path="/order/list" component={Index} />
               <Route path="/order/map" component={Index} />

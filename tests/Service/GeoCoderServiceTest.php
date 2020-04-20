@@ -10,8 +10,8 @@ use App\Infrastructure\Services\GeoCoder;
 class GeoCoderServiceTest extends AbstractServiceTest
 {
     private array $testPairs = [
-        [['NL', '2671MH'], [51.9905014, 4.206367999999999]],
-        [['FR', '01210'], [46.2824228, 6.0851112]],
+        [['2671MH', 'NL'], [51.9905014, 4.206367999999999]],
+        [['01210', 'FR'], [46.2824228, 6.0851112]],
     ];
 
     public function testGeoCodeToCoords(): void
@@ -20,7 +20,7 @@ class GeoCoderServiceTest extends AbstractServiceTest
         $geoCoder = new GeoCoder();
 
         foreach ($this->testPairs as $pair) {
-            $coords = $geoCoder->geoEncodePostalCountry($pair[0][0], $pair[0][1]);
+            $coords = $geoCoder->geoEncodeByPostalCodeAndCountry($pair[0][0], $pair[0][1]);
 
             $this->assertTrue($coords instanceof CoordinatesRequest);
             $this->assertEquals($pair[1][0], $coords->getLatitude());

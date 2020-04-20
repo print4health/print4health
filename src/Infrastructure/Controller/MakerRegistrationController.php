@@ -120,9 +120,9 @@ class MakerRegistrationController
                 $makerRegistrationRequest->hasPostalCodeAndCountryCode() &&
                 false === $makerRegistrationRequest->hasLatLng()
             ) {
-                $geoLocation = $this->geoCoder->geoEncodePostalCountry(
-                    (string) $makerRegistrationRequest->addressState,
-                    (string) $makerRegistrationRequest->postalCode
+                $geoLocation = $this->geoCoder->geoEncodeByPostalCodeAndCountry(
+                    (string) $makerRegistrationRequest->postalCode,
+                    (string) $makerRegistrationRequest->addressState
                 );
 
                 $maker->setLatitude($geoLocation->getLatitude());
