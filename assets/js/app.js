@@ -25,7 +25,7 @@ import DataPrivacyStatement from './container/data-privacy-statement/data-privac
 import PageView from './component/page-view/page-view.js';
 import { Config } from './config';
 import { Nav, Navbar } from 'react-bootstrap';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, language } from 'react-i18next';
 import RegistrationIndex from './container/registration/registration-index';
 import RegistrationMaker from './container/registration/registration-maker';
 import RegistrationRequester from './container/registration/registration-requester';
@@ -153,8 +153,8 @@ class App extends React.Component {
                     </li>
                     <UserNav />
                     <li className="nav-item">
-                      <button className="btn" data-cypress="locale-de" onClick={() => changeLanguage('de')}>DE</button>
-                      <button className="btn" data-cypress="locale-en" onClick={() => changeLanguage('en')}>EN</button>
+                      <button className={"btn " + (i18n.language == 'de' ? 'btn-outline-primary' : "")} data-cypress="locale-de" onClick={() => changeLanguage('de')}>DE</button>
+                      <button className={"btn " + (i18n.language == 'en' ? 'btn-outline-primary' : "")} data-cypress="locale-en" onClick={() => changeLanguage('en')}>EN</button>
                     </li>
                   </Nav>
                 </Navbar.Collapse>
