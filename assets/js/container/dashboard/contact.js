@@ -113,6 +113,7 @@ class Contact extends React.Component {
   }
 
   renderMaker(data) {
+    const { t } = this.props;
     return (
       <>
         <h5 className="card-title">{t('role.maker')}: {data.name}</h5>
