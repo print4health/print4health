@@ -107,14 +107,32 @@ class App extends React.Component {
     };
   }
 
-  render() {
-    const { initalUserCheck, user, alertMessage, alertClass, showLoginModal, showRequestPasswordResetModal, currentThing, order } = this.state;
+  renderLocaleSwitch() {
+    if (process.env.NODE_ENV !== 'development') {
+      return;
+    }
 
     const { t, i18n } = this.props;
 
     const changeLanguage = lng => {
       i18n.changeLanguage(lng);
     };
+
+    return (
+      <li className="nav-item">
+        <button className={'btn ' + (i18n.language === 'de' ? 'btn-outline-primary' : '')} data-cypress="locale-de"
+                onClick={() => changeLanguage('de')}>DE
+        </button>
+        <button className={'btn ' + (i18n.language === 'en' ? 'btn-outline-primary' : '')} data-cypress="locale-en"
+                onClick={() => changeLanguage('en')}>EN
+        </button>
+      </li>
+    );
+  }
+
+  render() {
+    const { initalUserCheck, user, alertMessage, alertClass, showLoginModal, showRequestPasswordResetModal, currentThing, order } = this.state;
+    const { t } = this.props;
 
     return (
       <AppContext.Provider
@@ -143,19 +161,19 @@ class App extends React.Component {
                 <Navbar.Collapse id="basic-navbar-nav">
                   <Nav className="mb-0 w-100 list-unstyled d-flex justify-content-around">
                     <li className="nav-item">
-                      <NavLink className="nav-link" activeClassName="text-primary" exact to="/">{t('main-nav.start')}</NavLink>
+                      <NavLink className="nav-link" activeClassName="text-primary" exact
+                               to="/">{t('main-nav.start')}</NavLink>
                     </li>
                     <li className="nav-item">
-                      <NavLink className="nav-link" data-cypress="thing-list" activeClassName="text-primary" to="/thing/list">{t('main-nav.need')}</NavLink>
+                      <NavLink className="nav-link" data-cypress="thing-list" activeClassName="text-primary"
+                               to="/thing/list">{t('main-nav.need')}</NavLink>
                     </li>
                     <li className="nav-item">
-                      <NavLink className="nav-link" activeClassName="text-primary" to="/faq">{t('main-nav.faq')}</NavLink>
+                      <NavLink className="nav-link" activeClassName="text-primary"
+                               to="/faq">{t('main-nav.faq')}</NavLink>
                     </li>
                     <UserNav />
-                    <li className="nav-item">
-                      <button className={"btn " + (i18n.language == 'de' ? 'btn-outline-primary' : "")} data-cypress="locale-de" onClick={() => changeLanguage('de')}>DE</button>
-                      <button className={"btn " + (i18n.language == 'en' ? 'btn-outline-primary' : "")} data-cypress="locale-en" onClick={() => changeLanguage('en')}>EN</button>
-                    </li>
+                    {this.renderLocaleSwitch()}
                   </Nav>
                 </Navbar.Collapse>
               </div>
@@ -165,8 +183,10 @@ class App extends React.Component {
           <main className="container py-5">
             <DismissableAlert message={alertMessage} variant={alertClass} />
             <Switch>
-              <PrivateRoute path="/contact/:role/:orderId/:userId" component={DashboardContact} authed={user && Object.keys(user).length !== 0} setAlert={this.setAlert} user={user}/>
-              <PrivateRoute path="/dashboard" component={Dashboard} authed={user && Object.keys(user).length !== 0} setAlert={this.setAlert} user={user}/>
+              <PrivateRoute path="/contact/:role/:orderId/:userId" component={DashboardContact}
+                            authed={user && Object.keys(user).length !== 0} setAlert={this.setAlert} user={user} />
+              <PrivateRoute path="/dashboard" component={Dashboard} authed={user && Object.keys(user).length !== 0}
+                            setAlert={this.setAlert} user={user} />
               <Route path="/order/list" component={Index} />
               <Route path="/order/map" component={Index} />
               <Route path="/order/{id}" component={Index} />
