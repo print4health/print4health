@@ -6,7 +6,7 @@ const Map = ({position, zoom, markers}) => {
   // TODO add loading
   return(
     <div id="map">
-      <LeafLetMap center={position} zoom={zoom}>
+      <LeafLetMap center={position} zoom={zoom} scrollWheelZoom={false} >
         <TileLayer url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
                    attribution="&copy; openstreetmap.org"/>
         {markers}
