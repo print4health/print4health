@@ -142,3 +142,25 @@
 .bg-primary {
     background-color: $gray-bg;
 }
+
+
+#location-field {
+    .form-control {
+        margin-bottom: 15px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+}
+
+.map-legend {
+    margin-bottom: 15px;
+
+    p {
+        text-align: center;
+    }
+    i {
+        margin-right: 15px;
+    }
+}

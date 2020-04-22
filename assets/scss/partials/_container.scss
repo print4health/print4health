@@ -1,3 +1,28 @@
+#index-page {
+    section {
+        position: relative;
+    }
+
+    form#location-field {
+        position: absolute;
+        z-index: 500;
+        bottom: 68px;
+        width: calc(100% - 30px);
+
+        button,
+        input {
+            box-shadow: 4px 4px 6px grey;
+        }
+    }
+
+    #map {
+        width: 112%;
+        position: relative;
+        left: -6%;
+        margin-bottom: 0px;
+    }
+}
+
 .ThingListDetail {
     .thing-info {
         img {
