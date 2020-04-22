@@ -1,0 +1,9 @@
+{
+  "loading": "laden",
+  "title": "Kontakt",
+  "info": "Diese Kontakt Seite ist eine temporäre Lösung. Wir arbeiten aktuell mit hochdruck an an einem Nachrichten-Modul. Mit diesem habt Ihr hier bald die Möglichkeit direkt mit dem Maker/Anfragendem zu kommunizieren. Wir bitten um Verständniss, dass dies aktuell leider noch nicht möglich ist.",
+  "role": {
+    "institute": "Einrichtung",
+    "maker": "Maker"
+  }
+}

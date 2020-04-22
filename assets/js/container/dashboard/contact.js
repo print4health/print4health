@@ -3,6 +3,7 @@ import AppContext from '../../context/app-context';
 import { ROLE_MAKER, ROLE_REQUESTER } from '../../constants/UserRoles';
 import PropTypes from 'prop-types';
 import { Alert } from 'react-bootstrap';
+import { withTranslation } from 'react-i18next';
 
 class Contact extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class Contact extends React.Component {
   static get propTypes() {
     return {
       match: PropTypes.object,
+      t: PropTypes.func
     };
   }
 
@@ -65,9 +67,10 @@ class Contact extends React.Component {
 
   render() {
     const { data } = this.state;
+    const { t } = this.props;
 
     if (!data) {
-      return (<p>laden...</p>);
+      return (<p>{t('loading')}...</p>)
     }
 
     const { userRole } = this.state;
@@ -76,11 +79,9 @@ class Contact extends React.Component {
       <div className="container Dashboard">
         <div className="row">
           <div className="col">
-            <h1>{userRole === ROLE_REQUESTER ? 'Einrichtung-' : userRole === ROLE_MAKER ? 'Maker-' : ''}Kontakt</h1>
+            <h1>{userRole === ROLE_REQUESTER ? (t('role.institute')+'-') : userRole === ROLE_MAKER ? (t('role.maker')+'-') : ''}{t('title')}</h1>
             <Alert variant="info">
-              <h6>Diese Kontakt Seite ist eine temporäre Lösung. Wir arbeiten aktuell mit hochdruck an an einem
-                Nachrichten-Modul. Mit diesem habt Ihr hier bald die Möglichkeit direkt mit dem Maker/Anfragendem zu
-                kommunizieren. Wir bitten um Verständniss das dies aktuell leider noch nicht möglich ist.</h6>
+              <h6>{t('info')}</h6>
             </Alert>
           </div>
         </div>
@@ -94,9 +95,10 @@ class Contact extends React.Component {
   }
 
   renderRequester(data) {
+    const { t } = this.props;
     return (
       <>
-        <h5 className="card-title">Einrichtung {data.name}</h5>
+        <h5 className="card-title">{t('role.institute')}: {data.name}</h5>
         <h6 className="card-subtitle mb-2 text-muted">
           <a href={`mailto=${data.email}`} className="card-link">{data.email}</a>
         </h6>
@@ -111,9 +113,10 @@ class Contact extends React.Component {
   }
 
   renderMaker(data) {
+    const { t } = this.props;
     return (
       <>
-        <h5 className="card-title">Maker {data.name}</h5>
+        <h5 className="card-title">{t('role.maker')}: {data.name}</h5>
         <h6 className="card-subtitle mb-2 text-muted">
           <a href={`mailto=${data.email}`} className="card-link">{data.email}</a>
         </h6>
@@ -142,4 +145,4 @@ class Contact extends React.Component {
 
 Contact.contextType = AppContext;
 
-export default Contact;
+export default withTranslation('page-dashboard-contact')(Contact);

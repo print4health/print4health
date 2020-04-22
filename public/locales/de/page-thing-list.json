@@ -1,0 +1,16 @@
+{
+  "item": {
+    "loading": "Bild wird geladen ...",
+    "noimage": "Kein Bild vorhanden",
+    "fail": "Irgendwas hat nicht funktioniert",
+    "remaining": "Benötigt",
+    "made": "Gedruckt",
+    "need": "Bedarf"
+  },
+  "list": {
+    "pagetitle": "Bedarf & Ersatzteile",
+    "error": "Fehler",
+    "loading": "Bitte warten",
+    "nothing": "Keine Ergebnisse gefunden"
+  }
+}

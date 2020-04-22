@@ -1,0 +1,21 @@
+{
+  "title": "Herstellung für {{name}} zusagen",
+  "form": {
+    "title": "Toll dass Du mithilfst!",
+    "description": "Bitte trage nur eine Anzahl ein, die Du wirklich bereit und in der Lage bist herzustellen. Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile zusagen.",
+    "amount": {
+      "label": "Anzahl der Teile",
+      "placeholder": "Anzahl"
+    },
+    "submit": "Herstellung zusagen"
+  },
+  "info": {
+    "text1": "Um als Maker Herstellung von Ersatzteilen zusagen zu können, könnt ihr euch",
+    "text2": "Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an, um Herstellung von Ersatzteilen zusagen zu können.",
+    "link_registration": "hier registrieren"
+  },
+  "button": {
+    "close": "Schließen",
+    "register": "Registrieren"
+  }
+}

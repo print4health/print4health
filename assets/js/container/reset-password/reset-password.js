@@ -3,6 +3,7 @@ import { Config } from '../../config';
 import axios from 'axios';
 import AppContext from '../../context/app-context';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 class ResetPassword extends React.Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class ResetPassword extends React.Component {
     return {
       match: PropTypes.object,
       passwordResetToken: PropTypes.string,
+      t: PropTypes.func
     };
   }
 
@@ -36,17 +38,18 @@ class ResetPassword extends React.Component {
     this.setState({ error: '' });
     const self = this;
     e.preventDefault();
+    const { t } = this.props;
 
     if (this.state.password !== this.state.repeatPassword) {
       this.setState({
-        error: 'Passwörter stimmen nicht überein.',
+        error: t('reset.nomatch'),
       });
       return false;
     }
 
     axios.post(Config.apiBasePath + '/reset-password', this.state)
       .then(function () {
-        self.context.setAlert('Das Passwort wurde erfolgreich geändert.', 'success');
+        self.context.setAlert(t('reset.success'), 'success');
       })
       .catch(function (error) {
         self.setState({
@@ -62,6 +65,7 @@ class ResetPassword extends React.Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div className="container">
         <div className="row">
@@ -71,7 +75,7 @@ class ResetPassword extends React.Component {
               <div className="form-group">
                 <input name="password"
                        type="password"
-                       placeholder="Passwort"
+                       placeholder={t('reset.placeholder1')}
                        className="form-control"
                        required
                        value={this.state.password}
@@ -80,14 +84,14 @@ class ResetPassword extends React.Component {
               <div className="form-group">
                 <input name="repeatPassword"
                        type="password"
-                       placeholder="Passwort wiederholen"
+                       placeholder={t('reset.placeholder2')}
                        className="form-control"
                        required
                        value={this.state.repeatPassword}
                        onChange={this.handleInputChange} />
               </div>
               <div className="form-group">
-                <input type="submit" className="btn btn-primary" value="Passwort aktualisieren" />
+                <input type="submit" className="btn btn-primary" value={t('reset.button')} />
               </div>
             </form>
           </div>
@@ -99,4 +103,4 @@ class ResetPassword extends React.Component {
 
 ResetPassword.contextType = AppContext;
 
-export default ResetPassword;
+export default withTranslation('modal-reset-password')(ResetPassword);

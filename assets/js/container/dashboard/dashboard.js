@@ -1,9 +1,10 @@
 import React from 'react';
-import AppContext from '../../context/app-context';
-import { ROLE_MAKER, ROLE_REQUESTER } from '../../constants/UserRoles';
+import AppContext from "../../context/app-context";
+import {ROLE_MAKER, ROLE_REQUESTER} from '../../constants/UserRoles';
+import { withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { Alert } from 'react-bootstrap';
-
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -11,6 +12,12 @@ class Dashboard extends React.Component {
 
     this.state = {
       data: null,
+    };
+  }
+
+  static get propTypes() {
+    return {
+      t: PropTypes.func
     };
   }
 
@@ -109,12 +116,13 @@ class Dashboard extends React.Component {
     // [Image] [ThingTitle] [Name of Maker + City] [Quantity of Order] [Quantity of Maker Commitment] [Total Quantity of all Orders + Total Quantity of all Committments] [Contact]
 
     const { data } = this.state;
+    const { t } = this.props;
 
     if (!data || !data.orders || data.orders.length === 0) {
       return (
         <div className="row">
           <div className="col">
-            <Alert variant="info" className="mt-3 ml-3 mr-3">Bisher kein Bedarf angemeldet</Alert>
+            <Alert variant="info" className="mt-3 ml-3 mr-3">{t('nothing')}</Alert>
           </div>
         </div>
       );
@@ -124,26 +132,26 @@ class Dashboard extends React.Component {
       <div className="Dashboard__table">
         <div className="row Dashboard__headline-row">
           <div className="col-md-4 Dashboard__headline">
-            <h6>Produkt</h6>
+            <h6>{t('product')}</h6>
           </div>
           <div className="col-md-5 Dashboard__headline">
-            <h6>Maker</h6>
+            <h6>{t('maker')}</h6>
           </div>
           <div className="col-md-3 Dashboard__headline text-right">
             <h6>
-              <span>Bedarf (insg)</span>
+              <span>{t('need-ins')}</span>
               <br />
               <small>
-                <span className="text-primary">Benötigt</span>
+                <span className="text-primary">{t('needed-left')}</span>
                 <span> / </span>
-                <span className="text-secondary">Bestätigungen</span>
+                <span className="text-secondary">{t('confirmation')}</span>
               </small>
             </h6>
           </div>
         </div>
         {data.orders.map((order, i) => {
           return (
-            <div key={`order_${i}`} className='row Dashboard__value-row'>
+            <div key={`order_${i}`} className='row Dashboard__value-row' data-cypress="dashboard-order-row">
               <div className="col-md-2">
                 <div className='Dashboard__value Dashboard__value-img'>
                   {/* eslint-disable-next-line react/jsx-no-target-blank */}
@@ -169,7 +177,7 @@ class Dashboard extends React.Component {
                   }
                   {order.commitments.length === 0 &&
                   <p className="text-muted d-flex w-100">
-                    Noch keine Maker
+                    {t('nomaker')}
                     <span className="ml-auto">
                       <span className="text-secondary">0</span>
                       <span> / </span>
@@ -190,12 +198,13 @@ class Dashboard extends React.Component {
     // [Image] [ThingTitle] [Name of Requester + City] [Quantity of Order] [Quantity of my Commitment] [Total Quantity of all Orders + Total Quantity of all Committments] [Contact]
 
     const { data } = this.state;
+    const { t } = this.props;
 
     if (!data || !data.orders || data.orders.length === 0) {
       return (
         <div className="row">
           <div className="col">
-            <Alert variant="info" className="mt-3 ml-3 mr-3">Bisher keine Herstellung bestätigt.</Alert>
+            <Alert variant="info" className="mt-3 ml-3 mr-3">{t('nothingconfirmed')}</Alert>
           </div>
         </div>
       );
@@ -205,33 +214,33 @@ class Dashboard extends React.Component {
       <div className="Dashboard__table">
         <div className="row Dashboard__headline-row">
           <div className="col-md-4 Dashboard__headline">
-            <h6>Produkt</h6>
+            <h6>{t('product')}</h6>
           </div>
           <div className="col-md-4 Dashboard__headline">
             <h6>
-              <span>Einrichtung</span>
+              <span>{t('institution')}</span>
               <br />
-              <small>(Stadt)</small>
+              <small>({t('city')})</small>
             </h6>
           </div>
           <div className="col-md-2 Dashboard__headline">
             <h6>
-              Bedarf
+              {t('need')}
               <br />
               <small>
-                <span className="text-secondary">bestätigt</span>
+                <span className="text-secondary">{t('confirmed')}</span>
                 <span> / </span>
-                <span className="text-primary">benötigt</span>
+                <span className="text-primary">{t('left')}</span>
               </small>
             </h6>
           </div>
           <div className="col-md-2 Dashboard__headline">
-            <h6>Kontakt zur Einrichtung</h6>
+            <h6>{t('contact')}</h6>
           </div>
         </div>
         {data.orders.map((order, i) => {
           return (
-            <div key={`order_${i}`} className='row Dashboard__value-row'>
+            <div key={`order_${i}`} className='row Dashboard__value-row' data-cypress="dashboard-order-row">
               <div className="col-md-2">
                 <div className='Dashboard__value Dashboard__value-img d-flex'>
                   {/* eslint-disable-next-line react/jsx-no-target-blank */}
@@ -285,13 +294,13 @@ class Dashboard extends React.Component {
 
   render() {
     const { user } = this.context;
-
+    const { t } = this.props;
     return (
       <div className="container Dashboard">
         <div className="row">
           <div className="col">
-            {user.roles.includes(ROLE_REQUESTER) && <h1>Mein Bedarf</h1>}
-            {user.roles.includes(ROLE_MAKER) && <h1>Meine Prints</h1>}
+            {user.roles.includes(ROLE_REQUESTER) && <h1 data-cypress="dashboard-title">{t('title-requester')}</h1>}
+            {user.roles.includes(ROLE_MAKER) && <h1 data-cypress="dashboard-title">{t('title-maker')}</h1>}
           </div>
         </div>
         <div className="row">
@@ -307,4 +316,4 @@ class Dashboard extends React.Component {
 
 Dashboard.contextType = AppContext;
 
-export default Dashboard;
+export default withTranslation('page-dashboard')(Dashboard);

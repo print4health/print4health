@@ -1,14 +1,24 @@
 import React from 'react';
+import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 class About extends React.Component {
+
+  static get propTypes() {
+    return {
+      t: PropTypes.func
+    };
+  }
+
   render () {
+    const { t } = this.props;
     return (
       <div className="container">
-        <h2>About print4health</h2>
+        <h2>{t('title')}</h2>
         <div className="container-fluid">
           <div className="row">
             <div className="col">
-
+              {t('content')}
             </div>
           </div>
         </div>
@@ -16,4 +26,4 @@ class About extends React.Component {
     );
   }
 }
-export default About;
+export default withTranslation('page-about')(About);

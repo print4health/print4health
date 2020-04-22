@@ -1,0 +1,16 @@
+{
+  "title": "Anmeldung bei print4health",
+  "info1": {
+    "part1": "als Gesundheits/Sozial-Einrichtung",
+    "part2": "oder als Maker/Drucker/Printer",
+    "part3": "Schreibt eine E-Mail an",
+    "part4": "und wir richten euch einen Benutzer-Account ein.",
+    "part5": "Anschließend könnt ihr Bedarf an Ersatzteilen eintragen oder darauf reagieren und diese herstellen."
+  },
+  "info2": "Ein Registrierungsformular und Accounts für Maker/Drucker/Printer werden gerade vorbereitet. Gesundheits und Sozial-Einrichtungen können sofort starten.",
+  "email": "E-Mail-Adresse",
+  "pass": "Passwort",
+  "forgot": "Passwort vergessen?",
+  "button": " Login",
+  "welcome": "Herzlich Willkommen"
+}

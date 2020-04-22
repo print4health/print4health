@@ -2,6 +2,7 @@ import React from 'react';
 import AppContext from '../../context/app-context';
 import { Alert, Button, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { Trans, withTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 class OrderModal extends React.Component {
@@ -20,6 +21,7 @@ class OrderModal extends React.Component {
       thing: PropTypes.object,
       onExited: PropTypes.func,
       onSubmit: PropTypes.func,
+      t: PropTypes.func,
     };
   }
 
@@ -65,22 +67,20 @@ class OrderModal extends React.Component {
   };
 
   renderForm() {
+    const { t } = this.props;
     return <>
       <Modal.Body>
         <p>
-          Bitte trage die Anzahl ein, die ihr aktuell wirklich benötigt.
-        </p>
-        <p>
-          Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile bestellen.
+          {t('form.description')}
         </p>
 
         <InputGroup className="mb-3">
           <FormControl
             type="number"
             name="quantity"
-            placeholder="Anzahl"
+            placeholder={t('form.placeholder')}
             required
-            aria-label="Anzahl der benötigten Teile"
+            aria-label={t('form.label')}
             aria-describedby="basic-addon2"
             value={this.state.quantity}
             onChange={this.handleInputChange}
@@ -93,8 +93,11 @@ class OrderModal extends React.Component {
 
       </Modal.Body>
       <Modal.Footer>
-        <Button type="submit" variant="outline-primary" disabled={this.state.quantity <= 0}>
-          Bedarf eintragen
+        <Button type="submit"
+                variant="outline-primary"
+                data-cypress="modal-order-submit"
+                disabled={this.state.quantity <= 0}>
+          {t('form.button')}
           <i className="fas fa-plus-circle fa-fw"></i>
         </Button>
       </Modal.Footer>
@@ -102,29 +105,36 @@ class OrderModal extends React.Component {
   }
 
   renderInfo() {
+    const { t } = this.props;
     return <>
       <Modal.Body>
         <Alert variant="info">
-          Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, müsst ihr euch <Link
-          to="/registration" onClick={this.onHide}>registrieren</Link>.
-          Euer Account wird manuell freigeschaltet und dann könnt ihr hier euren Bedarf anmelden.<br />
-          <br />
-          Bei Fragen, wendet euch an <a href="mailto: contact@print4health.org">contact@print4health.org</a> oder
-          verwendet das <Link to="/contact" onClick={this.onHide}>Kontaktformular</Link>.
+          <div data-cypress="modal-order-info">
+            <Trans i18nKey="modal-order:info.alert">
+              Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, müsst ihr euch
+              <Link to="/registration" onClick={this.onHide}>hier registrieren.</Link>
+              <br />
+              <br />
+              Euer Account wird manuell freigeschaltet und dann könnt ihr euren Bedarf anmelden.
+              <br />
+              <br />
+              Bei Fragen, wendet euch an <a href="mailto: contact@print4health.org">contact@print4health.org</a>
+              oder verwendet das <Link to="/contact" onClick={this.onHide}>Kontaktformular</Link>..
+            </Trans>
+          </div>
         </Alert>
-
-        <p>Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an um Bedarf
-          einzutragen.</p>
+        <p>{t('info.account_exists')}</p>
       </Modal.Body>
       <Modal.Footer>
         <Link className="btn btn-outline-primary"
               to="/registration"
               onClick={this.onHide}>
-          Registrieren
+          {t('button.register')}
         </Link>
         <input type="submit"
-               className="btn btn-light"
-               value="Schließen"
+               className="btn btn-primary"
+               data-cypress="modal-order-close"
+               value={t('button.close')}
                onClick={this.onHide} />
       </Modal.Footer>
     </>;
@@ -140,7 +150,11 @@ class OrderModal extends React.Component {
         animation={true}>
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Bedarf für &quot;{thing.name}&quot; eintragen</Modal.Title>
+            <Modal.Title>
+              <Trans i18nKey="modal-order:title">
+                Confirm the order of thing {{ name: thing.name }}
+              </Trans>
+            </Modal.Title>
           </Modal.Header>
           {this.context.getCurrentUserRole() === 'ROLE_REQUESTER' ? this.renderForm() : this.renderInfo()}
         </form>
@@ -151,4 +165,4 @@ class OrderModal extends React.Component {
 
 OrderModal.contextType = AppContext;
 
-export default OrderModal;
+export default withTranslation('modal-order')(OrderModal);

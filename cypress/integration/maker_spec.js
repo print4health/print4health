@@ -1,25 +1,32 @@
-describe('maker workflow', function () {
-  beforeEach(function () {
+describe('maker workflow', () => {
+  beforeEach(() => {
     Cypress.Cookies.preserveOnce('PHPSESSID');
   });
-  it('go to homepage', function () {
+  it('go to homepage', () => {
     cy.visit('/');
   });
-  it('login as maker', function () {
+  it('login as maker', () => {
     cy.login('maker@print4health.org', 'test');
   });
-  it('commit to order', function () {
+  it('commit to order', () => {
     cy.openCommitModal();
+    cy.get('[data-cypress="modal-commitment-title-form"]').should('exist');
     cy.checkQuantityInput(50);
-    cy.get('button:contains("Herstellung zusagen")').click();
+    cy.get('[data-cypress="modal-commitment-submit"]').click();
     cy.scrollTo('top');
-    cy.get('.alert-success').contains('alertDanke für Deinen Beitrag - ist notiert.');
+    cy.get('.alert').should('exist').should('have.class', 'alert-success')
   });
-  it('check that order-modal only displays infotext', function () {
+  it('check that order-modal only displays infotext', () => {
     cy.openOrderModal();
-    cy.get('input[value=Schließen]').click();
+    cy.get('[data-cypress="modal-order-info"]').should('exist');
+    cy.get('[data-cypress="modal-order-submit"]').should('not.exist');
+    cy.get('[data-cypress="modal-order-close"]').click();
   });
-  it('logout', function () {
+  it('check dashboard', () => {
+    cy.openDashboard();
+    cy.wait(1000).get('[data-cypress="dashboard-order-row"]').should('have.length.greaterThan', 1);
+  });
+  it('logout', () => {
     cy.logout();
   });
   it('reset password', () => {

@@ -5,6 +5,7 @@ import AppContext from '../../context/app-context';
 import { Modal } from 'react-bootstrap';
 import ReactGA from 'react-ga';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class LoginModal extends React.Component {
   static get propTypes() {
     return {
       onClose: PropTypes.func,
+      t: PropTypes.func
     };
   }
 
@@ -36,11 +38,12 @@ class LoginModal extends React.Component {
     e.preventDefault();
     const context = this.context;
     const self = this;
+    const { t } = this.props;
     axios.post(Config.apiBasePath + '/login', this.state)
       .then(function (res) {
         context.setUser(res.data);
         onClose();
-        context.setAlert('Herzlich Willkommen ' + res.data.email, 'success');
+        context.setAlert(t('welcome') + ' ' + res.data.email, 'success');
       })
       .catch(function (error) {
         self.setState({
@@ -56,26 +59,28 @@ class LoginModal extends React.Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
 
       <Modal show onHide={this.props.onClose} animation={false}>
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Anmeldung bei print4health</Modal.Title>
+            <Modal.Title data-cypress="modal-login-title">{t('title')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
 
             <h6>
-              als Gesundheits/Sozial-Einrichtung<br />
-              oder als Maker/Drucker/Printer
+            {t('info1.part1')}
+              <br />
+              {t('info1.part2')}
             </h6>
 
             <p>
-              Schreibt eine E-Mail an <a href="mailto: contact@print4health.org">contact@print4health.org</a> und wir
-              richten euch einen Benutzer-Account ein.
+            {t('info1.part3')} <a href="mailto: contact@print4health.org">contact@print4health.org</a> {t('info1.part4')}
             </p>
             <p>
-              Anschließend könnt ihr Bedarf an Ersatzteilen eintragen oder darauf reagieren und diese herstellen.
+            {t('info1.part5')}
+
             </p>
 
             {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
@@ -83,7 +88,7 @@ class LoginModal extends React.Component {
             <div className="form-group">
               <input name="email"
                      type="email"
-                     placeholder="E-Mail-Adresse"
+                     placeholder={t('email')}
                      className="form-control"
                      required
                      value={this.state.email}
@@ -92,7 +97,7 @@ class LoginModal extends React.Component {
             <div className="form-group">
               <input name="password"
                      type="password"
-                     placeholder="Passwort"
+                     placeholder={t('pass')}
                      className="form-control"
                      required
                      value={this.state.password}
@@ -101,23 +106,23 @@ class LoginModal extends React.Component {
             <p>
               <a href="#"
                  data-toggle="modal"
+                 data-cypress="modal-login-reset-password"
                  onClick={(e) => {
                    e.preventDefault();
                    this.props.onClose();
                    this.context.setShowRequestPasswordResetModal(true);
                  }}
               >
-                Passwort vergessen?
+                {t('forgot')}
               </a>
             </p>
 
             <p className="text-muted">
-              Ein Registrierungsformular und Accounts für Maker/Drucker/Printer werden gerade vorbereitet.
-              Gesundheits und Sozial-Einrichtungen können sofort starten.
+              {t('info2')}
             </p>
           </Modal.Body>
           <Modal.Footer>
-            <input type="submit" className="btn btn-primary" value=" Login" />
+            <input type="submit" className="btn btn-primary" value={t('button')} />
           </Modal.Footer>
         </form>
       </Modal>
@@ -127,4 +132,4 @@ class LoginModal extends React.Component {
 
 LoginModal.contextType = AppContext;
 
-export default LoginModal;
+export default withTranslation('modal-login')(LoginModal);

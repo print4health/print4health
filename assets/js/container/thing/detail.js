@@ -7,6 +7,7 @@ import OrderModal from '../../component/modal/order';
 import CommitModal from '../../component/modal/commit';
 import RequirementMap from '../../component/map/requirement-map';
 import ReactGA from 'react-ga';
+import { withTranslation } from 'react-i18next';
 
 class ThingDetailContainer extends React.Component {
 
@@ -28,6 +29,7 @@ class ThingDetailContainer extends React.Component {
     return {
       match: PropTypes.object,
       id: PropTypes.string,
+      t: PropTypes.func
     };
   }
 
@@ -110,6 +112,7 @@ class ThingDetailContainer extends React.Component {
   };
 
   createCommitment = (quantity) => {
+    const { t } = this.props;
     axios.post(
       Config.apiBasePath + '/commitments',
       {
@@ -126,7 +129,7 @@ class ThingDetailContainer extends React.Component {
         this.onCloseCommitModal();
         this.loadThing(false);
         this.loadOrders();
-        this.context.setAlert('Danke für Deinen Beitrag -  ist notiert.', 'success');
+        this.context.setAlert(t('commitmentmade'), 'success');
       })
       .catch(error => {
         this.setState({
@@ -136,6 +139,7 @@ class ThingDetailContainer extends React.Component {
   };
 
   createOrder = (quantity) => {
+    const { t } = this.props;
     axios.post(
       Config.apiBasePath + '/orders',
       {
@@ -152,7 +156,7 @@ class ThingDetailContainer extends React.Component {
         this.onCloseOrderModal();
         this.loadThing(false);
         this.loadOrders();
-        this.context.setAlert('Danke, der Bedarf wurde eingetragen', 'success');
+        this.context.setAlert(t('ordermade'), 'success');
       })
       .catch(error => {
         self.setState({
@@ -163,6 +167,7 @@ class ThingDetailContainer extends React.Component {
 
   renderSpecification() {
     const thing = this.context.currentThing;
+    const { t } = this.props;
 
     if (thing.specification.length > 0) {
       return (
@@ -171,7 +176,7 @@ class ThingDetailContainer extends React.Component {
     }
     if (thing.specification.length === 0) {
       return (
-        <div className="specs">Noch keine Spezifikation enthalten.</div>
+        <div className="specs">{t('nospecs')}</div>
       );
     }
   }
@@ -187,12 +192,13 @@ class ThingDetailContainer extends React.Component {
       showOrderModal,
     } = this.state;
     const thing = this.context.currentThing;
+    const { t } = this.props;
 
     if (error) {
-      return <div className="alert alert-danger">Error: {error.message}</div>;
+      return <div className="alert alert-danger">{t('error')}: {error.message}</div>;
     }
     if (!isLoaded) {
-      return <div>Loading...</div>;
+      return <div>{t('loading')}</div>;
     }
 
     return (
@@ -210,7 +216,7 @@ class ThingDetailContainer extends React.Component {
             </div>
             <div className="media" onClick={this.toggleSpecs}>
               <div className="media-body">
-                <strong className="text-uppercase">Spezifikationen:</strong>
+                <strong className="text-uppercase">{t('specs')}:</strong>
               </div>
               <a className="btn btn-link">
                 {showSpecs && <i className="fas fa-chevron-up fa-fw"></i>}
@@ -225,36 +231,33 @@ class ThingDetailContainer extends React.Component {
           <div className="col-md-3 col-order">
             <div className="media requests">
               <div className="media-body">
-                <span className="mr-1">Bedarf gesamt:</span>
+                <span className="mr-1">{t('need')}:</span>
                 <strong className="text-primary">{thing.needed}</strong>
               </div>
             </div>
             <div className="media requests mb-2">
               <div className="media-body">
-                <button className="btn btn-outline-primary" onClick={this.openOrderModal}>
-                  Bedarf anmelden
+                <button className="btn btn-outline-primary" onClick={this.openOrderModal} data-cypress="place-order">
+                  {t('order')}
                   <i className="ml-2 fas fa-plus-circle fa-fw"></i>
                 </button>
               </div>
             </div>
             <small className="text-muted">
-              Um Bedarf an diesem Ersatzteil anzumelden,
-              melde Dich mit deinem Einrichtungs-Account an und klicke auf das große rote +.
+              {t('hospinfo')}
             </small>
             <div className="media">
               <div className="media-body">
-                <span className="mr-1">Prints gesamt:</span>
+                <span className="mr-1">{t('prints')}:</span>
                 <strong className="text-secondary">{thing.printed}</strong>
               </div>
             </div>
             <small className="text-muted">
-              Um Ersatzteile für Bestellungen herzustellen,
-              melde Dich mit deinem Maker-Account an und klicke auf die Marker in
-              der Karten-Ansicht.
+              {t('makerinfo')}
             </small>
             <a className="media" href={thing.url} target="_blank" rel="noopener noreferrer">
               <div className="media-body">
-                <strong className="text-uppercase">Downloads</strong>
+                <strong className="text-uppercase">{t('downloads')}</strong>
               </div>
               <span className="btn btn-link btn-large">
                 <i className="fas fa-arrow-alt-circle-down fa-fw"></i>
@@ -277,4 +280,4 @@ class ThingDetailContainer extends React.Component {
 
 ThingDetailContainer.contextType = AppContext;
 
-export default ThingDetailContainer;
+export default withTranslation('page-thing-detail')(ThingDetailContainer);

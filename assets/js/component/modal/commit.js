@@ -4,6 +4,7 @@ import { Alert, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { FormControl, InputGroup, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { withTranslation, Trans } from 'react-i18next';
 
 class CommitModal extends React.Component {
   constructor(props) {
@@ -23,6 +24,8 @@ class CommitModal extends React.Component {
       order: PropTypes.object,
       onExited: PropTypes.func,
       onSubmit: PropTypes.func,
+      t: PropTypes.func,
+      i18n: PropTypes.object,
     };
   }
 
@@ -68,26 +71,22 @@ class CommitModal extends React.Component {
   };
 
   renderForm() {
+    const { t } = this.props;
     return <>
       <Modal.Body>
-        <h6>
-          Toll dass Du mithilfst!
+        <h6 data-cypress="modal-commitment-title-form">
+          {t('form.title')}
         </h6>
 
-        <p>
-          Bitte trage nur eine Anzahl ein, die Du wirklich bereit und in der Lage bist herzustellen.
-        </p>
-        <p>
-          Du kannst zu einem späteren Zeitpunkt immer noch mehr Teile zusagen.
-        </p>
+        <Trans i18nKey="modal-commit:form.description" />
 
         <InputGroup className="mb-3">
           <FormControl
             type="number"
             name="quantity"
-            placeholder="Anzahl"
+            placeholder={t('form.amount.placeholder')}
             required
-            aria-label="Anzahl der Teile"
+            aria-label={t('form.amount.label')}
             aria-describedby="basic-addon2"
             value={this.state.quantity}
             onChange={this.handleInputChange}
@@ -99,8 +98,11 @@ class CommitModal extends React.Component {
         </InputGroup>
       </Modal.Body>
       <Modal.Footer>
-        <Button type="submit" variant="outline-secondary" disabled={this.state.quantity <= 0}>
-          Herstellung zusagen
+        <Button type="submit"
+                variant="outline-secondary"
+                data-cypress="modal-commitment-submit"
+                disabled={this.state.quantity <= 0}>
+          {t('form.submit')}
           <i className="fas fa-plus-circle fa-fw"></i>
         </Button>
       </Modal.Footer>
@@ -108,26 +110,27 @@ class CommitModal extends React.Component {
   }
 
   renderInfo() {
+    const { t } = this.props;
     return <>
       <Modal.Body>
         <Alert variant="info">
-          Um als Maker Herstellung von Ersatzteilen zusagen zu können, könnt ihr euch
-          <Link to="/registration/maker" className="btn btn-link" onClick={this.onHide}>hier registrieren.</Link>
+          {t('info.text1')}
+          <Link to="/registration/maker" className="btn btn-link" onClick={this.onHide}>{t('info.link_registration')}</Link>.
         </Alert>
         <p>
-          Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an,
-          um Herstellung von Ersatzteilen zusagen zu können.
+          {t('info.text2')}
         </p>
       </Modal.Body>
       <Modal.Footer>
         <Link className="btn btn-outline-primary"
               to="/registration"
               onClick={this.onHide}>
-          Registrieren
+          {t('button.register')}
         </Link>
         <input type="submit"
+               data-cypress="modal-commitment-close"
                className="btn btn-light"
-               value="Schließen"
+               value={t('button.close')}
                onClick={this.onHide} />
       </Modal.Footer>
     </>;
@@ -143,7 +146,11 @@ class CommitModal extends React.Component {
       >
         <form onSubmit={this.handleSubmit}>
           <Modal.Header closeButton>
-            <Modal.Title>Herstellung für &quot;{thing.name}&quot; zusagen</Modal.Title>
+            <Modal.Title>
+              <Trans i18nKey="modal-commit:title">
+                Confirm the creation of thing {{ name: thing.name }}
+              </Trans>
+            </Modal.Title>
           </Modal.Header>
           {this.context.getCurrentUserRole() === 'ROLE_MAKER' ? this.renderForm() : this.renderInfo()}
         </form>
@@ -154,4 +161,4 @@ class CommitModal extends React.Component {
 
 CommitModal.contextType = AppContext;
 
-export default CommitModal;
+export default withTranslation('modal-commit')(CommitModal);

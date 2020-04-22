@@ -1,0 +1,9 @@
+{
+  "loading": "loading",
+  "title": "Contact",
+  "info": "This page is a temporary solution. We are working on an instant-messaging solution.",
+  "role": {
+    "institute": "Institution",
+    "maker": "Maker"
+  }
+}

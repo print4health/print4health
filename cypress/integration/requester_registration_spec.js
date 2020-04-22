@@ -3,16 +3,16 @@ describe('requester registration workflow', function () {
     cy.visit('/');
   });
   it('register as requester', () => {
-    cy.get('a.nav-link:contains("Registrieren")').click();
-    cy.contains('Bei print4health registrieren');
+    cy.get('a.nav-link[data-cypress="navlink-registration"]').click();
+    cy.get('h1[data-cypress="registration-index-title"]').should('exist');
     // check both links to requester-registration
-    cy.get('a.btn:contains("Ich bin ein Maker-Hub")').click();
-    cy.contains('Registrierung für Einrichtungen');
-    cy.get('a.nav-link:contains("Registrieren")').click();
-    cy.contains('Bei print4health registrieren');
-    cy.get('a.btn:contains("Ich habe Bedarf")').click();
-    cy.contains('Registrierung für Einrichtungen');
-
+    cy.get('a.btn[data-cypress="registration-requester-link"]').click();
+    cy.get('[data-cypress="registration-requester-title"]').should('exist');
+    // click on navigation again
+    cy.get('a.nav-link[data-cypress="navlink-registration"]').click();
+    cy.get('a.btn[data-cypress="registration-hub-link"]').click();
+    cy.get('[data-cypress="registration-requester-title"]').should('exist');
+    // fill form
     cy.get('input[name=name]').type('Requesterr McRequester');
     cy.get('input[name=email]').type('requester@example.org');
     cy.get('input[name=password]').type('my very secure pw');
@@ -30,6 +30,6 @@ describe('requester registration workflow', function () {
     cy.get('label[for=confirmedNoAccountabiltyForMediation]').click();
     cy.get('label[for=confirmedRuleMaterialAndTransport]').click();
     cy.get('button[type=submit]').click();
-    cy.contains('Registrierung erfolgreich!');
+    cy.get('.alert').should('exist').should('have.class', 'alert-success')
   });
 });

@@ -1,0 +1,78 @@
+{
+  "title": "Maker Registrierung",
+  "error": "Fehler",
+  "infohospital": {
+    "part1": "Um Bedarf anzumelden, müsst ihr als",
+    "strong": "Krankenhaus, Arzt, soziale Einrichtung oder Maker-Hub",
+    "part2": "angemeldet sein.",
+    "part3": "Die Registrierung dafür wird aktuell noch vorbereitet. Schreibt uns einfach eine E-Mail an",
+    "part4": "dann kümmern wir uns so schnell es geht darum."
+  },
+  "info": {
+    "part1": "Hier könnt ihr euch als Maker bei",
+    "part2": "registrieren. Bitte füllt das Formular gewissenhaft aus, denn schließlich geht es darum, Menschen zu helfen.",
+    "part3": "Solltet ihr ein Krankenhäuser, Arzt, eine gesundheitliche oder soziale Einrichtunge oder ein Maker-Hub sein, dann könnt ihr euch",
+    "link": "hier registrieren"
+  },
+  "data": "Allgemeine Daten",
+  "namefield": {
+    "label": "Name",
+    "placeholder": "Dein Name",
+    "errorrequired": "Dies ist ein Pflichtfeld. Bitte gib min. 5 Zeichen ein.",
+    "info": "Bitte trage deinen Namen ein. Er wird nicht öffentlich angezeigt und ist notwendig zur Vermittlung zwischen den Institutionen, die Bedarf angemeldet haben. Mindestens fünf Zeichen sind erforderlich."
+  },
+  "mailfield": {
+    "label": "E-Mail",
+    "placeholder": "Deine E-Mail-Adresse",
+    "invalid": "Ungültige E-Mail-Adresse",
+    "info": "Bitte trage deine E-Mail Adresse ein. Sie wird verwendet um dein Passwort zurück zu setzen oder damit Institutionen Kontakt mit dir aufnehmen können.",
+    "errorrequired": "Dies ist ein Pflichtfeld. Bitte gib deine E-Mail Adresse ein."
+  },
+  "passfield1": {
+    "label": "Passwort",
+    "placeholder": "Dein Passwort",
+    "info": "Dein Passwort für print4health.org. Am besten du wählst ein langes mit vielen Sonderzeichen und es steht nirgendwo im Wörterbuch oder ist leicht zu erraten.",
+    "errorrequired": "Dies ist ein Pflichtfeld. Dein Passwort sollte min. 8 Zeichen lang sein."
+  },
+  "passfield2": {
+    "label": "Passwort wiederholen",
+    "placeholder": "Wiederhole dein Passwort",
+    "info": "Bitte gib zur Sicherheit dein Passwort zwei mal ein.",
+    "error": "Die Passwörter stimmen nicht überein"
+  },
+  "plz": {
+    "label": "Postleitzahl",
+    "placeholder": "Postleitzahl",
+    "info": "Deine Postleitzahl wird verwendet um dich bei einer nächsten Version auf einer Karte anzuzeigen, damit eine Einrichtung in deiner Nähe sehen kann, dass du zur Verfügung stehst.",
+    "errorrequired": "Dies ist ein Pflichtfeld. Deine Postleitzahl sollte 4 oder 5 Zeichen lang sein."
+  },
+  "country": {
+    "label": "Land",
+    "placeholder": "Land",
+    "info": "Das Land in dem du Wohnst (kein Pflichtfeld)",
+    "error": "Der Name deines Landes darf max. 255 Zeichen lang sein."
+  },
+  "accept": {
+    "label": "Einverständniserlkärungen",
+    "overview": "Es gibt kein Kleingedrucktes, aber nimm dir bitte kurz Zeit, die folgenden Bedingungen zu bestätigen:",
+    "condition1": "Ich erkläre mich im Umfang meiner Möglichkeiten bereit, nach besten Möglichkeiten und Fähigkeiten kostenlos 3D-Drucke für Krankenhäuser und sonstige medizinische und soziale Einrichtungen sowie medizinisches Personal herzustellen, die auf dieser Internetpräsenz registriert sind.",
+    "condition2": "Regelungen zu etwaigen Materialkostenübernahmen sowie für etwaig anfallende Transportkosten werde ich mit den vermittelten Krankenhäusern und sonstigen medizinischen und sozialen Einrichtungen sowie medizinischem Personal unmittelbar treffen.",
+    "condition3": "Mir ist bekannt, dass print4health ausschließlich Kontakte zwischen Krankenhäusern und sonstigen medizinischen und sozialen Einrichtungen sowie medizinischem Personal einerseits und privaten 3D-Druckern und Designern von 3D-Druck-Bauplänen andererseits vermittelt.",
+    "condition4": {
+      "part1": "Ich erkläre mich daher damit einverstanden, dass print4health keinerlei Haftung für",
+      "part2": "das Zustandekommen von 3D-Druck-Aufträgen und",
+      "part3": "die Qualität der auf dieser Internetpräsenz vorgehaltenen 3D-Druck-Design-Vorlagen",
+      "part4": "übernimmt."
+    },
+    "condition5": "Einer Weitergabe der von mir mitgeteilten Kontaktdaten und Kapazitätsangaben durch print4health an registrierte Krankenhäuser und sonstige medizinische und soziale Einrichtungen sowie medizinisches Personal stimme ich ausdrücklich zu.",
+    "errorrequired": "Bitte akzeptiere alle unsere Bedingungen für die Plattform."
+  },
+  "button": "Als Maker Registrieren",
+  "success": "Registrierung erfolgreich!",
+  "successtext": {
+    "part1": "Nun kannst du dich Anmelden und zum",
+    "link": "Bedarf",
+    "part2": "und Druckaufträge Druckaufträge zusagen."
+  },
+  "fail": "Die Registrierung konnte nicht abgeschlossen werden. Bitte überprüfe die Daten in den Eingabefeldern."
+}

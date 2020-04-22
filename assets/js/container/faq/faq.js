@@ -1,44 +1,48 @@
 import React from 'react';
 import { Accordion, Card } from 'react-bootstrap';
 import AppContext from '../../context/app-context';
+import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 class Faq extends React.Component {
+
+  static get propTypes() {
+    return {
+      t: PropTypes.func
+    };
+  }
 
   componentDidMount() {
     this.context.setPageTitle('FAQ')
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div className="container Faq">
         <div className="row">
           <div className="col">
-            <h1>FAQ - Hier findet Ihr Antworten auf Eure Fragen.</h1>
+            <h1>{t('title')}</h1>
         </div>
       </div>
 
       <div className="row mt-5">
           <div className="col-md-6 col-sm-12">
-            <h3>Krankenhaus / Soziale Einrichtung</h3>
+            <h3>{t('hospital.title')}</h3>
             <Accordion defaultActiveKey="10" className="shadow-sm">
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="10">
-                  Ich bin Arzt, Krankenhaus, Pflege-, soziale oder öffentliche Einrichtung.
-                  Wie kann ich Material anfragen?
+                  {t('hospital.ask1')}
                 </Accordion.Toggle>
                 <Accordion.Collapse as={Card.Body} eventKey="10">
                   <Card.Body>
                     <p>
-                      Dazu müsst Ihr euch einloggen und bei dem gewünschten Teil rechts auf das
-                       <i className="fas fa-plus-circle fa-fw text-primary"></i>
-                       bei &quot;Bedarf gesamt: xxx&quot; klicken.
+                      {t('hospital.ans1.part1')} <i className="fas fa-plus-circle fa-fw text-primary"></i> {t('hospital.ans1.part2')}
                     </p>
-                    <p>Danach öffnet sich ein Fenster und Ihr könnt die erforderliche Menge eintragen.</p>
+                    <p>{t('hospital.ans1.part3')}</p>
                     <p>
-                      Solltet Ihr noch keinen Login haben, schreibt uns einfach eine kurze E-Mail an
-                      <a href="mailto:contact@print4health.org">contact@print4health.org</a> und wir legen Euch
-                      einen Account an. Ein Formular zur Selbstregistrierung war noch nicht Teil des Hackathons,
-                      kommt aber bald.
+                      {t('hospital.ans1.part4')} <a href="mailto:contact@print4health.org">contact@print4health.org</a>
+                      {t('hospital.ans1.part5')}
                     </p>
                     {/*
                     Registriert euch unter Login und hakt dabei das Kästchen _____ ab.
@@ -50,29 +54,27 @@ class Faq extends React.Component {
               </Card>
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="11">
-                  Ich brauche ein sehr spezielles Bauteil, wie gehe ich am Besten vor?
+                  {t('hospital.ask2')}
                 </Accordion.Toggle>
                 <Accordion.Collapse as={Card.Body} eventKey="11">
                   <Card.Body>
                     <p>
-                      In Zukunft könnt Ihr ein Bauteil mit Foto, Beschreibung, Herstellername und Spezifikation in
-                      unseren Upload Bereich auf der Bedarfs-Webseite hochladen.
+                      {t('hospital.ans2.part1')}
                     </p>
                     <p>
-                      Aktuell kontaktiere uns bitte direkt über Social Media oder unsere E-Mail
-                      <a href="mailto:contact@print4health.org">contact@print4health.org</a>.
+                      {t('hospital.ans2.part2')} <a href="mailto:contact@print4health.org">contact@print4health.org</a>.
                     </p>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="12">
-                  Wie kann ich den Prozess beschleunigen, ich brauche wirklich dringend Teile?
+                  {t('hospital.ask3')}
                 </Accordion.Toggle>
                 <Accordion.Collapse as={Card.Body} eventKey="12">
                   <Card.Body>
                     <p>
-                      Unterstützung kann bei den Behörden angefordert werden.
+                      {t('hospital.ans3')}
                     </p>
                   </Card.Body>
                 </Accordion.Collapse>
@@ -80,71 +82,68 @@ class Faq extends React.Component {
             </Accordion>
           </div>
           <div className="col-md-6 col-sm-12">
-            <h3>FAQ Maker / Ingenieure / Designer</h3>
+            <h3>{t('maker.title')}</h3>
             <Accordion defaultActiveKey="20">
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="20">
-                  Ich habe ein 3D-Drucker als Privatperson. Kann ich auch damit unterstützen?
+                  {t('maker.ask1')}
                 </Accordion.Toggle>
                 <Accordion.Collapse as={Card.Body} eventKey="20">
                   <Card.Body>
                     <p>
-                      Wir brauchen jede freie Druckerkapazität. Ob Industrie 3D-Drucker oder Dein privater 3D-Drucker
-                      zu Hause - jeder kann helfen!
+                      {t('maker.ans1')}
                     </p>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="21">
-                  Was bringt mir das Drucken der Modelle?
+                  {t('maker.ask2')}
                 </Accordion.Toggle>
                 <Accordion.Collapse as={Card.Body} eventKey="21">
                   <Card.Body>
                     <p>
-                      Zunächst könnt Ihr damit Leben retten!
-                      Außerdem arbeiten wir auf freiwilliger Basis, jedoch sind wir dabei, Kooperationen zu schließen,
-                      um Euch für Eure Arbeit mit Gutscheinen und Filament zu entlohnen.
-                      Keine Sorge: Eure jetzt schon erledigten Aufträge werden mit eingerechnet.
+                      {t('maker.ans2')}
                     </p>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="22">
-                  Welches Filament brauche ich und wo kann ich das bestellen?
+                  {t('maker.ask3')}
                 </Accordion.Toggle>
                 <Accordion.Collapse as={Card.Body} eventKey="22">
                   <Card.Body>
                     <p>
-                      In den Produktbeschreibungen findet Ihr die Materialspezifikationen.
-                      Hier finden sich auch Links von Anbietern für das zu benutzende Filament.
+                      {t('maker.ans3')}
                     </p>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="23">
-                  Werden die Kosten für das Filament erstattet?
+                  {t('maker.ask4')}
                 </Accordion.Toggle>
                 <Accordion.Collapse as={Card.Body} eventKey="23">
                   <Card.Body>
-                    <p>Wir starten zunächst mit dem Druck auf freiwilliger Basis.</p>
                     <p>
-                      Wir bemühen uns aber Kooperationen zu schließen, um Euch für Eure Arbeit mit Gutscheinen für
-                      Filament zu entlohnen.
+                      {t('maker.ans4.part1')}
+                    </p>
+                    <p>
+                      {t('maker.ans4.part2')}
                     </p>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="24">
-                  Wie kommt mein gedrucktes Teil an die Klinik, den Arzt oder den Endnutzer?
+                  {t('maker.ask5')}
                 </Accordion.Toggle>
                 <Accordion.Collapse as={Card.Body} eventKey="24">
                   <Card.Body>
-                    <p>Per freiwilliger Fahrer, Taxis, Behörden. Auch hier suchen wir nach freiwilligen Unterstützern.
-                      Kleinere Produkte und Mengen können natürlich auch per Post versendet werden.</p>
+                    <p>
+                      {t('maker.ans5')}
+                    </p>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
@@ -163,36 +162,30 @@ class Faq extends React.Component {
               */}
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="26">
-                  Wen kann ich kontaktieren, wenn meine Teile fertig gedruckt sind?
+                  {t('maker.ask6')}
                 </Accordion.Toggle>
                 <Accordion.Collapse as={Card.Body} eventKey="26">
                   <Card.Body>
                     <p>
-                      Aktuell gibt es dazu keine Möglichkeit. Du kannst Deinen Druck wie hier in der FAQ beschrieben
-                      and den jeweiligen Endnutzer übermitteln.
+                      {t('maker.ans6.part1')}
                     </p>
-                    <p>In Zukunft kannst Du dies auf unser Plattform melden und es erfolgt die Organisation des
-                      Transportes, damit Dein Teil schnellstmöglich zum Einsatz kommt.
+                    <p>
+                      {t('maker.ans6.part2')}
                     </p>
                   </Card.Body>
                 </Accordion.Collapse>
               </Card>
               <Card>
                 <Accordion.Toggle as={Card.Header} variant="link" eventKey="27">
-                  Ich habe ein Modell gefunden, dass nützlich sein könnte, wie kann ich es bei Euch einstellen?
+                  {t('maker.ask7')}
                 </Accordion.Toggle>
                 <Accordion.Collapse as={Card.Body} eventKey="27">
                   <Card.Body>
                     <p>
-                      Derzeit werden alle Modelle von uns händisch eingepflegt und überprüft.
-                      Auch in der Zukunft ist eine Kuratierung der Inhalte sinnvoll, da wir uns ganz klar auf den
-                      Gesundheitsbereich beschränken wollen.
+                      {t('maker.ans7.part1')}
                     </p>
                     <p>
-                      Es wird in der Zukunft aber auch eine Registrierung für Maker und Ingenieure geben, um 3D
-                      Modelle leichter zur Verfügung stellen zu können.
-                      Habt bis dahin bitte noch etwas Geduld und wendet Euch mit einer Idee an <a
-                      href="mailto:contact@print4health.org">contact@print4health.org</a>
+                      {t('maker.ans7.part2')} <a href="mailto:contact@print4health.org">contact@print4health.org</a>
                     </p>
                   </Card.Body>
                 </Accordion.Collapse>
@@ -207,4 +200,4 @@ class Faq extends React.Component {
 
 Faq.contextType = AppContext;
 
-export default Faq;
+export default withTranslation('page-faq')(Faq);

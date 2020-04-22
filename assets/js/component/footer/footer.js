@@ -1,12 +1,22 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 class Footer extends React.Component {
   constructor(props) {
     super(props);
   }
 
+  static get propTypes() {
+    return {
+      t: PropTypes.func,
+      i18n: PropTypes.object,
+    };
+  }
+
   render() {
+    const { t } = this.props;
     return (
       <footer className="Footer bg-gray">
         <div className="container py-4">
@@ -39,13 +49,13 @@ class Footer extends React.Component {
             </div>
             <ul className="list-inline mb-0">
               <li className="list-inline-item">
-                <NavLink to="/contact" activeClassName="text-primary">Kontakt</NavLink>
+                <NavLink to="/contact" activeClassName="text-primary" data-cypress="navlink-contact">{t('footer.contact')}</NavLink>
               </li>
               <li className="list-inline-item">
-                <NavLink to="/imprint" activeClassName="text-primary">Impressum</NavLink>
+                <NavLink to="/imprint" activeClassName="text-primary">{t('footer.imprint')}</NavLink>
               </li>
               <li className="list-inline-item">
-                <NavLink to="/data-privacy-statement" activeClassName="text-primary">Datenschutzerklärung</NavLink>
+                <NavLink to="/data-privacy-statement" activeClassName="text-primary">{t('footer.privacy')}</NavLink>
               </li>
               <li className="list-inline-item">
                 <a
@@ -54,7 +64,7 @@ class Footer extends React.Component {
                   rel="noopener noreferrer"
                   title="Improve me on GitHub"
                 >
-                  GitHub
+                  {t('footer.github')}
                 </a>
               </li>
             </ul>
@@ -65,4 +75,4 @@ class Footer extends React.Component {
   }
 }
 
-export default Footer;
+export default withTranslation('components')(Footer);

@@ -4,6 +4,8 @@ import ThingList from './../../component/thing/list.js';
 import Search from './../../component/search/search';
 import axios from 'axios';
 import AppContext from '../../context/app-context';
+import { withTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 
 class ThingListContainer extends React.Component {
 
@@ -17,8 +19,15 @@ class ThingListContainer extends React.Component {
     this.executeSearch = this.executeSearch.bind(this);
   }
 
+  static get propTypes() {
+    return {
+      t: PropTypes.func
+    };
+  }
+
   componentDidMount() {
-    this.context.setPageTitle('Bedarf & Ersatzteile');
+    const { t } = this.props;
+    this.context.setPageTitle(t('list.pagetitle'));
     this.executeSearch('');
   }
 
@@ -46,11 +55,12 @@ class ThingListContainer extends React.Component {
 
   render() {
     const { error, isLoaded, things } = this.state;
+    const { t } = this.props;
 
     if (error) {
-      return <div className="alert alert-danger">Error: {error.message}</div>;
+      return <div className="alert alert-danger">{t('list.error')}: {error.message}</div>;
     } else if (!isLoaded) {
-      return <div className="text-center py-5">Bitte warten ...</div>;
+      return <div className="text-center py-5">{t('list.loading')} ...</div>;
     }
 
     return (
@@ -64,4 +74,4 @@ class ThingListContainer extends React.Component {
 
 ThingListContainer.contextType = AppContext;
 
-export default ThingListContainer;
+export default withTranslation('page-thing-list')(ThingListContainer);

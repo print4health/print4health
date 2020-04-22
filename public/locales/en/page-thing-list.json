@@ -1,0 +1,16 @@
+{
+  "item": {
+    "loading": "Picture is loading ...",
+    "noimage": "No picture existing",
+    "fail": "Something went wrong",
+    "remaining": "still needed",
+    "made": "Made",
+    "need": "Needed"
+  },
+  "list": {
+    "pagetitle": "Need & Spareparts",
+    "error": "Error",
+    "loading": "Please wait",
+    "nothing": "Nothing found"
+  }
+}

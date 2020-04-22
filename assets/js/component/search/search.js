@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { debounce } from 'lodash';
+import { withTranslation } from 'react-i18next';
 
 class Search extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class Search extends React.Component {
   static get propTypes() {
     return {
       executeSearch: PropTypes.func,
+      t: PropTypes.func
     };
   }
 
@@ -24,12 +26,13 @@ class Search extends React.Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div className="Search input-group">
         <input
           type="text"
           className="form-control"
-          placeholder="Suche nach Produkten ..."
+          placeholder={t('searchbar.placeholder')}
           aria-describedby="lupe"
           onChange={this.handleInputChange}
         />
@@ -43,4 +46,4 @@ class Search extends React.Component {
   }
 }
 
-export default Search;
+export default withTranslation('components')(Search);

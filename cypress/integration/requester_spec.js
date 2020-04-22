@@ -11,13 +11,15 @@ describe('requester workflow', function () {
   it('place order', function () {
     cy.openOrderModal();
     cy.checkQuantityInput(50);
-    cy.get('button:contains("Bedarf eintragen")').click();
+    cy.get('[data-cypress="modal-order-submit"]').click();
     cy.scrollTo('top');
-    cy.get('.alert-success').contains('Danke, der Bedarf wurde eingetragen');
+    cy.get('.alert').should('exist').should('have.class', 'alert-success')
   });
   it('check that commit modal only displays info text', function () {
     cy.openCommitModal();
-    cy.get('input[value=Schließen]').click();
+    cy.get('[data-cypress="modal-commitment-title-form"]').should('not.exist');
+    cy.get('[data-cypress="modal-commitment-submit"]').should('not.exist');
+    cy.get('[data-cypress="modal-commitment-close"]').click();
   });
   it('logout', function () {
     cy.logout();
