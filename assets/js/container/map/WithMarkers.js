@@ -22,18 +22,41 @@ class WithMarkers extends React.Component {
         this.renderMarkers = this.renderMarkers.bind(this);
     }
 
+    shallowDiff(array1, array2) {
+      if(typeof array1 === "undefined" &&
+         typeof array2 === "undefined"
+      ) {
+        return false;
+      }
+
+      if(typeof array1 === "undefined" ||
+         typeof array2 === "undefined"
+        ) {
+        return true;
+      }
+
+      if(array1.length !== array2.length) {
+        return true;
+      }
+
+      return array1.sort().join("") !== array2.sort().join("");
+    }
+
     componentDidMount() {
         const { types } = this.props;
         this.fetchEntities(types);
     }
 
     componentDidUpdate(prevProps) {
-      if(this.props.types !== prevProps.types) {
-        let nextMarkerList = this.state.markerLists;
-        nextMarkerList = nextMarkerList.filter(({type}) => {
-          return this.props.types.includes(type);
-        });
 
+      // TODO: Compare types
+      if(this.shallowDiff(this.props.types, prevProps.types)) {
+        let nextMarkerList = this.state.markerLists;
+
+        nextMarkerList = nextMarkerList
+          .filter(({type}) => (this.props.types.includes(type)));
+
+        console.log("should not trigger");
         this.setState({markerLists: nextMarkerList});
         this.fetchEntities(this.props.types);
       }
@@ -87,9 +110,11 @@ class WithMarkers extends React.Component {
                                 throw new Error();
                             }
 
-                            const nextState = this.state.markerLists;
                             const entities = Object.values(data)[0];
                             if(typeof entities !== "undefined" && entities.length) {
+                                const nextState = this.state.markerLists
+                                  .filter((list) => (list.type !== type));
+
                                 nextState.push({type: type, data: entities});
                                 this.setState({markerLists: nextState});
                             }
@@ -113,7 +138,7 @@ class WithMarkers extends React.Component {
     renderMarkers({type, data}) {
         return data
             .filter((marker) => (!!marker.latitude || (!!marker.requester && !!marker.requester.latitude)))
-            .map((marker) => <Marker key={marker.id} type={type} data={marker} />);
+            .map((marker) => <Marker key={type + marker.id} type={type} data={marker} />);
     }
 
     render () {
