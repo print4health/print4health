@@ -13,9 +13,6 @@ use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
 class ThingExistsValidator extends ConstraintValidator
 {
-    /**
-     * @var ThingRepository
-     */
     private ThingRepository $thingRepository;
 
     public function __construct(ThingRepository $thingRepository)

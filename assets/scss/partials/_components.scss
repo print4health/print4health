@@ -96,47 +96,79 @@
         margin-top: 2rem;
 
         h6 {
-            padding: 0 0 1rem 0;
-            text-align: center;
+            padding: 1rem 0 0 1rem;
+            margin-bottom: 0;
             display: inline-block;
-            vertical-align: bottom;
+            vertical-align: top;
             line-height: normal;
         }
     }
 
     &__headline {
-        height: 7rem;
-        line-height: 7rem;
-        text-align: center;
+        height: 4rem;
+        line-height: 4rem;
+        text-align: left;
     }
 
     &__value-row {
-        p {
-            padding: 0 1rem;
-            text-align: center;
+        p{
+            text-align: left;
             display: inline-block;
             vertical-align: middle;
             line-height: normal;
+            padding-inline-start: 0;
+        }
+        ul,
+        ol {
+            text-align: left;
+            vertical-align: middle;
+            line-height: normal;
+            margin-bottom: 0;
+            padding-inline-start: 0.5rem;
+            width: 100%;
+            li {
+                padding: 0.25rem 0;
+            }
         }
     }
 
     &__value {
         background-color: $white;
         margin: 1rem 0;
-        height: 7rem;
-        line-height: 7rem;
-        text-align: center;
+        min-height: 7rem;
+        padding: 0 1rem;
+        display: flex;
+        align-items: center;
     }
 
     &__value-img {
-        background-color: $gray-bg;
+        //background-color: $gray-bg;
+        padding: 0;
+        overflow: hidden;
 
         img {
-            max-height: 100%;
+            //max-height: 100%;
             max-width: 100%;
             width: auto;
         }
     }
+
+    .table {
+        margin-bottom: 0;
+    }
+}
+
+.Contact{
+    &__card-row {
+        margin-bottom: 1rem;
+    }
+}
+
+.fa-id-card{
+    height: 112px;
+    line-height: 112px;
+    text-align: center;
+    font-size: 1.5rem;
 }
 
 .bg-primary {

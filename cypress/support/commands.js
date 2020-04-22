@@ -39,7 +39,7 @@ Cypress.Commands.add('openCommitModal', (email, pw) => {
   cy.server().route('GET', '/things').as('thingsList');
   cy.server().route('GET', '/things/**').as('thingsDetail');
 
-  cy.get('a.nav-link:contains("Bedarf")').click();
+  cy.get('a.nav-link:contains("Bedarf")').first().click();
   cy.wait('@thingsList').its('status').should('be', 200);
   cy.title().should('eq', 'print4health - Bedarf & Ersatzteile');
   cy.get('h5.card-title').first().click();
@@ -53,7 +53,7 @@ Cypress.Commands.add('openOrderModal', (email, pw) => {
   cy.server().route('GET', '/things').as('thingsList');
   cy.server().route('GET', '/things/**').as('thingsDetail');
 
-  cy.get('a.nav-link:contains("Bedarf")').click();
+  cy.get('a.nav-link:contains("Bedarf")').first().click();
   cy.wait('@thingsList').its('status').should('be', 200);
   cy.title().should('eq', 'print4health - Bedarf & Ersatzteile');
   cy.get('h5.card-title').first().click();
@@ -77,8 +77,8 @@ Cypress.Commands.add('resetPassword', (email, newPassword) => {
   cy.request('GET', 'http://localhost:1080/email').then(res => {
     const email = res.body[0];
     expect(email.subject).to.equal('print4health - Passwort zurücksetzen');
-    expect(email.html).to.contain('Bitte nutzen Sie folgende URL um ein neues Passwort zu vergeben');
-    const url = email.html.match(/(https?:\/\/[^\s]+)/g)[0];
+    expect(email.html).to.contain('Bitte nutze folgenden Link um ein neues Passwort zu vergeben:');
+    const url = email.html.match(/(https?:\/\/[^\s]+\/reset-password\/[0-9a-f\-]+)/g)[0];
     cy.visit(url);
     cy.get('input[name=password]').type(newPassword);
     cy.get('input[name=repeatPassword]').type(newPassword);

@@ -161,7 +161,7 @@ class CommitmentController
         $order = $this->orderRepository->find($commitmentRequest->orderId);
 
         if (!$order instanceof Order) {
-            throw new BadRequestHttpException('Order not found');
+            throw new NotFoundHttpException('Order not found');
         }
 
         $maker = $this->security->getUser();

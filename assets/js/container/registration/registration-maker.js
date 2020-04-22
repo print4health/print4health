@@ -37,16 +37,6 @@ const RegistrationForm = (props) => {
       <div className="row">
         <div className="col-md-8 offset-md-2">
           <h1>Maker Registrierung</h1>
-          <Alert variant="info" className="mt-3">
-            Um Bedarf anzumelden, müsst ihr als <strong>Krankenhaus, Arzt, soziale Einrichtung oder
-            Maker-Hub (<a href="https://www.makervsvirus.org/" target="_blank"
-                          rel="noopener noreferrer">MakerVsVirus</a>)</strong> angemeldet
-            sein.
-            <br />
-            Die Registrierung dafür wird aktuell noch vorbereitet. Schreibt uns einfach eine E-Mail
-            an <a href="mailto:contact@print4health.org">contact@print4health.org</a> dann kümmern wir uns so schnell
-            es geht darum.
-          </Alert>
           {alert.show &&
           <Alert variant="danger">
             <strong>Fehler {alert.status}</strong>: {alert.message}
@@ -54,9 +44,13 @@ const RegistrationForm = (props) => {
           {showForm &&
           <form onSubmit={handleSubmit(callback)} className="mt-5 registration-form">
             <p>
-              Hier könnt ihr euch als Maker bei <span className="text-primary">print4health.org</span> registrieren.
+              Hier könnt ihr euch als Maker bei <Link to="/">print4health.org</Link> registrieren.
               Bitte füllt das Formular gewissenhaft aus, denn schließlich geht es darum, Menschen zu helfen.
             </p>
+            <p>Sollte ihr ein Krankenhäuser, Arzt, eine gesundheitliche oder soziale Einrichtunge oder ein Maker-Hub
+              sein, dann könnt ihr euch <Link to="/registration/requester">hier registrieren</Link>.
+            </p>
+            <h3>Allgemeine Daten</h3>
             <Form.Group as={Row} controlId="registerMakerName">
               <Form.Label column sm="2">Name*</Form.Label>
               <Col sm="10">
@@ -122,6 +116,7 @@ const RegistrationForm = (props) => {
                 </Form.Text>
               </Col>
             </Form.Group>
+            <h3>Ort</h3>
             <Form.Group as={Row} controlId="registerMakerPostalCode">
               <Form.Label column sm="2">Postleitzahl*</Form.Label>
               <Col sm="10">
@@ -148,16 +143,19 @@ const RegistrationForm = (props) => {
                   {countries.map(({ name, code }) => <option key={code} value={code}>{name}</option>)}
                 </Form.Control>
                 <Form.Text className="text-muted">
-                  Das Land in dem du Wohnst (Pflichtfeld da dieses mit der Postleitzahl verwendet wird um deine
+                  Das Land in dem du Wohnst (Pflichtfeld, da dieses mit der Postleitzahl verwendet wird um deine
                   ungefähre Position zu speichern)
                   {printError(errors.addressState, 'Bitte wähle dein Land aus der Liste aus.')}
                   {printError(serverErrors.addressState, serverErrors.addressState)}
                 </Form.Text>
               </Col>
             </Form.Group>
+            <h3>Einverständniserklärungen</h3>
+            <Alert variant="info">
+              Es gibt kein Kleingedrucktes, aber nimm dir bitte kurz Zeit, die folgenden Bedingungen zu bestätigen:
+            </Alert>
             <Row>
               <Col sm={{ offset: 2 }}>
-                <h3>Einverständniserklärungen</h3>
                 <Form.Group className="d-flex" controlId="confirmedRuleForFree">
                   <Form.Check
                     type="checkbox"
@@ -248,6 +246,10 @@ const RegistrationForm = (props) => {
                     {printError(serverErrors.confirmedPersonalDataTransferToRequester, serverErrors.confirmedPersonalDataTransferToRequester)}
                   </Form.Text>
                 </Form.Group>
+                {alert.show &&
+                <Alert variant="danger">
+                  <strong>Fehler {alert.status}</strong>: {alert.message}
+                </Alert>}
                 <Button variant="primary" type="submit">Als Maker Registrieren</Button>
               </Col>
             </Row>
@@ -271,7 +273,7 @@ RegistrationForm.propTypes = () => {
   return {};
 };
 
-class RegisterMaker extends React.Component {
+class RegistrationMaker extends React.Component {
 
   constructor(props) {
     super(props);
@@ -299,7 +301,8 @@ class RegisterMaker extends React.Component {
       // todo redirect to home?
     }
 
-    this.getCountryList('de');
+    const lang = navigator.language || navigator.userLanguage;
+    this.getCountryList(lang.split('-')[0].toLocaleLowerCase());
   }
 
   getCountryList(lang) {
@@ -342,6 +345,7 @@ class RegisterMaker extends React.Component {
         if (res.data && res.data.maker && res.data.maker.id) {
           this.setState({
             showForm: false,
+            alert: { show: false },
           });
         }
       })
@@ -390,6 +394,6 @@ class RegisterMaker extends React.Component {
   }
 }
 
-RegisterMaker.contextType = AppContext;
+RegistrationMaker.contextType = AppContext;
 
-export default RegisterMaker;
+export default RegistrationMaker;

@@ -19,9 +19,11 @@ class GeoCoder
         $this->googleKey = $googleApiKey;
     }
 
-    public function geoEncodePostalCountry(
-        string $countryCode,
-        string $postalCode
+    public function geoEncodeByAddress(
+        string $street,
+        string $postalCode,
+        string $city,
+        string $countryCode
     ): CoordinatesRequest {
         $components = [
             'country:' . $countryCode,
@@ -33,6 +35,7 @@ class GeoCoder
 
             $response = $client->request('GET', $this->baseUrl, [
                 'query' => [
+                    'address' => sprintf('%s %s', $street, $city),
                     'components' => implode('|', $components),
                     'key' => $this->googleKey,
                 ],
@@ -61,19 +64,25 @@ class GeoCoder
         }
     }
 
-    public function geoEncodeAddress(
-        string $address
+    public function geoEncodeByPostalCodeAndCountry(
+        string $postalCode,
+        string $countryCode
     ): CoordinatesRequest {
+        $components = [
+            'country:' . $countryCode,
+            'postal_code:' . $postalCode,
+        ];
+
         try {
             $client = HttpClient::create(['http_version' => '2.0']);
-
-            $response = $client->request('GET', $this->baseUrl, [
+            $params = [
                 'query' => [
-                    'address' => $address,
+                    'components' => implode('|', $components),
                     'key' => $this->googleKey,
                 ],
-            ]);
+            ];
 
+            $response = $client->request('GET', $this->baseUrl, $params);
             $responseArray = $response->toArray();
 
             if (

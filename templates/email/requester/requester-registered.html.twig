@@ -1,0 +1,26 @@
+{% extends 'email/email-base.html.twig' %}
+{# @var requester \App\Domain\User\Entity\Requester #}
+
+{% block content %}
+    <p>Neue Registrierung als Einrichtung,</p>
+    <br />
+    <p>
+        Einrichtung: {{ requester.name }}<br />
+        E-Mail: {{ requester.email }}<br />
+        Typ: {{ requester.institutionType }}<br />
+        Addresse: <br />
+        {{ requester.addressStreet }}<br />
+        {{ requester.postalCode }} {{ requester.contactInfo }}<br />
+        {{ requester.addressState }}<br />
+        <br />
+        Beschreibung:<br />
+        {{ requester.description }}<br />
+        <br />
+        Kontakt-Info:<br />
+        {{ requester.contactInfo }}<br />
+        <br />
+        <br />
+        <br />
+        Id zum aktivieren: <code>{{ requester.id }}</code>
+    </p>
+{% endblock %}

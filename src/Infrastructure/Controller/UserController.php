@@ -29,6 +29,7 @@ class UserController
      *     methods={"GET"},
      *     format="json"
      * )
+     * @SWG\Tag(name="User")
      * @SWG\Response(
      *     response=200,
      *     description="Current authenticated user",

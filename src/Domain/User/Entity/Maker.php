@@ -17,6 +17,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Maker implements UserInterface
 {
+    public const ROLE_MAKER = 'ROLE_MAKER';
+
     /**
      * @ORM\Column(type="guid")
      * @ORM\Id
@@ -27,6 +29,11 @@ class Maker implements UserInterface
      * @ORM\Column(unique=true)
      */
     private string $email;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $enabled;
 
     /**
      * @var string[]
@@ -89,10 +96,11 @@ class Maker implements UserInterface
      */
     private ?DateTimeImmutable $updatedDate;
 
-    public function __construct(string $email, string $name)
+    public function __construct(string $email, string $name, bool $enabled)
     {
         $this->email = $email;
         $this->name = $name;
+        $this->enabled = $enabled;
         $this->id = Uuid::uuid4()->toString();
         $this->createdDate = DateHelper::create();
     }
@@ -105,6 +113,21 @@ class Maker implements UserInterface
     public function getEmail(): string
     {
         return (string) $this->email;
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->enabled;
+    }
+
+    public function enable(): void
+    {
+        $this->enabled = true;
+    }
+
+    public function disable(): void
+    {
+        $this->enabled = false;
     }
 
     public function getUsername(): string
@@ -123,8 +146,8 @@ class Maker implements UserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-        $roles[] = 'ROLE_MAKER';
+        $roles[] = User::ROLE_USER;
+        $roles[] = self::ROLE_MAKER;
 
         return array_unique($roles);
     }

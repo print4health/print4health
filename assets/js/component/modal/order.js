@@ -2,6 +2,7 @@ import React from 'react';
 import AppContext from '../../context/app-context';
 import { Alert, Button, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 class OrderModal extends React.Component {
   constructor(props) {
@@ -104,15 +105,23 @@ class OrderModal extends React.Component {
     return <>
       <Modal.Body>
         <Alert variant="info">
-          Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, meldet euch unter <a
-          href="mailto: contact@print4health.org">contact@print4health.org</a> und wir erstellen euch einen Zugang.
-          Daraufhin könnt ihr euer Passwort setzen und Bestellungen anzeigen.
+          Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, müsst ihr euch <Link
+          to="/registration" onClick={this.onHide}>registrieren</Link>.
+          Euer Account wird manuell freigeschaltet und dann könnt ihr hier euren Bedarf anmelden.<br />
+          <br />
+          Bei Fragen, wendet euch an <a href="mailto: contact@print4health.org">contact@print4health.org</a> oder
+          verwendet das <Link to="/contact" onClick={this.onHide}>Kontaktformular</Link>.
         </Alert>
 
         <p>Wenn ihr schon einen Account habt, meldet euch unter dem oben stehenden Anmelden-Link an um Bedarf
           einzutragen.</p>
       </Modal.Body>
       <Modal.Footer>
+        <Link className="btn btn-outline-primary"
+              to="/registration"
+              onClick={this.onHide}>
+          Registrieren
+        </Link>
         <input type="submit"
                className="btn btn-light"
                value="Schließen"

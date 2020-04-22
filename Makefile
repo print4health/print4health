@@ -39,7 +39,10 @@ phpstan:                                                                        
 psalm:                                                                          ## run psalm static code analyser
 	psalm $(OPTIONS) --show-info=false
 
-static: php-cs-fix phpstan psalm                                                ## run static analyser
+eslint:
+	yarn eslint --fix
+
+static: php-cs-fix phpstan psalm eslint                                          ## run static analyser
 
 dev: static phpunit                                                              ## run dev tools
 
