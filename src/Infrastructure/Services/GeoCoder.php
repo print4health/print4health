@@ -60,4 +60,40 @@ class GeoCoder
             throw new CoordinatesRequestException($exception->getMessage(), (int) $exception->getCode(), $exception);
         }
     }
+
+    public function geoEncodeAddress(
+        string $address
+    ): CoordinatesRequest {
+        try {
+            $client = HttpClient::create(['http_version' => '2.0']);
+
+            $response = $client->request('GET', $this->baseUrl, [
+                'query' => [
+                    'address' => $address,
+                    'key' => $this->googleKey,
+                ],
+            ]);
+
+            $responseArray = $response->toArray();
+
+            if (
+                \array_key_exists('results', $responseArray) &&
+                \array_key_exists(0, $responseArray['results']) &&
+                \array_key_exists('geometry', $responseArray['results'][0]) &&
+                \array_key_exists('location', $responseArray['results'][0]['geometry']) &&
+                \array_key_exists('lat', $responseArray['results'][0]['geometry']['location']) &&
+                \array_key_exists('lng', $responseArray['results'][0]['geometry']['location'])
+            ) {
+                $location = $responseArray['results'][0]['geometry']['location'];
+
+                return new CoordinatesRequest((float) $location['lat'], (float) $location['lng']);
+            }
+
+            throw new CoordinatesRequestException(sprintf('Invalid data from Map Request [%s]', json_encode($responseArray, JSON_THROW_ON_ERROR)));
+        } catch (CoordinatesRequestException $exception) {
+            throw $exception;
+        } catch (\Throwable $exception) {
+            throw new CoordinatesRequestException($exception->getMessage(), (int) $exception->getCode(), $exception);
+        }
+    }
 }
