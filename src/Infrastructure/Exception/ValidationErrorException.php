@@ -4,59 +4,43 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Exception;
 
+use RuntimeException;
 use Symfony\Component\Validator\ConstraintViolationInterface;
 use Symfony\Component\Validator\ConstraintViolationListInterface;
-use Throwable;
+use function sprintf;
 
-/**
- * Class ValidationErrorException.
- *
- * @psalm-suppress TooManyTemplateParams
- */
-class ValidationErrorException extends \RuntimeException
+class ValidationErrorException extends RuntimeException
 {
-    /**
-     * @var ConstraintViolationListInterface<int, ConstraintViolationInterface>
-     */
-    private ConstraintViolationListInterface $errors;
+    private ConstraintViolationListInterface $violationList;
 
     private string $type;
 
-    /**
-     * ValidationErrorException constructor.
-     *
-     * @psalm-suppress TooManyTemplateParams
-     *
-     * @param ConstraintViolationListInterface<int, ConstraintViolationInterface> $errors
-     * @param string                                                              $type
-     * @param string                                                              $message
-     * @param int                                                                 $code
-     * @param Throwable                                                           $previous
-     */
-    public function __construct(
-        ConstraintViolationListInterface $errors,
-        $type = '',
-        $message = 'Data is invalid',
-        $code = 0,
-        Throwable $previous = null
-    ) {
-        parent::__construct($message, $code, $previous);
-        $this->errors = $errors;
-        $this->type = $type;
-    }
-
-    /**
-     * @psalm-suppress TooManyTemplateParams
-     *
-     * @return ConstraintViolationListInterface<int, ConstraintViolationInterface>
-     */
-    public function getErrors(): ConstraintViolationListInterface
+    public function __construct(ConstraintViolationListInterface $violationList, string $type = '')
     {
-        return $this->errors;
+        $this->violationList = $violationList;
+        $this->type = $type;
+        $message = trim(sprintf("%s %s violations:\n", $type, $violationList->count()));
+        /** @var ConstraintViolationInterface $violation */
+        foreach ($violationList as $key => $violation) {
+            /** @var string $message */
+            $message = $violation->getMessage();
+            $message .= sprintf(
+                "%s. %s: %s\n",
+                $key + 1,
+                $violation->getPropertyPath(),
+                $message
+            );
+        }
+        parent::__construct($message);
     }
 
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function getErrors(): ConstraintViolationListInterface
+    {
+        return $this->violationList;
     }
 }
