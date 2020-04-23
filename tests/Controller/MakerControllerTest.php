@@ -47,8 +47,6 @@ class MakerControllerTest extends AbstractControllerTest
             $this->assertIsString($maker['id']);
             $this->assertArrayNotHasKey('email', $maker);
             $this->assertArrayNotHasKey('name', $maker);
-            $this->assertArrayNotHasKey('postalCode', $maker);
-            $this->assertArrayNotHasKey('addressCity', $maker);
             $this->assertArrayNotHasKey('addressState', $maker);
             $this->assertArrayHasKey('latitude', $maker);
             $this->assertArrayHasKey('longitude', $maker);
