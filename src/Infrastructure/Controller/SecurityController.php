@@ -8,8 +8,6 @@ use App\Domain\Exception\NotFoundException;
 use App\Domain\PasswordRecovery\Mailer as PasswordRecoveryMailer;
 use App\Domain\Requester\Mailer;
 use App\Domain\User\Entity\Requester;
-use App\Domain\User\Repository\UserRepository;
-use App\Domain\User\UserInterface;
 use App\Domain\User\UserInterfaceRepository;
 use App\Infrastructure\Dto\User\ResetPassword;
 use App\Infrastructure\Dto\User\ResetPasswordTokenRequest;
@@ -31,30 +29,19 @@ use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Validator\Validation;
-use Twig\Environment;
 
 class SecurityController
 {
-    private UserRepository $userRepository;
-
     private UserPasswordEncoderInterface $passwordEncoder;
-
-    private Environment $twig;
-
     private RouterInterface $router;
-
     private Security $security;
 
     public function __construct(
-        UserRepository $userRepository,
         UserPasswordEncoderInterface $passwordEncoder,
-        Environment $twig,
         RouterInterface $router,
         Security $security
     ) {
-        $this->userRepository = $userRepository;
         $this->passwordEncoder = $passwordEncoder;
-        $this->twig = $twig;
         $this->router = $router;
         $this->security = $security;
     }
@@ -90,21 +77,9 @@ class SecurityController
      *     description="Invalid credentials"
      * )
      */
-    public function login(Request $request): JsonResponse
+    public function login(Request $request): void
     {
-        if ('json' !== $request->getContentType()) {
-            throw new BadRequestHttpException('Content-Type is\'nt "application/json".');
-        }
-
-        /** @var UserInterface|null $user */
-        $user = $this->security->getUser();
-        if (null === $user) {
-            throw new NotFoundHttpException('User is empty');
-        }
-
-        $userDto = UserResponse::createFromUser($user);
-
-        return new JsonResponse($userDto);
+        // empty, handling via App\Infrastructure\Security\LoginAuthenticator
     }
 
     /**
@@ -121,9 +96,11 @@ class SecurityController
     public function logout(): RedirectResponse
     {
         $token = $this->security->getToken();
+
         if (null === $token) {
             return new RedirectResponse($this->router->generate('home'));
         }
+
         $token->setAuthenticated(false);
 
         return new RedirectResponse($this->router->generate('home'));
