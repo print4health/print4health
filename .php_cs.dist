@@ -41,7 +41,7 @@ return PhpCsFixer\Config::create()
             'allow_mixed' => true,
             'allow_unused_params' => false,
             'remove_inheritdoc' => true,
-        ]
+        ],
         'ordered_imports' => [
             'imports_order' => ['const', 'class', 'function'],
         ],
