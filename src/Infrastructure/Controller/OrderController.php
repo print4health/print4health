@@ -8,9 +8,8 @@ use App\Domain\Commitment\Repository\CommitmentRepository;
 use App\Domain\Exception\Maker\MakerByIdNotFoundException;
 use App\Domain\Exception\NotFoundException;
 use App\Domain\Exception\Requester\RequesterByIdNotFoundException;
-
 use App\Domain\Exception\User\UserByIdNotFoundException;
-use App\Domain\Order\Command\orderPlacedNotificationCommand;
+use App\Domain\Order\Command\OrderPlacedNotificationCommand;
 use App\Domain\Order\Entity\Order;
 use App\Domain\Order\Repository\OrderRepository;
 use App\Domain\Thing\Repository\ThingRepository;

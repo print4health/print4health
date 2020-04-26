@@ -19,8 +19,7 @@ class OrderPlacedNotificationMailer
     public function __construct(
         MailerInterface $mailer,
         Environment $twig
-    )
-    {
+    ) {
         $this->mailer = $mailer;
         $this->twig = $twig;
     }
@@ -38,7 +37,8 @@ class OrderPlacedNotificationMailer
         $email->subject('Bestellung wurde eingetragen')
             ->html($mailBody)
             ->to($requester->getEmail())
-            ->from('hallo@welt123.de');
+            ->from('hallo@welt123.de')
+        ;
 
         try {
             $this->mailer->send($email);

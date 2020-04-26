@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Domain\Order\Exception;
@@ -11,5 +12,4 @@ class EmailNotSendException extends DomainException
     {
         parent::__construct(sprintf('E-Mail could not be send!', $orderId));
     }
-
 }
