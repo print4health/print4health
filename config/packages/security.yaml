@@ -16,26 +16,27 @@ security:
         all_users:
             chain:
                 providers: ['requester', 'maker', 'users']
+
     encoders:
         Symfony\Component\Security\Core\User\UserInterface:
             algorithm: auto
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
         main:
+            pattern: ^/
             anonymous: lazy
             provider: all_users
-            # https://symfony.com/doc/current/security/user_checkers.html
-            user_checker: App\Domain\Security\UserChecker
-            # https://symfony.com/doc/current/security/json_login_setup.html
-            json_login:
-                check_path: security_login
-                username_path: email
-                password_path: password
+            guard:
+                authenticators:
+                    - App\Infrastructure\Security\LoginAuthenticator
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
