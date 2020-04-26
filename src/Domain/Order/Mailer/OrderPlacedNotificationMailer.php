@@ -15,17 +15,14 @@ class OrderPlacedNotificationMailer
 {
     private MailerInterface $mailer;
     private Environment $twig;
-    private string $contactEmail;
 
     public function __construct(
         MailerInterface $mailer,
-        Environment $twig,
-        string $contactEmail
+        Environment $twig
     )
     {
         $this->mailer = $mailer;
         $this->twig = $twig;
-        $this->contactEmail = $contactEmail;
     }
 
     public function send(Order $order): void
