@@ -6,15 +6,11 @@
   },
   "idea": {
     "title": "Die Idee",
-    "content1": "Mit unserer Plattform zum",
-    "highlight": "Crowdproducing",
-    "content2": "soll der Einsatz von 3D-Druck zur Bekämpfung der Corana Pandemie effektiv, schnell und solidarisch ermöglicht werden. Vom hochkomplexen Produkt, das individuell konstruiert werden muss, bis zu Open Source Dateien für Masken, Türöffner und Wasserhahnadapter, die von jedem privaten 3D-Drucker gefertigt werden können, sollen Lösungen gefunden und angeboten werden."
+    "content": "Mit unserer Plattform zum <1>Crowdproducing</1> soll der Einsatz von 3D-Druck zur Bekämpfung der Corana Pandemie effektiv, schnell und solidarisch ermöglicht werden. Vom hochkomplexen Produkt, das individuell konstruiert werden muss, bis zu Open Source Dateien für Masken, Türöffner und Wasserhahnadapter, die von jedem privaten 3D-Drucker gefertigt werden können, sollen Lösungen gefunden und angeboten werden."
   },
   "motivation": {
     "title": "Unsere Motivation",
-    "content1": "In pandemischen Krisenzeiten gibt es im Gesundheitssektor einen großen Bedarf an Ersatzteilen. Länder, in denen die Krise schon weiter fortgeschritten ist, setzen bereits auf 3D-Druck als Lösung zur Bedarfsdeckung im Gesundheitssektor.",
-    "content2": "So unterstützen Maschinenbauer in Italien die Krankenhäuser mit 3D-gedruckten Ventilen, die Beatmungsgeräte mit den Gesichtsmasken der Patienten verbinden.",
-    "content3": "Die Polytechnische Universität Hong Kong entwickelte Schutzschilder, um das medizinische Personal vor der Infizierung mit dem Coronavirus zu schützen. Auch diese wurden in hoher Stückzahl mit 3D-Druckern gefertigt."
+    "content" : "In pandemischen Krisenzeiten gibt es im Gesundheitssektor einen großen Bedarf an Ersatzteilen. Länder, in denen die Krise schon weiter fortgeschritten ist, setzen bereits auf 3D-Druck als Lösung zur Bedarfsdeckung im Gesundheitssektor.<1/><2/>So unterstützen Maschinenbauer in Italien die Krankenhäuser mit 3D-gedruckten Ventilen, die Beatmungsgeräte mit den Gesichtsmasken der Patienten verbinden.<4/><5/>Die Polytechnische Universität Hong Kong entwickelte Schutzschilder, um das medizinische Personal vor der Infizierung mit dem Coronavirus zu schützen. Auch diese wurden in hoher Stückzahl mit 3D-Druckern gefertigt."
   },
   "weneedyou": {
     "title": "Wir brauchen Dich",
