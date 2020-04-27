@@ -43,7 +43,7 @@ class RequesterRepository
         /** @var Requester|null $requester */
         $requester = $this->getRepository()->find($id);
 
-        if (false === $requester instanceof Requester) {
+        if ($requester instanceof Requester === false) {
             throw new RequesterByIdNotFoundException($id);
         }
 

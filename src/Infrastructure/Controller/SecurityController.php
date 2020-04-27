@@ -96,8 +96,7 @@ class SecurityController
     public function logout(): RedirectResponse
     {
         $token = $this->security->getToken();
-
-        if (null === $token) {
+        if ($token === null) {
             return new RedirectResponse($this->router->generate('home'));
         }
 
@@ -136,13 +135,13 @@ class SecurityController
         PasswordRecoveryMailer $mailer,
         UserInterfaceRepository $userRepositoryWrapper
     ): JsonResponse {
-        if ('json' !== $request->getContentType()) {
+        if ($request->getContentType() !== 'json') {
             throw new BadRequestHttpException();
         }
 
         $content = (string) $request->getContent();
         $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-        if (null === $data) {
+        if ($data === null) {
             throw new BadRequestHttpException();
         }
 
@@ -198,13 +197,13 @@ class SecurityController
      */
     public function resetPassword(Request $request, UserInterfaceRepository $userRepositoryWrapper): JsonResponse
     {
-        if ('json' !== $request->getContentType()) {
+        if ($request->getContentType() !== 'json') {
             throw new BadRequestHttpException();
         }
 
         $content = (string) $request->getContent();
         $data = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
-        if (null === $data) {
+        if ($data === null) {
             throw new BadRequestHttpException();
         }
 
@@ -336,7 +335,7 @@ class SecurityController
             throw new BadRequestHttpException(sprintf('Parameter [%s] is not a valid uuid', $uuid));
         }
 
-        if (false === $user->isEnabled()) {
+        if ($user->isEnabled() === false) {
             return new JsonResponse([
                 'user' => [
                     'id' => $uuid,

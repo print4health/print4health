@@ -16,7 +16,7 @@ class DateHelper
 
     public static function create(): DateTimeImmutable
     {
-        if (true === self::$dummy) {
+        if (self::$dummy === true) {
             return self::createByFormatAndDate('U', (string) (time() + self::$counter++));
         }
 
@@ -32,7 +32,7 @@ class DateHelper
     {
         $date = DateTimeImmutable::createFromFormat($format, $timestamp);
 
-        if (false === $date) {
+        if ($date === false) {
             throw new DateHelperException($format, $timestamp);
         }
 

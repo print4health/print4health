@@ -128,20 +128,20 @@ class RequesterRegistrationRequest
 
     public function hasPostalCodeAndCountry(): bool
     {
-        return null !== $this->postalCode &&
-            '' !== $this->postalCode &&
-            null !== $this->addressState &&
-            '' !== $this->addressState;
+        return $this->postalCode !== null &&
+            $this->postalCode !== '' &&
+            $this->addressState !== null &&
+            $this->addressState !== '';
     }
 
     public function hasLatLng(): bool
     {
-        return null !== $this->latitude && null !== $this->longitude;
+        return $this->latitude !== null && $this->longitude !== null;
     }
 
     public function isHub(): bool
     {
-        return 'MAKER_HUB' === $this->institutionType;
+        return $this->institutionType === 'MAKER_HUB';
     }
 
     /**

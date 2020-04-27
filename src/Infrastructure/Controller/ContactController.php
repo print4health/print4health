@@ -7,6 +7,7 @@ namespace App\Infrastructure\Controller;
 use App\Domain\Contact\Mailer as ContactMailer;
 use App\Infrastructure\Dto\Contact\ContactRequest;
 use App\Infrastructure\Exception\ValidationErrorException;
+use Exception;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,7 +52,7 @@ class ContactController
      *     description="received contact form data",
      * )
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function formDataAction(
         Request $request,
@@ -88,8 +89,8 @@ class ContactController
 //            }
 
             $contactMailer->send($contactRequest);
-        } catch (\Exception $err) {
-            throw new \Exception($err->getMessage());
+        } catch (Exception $err) {
+            throw new Exception($err->getMessage());
         }
 
         return new JsonResponse(['status' => 'ok']);

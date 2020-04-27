@@ -25,7 +25,7 @@ class UserUniqueEmailValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, UserUniqueEmail::class);
         }
 
-        if (null === $value || '' === $value) {
+        if ($value === null || $value === '') {
             return;
         }
 

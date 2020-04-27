@@ -101,8 +101,11 @@ class MakerController
     {
         try {
             /** @var MakerRequest $makerRequest */
-            $makerRequest = $this->serializer->deserialize($request->getContent(), MakerRequest::class,
-                JsonEncoder::FORMAT);
+            $makerRequest = $this->serializer->deserialize(
+                $request->getContent(),
+                MakerRequest::class,
+                JsonEncoder::FORMAT
+            );
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }

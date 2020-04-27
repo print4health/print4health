@@ -17,7 +17,7 @@ class UserNotEnabledExceptionListener
         /** @var UserNotEnabledException|Throwable $exception */
         $exception = $event->getThrowable();
 
-        if (false === $exception instanceof UserNotEnabledException) {
+        if ($exception instanceof UserNotEnabledException === false) {
             return;
         }
 

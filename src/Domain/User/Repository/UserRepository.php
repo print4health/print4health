@@ -35,7 +35,7 @@ class UserRepository
         /** @var User|null $user */
         $user = $this->getRepository()->find($id);
 
-        if (false === $user instanceof User) {
+        if ($user instanceof User === false) {
             throw new UserByIdNotFoundException($id);
         }
 
@@ -47,7 +47,7 @@ class UserRepository
         /** @var User|null $user */
         $user = $this->getRepository()->findOneBy(['email' => $email]);
 
-        if (false === $user instanceof User) {
+        if ($user instanceof User === false) {
             throw new UserByEmailNotFoundException($email);
         }
 
@@ -59,7 +59,7 @@ class UserRepository
         /** @var User|null $user */
         $user = $this->getRepository()->findOneBy(['passwordResetToken' => $passwordResetToken]);
 
-        if (false === $user instanceof User) {
+        if ($user instanceof User === false) {
             throw new UserByPasswordResetTokenNotFoundException($passwordResetToken);
         }
 

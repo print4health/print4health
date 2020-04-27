@@ -42,9 +42,9 @@ class Mailer
             ->from($this->contactEmail)
         ;
 
-        if (null !== $filePath && null !== $fileName) {
+        if ($filePath !== null && $fileName !== null) {
             $fileContent = file_get_contents($filePath);
-            if (false !== $fileContent) {
+            if ($fileContent !== false) {
                 $email->attach($fileContent, $fileName);
             }
         }

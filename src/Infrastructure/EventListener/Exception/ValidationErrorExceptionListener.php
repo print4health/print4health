@@ -18,7 +18,7 @@ class ValidationErrorExceptionListener
         /** @var ValidationErrorException|Throwable $exception */
         $exception = $event->getThrowable();
 
-        if (false === $exception instanceof ValidationErrorException) {
+        if ($exception instanceof ValidationErrorException === false) {
             return;
         }
 

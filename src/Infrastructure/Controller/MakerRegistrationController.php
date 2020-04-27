@@ -11,6 +11,7 @@ use App\Infrastructure\Dto\MakerRegistration\MakerRegistrationResponse;
 use App\Infrastructure\Dto\ValidationError\ValidationErrorResponse;
 use App\Infrastructure\Exception\ValidationErrorException;
 use App\Infrastructure\Services\GeoCoder;
+use Exception;
 use Nelmio\ApiDocBundle\Annotation\Model;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Swagger\Annotations as SWG;
@@ -63,7 +64,7 @@ class MakerRegistrationController
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      * @throws \Doctrine\ORM\EntityNotFoundException
      *
      * @return JsonResponse
@@ -118,7 +119,7 @@ class MakerRegistrationController
             // prevent a geocode request if we don't have the necessary data
             if (
                 $makerRegistrationRequest->hasPostalCodeAndCountryCode() &&
-                false === $makerRegistrationRequest->hasLatLng()
+                $makerRegistrationRequest->hasLatLng() === false
             ) {
                 $geoLocation = $this->geoCoder->geoEncodeByPostalCodeAndCountry(
                     (string) $makerRegistrationRequest->postalCode,
@@ -128,7 +129,7 @@ class MakerRegistrationController
                 $maker->setLatitude($geoLocation->getLatitude());
                 $maker->setLongitude($geoLocation->getLongitude());
             }
-        } catch (\Exception $err) {
+        } catch (Exception $err) {
             // TODO: add sentry message on error?
         }
 

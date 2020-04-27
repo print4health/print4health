@@ -18,6 +18,8 @@ use App\Domain\User\Repository\MakerRepository;
 use App\Domain\User\Repository\RequesterRepository;
 use App\Domain\User\Repository\UserRepository;
 use Ramsey\Uuid\UuidInterface;
+use RuntimeException;
+use function get_class;
 
 class UserInterfaceRepository
 {
@@ -118,6 +120,6 @@ class UserInterfaceRepository
             return;
         }
 
-        throw new \RuntimeException(sprintf('Unknown UserInterface [%s]', \get_class($user)));
+        throw new RuntimeException(sprintf('Unknown UserInterface [%s]', get_class($user)));
     }
 }

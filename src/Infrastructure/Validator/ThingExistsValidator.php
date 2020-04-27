@@ -26,7 +26,7 @@ class ThingExistsValidator extends ConstraintValidator
             throw new UnexpectedTypeException($constraint, ThingExists::class);
         }
 
-        if (false === Uuid::isValid($value)) {
+        if (Uuid::isValid($value) === false) {
             return;
         }
 

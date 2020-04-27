@@ -15,11 +15,14 @@ use App\Infrastructure\Exception\Coordinates\CoordinatesRequestException;
 use App\Infrastructure\Services\GeoCoder;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Ramsey\Uuid\Uuid;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use function count;
+use function get_class;
 
 class UpdateUserLatLngCommand extends Command
 {
@@ -48,8 +51,11 @@ class UpdateUserLatLngCommand extends Command
     {
         $this->setName('app:user:update-latlng');
         $this->setDescription('Uses the geocoding service to update the User\'s LatLng Coordinates');
-        $this->addArgument('user-ids', InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
-            'Update only those users (separate uuids by space). (optional)');
+        $this->addArgument(
+            'user-ids',
+            InputArgument::IS_ARRAY | InputArgument::OPTIONAL,
+            'Update only those users (separate uuids by space). (optional)'
+        );
         $this->addOption('overwrite', null, InputOption::VALUE_OPTIONAL, 'Overwrite existing LatLng values');
     }
 
@@ -59,7 +65,7 @@ class UpdateUserLatLngCommand extends Command
         $userIds = $input->getArgument('user-ids');
         $overwrite = $input->getOption('overwrite');
 
-        if (\count($userIds) > 0) {
+        if (count($userIds) > 0) {
             $users = $this->fetchUsersByIds($userIds, $output);
         } else {
             $users = $this->findAllUsers();
@@ -68,7 +74,7 @@ class UpdateUserLatLngCommand extends Command
         foreach ($users as $user) {
             if (
                 $overwrite ||
-                (null === $user->getLongitude() && null === $user->getLatitude())
+                ($user->getLongitude() === null && $user->getLatitude() === null)
             ) {
                 $this->updateUserGeoCoordinates($user, $output);
             }
@@ -81,7 +87,7 @@ class UpdateUserLatLngCommand extends Command
 
     private function updateUserGeoCoordinates(UserInterface $user, OutputInterface $output): void
     {
-        if (false === $user->isEnabled()) {
+        if ($user->isEnabled() === false) {
             if ($output->isVerbose()) {
                 $output->writeln(sprintf('Skipping User [%s] as he is not enabled', $user->getId()));
             }
@@ -102,16 +108,17 @@ class UpdateUserLatLngCommand extends Command
                     (string) $user->getAddressState()
                 );
             } else {
-                throw new \RuntimeException(sprintf('User of class [%s] is not supported yet', \get_class($user)));
+                throw new RuntimeException(sprintf('User of class [%s] is not supported yet', get_class($user)));
             }
             $user->setLatitude($latLng->getLatitude());
             $user->setLongitude($latLng->getLongitude());
 
             $this->userInterfaceRepository->save($user);
-            $output->writeln(sprintf('Updated %s [%s:%s]', \get_class($user), $user->getName(), $user->getId()));
+            $output->writeln(sprintf('Updated %s [%s:%s]', get_class($user), $user->getName(), $user->getId()));
         } catch (CoordinatesRequestException $exception) {
             $output->writeln(
-                sprintf('<error>Could not get LatLng of User [%s]:</error> %s',
+                sprintf(
+                    '<error>Could not get LatLng of User [%s]:</error> %s',
                     $user->getId(),
                     $exception->getMessage()
                 )

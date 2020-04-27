@@ -103,7 +103,7 @@ class CommitmentController
     {
         $commitment = $this->commitmentRepository->find($uuid);
 
-        if (null === $commitment) {
+        if ($commitment === null) {
             throw new NotFoundHttpException('Thing not found');
         }
 
@@ -152,8 +152,11 @@ class CommitmentController
     {
         try {
             /** @var CommitmentRequest $commitmentRequest */
-            $commitmentRequest = $this->serializer->deserialize($request->getContent(), CommitmentRequest::class,
-                JsonEncoder::FORMAT);
+            $commitmentRequest = $this->serializer->deserialize(
+                $request->getContent(),
+                CommitmentRequest::class,
+                JsonEncoder::FORMAT
+            );
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }

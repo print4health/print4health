@@ -67,7 +67,7 @@ class Order
         $this->requester = $requester;
         $this->thing = $thing;
         $this->quantity = $quantity;
-        $this->createdDate = new \DateTimeImmutable();
+        $this->createdDate = new DateTimeImmutable();
     }
 
     public function getId(): string
