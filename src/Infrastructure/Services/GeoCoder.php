@@ -7,6 +7,8 @@ namespace App\Infrastructure\Services;
 use App\Infrastructure\Dto\Coordinates\CoordinatesRequest;
 use App\Infrastructure\Exception\Coordinates\CoordinatesRequestException;
 use Symfony\Component\HttpClient\HttpClient;
+use Throwable;
+use function array_key_exists;
 
 class GeoCoder
 {
@@ -44,12 +46,12 @@ class GeoCoder
             $responseArray = $response->toArray();
 
             if (
-                \array_key_exists('results', $responseArray) &&
-                \array_key_exists(0, $responseArray['results']) &&
-                \array_key_exists('geometry', $responseArray['results'][0]) &&
-                \array_key_exists('location', $responseArray['results'][0]['geometry']) &&
-                \array_key_exists('lat', $responseArray['results'][0]['geometry']['location']) &&
-                \array_key_exists('lng', $responseArray['results'][0]['geometry']['location'])
+                array_key_exists('results', $responseArray) &&
+                array_key_exists(0, $responseArray['results']) &&
+                array_key_exists('geometry', $responseArray['results'][0]) &&
+                array_key_exists('location', $responseArray['results'][0]['geometry']) &&
+                array_key_exists('lat', $responseArray['results'][0]['geometry']['location']) &&
+                array_key_exists('lng', $responseArray['results'][0]['geometry']['location'])
             ) {
                 $location = $responseArray['results'][0]['geometry']['location'];
 
@@ -59,7 +61,7 @@ class GeoCoder
             throw new CoordinatesRequestException(sprintf('Invalid data from Map Request [%s]', json_encode($responseArray, JSON_THROW_ON_ERROR)));
         } catch (CoordinatesRequestException $exception) {
             throw $exception;
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             throw new CoordinatesRequestException($exception->getMessage(), (int) $exception->getCode(), $exception);
         }
     }
@@ -86,12 +88,12 @@ class GeoCoder
             $responseArray = $response->toArray();
 
             if (
-                \array_key_exists('results', $responseArray) &&
-                \array_key_exists(0, $responseArray['results']) &&
-                \array_key_exists('geometry', $responseArray['results'][0]) &&
-                \array_key_exists('location', $responseArray['results'][0]['geometry']) &&
-                \array_key_exists('lat', $responseArray['results'][0]['geometry']['location']) &&
-                \array_key_exists('lng', $responseArray['results'][0]['geometry']['location'])
+                array_key_exists('results', $responseArray) &&
+                array_key_exists(0, $responseArray['results']) &&
+                array_key_exists('geometry', $responseArray['results'][0]) &&
+                array_key_exists('location', $responseArray['results'][0]['geometry']) &&
+                array_key_exists('lat', $responseArray['results'][0]['geometry']['location']) &&
+                array_key_exists('lng', $responseArray['results'][0]['geometry']['location'])
             ) {
                 $location = $responseArray['results'][0]['geometry']['location'];
 
@@ -101,7 +103,7 @@ class GeoCoder
             throw new CoordinatesRequestException(sprintf('Invalid data from Map Request [%s]', json_encode($responseArray, JSON_THROW_ON_ERROR)));
         } catch (CoordinatesRequestException $exception) {
             throw $exception;
-        } catch (\Throwable $exception) {
+        } catch (Throwable $exception) {
             throw new CoordinatesRequestException($exception->getMessage(), (int) $exception->getCode(), $exception);
         }
     }

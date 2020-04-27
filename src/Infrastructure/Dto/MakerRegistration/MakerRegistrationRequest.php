@@ -96,14 +96,14 @@ class MakerRegistrationRequest
 
     public function hasPostalCodeAndCountryCode(): bool
     {
-        return null !== $this->postalCode &&
-            '' !== $this->postalCode &&
-            null !== $this->addressState &&
-            '' !== $this->addressState;
+        return $this->postalCode !== null &&
+            $this->postalCode !== '' &&
+            $this->addressState !== null &&
+            $this->addressState !== '';
     }
 
     public function hasLatLng(): bool
     {
-        return null !== $this->latitude && null !== $this->longitude;
+        return $this->latitude !== null && $this->longitude !== null;
     }
 }

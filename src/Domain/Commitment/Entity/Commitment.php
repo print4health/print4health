@@ -73,7 +73,7 @@ class Commitment
         return $this->quantity;
     }
 
-    public function getCreatedDate(): \DateTimeImmutable
+    public function getCreatedDate(): DateTimeImmutable
     {
         return $this->createdDate;
     }

@@ -39,6 +39,7 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Exception\NotEncodableValueException;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use function in_array;
 
 class OrderController
 {
@@ -230,11 +231,11 @@ class OrderController
         $user = $this->security->getUser();
         $userRoles = $user->getRoles();
 
-        if (\in_array(Maker::ROLE_MAKER, $userRoles)) {
+        if (in_array(Maker::ROLE_MAKER, $userRoles)) {
             return $this->listByMakerAction($user->getId());
         }
 
-        if (\in_array(Requester::ROLE_REQUESTER, $userRoles)) {
+        if (in_array(Requester::ROLE_REQUESTER, $userRoles)) {
             return $this->listByRequesterAction($user->getId());
         }
 
@@ -389,7 +390,7 @@ class OrderController
 
         $order = $this->orderRepository->find($uuid->toString());
 
-        if (null === $order) {
+        if ($order === null) {
             throw new NotFoundHttpException('Order not found');
         }
 
@@ -397,8 +398,8 @@ class OrderController
         $user = $this->security->getUser();
 
         if (
-            false === $order->hasCommitmentByUser($user) &&
-            false === $order->isOrderByUser($user)
+            $order->hasCommitmentByUser($user) === false &&
+            $order->isOrderByUser($user) === false
         ) {
             throw new AccessDeniedException(sprintf('You are not allowed to see this order'));
         }
@@ -447,7 +448,7 @@ class OrderController
             throw new BadRequestHttpException(sprintf('Invalid Uuid [%s]', $orderId));
         }
 
-        if (null === $order) {
+        if ($order === null) {
             throw new NotFoundHttpException('Order not found');
         }
 
@@ -455,15 +456,15 @@ class OrderController
         $currentUser = $this->security->getUser();
 
         if (
-            false === $order->hasCommitmentByUser($currentUser) &&
-            false === $order->isOrderByUser($currentUser)
+            $order->hasCommitmentByUser($currentUser) === false &&
+            $order->isOrderByUser($currentUser) === false
         ) {
             throw new AccessDeniedException(sprintf('You are not allowed to see this user'));
         }
 
         if (
-            false === $order->hasCommitmentByUser($userDetail) &&
-            false === $order->isOrderByUser($userDetail)
+            $order->hasCommitmentByUser($userDetail) === false &&
+            $order->isOrderByUser($userDetail) === false
         ) {
             throw new AccessDeniedException(sprintf('You are not allowed to see this user'));
         }

@@ -64,7 +64,10 @@ class SecurityControllerTest extends AbstractControllerTest
         $requestContent = $credentials;
         $client->request(
             'POST',
-            '/login', [], [], ['CONTENT_TYPE' => 'application/json'],
+            '/login',
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
             json_encode($requestContent)
         );
         $this->assertEquals($expectedStatusCode, $client->getResponse()->getStatusCode());

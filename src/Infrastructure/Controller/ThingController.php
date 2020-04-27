@@ -144,8 +144,11 @@ class ThingController
     {
         try {
             /** @var ThingRequest $thingRequest */
-            $thingRequest = $this->serializer->deserialize($request->getContent(), ThingRequest::class,
-                JsonEncoder::FORMAT);
+            $thingRequest = $this->serializer->deserialize(
+                $request->getContent(),
+                ThingRequest::class,
+                JsonEncoder::FORMAT
+            );
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }
@@ -214,8 +217,11 @@ class ThingController
 
         try {
             /** @var ThingRequest $thingRequest */
-            $thingRequest = $this->serializer->deserialize($request->getContent(), ThingRequest::class,
-                JsonEncoder::FORMAT);
+            $thingRequest = $this->serializer->deserialize(
+                $request->getContent(),
+                ThingRequest::class,
+                JsonEncoder::FORMAT
+            );
         } catch (NotEncodableValueException $notEncodableValueException) {
             throw new BadRequestHttpException('No valid json', $notEncodableValueException);
         }

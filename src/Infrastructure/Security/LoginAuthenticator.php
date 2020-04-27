@@ -16,6 +16,10 @@ use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use UnexpectedValueException;
+use function get_class;
+use function gettype;
+use function is_object;
 
 class LoginAuthenticator extends AbstractGuardAuthenticator
 {
@@ -33,9 +37,9 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
     public function supports(Request $request): bool
     {
         return
-            true === $request->isMethod('POST') &&
-            'json' === $request->getContentType() && // why not?: application/json
-            '/login' === $request->getPathInfo();
+            $request->isMethod('POST') === true &&
+            $request->getContentType() === 'json' && // why not?: application/json
+            $request->getPathInfo() === '/login';
     }
 
     public function getCredentials(Request $request): LoginRequest
@@ -58,18 +62,18 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * @param LoginRequest                   $credentials
+     * @param LoginRequest $credentials
      * @param \App\Domain\User\UserInterface $user
      */
     public function checkCredentials($credentials, UserInterface $user): bool
     {
-        if (false === $this->encoder->isPasswordValid($user, $credentials->getPassword())) {
+        if ($this->encoder->isPasswordValid($user, $credentials->getPassword()) === false) {
             $this->logger->error('Wrong password given.');
 
             return false;
         }
 
-        if (false === $user->isEnabled()) {
+        if ($user->isEnabled() === false) {
             $this->logger->error('User is not enabled.');
 
             return false;
@@ -98,10 +102,14 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
 
         $user = $token->getUser();
 
-        if (false === $user instanceof \App\Domain\User\UserInterface) {
+        if ($user instanceof \App\Domain\User\UserInterface === false) {
             $this->logger->critical('Authentication successful but wrong user class!');
 
-            throw new \UnexpectedValueException(sprintf('Unexpected user class [%s] detected. Need [%s]', \is_object($user) ? \get_class($user) : \gettype($user), \App\Domain\User\UserInterface::class));
+            throw new UnexpectedValueException(sprintf(
+                'Unexpected user class [%s] detected. Need [%s]',
+                is_object($user) ? get_class($user) : gettype($user),
+                \App\Domain\User\UserInterface::class
+            ));
         }
 
         return new JsonResponse(UserResponse::createFromUser($user));
