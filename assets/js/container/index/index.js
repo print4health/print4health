@@ -1,9 +1,9 @@
 import React from 'react';
 import AppContext from '../../context/app-context';
 import Map from '../../component/map/index-map';
-import {MAKER, REQUESTER} from "../../constants/MapTypes";
-import FilterSelect from "../../component/map/FilterSelect";
-import LocationField from "../../component/map/LocationField";
+import { MAKER, REQUESTER } from '../../constants/MapTypes';
+// import FilterSelect from '../../component/map/FilterSelect';
+import LocationField from '../../component/map/LocationField';
 
 class Index extends React.Component {
 
@@ -12,10 +12,10 @@ class Index extends React.Component {
     this.state = {
       mapTypes: {
         [REQUESTER]: true,
-        [MAKER]: true
+        [MAKER]: true,
       },
       mapDisabled: true,
-      address: ""
+      address: '',
     };
 
     this.fetchGeoLocation = this.fetchGeoLocation.bind(this);
@@ -29,14 +29,14 @@ class Index extends React.Component {
   }
 
   enableMap() {
-    this.setState({mapDisabled: false});
+    this.setState({ mapDisabled: false });
   }
 
   updateMap(type) {
     const nextMapTypes = this.state.mapTypes;
     nextMapTypes[type] = !nextMapTypes[type];
 
-    this.setState({mapTypes: nextMapTypes});
+    this.setState({ mapTypes: nextMapTypes });
   }
 
   getActiveMapTypes() {
@@ -48,33 +48,33 @@ class Index extends React.Component {
   fetchGeoLocation(evt) {
     evt.preventDefault();
     const formEl = evt.target;
-    let address  = "";
+    let address = '';
 
-    if(typeof formEl !== "undefined" &&
-       typeof formEl.querySelector("input") !== "undefined" &&
-       typeof formEl.querySelector("input").value !== "undefined") {
-       address = formEl.querySelector("input").value;
+    if (typeof formEl !== 'undefined' &&
+      typeof formEl.querySelector('input') !== 'undefined' &&
+      typeof formEl.querySelector('input').value !== 'undefined') {
+      address = formEl.querySelector('input').value;
     }
 
-    if(!address.length) {
-      throw Error("field has no length");
+    if (!address.length) {
+      throw Error('field has no length');
     }
 
     fetch('/map/geoencode?address=' + address, {
-        method: 'POST',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }).then(async (res)=> {
-        const content = await res.json();
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    }).then(async (res) => {
+      const content = await res.json();
 
-        if('latitude' in content.geocode &&
-           'longitude' in content.geocode) {
-          const {latitude, longitude} = content.geocode;
-          console.log(longitude, latitude);
-          this.setState({position: {latitude, longitude}})
-        }
+      if ('latitude' in content.geocode &&
+        'longitude' in content.geocode) {
+        const { latitude, longitude } = content.geocode;
+        console.log(longitude, latitude);
+        this.setState({ position: { latitude, longitude } });
+      }
 
     });
   }
@@ -105,14 +105,17 @@ class Index extends React.Component {
         <div className="row">
           <div className="col-md-12">
             <section className="container py-4">
+              <h2 className="col-md-8 offset-md-2">
+                Alle gesundheitlichen/sozialen Einrichtungen, Maker-Hubs und Maker auf einen Blick
+              </h2>
               <LocationField submitCallback={this.fetchGeoLocation} />
-              <Map onClick={this.enableMap} types={activeMapTypes} disabled={mapDisabled} position={position}/>
+              <Map onClick={this.enableMap} types={activeMapTypes} disabled={mapDisabled} position={position} />
             </section>
           </div>
-          <div className="col-md-12">
+          <div className="col-md-8 offset-md-2">
             <div className="row map-legend">
               <div className="col-sm-4">
-                <p><i className="fas fa-clinic-medical text-primary" />Gesundheitliche / soziale Einrichtung</p>
+                <p><i className="fas fa-clinic-medical text-primary" />gesundheitliche / soziale Einrichtung</p>
               </div>
               <div className="col-sm-4">
                 <p><i className="fab fa-hubspot text-success" />Maker-Hub</p>
