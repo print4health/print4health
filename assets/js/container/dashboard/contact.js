@@ -100,7 +100,7 @@ class Contact extends React.Component {
       <>
         <h5 className="card-title">{t('role.institute')}: {data.name}</h5>
         <h6 className="card-subtitle mb-2 text-muted">
-          <a href={`mailto=${data.email}`} className="card-link">{data.email}</a>
+          <a href={`mailto:${data.email}`} className="card-link">{data.email}</a>
         </h6>
         <p className="card-text">{data.streetAddress}</p>
         <p className="card-text">{data.postalCode}</p>
@@ -118,7 +118,7 @@ class Contact extends React.Component {
       <>
         <h5 className="card-title">{t('role.maker')}: {data.name}</h5>
         <h6 className="card-subtitle mb-2 text-muted">
-          <a href={`mailto=${data.email}`} className="card-link">{data.email}</a>
+          <a href={`mailto:${data.email}`} className="card-link">{data.email}</a>
         </h6>
         <p className="card-text">{data.postalCode}</p>
         <p className="card-text">{data.addressCity}</p>
