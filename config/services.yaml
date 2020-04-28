@@ -42,6 +42,7 @@ services:
     App\Infrastructure\Services\GeoCoder:
         arguments:
             $googleApiKey: '%env(GOOGLE_MAPS_API_KEY)%'
+            $googleApiDailyLimit: '%env(int:GOOGLE_MAPS_DAILY_LIMIT_PER_DAY)%'
 
     App\Infrastructure\EventListener\Exception\:
         resource: '../src/Infrastructure/EventListener/Exception'

@@ -11,7 +11,7 @@ use App\Domain\User\Repository\MakerRepository;
 use App\Domain\User\Repository\RequesterRepository;
 use App\Domain\User\UserInterface;
 use App\Domain\User\UserInterfaceRepository;
-use App\Infrastructure\Exception\Coordinates\CoordinatesRequestException;
+use App\Infrastructure\Exception\GeoEncoding\CoordinatesRequestException;
 use App\Infrastructure\Services\GeoCoder;
 use Ramsey\Uuid\Exception\InvalidUuidStringException;
 use Ramsey\Uuid\Uuid;

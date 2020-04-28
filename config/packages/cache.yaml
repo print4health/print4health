@@ -1,5 +1,12 @@
 framework:
     cache:
+        directory: '%kernel.cache_dir%/pools' # Only used with cache.adapter.filesystem
+
+        pools:
+            geo_request.cache:
+                adapter: cache.adapter.filesystem
+                default_lifetime: 31536000
+
         # Unique name of your app: used to compute stable namespaces for cache keys.
         #prefix_seed: your_vendor_name/app_name
 
