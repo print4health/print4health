@@ -34,11 +34,11 @@ class Kernel extends BaseKernel
         return dirname(__DIR__);
     }
 
-    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
+    protected function configureContainer(ContainerBuilder $c, LoaderInterface $loader): void
     {
-        $container->addResource(new FileResource($this->getProjectDir() . '/config/bundles.php'));
-        $container->setParameter('container.dumper.inline_class_loader', PHP_VERSION_ID < 70400 || $this->debug);
-        $container->setParameter('container.dumper.inline_factories', true);
+        $c->addResource(new FileResource($this->getProjectDir() . '/config/bundles.php'));
+        $c->setParameter('container.dumper.inline_class_loader', PHP_VERSION_ID < 70400 || $this->debug);
+        $c->setParameter('container.dumper.inline_factories', true);
         $confDir = $this->getProjectDir() . '/config';
 
         $loader->load($confDir . '/{packages}/*' . self::CONFIG_EXTS, 'glob');
