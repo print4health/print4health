@@ -1,11 +1,11 @@
 import React, { useRef } from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
+import Markdown from 'react-remarkable';
 import AppContext from '../../context/app-context';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import postalCodes from 'postal-codes-js';
 import { withTranslation, useTranslation } from 'react-i18next';
 
@@ -49,16 +49,9 @@ const RegistrationForm = (props) => {
           </Alert>}
           {showForm &&
           <form onSubmit={handleSubmit(callback)} className="mt-5 registration-form">
-            <p>
-              {t('info.part1')} <Link to="/">print4health.org</Link> {t('info.part2')}
-            </p>
-            <p>
-              {t('info.part3')} <Link
-              to="/registration/maker">{t('info.link')}</Link>.
-            </p>
+            <Markdown>{t('info', { link: '#/registration/maker' })}</Markdown>
             <Alert variant="info">
-              {t('nonprofit.part1')} <strong>{t('nonprofit.strong')}
-              </strong> {t('nonprofit.part2')} &quot;bestellen.&quot;
+              <Markdown>{t('nonprofit')}</Markdown>
             </Alert>
             <h3>{t('data')}</h3>
             <Form.Group as={Row} controlId='registerRequesterName'>
@@ -292,12 +285,7 @@ const RegistrationForm = (props) => {
                   />
                   <Form.Text className="col-sm-11 flex-grow-1">
                     <Form.Label>
-                      {t('accept.condition4.head')}
-                      <ul className="mb-2 mt-2">
-                        <li>{t('accept.condition4.item1')}
-                        </li>
-                        <li>{t('accept.condition4.item2')}</li>
-                      </ul>
+                      <Markdown>{t('accept.condition4')}</Markdown>
                     </Form.Label>
                     {printError(errors.confirmedNoAccountabiltyForMediation, t('accept.error'))}
                     {printError(serverErrors.confirmedNoAccountabiltyForMediation, serverErrors.confirmedNoAccountabiltyForMediation)}
@@ -331,9 +319,7 @@ const RegistrationForm = (props) => {
           {showForm === false &&
           <Alert variant="success">
             <strong>{t('success')}</strong>
-            <p className="mb-0">
-              {t('confirmation.part1')} <Link to="/thing/list">{t('confirmation.link')}</Link> {t('confirmation.part2')}
-            </p>
+            <Markdown>{t('confirmation.part1', {link: '#/thing/list'})}</Markdown>
           </Alert>
           }
         </div>
@@ -368,7 +354,7 @@ class RegistrationRequester extends React.Component {
     return {
       match: PropTypes.object,
       passwordResetToken: PropTypes.string,
-      t: PropTypes.func
+      t: PropTypes.func,
     };
   }
 
@@ -406,7 +392,7 @@ class RegistrationRequester extends React.Component {
           return a.name > b.name ? 1 : -1;
         });
         const { t } = this.props;
-        data.unshift({ name: t('choose') , code: '' });
+        data.unshift({ name: t('choose'), code: '' });
 
         this.setState({ countries: data });
       }).catch(() => {

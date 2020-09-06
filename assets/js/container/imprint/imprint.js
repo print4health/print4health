@@ -1,7 +1,6 @@
 import React from 'react';
 import { Alert } from 'react-bootstrap';
-
-const Markdown = require('react-remarkable');
+import Markdown from 'react-remarkable';
 import AppContext from '../../context/app-context';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';

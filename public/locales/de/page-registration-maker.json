@@ -1,19 +1,7 @@
 {
   "title": "Maker Registrierung",
-  "error": "Fehler",
-  "infohospital": {
-    "part1": "Um Bedarf anzumelden, müsst ihr als",
-    "strong": "Krankenhaus, Arzt, soziale Einrichtung oder Maker-Hub",
-    "part2": "angemeldet sein.",
-    "part3": "Die Registrierung dafür wird aktuell noch vorbereitet. Schreibt uns einfach eine E-Mail an",
-    "part4": "dann kümmern wir uns so schnell es geht darum."
-  },
-  "info": {
-    "part1": "Hier könnt ihr euch als Maker bei",
-    "part2": "registrieren. Bitte füllt das Formular gewissenhaft aus, denn schließlich geht es darum, Menschen zu helfen.",
-    "part3": "Solltet ihr ein Krankenhäuser, Arzt, eine gesundheitliche oder soziale Einrichtunge oder ein Maker-Hub sein, dann könnt ihr euch",
-    "link": "hier registrieren"
-  },
+  "info_hospital": "Um Bedarf anzumelden, müsst ihr als **Krankenhaus, Arzt, soziale Einrichtung oder Maker-Hub** angemeldet sein. Die Registrierung dafür wird aktuell noch vorbereitet.\n\nSchreibt uns einfach eine E-Mail an [contact@print4health.org](mailto:contact@print4health.org) dann kümmern wir uns so schnell es geht darum",
+  "info": "Hier könnt ihr euch als Maker bei registrieren. Bitte füllt das Formular gewissenhaft aus, denn schließlich geht es darum, Menschen zu helfen.\n\nSolltet ihr ein Krankenhäuser, Arzt, eine gesundheitliche oder soziale Einrichtunge oder ein Maker-Hub sein, dann könnt ihr euch [hier registrieren]({{link}})",
   "data": "Allgemeine Daten",
   "namefield": {
     "label": "Name",
@@ -58,21 +46,17 @@
     "condition1": "Ich erkläre mich im Umfang meiner Möglichkeiten bereit, nach besten Möglichkeiten und Fähigkeiten kostenlos 3D-Drucke für Krankenhäuser und sonstige medizinische und soziale Einrichtungen sowie medizinisches Personal herzustellen, die auf dieser Internetpräsenz registriert sind.",
     "condition2": "Regelungen zu etwaigen Materialkostenübernahmen sowie für etwaig anfallende Transportkosten werde ich mit den vermittelten Krankenhäusern und sonstigen medizinischen und sozialen Einrichtungen sowie medizinischem Personal unmittelbar treffen.",
     "condition3": "Mir ist bekannt, dass print4health ausschließlich Kontakte zwischen Krankenhäusern und sonstigen medizinischen und sozialen Einrichtungen sowie medizinischem Personal einerseits und privaten 3D-Druckern und Designern von 3D-Druck-Bauplänen andererseits vermittelt.",
-    "condition4": {
-      "part1": "Ich erkläre mich daher damit einverstanden, dass print4health keinerlei Haftung für",
-      "part2": "das Zustandekommen von 3D-Druck-Aufträgen und",
-      "part3": "die Qualität der auf dieser Internetpräsenz vorgehaltenen 3D-Druck-Design-Vorlagen",
-      "part4": "übernimmt."
-    },
+    "condition4": "Ich erkläre mich daher damit einverstanden, dass print4health keinerlei Haftung\n\n* für das Zustandekommen von 3D-Druck-Aufträgen\n* und die Qualität der auf dieser Internetpräsenz vorgehaltenen 3D-Druck-Design-Vorlagen übernimmt.",
     "condition5": "Einer Weitergabe der von mir mitgeteilten Kontaktdaten und Kapazitätsangaben durch print4health an registrierte Krankenhäuser und sonstige medizinische und soziale Einrichtungen sowie medizinisches Personal stimme ich ausdrücklich zu.",
     "errorrequired": "Bitte akzeptiere alle unsere Bedingungen für die Plattform."
   },
   "button": "Als Maker Registrieren",
-  "success": "Registrierung erfolgreich!",
-  "successtext": {
-    "part1": "Nun kannst du dich Anmelden und zum",
-    "link": "Bedarf",
-    "part2": "und Druckaufträge Druckaufträge zusagen."
+  "success": {
+    "headline": "Registrierung erfolgreich",
+    "message": "Nun kannst du dich Anmelden und zum [Bedarf]({{link}}) und Druckaufträge Druckaufträge zusagen."
   },
-  "fail": "Die Registrierung konnte nicht abgeschlossen werden. Bitte überprüfe die Daten in den Eingabefeldern."
+  "error": {
+    "headline": "Fehler {{code}}",
+    "message": "Die Registrierung konnte nicht abgeschlossen werden. Bitte überprüfe die Daten in den Eingabefeldern."
+  }
 }
