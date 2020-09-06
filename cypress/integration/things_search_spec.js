@@ -7,15 +7,15 @@ describe('search thing list', function () {
     cy.server().route('GET', '/things/search/**').as('thingsSearch');
 
     cy.get('a.nav-link[data-cypress="thing-list"]').click();
-    cy.wait('@thingsList').its('status').should('be', 200);
+    cy.wait('@thingsList').its('status').should('equal', 200);
     cy.get('.ThingListCard').should('have.length', 16);
 
     cy.get('.Search input').type('cane');
-    cy.wait('@thingsSearch').its('status').should('be', 200);
+    cy.wait('@thingsSearch').its('status').should('equal', 200);
     cy.get('.ThingListCard').should('have.length', 1);
 
     cy.get('.Search input').clear();
-    cy.wait('@thingsList').its('status').should('be', 200);
+    cy.wait('@thingsList').its('status').should('equal', 200);
     cy.get('.ThingListCard').should('have.length', 16);
   });
 });

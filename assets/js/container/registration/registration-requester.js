@@ -318,8 +318,8 @@ const RegistrationForm = (props) => {
           }
           {showForm === false &&
           <Alert variant="success">
-            <strong>{t('success')}</strong>
-            <Markdown>{t('confirmation.part1', {link: '#/thing/list'})}</Markdown>
+            <strong>{t('success.headline')}</strong>
+            <Markdown>{t('success.message', {link: '#/thing/list'})}</Markdown>
           </Alert>
           }
         </div>

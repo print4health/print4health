@@ -3,12 +3,15 @@ help:                                                                           
 
 init:                                                                           ## initialize or update project
 	composer install
+	make reset-db
+	yarn install
+	yarn encore dev
+
+reset-db:
 	bin/console do:da:drop --force --if-exists
 	bin/console do:da:create
 	bin/console do:mi:mi --no-interaction
 	bin/console hautelook:fixtures:load -n
-	yarn install
-	yarn encore dev
 
 cypress:                                                                        ## run frontend tests
 	bin/console hautelook:fixtures:load -n
