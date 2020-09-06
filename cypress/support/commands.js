@@ -55,7 +55,7 @@ Cypress.Commands.add('openCommitModal', (email, pw) => {
   cy.openThingList();
   cy.get('h5.card-title').first().click();
   cy.wait('@thingsDetail').its('status').should('equal', 200);
-  cy.get('.map-marker-order').first().click();
+  cy.get('.map-marker-order').first().click({force: true});
   cy.get('.leaflet-popup-content').get('[data-cypress="thing-confirmed"]').should('exist');
   cy.get('.leaflet-popup-content').get('[data-cypress="thing-needed"]').should('exist');
   cy.get('.btn[data-cypress="confirm-commitment"]').click();
