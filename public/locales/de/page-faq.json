@@ -5,7 +5,7 @@
     "ask1": "Ich bin Arzt, Krankenhaus, Pflege-, soziale oder öffentliche Einrichtung. Wie kann ich Material anfragen?",
     "ans1": {
       "part1": "Dazu müsst Ihr euch einloggen und bei dem gewünschten Teil rechts auf das",
-      "part2": "bei &quot;Bedarf gesamt: xxx&quot; klicken.",
+      "part2": "bei \"Bedarf gesamt: xxx\" klicken.",
       "part3": "Danach öffnet sich ein Fenster und Ihr könnt die erforderliche Menge eintragen.",
       "part4": "Solltet Ihr noch keinen Login haben, schreibt uns einfach eine kurze E-Mail an",
       "part5": "und wir legen Euch einen Account an. Ein Formular zur Selbstregistrierung war noch nicht Teil des Hackathons, kommt aber bald."

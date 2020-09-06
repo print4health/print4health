@@ -29,7 +29,7 @@ Cypress.Commands.add('login', (email, pw) => {
   cy.get('input[name=email]').type(email);
   cy.get('input[name=password]').type(pw);
   cy.get('input[type=submit]').click();
-  cy.wait('@userLogin').its('status').should('be', 200);
+  cy.wait('@userLogin').its('status').should('equal', 200);
   cy.get('[data-cypress="navlink-logout"]').should('exist');
   cy.get('[data-cypress="navlink-login"]').should('not.exist');
   cy.get('[data-cypress="navlink-registration"]').should('not.exist');
@@ -47,15 +47,15 @@ Cypress.Commands.add('openThingList', (email, pw) => {
   cy.server().route({method:'GET', url: '/things/**'}).as('thingsDetail');
 
   cy.get('a.nav-link[data-cypress="thing-list"]').click();
-  cy.wait('@thingsList').its('status').should('be', 200);
+  cy.wait('@thingsList').its('status').should('equal', 200);
   cy.get('[data-cypress="thing-item"]').should('have.length.greaterThan', 10);
 });
 
 Cypress.Commands.add('openCommitModal', (email, pw) => {
   cy.openThingList();
   cy.get('h5.card-title').first().click();
-  cy.wait('@thingsDetail').its('status').should('be', 200);
-  cy.get('.map-marker-order').first().click();
+  cy.wait('@thingsDetail').its('status').should('equal', 200);
+  cy.get('.map-marker-order').first().click({force: true});
   cy.get('.leaflet-popup-content').get('[data-cypress="thing-confirmed"]').should('exist');
   cy.get('.leaflet-popup-content').get('[data-cypress="thing-needed"]').should('exist');
   cy.get('.btn[data-cypress="confirm-commitment"]').click();
@@ -64,7 +64,7 @@ Cypress.Commands.add('openCommitModal', (email, pw) => {
 Cypress.Commands.add('openOrderModal', (email, pw) => {
   cy.openThingList();
   cy.get('h5.card-title').first().click();
-  cy.wait('@thingsDetail').its('status').should('be', 200);
+  cy.wait('@thingsDetail').its('status').should('equal', 200);
   cy.get('button[data-cypress="place-order"]').click();
 });
 

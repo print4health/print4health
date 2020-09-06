@@ -3,6 +3,7 @@ import AppContext from '../../context/app-context';
 import { Alert, Button, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Trans, withTranslation } from 'react-i18next';
+import Markdown from 'react-remarkable';
 import { Link } from 'react-router-dom';
 
 class OrderModal extends React.Component {
@@ -110,17 +111,12 @@ class OrderModal extends React.Component {
       <Modal.Body>
         <Alert variant="info">
           <div data-cypress="modal-order-info">
-            <Trans i18nKey="modal-order:info.alert">
-              Um als Gesundheits/Sozial-Einrichtung Bedarf an Ersatzteilen eintragen zu können, müsst ihr euch
-              <Link to="/registration" onClick={this.onHide}>hier registrieren.</Link>
-              <br />
-              <br />
-              Euer Account wird manuell freigeschaltet und dann könnt ihr euren Bedarf anmelden.
-              <br />
-              <br />
-              Bei Fragen, wendet euch an <a href="mailto: contact@print4health.org">contact@print4health.org</a>
-              oder verwendet das <Link to="/contact" onClick={this.onHide}>Kontaktformular</Link>..
-            </Trans>
+            <Markdown>
+              {t('info.alert', {
+                link_registration: '#/registration',
+                link_contact_form: '#/contact'
+              })}
+            </Markdown>
           </div>
         </Alert>
         <p>{t('info.account_exists')}</p>

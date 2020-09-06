@@ -1,18 +1,8 @@
 {
   "title": "Registrierung für Einrichtungen",
   "subtitle": "Krankenhäuser, Ärzte, gesundheitliche oder soziale Einrichtunge sowie Maker-Hubs",
-  "error": "Fehler",
-  "info": {
-    "part1": "Hier könnt ihr euch als Einrichtung bei",
-    "part2": "registrieren und Bedarf an 3D gedruckten Gegenständen anmelden. Bitte füllt das Formular gewissenhaft aus, denn schließlich geht es darum, Menschen zu helfen.",
-    "part3": "Solltet ihr ein Maker mit direktem Zugang zu einem 3D-Drucker sein, dann könnt ihr euch",
-    "link": "hier registrieren"
-  },
-  "nonprofit": {
-    "part1": "Bei unserer Plattform handelt es sich um eine gemeinnützige Non-Profit Website, deren Mitglieder freiwillig und auf eigene Kosten 3D Druck-Aufträge übernehmen. Um Betrügern vorzubeugen, wird daher jede eurer Anmeldungen über dieses Formular",
-    "strong": "manuell nach Prüfung der Daten freigeschaltet.",
-    "part2": "Anschließend könnt ihr ohne Hürden 3D gedruckte Gegenstände"
-  },
+  "info": "Hier könnt ihr euch als Einrichtung bei **print4health** registrieren und Bedarf an 3D gedruckten Gegenständen anmelden. Bitte füllt das Formular gewissenhaft aus, denn schließlich geht es darum, Menschen zu helfen.\n\nSolltet ihr ein Maker mit direktem Zugang zu einem 3D-Drucker sein, dann könnt ihr euch [hier registrieren]({{link}})",
+  "nonprofit": "Bei unserer Plattform handelt es sich um eine gemeinnützige Non-Profit Website, deren Mitglieder freiwillig und auf eigene Kosten 3D Druck-Aufträge übernehmen.\n\nUm Betrügern vorzubeugen, wird daher **jede eurer Anmeldungen** über dieses Formular **manuell nach Prüfung der Daten freigeschaltet**.\n\nAnschließend könnt ihr ohne Hürden 3D gedruckte Gegenstände",
   "data": "Allgemeine Daten",
   "name": {
     "label": "Name",
@@ -91,20 +81,14 @@
     "condition1": "Mir/unserer Einrichtung ist bekannt, dass print4health ausschließlich Kontakte zwischen Krankenhäusern und sonstige medizinischen und sozialen Einrichtungen sowie medizinischem Personal einerseits und privaten 3D-Druckern und Designern von 3D-Druck-Bauplänen andererseits herstellt.",
     "condition2": "Mir/unserer Einrichtung ist entsprechend bewusst, dass print4health keinerlei Haftung für das Zustandekommen von 3D-Druck-Design-Aufträgen bzw. 3D-Druck-Aufträgen übernimmt.",
     "condition3": "Mir/unserer Einrichtung ist ferner bewusst, dass es sich vorliegend um die Vermittlung ehrenamtlichen Engagements von Privatpersonen handelt und die hier angebotenen 3D-Produkte und 3D-Druck-Designs daher keine etwaig erforderlichen Zertifizierungsprozesse durchlaufen haben und/oder etwaig bestehenden behördlichen und/oder gesetzlichen Regeln, Auflagen und/oder Beschränkungen entsprechen.",
-    "condition4": {
-      "head": "Es besteht Einverständnis damit,",
-      "item1": "dass print4health keinerlei Haftung für die erfolgreiche Vermittlung von 3D-Druck-Design-Aufträgen bzw. 3D-Druck-Aufträgen, für die Qualität der Produkte und deren Eignung für den angegebenen Zweck übernimmt und",
-      "item2": "dass die Vermittlung frei von Rechten Dritter erfolgt."
-    },
+    "condition4": "Es besteht Einverständnis damit,\n\n* dass print4health keinerlei Haftung für die erfolgreiche Vermittlung von 3D-Druck-Design-Aufträgen bzw. 3D-Druck-Aufträgen, für die Qualität der Produkte und deren Eignung für den angegebenen Zweck übernimmt und\n* dass die Vermittlung frei von Rechten Dritter erfolgt.",
     "condition5": "Regelungen zu etwaigen Materialkostenübernahmen sowie für etwaig anfallende Transportkosten werde ich/wird unsere Einrichtung mit dem vermittelten 3D-Drucker unmittelbar treffen.",
     "error": "Bitte akzeptiere alle unsere Bedingungen für die Plattform."
   },
   "button": "Als Einrichtung Registrieren",
-  "success": "Registrierung erfolgreich!",
-  "confirmation": {
-    "part1": "Wir haben über deine Anmeldung eine E-Mail erhalten. Bitte warte noch unsere Bestätigung ab. Danach kannst du unter",
-    "link": "Bedarf",
-    "part2": "die Teile anfragen, die du benötigst."
+  "success": {
+    "headline": "Registrierung erfolgreich!",
+    "message": "Wir haben über deine Anmeldung eine E-Mail erhalten. Bitte warte noch unsere Bestätigung ab. Danach kannst du unter [Bedarf]({{link}}) die Teile anfragen, die du benötigst."
   },
   "choose": "Bitte wählen",
   "institution": {

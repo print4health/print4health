@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Security;
 
+use App\Domain\User\UserInterface as DomainUserInterface;
 use App\Infrastructure\Dto\User\UserResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -48,10 +49,18 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * @param LoginRequest $credentials
+     * @param mixed $credentials
      */
     public function getUser($credentials, UserProviderInterface $userProvider): UserInterface
     {
+        if ($credentials instanceof LoginRequest === false) {
+            throw new UnexpectedValueException(sprintf(
+                'Unexpected $credentials class [%s] detected. Need [%s]',
+                is_object($credentials) ? get_class($credentials) : gettype($credentials),
+                LoginRequest::class
+            ));
+        }
+
         try {
             $user = $userProvider->loadUserByUsername($credentials->getEmail());
         } catch (UsernameNotFoundException $exception) {
@@ -62,11 +71,27 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
     }
 
     /**
-     * @param LoginRequest $credentials
-     * @param \App\Domain\User\UserInterface $user
+     * @param mixed $credentials
      */
     public function checkCredentials($credentials, UserInterface $user): bool
     {
+        if ($credentials instanceof LoginRequest === false) {
+            throw new UnexpectedValueException(sprintf(
+                'Unexpected $credentials class [%s] detected. Need [%s]',
+                is_object($credentials) ? get_class($credentials) : gettype($credentials),
+                LoginRequest::class
+            ));
+        }
+        if ($user instanceof DomainUserInterface === false) {
+            $this->logger->critical('Authentication successful but wrong user class!');
+
+            throw new UnexpectedValueException(sprintf(
+                'Unexpected user class [%s] detected. Need [%s]',
+                get_class($user),
+                DomainUserInterface::class
+            ));
+        }
+
         if ($this->encoder->isPasswordValid($user, $credentials->getPassword()) === false) {
             $this->logger->error('Wrong password given.');
 
@@ -102,7 +127,7 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
 
         $user = $token->getUser();
 
-        if ($user instanceof \App\Domain\User\UserInterface === false) {
+        if ($user instanceof DomainUserInterface === false) {
             $this->logger->critical('Authentication successful but wrong user class!');
 
             throw new UnexpectedValueException(sprintf(

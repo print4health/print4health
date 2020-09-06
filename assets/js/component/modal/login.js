@@ -1,6 +1,7 @@
 import React from 'react';
 import { Config } from '../../config';
 import axios from 'axios';
+import Markdown from 'react-remarkable';
 import AppContext from '../../context/app-context';
 import { Modal } from 'react-bootstrap';
 import ReactGA from 'react-ga';
@@ -23,7 +24,7 @@ class LoginModal extends React.Component {
   static get propTypes() {
     return {
       onClose: PropTypes.func,
-      t: PropTypes.func
+      t: PropTypes.func,
     };
   }
 
@@ -47,7 +48,7 @@ class LoginModal extends React.Component {
       })
       .catch(function (error) {
         self.setState({
-          error: error.response.data.error,
+          error: error.response.data.message,
         });
       });
   }
@@ -56,6 +57,18 @@ class LoginModal extends React.Component {
     this.setState({
       [event.target.name]: event.target.value,
     });
+  }
+
+  renderError() {
+    const { error } = this.state;
+
+    if (error === '') {
+      return '';
+    }
+
+    return (
+      <div className="alert alert-danger">{error}</div>
+    );
   }
 
   render() {
@@ -70,20 +83,10 @@ class LoginModal extends React.Component {
           <Modal.Body>
 
             <h6>
-            {t('info1.part1')}
-              <br />
-              {t('info1.part2')}
+              <Markdown>{t('headline')}</Markdown>
             </h6>
 
-            <p>
-            {t('info1.part3')} <a href="mailto: contact@print4health.org">contact@print4health.org</a> {t('info1.part4')}
-            </p>
-            <p>
-            {t('info1.part5')}
-
-            </p>
-
-            {this.state.error !== '' ? <div className="alert alert-danger">{this.state.error}</div> : null}
+            {this.renderError()}
 
             <div className="form-group">
               <input name="email"
@@ -117,9 +120,9 @@ class LoginModal extends React.Component {
               </a>
             </p>
 
-            <p className="text-muted">
-              {t('info2')}
-            </p>
+            <div className="text-muted">
+              <Markdown>{t('registration', { link: '#/registration' })}</Markdown>
+            </div>
           </Modal.Body>
           <Modal.Footer>
             <input type="submit" className="btn btn-primary" value={t('button')} />

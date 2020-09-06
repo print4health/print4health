@@ -2,12 +2,13 @@ import React from 'react';
 import AppContext from '../../context/app-context';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import Markdown from 'react-remarkable';
 
 class Index extends React.Component {
 
   static get propTypes() {
     return {
-      t: PropTypes.func
+      t: PropTypes.func,
     };
   }
 
@@ -32,22 +33,16 @@ class Index extends React.Component {
               <i className="far fa-lightbulb fa-fw mr-2" />
               {t('idea.title')}
             </h3>
-            <p className="mb-4">
-              {t('idea.content1')} <strong>{t('idea.highlight')}</strong> {t('idea.content2')}
-            </p>
+            <div className="mb-4">
+              <Markdown>{t('idea.content')}</Markdown>
+            </div>
             <h3 className="h4">
               <i className="far fa-arrow-alt-circle-right mr-2" />
               {t('motivation.title')}
             </h3>
-            <p className="mb-4">
-              {t('motivation.content1')}
-              <br />
-              <br />
-              {t('motivation.content2')}
-              <br />
-              <br />
-              {t('motivation.content3')}
-            </p>
+            <div className="mb-4">
+              <Markdown>{t('motivation.content')}</Markdown>
+            </div>
             <h3 className="h4">
               <i className="far fa-hand-point-right mr-2" />
               {t('weneedyou.title')}

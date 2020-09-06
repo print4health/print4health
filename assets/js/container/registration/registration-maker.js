@@ -5,9 +5,9 @@ import AppContext from '../../context/app-context';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
 import { withTranslation, useTranslation } from 'react-i18next';
 import postalCodes from 'postal-codes-js';
+import Markdown from 'react-remarkable';
 
 const RegistrationForm = (props) => {
 
@@ -41,13 +41,7 @@ const RegistrationForm = (props) => {
         <div className="col-md-8 offset-md-2">
           <h1 data-cypress="registration-maker-title">{t('title')}</h1>
           <Alert variant="info" className="mt-3">
-            {t('infohospital.part1')}
-            <strong>{t('infohospital.strong')} (<a href="https://www.makervsvirus.org/" target="_blank"
-                                                   rel="noopener noreferrer">MakerVsVirus</a>)</strong>
-            {t('infohospital.part2')}
-            <br />
-            {t('infohospital.part3')}
-            <a href="mailto:contact@print4health.org">contact@print4health.org</a> {t('infohospital.part4')}
+            <Markdown>{t('info_hospital')}</Markdown>
           </Alert>
           {alert.show &&
           <Alert variant="danger">
@@ -55,11 +49,12 @@ const RegistrationForm = (props) => {
           </Alert>}
           {showForm &&
           <form onSubmit={handleSubmit(callback)} className="mt-5 registration-form">
-            <p>
-              {t('info.part1')} <span className="text-primary">print4health.org</span> {t('info.part2')}
-            </p>
-            <p>{t('info.part3')} <Link to="/registration/requester">{t('info.link')}</Link>.
-            </p>
+
+            {/*todo: generate link with <Link ?*/}
+            <Markdown>{t('info', {
+              link: '#/registration/requester',
+            })}</Markdown>
+
             <h3>{t('data')}</h3>
             <Form.Group as={Row} controlId="registerMakerName">
               <Form.Label column sm="2">{t('namefield.label')}*</Form.Label>
@@ -215,12 +210,7 @@ const RegistrationForm = (props) => {
                   />
                   <Form.Text className="col-sm-11 flex-grow-1">
                     <Form.Label>
-                      {t('accept.condition4.part1')}
-                      <ul className="mb-2 mt-2">
-                        <li>{t('accept.condition4.part2')}</li>
-                        <li>{t('accept.condition4.part3')}</li>
-                      </ul>
-                      {t('accept.condition4.part4')}
+                      <Markdown>{t('accept.condition4')}</Markdown>
                     </Form.Label>
                     {printError(errors.confirmedNoAccountability, t('accept.errorrequired'))}
                     {printError(serverErrors.confirmedNoAccountability, serverErrors.confirmedNoAccountability)}
@@ -244,7 +234,10 @@ const RegistrationForm = (props) => {
                 </Form.Group>
                 {alert.show &&
                 <Alert variant="danger">
-                  <strong>Fehler {alert.status}</strong>: {alert.message}
+                  <strong>{t('error.headline', { code: alert.status })}</strong>:
+                  {t('error.message')}<br />
+                  <br />
+                  {alert.message}
                 </Alert>}
                 <Button variant="primary" type="submit">{t('button')}</Button>
               </Col>
@@ -253,12 +246,8 @@ const RegistrationForm = (props) => {
           }
           {showForm === false &&
           <Alert variant="success" data-cypress="registration-maker-success">
-            <strong>{t('success')}</strong>
-            <p className="mb-0">
-              {t('successtext.part1')}
-              <Link to="/thing/list">{t('successtext.link')}</Link>
-              {t('successtext.part2')}
-            </p>
+            <strong>{t('success.headline')}</strong>
+            <Markdown>{t('success.message', { link: '#/thing/list' })}</Markdown>
           </Alert>
           }
         </div>
@@ -292,7 +281,7 @@ class RegistrationMaker extends React.Component {
     return {
       match: PropTypes.object,
       passwordResetToken: PropTypes.string,
-      t: PropTypes.func
+      t: PropTypes.func,
     };
   }
 
