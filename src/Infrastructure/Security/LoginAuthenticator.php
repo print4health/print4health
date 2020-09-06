@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Security;
 
-use App\Infrastructure\Dto\User\UserResponse;
 use App\Domain\User\UserInterface as DomainUserInterface;
+use App\Infrastructure\Dto\User\UserResponse;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -72,7 +72,6 @@ class LoginAuthenticator extends AbstractGuardAuthenticator
 
     /**
      * @param mixed $credentials
-     * @param UserInterface $user
      */
     public function checkCredentials($credentials, UserInterface $user): bool
     {
