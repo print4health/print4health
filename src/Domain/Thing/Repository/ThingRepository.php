@@ -6,9 +6,9 @@ namespace App\Domain\Thing\Repository;
 
 use App\Domain\Exception\Thing\ThingNotFoundException;
 use App\Domain\Thing\Entity\Thing;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
 use Ramsey\Uuid\UuidInterface;
 use RuntimeException;
 

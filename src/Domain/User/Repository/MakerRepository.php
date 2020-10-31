@@ -8,7 +8,7 @@ use App\Domain\Exception\Maker\MakerByEmailNotFoundException;
 use App\Domain\Exception\Maker\MakerByIdNotFoundException;
 use App\Domain\Exception\Maker\MakerByPasswordResetTokenNotFoundException;
 use App\Domain\User\Entity\Maker;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Ramsey\Uuid\UuidInterface;

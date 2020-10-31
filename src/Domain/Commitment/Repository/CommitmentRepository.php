@@ -6,7 +6,8 @@ namespace App\Domain\Commitment\Repository;
 
 use App\Domain\Commitment\Entity\Commitment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
+
 
 /**
  * @method Commitment|null find($id, $lockMode = null, $lockVersion = null)

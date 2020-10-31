@@ -8,7 +8,7 @@ use App\Domain\Exception\Requester\RequesterByEmailNotFoundException;
 use App\Domain\Exception\Requester\RequesterByIdNotFoundException;
 use App\Domain\Exception\Requester\RequesterByPasswordResetTokenNotFoundException;
 use App\Domain\User\Entity\Requester;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Ramsey\Uuid\UuidInterface;
