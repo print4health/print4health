@@ -22,7 +22,7 @@
         "eslint": "eslint ./assets/js"
     },
     "dependencies": {
-        "axios": "^0.19.2",
+        "axios": "^0.21.1",
         "babel-plugin-transform-class-properties": "^6.24.1",
         "bootstrap": "^4.4.1",
         "i18next": "^19.3.4",
