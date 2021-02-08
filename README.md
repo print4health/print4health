@@ -1,6 +1,11 @@
 print4health
 ====================
 
+## Archive
+
+I am archiving this project as there was no more active contribution from any of the team members in the last couple of months (including me). 
+It was a fun time and maybe I'll be up for something similar. People who are interested are welcome to get in touch.
+
 ## About the project
 
 We aim to create a platform to connect medical institutions and owners of 3D-printers, especially in crisis-situations.
